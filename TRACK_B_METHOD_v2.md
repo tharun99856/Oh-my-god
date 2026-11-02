@@ -519,20 +519,40 @@ be highest in `functional_or_pressure_prone` (**0.714286** per key), middle in `
 in `arbitrary_or_expressive` (**0.285714**), where the propensity is `q = alpha / (alpha + 1)` read back out of
 the published alphas rather than typed in beside them. `attractor_block_profile_test` pools every pair's
 per-block `block_profile` into a key-weighted mean per block — key-weighted because the alpha vector declares
-concordance per dimension key, not per pair — and scores three outcomes against one analyst-set threshold,
-`m4_block_profile_test.minimum_block_spread = 0.05`: `block_ordering_confirms_declared_propensity` when the
-spread clears it and both adjacent predictions hold, `block_profile_flat_the_falsification_hook_fired` when it
-does not, and `block_ordering_contradicts_declared_propensity` when an adjacency points the wrong way. The flat
-and contradicts outcomes disqualify M4 from being *named* the decisive leader of stage 1: the ranking and every
-likelihood are published unchanged, and the verdict falls to `no_decisive_winner` with the disqualification
-recorded beside it. A pair set that measures fewer than two of the three ranked blocks, or never measures two of
-them *together*, reports `m4_block_profile_not_testable` — which is a missing input and a refusal, not a pass,
-because a test that reports nothing when the data are thin is a test that never runs. The confirm outcome is
-deliberately called the weakest of the confirmable ones: three blocks admit six orderings, so a surviving
-prediction is the absence of a refutation, not corroboration. The power floors do not move with this gate — the
-simulator scores from likelihood totals and its synthetic pairs carry no per-key block profile — so
-**220 pairs / n_eff 29.051621** remain the calibrated floors for the rule now in force, and a calibration that
-silently described a different rule would be worthless.
+concordance per dimension key, not per pair — and scores it twice, once on the raw block mean and once on the
+mean after subtracting the per-dimension chance line that
+[tools/scan_dimension_anomalies.py](tools/scan_dimension_anomalies.py) publishes to
+[results/dimension_anomalies.json](results/dimension_anomalies.json). The subtraction has to sit on the same
+statistic and the same pair population as the observation it corrects, which is why the gate reads the
+`declared_rule` column of that artifact over the scored graph — the pairs `similarity_between` agrees to score,
+at least six comparable keys — and refuses to run against a table it cannot name. Each adjacent prediction gets
+one of three verdicts, `holds`, `reversed`, or `tie_within_the_declared_separability`, against one analyst-set
+threshold, `m4_block_profile_test.minimum_block_spread = 0.05`, and each scale then reports
+`block_ordering_confirms_declared_propensity`, `block_profile_flat_the_falsification_hook_fired`,
+`block_ordering_contradicts_declared_propensity` or `block_profile_did_not_resolve_the_declared_separability`.
+Only the flat and contradicts outcomes disqualify M4 from being *named* the decisive leader of stage 1: the
+ranking and every likelihood are published unchanged, and the verdict falls to `no_decisive_winner` with the
+disqualification recorded beside it. When the two scales judge differently the gate does not pick one and stay
+quiet about the other; it reports `block_profile_verdict_depends_on_the_similarity_scale`, which disqualifies
+nothing — the straddle is a fact about this instrument, not about M4 — and confirms nothing either. That is what
+the corpus pair set does today, 1237 pairs over 52 works: raw similarity gives
+`functional_or_pressure_prone` **0.635531**, `structural` **0.364694** and `arbitrary_or_expressive`
+**0.542152**, so the structural-over-arbitrary adjacency is reversed by **-0.177458** and that scale's status is
+`block_ordering_contradicts_declared_propensity`; chance-corrected, the same three blocks are **0.121644**,
+**0.043633** and **0.064028**, the same adjacency is a tie at **-0.020395**, and the status is the unresolved
+one. The committed falsification hook fires on the raw scale and does not fire on the corrected one, so whether
+M4's ordering claim is refuted depends on which mean a reader is told to look at — which is why the chance
+table's SHA-256 (`244a7fa87f8b9679d01220772df742e0d78134804f53dc6c7dec84ba2611c82c`) is printed inside the
+verdict rather than beside it in prose. A pair set that measures fewer than two of the three ranked blocks, or
+never measures two of them *together*, reports `m4_block_profile_not_testable` — which is a missing input and a
+refusal, not a pass, because a test that reports nothing when the data are thin is a test that never runs. The
+confirm outcome is deliberately called the weakest of the confirmable ones: three blocks admit six orderings, so
+a surviving prediction is the absence of a refutation, not corroboration. The power floors do not move with this
+gate — the simulator scores from likelihood totals and its synthetic pairs carry no per-key block profile — so
+**220 pairs / n_eff 29.051621** remain the calibrated floors for the rule now in force; the run made after this
+change reproduced [results/model_power_simulation.json](results/model_power_simulation.json) byte for byte
+(`d25c07062928edcdc2bb630b3341ba02f3004191833e69b978bb4df6b2a0f6c0`), and a calibration that silently described a
+different rule would be worthless.
 
 **The evidence floor is simulated, not asserted.** A winner is emitted only when the pair set clears two
 floors published by `python tools/compare_models.py --power` into

@@ -49,6 +49,7 @@ SUITE_LABELS = {
     "state-coder": "tests/test_divinity_ontology.py",
     "graph-recall": "tests/test_graph_recall.py",
     "model-comparison": "tests/test_model_comparison.py",
+    "anomaly-scan": "tests/test_dimension_anomalies.py",
     "annotation-recall": "tests/test_annotation_recall.py",
     "typesetting": "tests/test_tex_typesetting.py",
     "documented-counts": "tests/test_documented_counts.py",

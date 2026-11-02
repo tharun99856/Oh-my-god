@@ -70,8 +70,13 @@ STATUS_PROFILE_CONFIRMS = "block_ordering_confirms_declared_propensity"
 STATUS_PROFILE_FLAT = "block_profile_flat_the_falsification_hook_fired"
 STATUS_PROFILE_CONTRADICTS = "block_ordering_contradicts_declared_propensity"
 STATUS_PROFILE_NOT_TESTABLE = "m4_block_profile_not_testable"
-# Outcomes that mean the data contradict the one prediction that separates M4 from a second null.
+STATUS_PROFILE_TIED = "block_profile_did_not_resolve_the_declared_separability"
+STATUS_PROFILE_SCALE_DEPENDENT = "block_profile_verdict_depends_on_the_similarity_scale"
+# Outcomes that mean the data contradict the one prediction that separates M4 from a second null. A tie is not
+# on this list: the registered separability says a gap smaller than it is not a refutation, and a verdict that
+# changes with the scale it is read on has not contradicted anything, it has failed to measure.
 STATUS_PROFILE_DISCONFIRMED = (STATUS_PROFILE_FLAT, STATUS_PROFILE_CONTRADICTS)
+ADJACENCY_TIE = "tie_within_the_declared_separability"
 STAGE_ONE_OUTCOMES = (STATUS_DECISIVE, STATUS_NO_DECISIVE_WINNER, STATUS_INSUFFICIENT_PAIRS, STATUS_CLUSTER_KEYS_MISSING)
 
 
@@ -156,6 +161,13 @@ def similarity_between(state_a, state_b, config):
     and similarity is None: no default is substituted, because a defaulted 0.0 would read as evidence for M2
     and a defaulted 1.0 as evidence for M1.
 
+    A key the frame declares single-valued can still arrive carrying several values, and on this corpus most
+    of them do. Exact match has no defined answer there, so the comparison is set equality -- identical sets
+    score 1, and the order the values were written down in cannot change a score -- and the key is listed under
+    `keys_where_the_single_valued_rule_had_no_defined_answer`. Comparing the stringified lists instead would
+    have scored the same pair of works differently according to nothing but the order the detector emitted
+    their values in.
+
     The twelve keys are not one kind of thing. D1-D6 say what a text claims is the case; D7a-d say what kind of
     speech act it is, which in this corpus is largely a property of English translation prose and genre
     convention. A single mean over both lets two catechisms score as conceptually alike because they share a
@@ -169,6 +181,7 @@ def similarity_between(state_a, state_b, config):
     scores = []
     comparable = []
     skipped = []
+    outside_the_rule = []
     for key in dimension_keys(config):
         value_a = state_a.get(key, "undecidable")
         value_b = state_b.get(key, "undecidable")
@@ -183,7 +196,10 @@ def similarity_between(state_a, state_b, config):
                 continue
             scores.append(len(left & right) / len(union))
         else:
-            scores.append(1.0 if str(value_a) == str(value_b) else 0.0)
+            left, right = _as_set(value_a), _as_set(value_b)
+            if len(left) > 1 or len(right) > 1:
+                outside_the_rule.append(key)
+            scores.append(1.0 if left == right else 0.0)
         comparable.append(key)
     minimum = rules["minimum_comparable_keys"]
     if len(comparable) < minimum:
@@ -194,6 +210,7 @@ def similarity_between(state_a, state_b, config):
             "comparable_keys": comparable,
             "skipped_keys": skipped,
             "reason": f"only {len(comparable)} of {len(dimension_keys(config))} keys comparable; minimum is {minimum}",
+            "keys_where_the_single_valued_rule_had_no_defined_answer": sorted(outside_the_rule),
             "reading_blocks": reading_block_profile(comparable, scores, config),
         }
     value = sum(scores) / len(scores)
@@ -205,6 +222,7 @@ def similarity_between(state_a, state_b, config):
         "similarity_class": similarity_class(value, config),
         "comparable_keys": comparable,
         "skipped_keys": skipped,
+        "keys_where_the_single_valued_rule_had_no_defined_answer": sorted(outside_the_rule),
         "block_profile": dimension_block_profile(comparable, scores, config),
         "reading_blocks": blocks,
         "pattern": reading_block_pattern(blocks, config),
@@ -278,12 +296,20 @@ def similarity_class(value, config):
 
 
 def dimension_block_profile(comparable, scores, config):
+    """Per-block means for one pair, with the per-key scores that produced them kept alongside.
+
+    `per_key` is not decoration. The alpha vector declares a concordance propensity per dimension, so a block's
+    chance-corrected value is the mean of its dimensions' excesses; pooling pair means first and subtracting a
+    per-dimension baseline second would compare a quantity against a number measured on a different conditioning.
+    """
     blocks = config["dimension_similarity_rules"]["dimension_blocks"]
     profile = {}
     for name, keys in blocks.items():
         pairs = [(key, score) for key, score in zip(comparable, scores) if key in keys]
         if pairs:
-            profile[name] = {"keys_compared": [key for key, _ in pairs], "mean_similarity": round(sum(s for _, s in pairs) / len(pairs), 6)}
+            profile[name] = {"keys_compared": [key for key, _ in pairs],
+                             "per_key": {key: round(score, 6) for key, score in pairs},
+                             "mean_similarity": round(sum(s for _, s in pairs) / len(pairs), 6)}
     return profile
 
 
@@ -725,30 +751,126 @@ def declared_block_propensities(config):
     return {block: round(value / (value + 1), 6) for block, value in alpha.items()}
 
 
-def observed_block_profile(observations):
-    """Key-weighted mean similarity per dimension block, pooled over the pair set.
+def observed_block_profile(observations, chance_similarity=None):
+    """Per-block means over a pair set, pooled by dimension, with the chance correction done at the dimension.
 
-    Weighted by keys compared, not by pairs: the alpha vector declares concordance per dimension key, so a
-    pair that compared three keys in a block has three things to say there and one in a block where it
-    compared one. A block no pair reached stays absent rather than 0.0 -- an absent measurement is not
-    evidence of discordance.
+    Two weightings, both deliberate. The raw block mean weights by keys compared rather than by pairs, because
+    the alpha vector declares a propensity per dimension key: a pair that compared three keys in a block has
+    three things to say there and one where it compared one. The excess is averaged over the dimensions the
+    block declares, because that is the quantity the model claims and the same quantity the corpus-wide scan
+    reports; subtracting a per-dimension chance line from a pair-pooled block mean would set a number measured
+    over this pair set against a baseline measured over whichever pairs the scan happened to reach.
+
+    A block no pair reached stays absent rather than 0.0 -- an absent measurement is not evidence of discordance.
     """
     totals = {}
     for observation in observations:
         for name, entry in (observation.get("block_profile") or {}).items():
-            keys, mean = entry.get("keys_compared") or [], entry.get("mean_similarity")
-            if not keys or mean is None:
+            per_key = entry.get("per_key") or {}
+            keys = entry.get("keys_compared") or sorted(per_key)
+            if not keys:
                 continue
-            bucket = totals.setdefault(name, {"keys": 0, "weighted": 0.0, "pairs": 0})
+            bucket = totals.setdefault(name, {"keys": 0, "weighted": 0.0, "pairs": 0, "by_key": {}})
             bucket["keys"] += len(keys)
-            bucket["weighted"] += len(keys) * mean
             bucket["pairs"] += 1
-    return {name: {"mean_similarity": round(bucket["weighted"] / bucket["keys"], 6),
-                   "keys_compared": bucket["keys"], "pairs_contributing": bucket["pairs"]}
-            for name, bucket in sorted(totals.items()) if bucket["keys"]}
+            mean = entry.get("mean_similarity")
+            if mean is not None:
+                bucket["weighted"] += len(keys) * mean
+            for key, score in per_key.items():
+                cell = bucket["by_key"].setdefault(key, {"score": 0.0, "pairs": 0})
+                cell["score"] += score
+                cell["pairs"] += 1
+    out = {}
+    for name, bucket in sorted(totals.items()):
+        if not bucket["keys"]:
+            continue
+        dimensions = {key: {"mean_similarity": round(cell["score"] / cell["pairs"], 6),
+                            "pairs_comparing_this_dimension": cell["pairs"]}
+                      for key, cell in sorted(bucket["by_key"].items()) if cell["pairs"]}
+        row = {"mean_similarity": round(bucket["weighted"] / bucket["keys"], 6),
+               "keys_compared": bucket["keys"], "pairs_contributing": bucket["pairs"],
+               "dimensions_measured": sorted(dimensions), "per_dimension": dimensions}
+        corrected = []
+        for key, cell in dimensions.items():
+            line = (chance_similarity or {}).get(key)
+            if line is None:
+                continue
+            cell["chance_similarity"] = line
+            cell["excess_over_chance"] = round(cell["mean_similarity"] - line, 6)
+            corrected.append(cell["excess_over_chance"])
+        if corrected:
+            row["mean_excess_over_chance"] = round(sum(corrected) / len(corrected), 6)
+            row["dimensions_with_a_chance_line"] = len(corrected)
+            row["dimensions_without_a_chance_line"] = sorted(set(dimensions) - {
+                key for key, cell in dimensions.items() if "chance_similarity" in cell})
+        out[name] = row
+    return out
 
 
-def attractor_block_profile_test(observations, config):
+def adjacency_verdicts(means, config):
+    """The declared adjacent block predictions read off whatever means are supplied. Three classes, not two.
+
+    `holds` requires a gap of at least `minimum_block_spread` in the predicted direction; a gap smaller than
+    that, in either direction, is a tie; only a gap of that size backwards is a reversal. The registered basis
+    for that number already says so -- "a reversal smaller than it is a tie, not a refutation" -- and a test
+    that scores a 0.0003 gap as a refutation fires on the instrument rather than on the traditions.
+    """
+    minimum_spread = config["m4_block_profile_test"]["minimum_block_spread"]
+    adjacent = []
+    for stronger, weaker in config["m4_block_profile_test"]["declared_adjacent_predictions"]:
+        if stronger not in means or weaker not in means:
+            adjacent.append({"stronger": stronger, "weaker": weaker, "observed_difference": None,
+                             "verdict": "unmeasured", "reason": "one of the two blocks carries no comparable key"})
+            continue
+        difference = round(means[stronger] - means[weaker], 6)
+        verdict = ("holds" if difference >= minimum_spread
+                   else ADJACENCY_TIE if abs(difference) < minimum_spread
+                   else "reversed")
+        adjacent.append({"stronger": stronger, "weaker": weaker, "observed_difference": difference,
+                         "verdict": verdict})
+    return adjacent
+
+
+def _profile_status(adjacent, spread, minimum_spread):
+    """One status from one scale's means: flat, contradicted, tied, confirmed, or nothing measured."""
+    judged = [item for item in adjacent if item["verdict"] != "unmeasured"]
+    if not judged:
+        return STATUS_PROFILE_NOT_TESTABLE
+    if spread is not None and spread < minimum_spread:
+        return STATUS_PROFILE_FLAT
+    if any(item["verdict"] == "reversed" for item in judged):
+        return STATUS_PROFILE_CONTRADICTS
+    if any(item["verdict"] == ADJACENCY_TIE for item in judged):
+        return STATUS_PROFILE_TIED
+    return STATUS_PROFILE_CONFIRMS
+
+
+CHANCE_TABLE_PATH = ROOT / "results/dimension_anomalies.json"
+
+
+def corpus_chance_similarity(path=CHANCE_TABLE_PATH):
+    """The per-dimension chance line from the anomaly scan, with the sha256 of the file it came from.
+
+    Returns None when the scan has not been run, in which case the block-profile test reads raw similarity only
+    and says so. The path is deliberately not configurable by the analyst: a gate that changes depending on
+    which artifact happens to be on disk is a gate that needs the artifact's identity published with its verdict.
+    """
+    if not path.exists():
+        return None
+    report = json.loads(path.read_text(encoding="utf-8"))
+    graph = report.get("pair_graph") or {}
+    dimensions = {key: value for key, value in (graph.get("chance_similarity_per_dimension") or {}).items()
+                  if value is not None}
+    if not dimensions:
+        return None
+    return {"path": str(path.relative_to(ROOT)).replace("\\", "/"),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "dimensions": dimensions,
+            "conditioning": graph.get("conditioning"),
+            "null_model": report.get("null_model", {})}
+
+
+def attractor_block_profile_test(observations, config, chance_table=None):
     """Score the single claim that makes M4 a theory rather than a second null.
 
     M4 admits no edges, so its likelihood is the same function of a pair set that any other no-edge model
@@ -762,67 +884,128 @@ def attractor_block_profile_test(observations, config):
     test reports `m4_block_profile_not_testable`, which is why the published power floors do not move: a
     gate that quietly reshaped a calibrated floor would make the calibration a statement about a different
     rule than the one now in force.
+
+    Two readings are run when a per-dimension chance table is supplied, one on raw mean similarity and one on
+    mean excess over that table. They are not two tests of the same claim; they are the same claim on two
+    scales, and a block whose dimensions sit on one dominant value is concordant on the first and empty on the
+    second. If the readings land on different sides of the disqualification line, no disqualification is
+    issued and the status says which scale would have to be chosen to get one. `chance_table` is
+    `corpus_chance_similarity()`'s return, and the file's sha256 travels into the published verdict with it,
+    because a reading that depends on which artifact is on disk has to say which artifact it read.
     """
     rule = config["m4_block_profile_test"]
     minimum_spread = rule["minimum_block_spread"]
+    chance_similarity = (chance_table or {}).get("dimensions")
     declared = declared_block_propensities(config)
-    observed = observed_block_profile(observations)
+    observed = observed_block_profile(observations, chance_similarity)
     predicted_order = list(rule["declared_ordering"])
+    scales = {"raw_similarity": {name: row["mean_similarity"] for name, row in observed.items()}}
+    corrected = {name: row["mean_excess_over_chance"] for name, row in observed.items()
+                 if "mean_excess_over_chance" in row}
+    if corrected:
+        scales["excess_over_chance"] = corrected
     result = {
         "declared_propensity": declared,
         "declared_ordering": predicted_order,
-        "observed_block_means": {name: value["mean_similarity"] for name, value in observed.items()},
+        "observed_block_means": scales["raw_similarity"],
         "keys_compared_per_block": {name: value["keys_compared"] for name, value in observed.items()},
         "pairs": len(observations),
         "pairs_carrying_a_block_profile": sum(1 for item in observations if item.get("block_profile")),
-        "minimum_block_spread_declared": rule["minimum_block_spread"],
+        "minimum_block_spread_declared": minimum_spread,
+        "chance_similarity_table": {
+            "used": bool(corrected),
+            "dimensions_supplied": len(chance_similarity or {}),
+            "path": (chance_table or {}).get("path"),
+            "sha256": (chance_table or {}).get("sha256"),
+            "conditioning": (chance_table or {}).get("conditioning"),
+            "null_model": (chance_table or {}).get("null_model") or None,
+            "blocks_corrected": sorted(corrected),
+        },
         "disqualifies_m4_from_being_named_leader": False,
     }
-    measured = [name for name in predicted_order if name in observed]
     if len(observed) < 2:
         return {**result, "status": STATUS_PROFILE_NOT_TESTABLE,
+                "readings": {label: {"block_means": means, "status": STATUS_PROFILE_NOT_TESTABLE}
+                             for label, means in scales.items()},
                 "blocks_measured": sorted(observed),
                 "blocks_without_a_measurement": sorted(set(declared) - set(observed)),
                 "reason": "fewer than two dimension blocks carry a comparable key in this pair set, so the "
                           "ordering M4 declares cannot be checked against it. This is a missing input, not a "
                           "pass: a test that reports nothing whenever the data are thin is a test that never runs."}
-    means = [observed[name]["mean_similarity"] for name in sorted(observed)]
-    spread = round(max(means) - min(means), 6)
-    adjacent = []
-    for stronger, weaker in rule["declared_adjacent_predictions"]:
-        if stronger not in observed or weaker not in observed:
-            adjacent.append({"stronger": stronger, "weaker": weaker, "observed_difference": None,
-                             "holds": None, "reason": "one of the two blocks carries no comparable key"})
-            continue
-        difference = round(observed[stronger]["mean_similarity"] - observed[weaker]["mean_similarity"], 6)
-        adjacent.append({"stronger": stronger, "weaker": weaker, "observed_difference": difference,
-                         "holds": difference > 0})
-    judged = [item for item in adjacent if item["holds"] is not None]
-    result.update({"spread_across_blocks": spread, "adjacent_predictions": adjacent,
-                   "observed_ordering": sorted(observed, key=lambda name: -observed[name]["mean_similarity"]),
+    readings = {}
+    for label, means in scales.items():
+        spread = round(max(means.values()) - min(means.values()), 6) if len(means) > 1 else None
+        adjacent = adjacency_verdicts(means, config)
+        readings[label] = {
+            "block_means": means,
+            "spread_across_blocks": spread,
+            "ordering_observed": sorted(means, key=lambda name: -means[name]),
+            "adjacent_predictions": adjacent,
+            "status": _profile_status(adjacent, spread, minimum_spread),
+        }
+    result.update({"observed_block_means": scales["raw_similarity"],
+                   "spread_across_blocks": readings["raw_similarity"]["spread_across_blocks"],
+                   "adjacent_predictions": readings["raw_similarity"]["adjacent_predictions"],
+                   "observed_ordering": readings["raw_similarity"]["ordering_observed"],
+                   "observed_block_profile": observed,
+                   "readings": readings,
                    "blocks_without_a_measurement": sorted(set(declared) - set(observed))})
+    judged = {label: row["status"] for label, row in readings.items()
+              if row["status"] != STATUS_PROFILE_NOT_TESTABLE}
+    if len(judged) > 1:
+        result["readings_that_disconfirm"] = sorted(label for label, read in judged.items()
+                                                    if read in STATUS_PROFILE_DISCONFIRMED)
     if not judged:
         return {**result, "status": STATUS_PROFILE_NOT_TESTABLE,
                 "reason": "the pair set measures blocks, but never two of the three the alpha vector ranks "
                           "together, so no adjacent prediction has an observable sign"}
-    if spread < minimum_spread:
-        return {**result, "status": STATUS_PROFILE_FLAT, "disqualifies_m4_from_being_named_leader": True,
-                "reason": f"the three blocks differ by {spread} at most, below the declared "
-                          f"{minimum_spread}. This is the case the alpha vector's own "
+    distinct = sorted(set(judged.values()))
+    if len(distinct) > 1:
+        disconfirming = [label for label, status in judged.items() if status in STATUS_PROFILE_DISCONFIRMED]
+        if len(disconfirming) == len(judged):
+            status = (STATUS_PROFILE_CONTRADICTS if STATUS_PROFILE_CONTRADICTS in judged.values()
+                      else STATUS_PROFILE_FLAT)
+            return {**result, "status": status, "disqualifies_m4_from_being_named_leader": True,
+                    "reversed_predictions": [item for row in readings.values() for item in row["adjacent_predictions"]
+                                             if item["verdict"] == "reversed"],
+                    "reason": "every reading available puts the declared block ordering wrong by at least the "
+                              "registered separability, so M4's attractor prior is contradicted on both scales and "
+                              "the disagreement between them is only about which kind of contradiction this is."}
+        return {**result, "status": STATUS_PROFILE_SCALE_DEPENDENT,
+                "statuses_by_reading": dict(sorted(judged.items())),
+                "reason": "the raw and chance-corrected readings of this pair set fall on different sides of the "
+                          "disqualification line, so the line is not being crossed by a fact about the traditions "
+                          "but by a choice of scale. Nothing is disqualified and nothing is confirmed: "
+                          + " / ".join(f"{label} -> {status}" for label, status in sorted(judged.items())) +
+                          ". Whichever reading a reader prefers, the preference has to be stated before the "
+                          "verdict is, which is why both are published here."}
+    status = distinct[0]
+    if status == STATUS_PROFILE_FLAT:
+        return {**result, "status": status, "disqualifies_m4_from_being_named_leader": True,
+                "reason": f"the blocks differ by {readings['raw_similarity']['spread_across_blocks']} at most, "
+                          f"below the declared {minimum_spread}. This is the case the alpha vector's own "
                           "`falsification_hook` named: concordance is flat across the blocks, so the declared "
                           "concentrations are wrong and M4's likelihood moves with them."}
-    reversed_pairs = [item for item in judged if not item["holds"]]
-    if reversed_pairs:
-        return {**result, "status": STATUS_PROFILE_CONTRADICTS,
-                "disqualifies_m4_from_being_named_leader": True,
-                "reversed_predictions": reversed_pairs,
-                "reason": "the observed block ordering contradicts the declared one, so M4's attractor prior is "
-                          "wrong in a directed way: the block it says converges most is not the block that "
-                          "agrees most in these pairs."}
-    return {**result, "status": STATUS_PROFILE_CONFIRMS,
-            "reason": "every adjacent prediction holds and the spread clears the declared minimum. This is the "
-                      "weakest of the confirmable outcomes: three blocks admit six orderings, so one surviving "
-                      "prediction is not corroboration, it is the absence of the refutation M4 was exposed to."}
+    if status == STATUS_PROFILE_CONTRADICTS:
+        return {**result, "status": status, "disqualifies_m4_from_being_named_leader": True,
+                "reversed_predictions": [item for row in readings.values() for item in row["adjacent_predictions"]
+                                         if item["verdict"] == "reversed"],
+                "reason": "the observed block ordering contradicts the declared one by more than the registered "
+                          "separability on every reading, so M4's attractor prior is wrong in a directed way: "
+                          "the block it says converges most is not the block that agrees most in these pairs."}
+    if status == STATUS_PROFILE_TIED:
+        return {**result, "status": status,
+                "reason": "an adjacent prediction the alpha vector declares is separated by at least "
+                          f"{minimum_spread} came out inside that band, on every reading. A gap smaller than the "
+                          "registered separability is a tie and the registered basis says so, so this neither "
+                          "refutes M4 nor corroborates it: the instrument did not resolve the difference the "
+                          "model predicts. Reporting it as a refutation would make the falsification hook fire "
+                          "on the measurement rather than on the traditions."}
+    return {**result, "status": status,
+            "reason": "every adjacent prediction holds, by at least the declared separability, on every reading "
+                      "available. This is the weakest of the confirmable outcomes: three blocks admit six "
+                      "orderings, so one surviving prediction is not corroboration, it is the absence of the "
+                      "refutation M4 was exposed to."}
 
 
 def pair_log_likelihood(model, observation, config):
@@ -1186,12 +1369,15 @@ def _stage_one_from_totals(totals, models, margin, test_totals=None, isolated_to
     }
 
 
-def decide_four_way(observations, config, gates=None, split=None):
+def decide_four_way(observations, config, gates=None, split=None, chance_table=None):
     """Stage 1 of the decision rule: all four competitors on one footing, with no-decisive-winner reachable.
 
     The gate (pair count, effective sample size) and the verdict (margin) are computed separately and both
     published: the power simulation measures the verdict, and the gate is what the simulation sets, so a rule
     that folded the gate into the verdict would measure its own placeholder.
+
+    `chance_table` is `corpus_chance_similarity()`'s return. The comparison entry points load it so the block
+    profile can be read on both scales; the power simulation reaches stage 1 through the totals, not here.
     """
     rule = config["four_way_decision_rule"]
     models = tuple(rule["competitor_keys"])
@@ -1250,7 +1436,7 @@ def decide_four_way(observations, config, gates=None, split=None):
             )
     else:
         gate_problems.append("effective independent samples: no floor published, run the power simulation")
-    profile_test = attractor_block_profile_test(observations, config)
+    profile_test = attractor_block_profile_test(observations, config, chance_table)
     disqualified = "M4" if profile_test["disqualifies_m4_from_being_named_leader"] else None
     leader_disqualified = bool(disqualified) and verdict["leader"] == disqualified and verdict["decisive"]
     gated = bool(gate_problems)
@@ -1322,8 +1508,9 @@ def compare_observations(observations, config):
     models = ("M1", "M2", "M3", "M4")
     reported_alongside = config["four_way_decision_rule"]["nested_case_key"]
     split = split_by_cluster(observations, config)
+    chance_table = corpus_chance_similarity()
     if not split["ok"]:
-        return {"ok": False, "missing": [f"cluster_keys_missing: {pair} lacks {fields}" for pair, fields in split["pairs_missing_cluster_labels"].items()], "stage_1": decide_four_way(observations, config, split=split)}
+        return {"ok": False, "missing": [f"cluster_keys_missing: {pair} lacks {fields}" for pair, fields in split["pairs_missing_cluster_labels"].items()], "stage_1": decide_four_way(observations, config, split=split, chance_table=chance_table)}
     totals, per_pair = model_totals(observations, config, models + (reported_alongside,))
     if totals is None:
         stalled = next((observation for observation in observations if pair_log_likelihood("M2", observation, config) is None or pair_log_likelihood("M4", observation, config) is None), observations[0])
@@ -1353,7 +1540,7 @@ def compare_observations(observations, config):
     meeting_held_out = [model for model, value in licence_held_out.items() if value >= margin]
     preferred = [model for model in meeting_whole if model in meeting_held_out] if test_totals else meeting_whole
     ranked = sorted(models, key=lambda model: totals[model], reverse=True)
-    stage_one = decide_four_way(observations, config, split=split)
+    stage_one = decide_four_way(observations, config, split=split, chance_table=chance_table)
     return {
         "ok": True,
         "log_likelihoods": {model: round(value, 6) for model, value in totals.items()},
@@ -1839,7 +2026,7 @@ def missing_required_inputs(config, derivation=None, observations=None, scaffold
             )
         if any(not observation.get("background_distribution") for observation in observations):
             missing.append("background_distribution: empirical similarity-class distribution over pairs with historical_transmission = no_known_route, which only dated route-typed data can supply")
-        profile_test = attractor_block_profile_test(observations, config)
+        profile_test = attractor_block_profile_test(observations, config, corpus_chance_similarity())
         if profile_test["status"] == STATUS_PROFILE_NOT_TESTABLE:
             missing.append(
                 f"block_profile: M4's alpha vector predicts an ordering over the three dimension blocks and this "

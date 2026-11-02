@@ -1,0 +1,2941 @@
+{
+  "produced_by": "python tools/scan_dimension_anomalies.py --write",
+  "inputs": {
+    "work_states": "results/ontology_work_states.csv",
+    "sha256": "b213ffb5ced75a3d01921115aa5d78b733f2ef584367eb731655c22319b0b64e",
+    "config": "config/model_comparison_v3.json"
+  },
+  "null_model": {
+    "name": "per-dimension configuration model",
+    "draws": 200,
+    "seed": 20261102,
+    "band": 0.05,
+    "preserves": "each work's own number of values on that dimension, and the dimension's per-value prevalence",
+    "does_not_preserve": "correlations between values inside a work, so the excess here is an upper bound on any structure attributed to a dimension whose detector fires on co-occurring strings",
+    "why_not_a_permutation": "the mean over a complete graph is invariant to permuting which work owns which set, so a label-shuffled control would return the observed number and call it a null"
+  },
+  "works_scanned": 65,
+  "pairs_of_works_possible": 2080,
+  "frame": "candidate_count > 0",
+  "dimensions": [
+    {
+      "dimension": "D1_ontological_category",
+      "cardinality_declared_by_the_frame": "set-valued",
+      "statistic_the_frame_declares": "jaccard",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 64,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 6,
+      "mean_values_per_work": 3.1094,
+      "dominant_value": "personal_being",
+      "dominant_share_of_value_tokens": 0.306533,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "jaccard",
+        "pairs_compared": 2016,
+        "observed_mean_similarity": 0.496007,
+        "chance_similarity_from_own_marginals": 0.391504,
+        "excess_over_chance": 0.104503,
+        "excess_within_declared_chance_band": false
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 2016,
+        "observed_mean_similarity": 0.496007,
+        "chance_similarity_from_own_marginals": 0.392988,
+        "excess_over_chance": 0.103019,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D2a_acknowledged_population",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 49,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 6,
+      "mean_values_per_work": 2.4286,
+      "dominant_value": "uncountable_or_numeric_scheme",
+      "dominant_share_of_value_tokens": 0.268908,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 33,
+      "works_where_the_exact_match_rule_has_no_defined_answer": 0.673469,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 1176,
+        "observed_mean_similarity": 0.069728,
+        "chance_similarity_from_own_marginals": 0.033299,
+        "excess_over_chance": 0.036429,
+        "excess_within_declared_chance_band": true
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 1176,
+        "observed_mean_similarity": 0.34409,
+        "chance_similarity_from_own_marginals": 0.282015,
+        "excess_over_chance": 0.062075,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D2b_reality_of_others",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 38,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 3,
+      "mean_values_per_work": 1.8947,
+      "dominant_value": "others_real_but_subordinate",
+      "dominant_share_of_value_tokens": 0.416667,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 23,
+      "works_where_the_exact_match_rule_has_no_defined_answer": 0.605263,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 703,
+        "observed_mean_similarity": 0.196302,
+        "chance_similarity_from_own_marginals": 0.167482,
+        "excess_over_chance": 0.028819,
+        "excess_within_declared_chance_band": true
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 703,
+        "observed_mean_similarity": 0.520152,
+        "chance_similarity_from_own_marginals": 0.481053,
+        "excess_over_chance": 0.039099,
+        "excess_within_declared_chance_band": true
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D2c_worship_exclusivity",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 25,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 2,
+      "mean_values_per_work": 1.12,
+      "dominant_value": "devotion_mediated_by_hierarchy",
+      "dominant_share_of_value_tokens": 0.892857,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 3,
+      "works_where_the_exact_match_rule_has_no_defined_answer": 0.12,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 300,
+        "observed_mean_similarity": 0.78,
+        "chance_similarity_from_own_marginals": 0.632883,
+        "excess_over_chance": 0.147117,
+        "excess_within_declared_chance_band": false
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 300,
+        "observed_mean_similarity": 0.89,
+        "chance_similarity_from_own_marginals": 0.74395,
+        "excess_over_chance": 0.14605,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D3_agency",
+      "cardinality_declared_by_the_frame": "set-valued",
+      "statistic_the_frame_declares": "jaccard",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 63,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 6,
+      "mean_values_per_work": 2.1746,
+      "dominant_value": "personalhood_mind_and_will",
+      "dominant_share_of_value_tokens": 0.445255,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "jaccard",
+        "pairs_compared": 1953,
+        "observed_mean_similarity": 0.526557,
+        "chance_similarity_from_own_marginals": 0.368697,
+        "excess_over_chance": 0.15786,
+        "excess_within_declared_chance_band": false
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 1953,
+        "observed_mean_similarity": 0.526557,
+        "chance_similarity_from_own_marginals": 0.366005,
+        "excess_over_chance": 0.160552,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D4_cosmic_function",
+      "cardinality_declared_by_the_frame": "set-valued",
+      "statistic_the_frame_declares": "jaccard",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 65,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 10,
+      "mean_values_per_work": 6.8923,
+      "dominant_value": "rescuing_healing_restoring",
+      "dominant_share_of_value_tokens": 0.140625,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "jaccard",
+        "pairs_compared": 2080,
+        "observed_mean_similarity": 0.596132,
+        "chance_similarity_from_own_marginals": 0.524972,
+        "excess_over_chance": 0.07116,
+        "excess_within_declared_chance_band": false
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 2080,
+        "observed_mean_similarity": 0.596132,
+        "chance_similarity_from_own_marginals": 0.524499,
+        "excess_over_chance": 0.071633,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D5_universe_relationship",
+      "cardinality_declared_by_the_frame": "set-valued",
+      "statistic_the_frame_declares": "jaccard",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 56,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 4,
+      "mean_values_per_work": 2.4643,
+      "dominant_value": "world_as_appearance",
+      "dominant_share_of_value_tokens": 0.347826,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "jaccard",
+        "pairs_compared": 1540,
+        "observed_mean_similarity": 0.536472,
+        "chance_similarity_from_own_marginals": 0.465222,
+        "excess_over_chance": 0.07125,
+        "excess_within_declared_chance_band": false
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 1540,
+        "observed_mean_similarity": 0.536472,
+        "chance_similarity_from_own_marginals": 0.464336,
+        "excess_over_chance": 0.072136,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D6_temporal_nature",
+      "cardinality_declared_by_the_frame": "set-valued",
+      "statistic_the_frame_declares": "jaccard",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 57,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 5,
+      "mean_values_per_work": 2.8596,
+      "dominant_value": "born_in_time",
+      "dominant_share_of_value_tokens": 0.300613,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "jaccard",
+        "pairs_compared": 1596,
+        "observed_mean_similarity": 0.477558,
+        "chance_similarity_from_own_marginals": 0.422058,
+        "excess_over_chance": 0.055501,
+        "excess_within_declared_chance_band": false
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 1596,
+        "observed_mean_similarity": 0.477558,
+        "chance_similarity_from_own_marginals": 0.421274,
+        "excess_over_chance": 0.056284,
+        "excess_within_declared_chance_band": false
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D7a_speaker_attribution",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 45,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 2,
+      "mean_values_per_work": 1.6667,
+      "dominant_value": "praying_or_praising_human_voice",
+      "dominant_share_of_value_tokens": 0.546667,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 30,
+      "works_where_the_exact_match_rule_has_no_defined_answer": 0.666667,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 990,
+        "observed_mean_similarity": 0.50101,
+        "chance_similarity_from_own_marginals": 0.493414,
+        "excess_over_chance": 0.007596,
+        "excess_within_declared_chance_band": true
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 990,
+        "observed_mean_similarity": 0.728283,
+        "chance_similarity_from_own_marginals": 0.719828,
+        "excess_over_chance": 0.008455,
+        "excess_within_declared_chance_band": true
+      },
+      "readings_disagree": false,
+      "status": "live"
+    },
+    {
+      "dimension": "D7b_speech_act",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 0,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 0,
+      "mean_values_per_work": null,
+      "dominant_value": null,
+      "dominant_share_of_value_tokens": null,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 0,
+        "observed_mean_similarity": null,
+        "chance_similarity_from_own_marginals": null,
+        "excess_over_chance": null,
+        "excess_within_declared_chance_band": null
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 0,
+        "observed_mean_similarity": null,
+        "chance_similarity_from_own_marginals": null,
+        "excess_over_chance": null,
+        "excess_within_declared_chance_band": null
+      },
+      "readings_disagree": false,
+      "status": "dead_no_work_carries_a_value"
+    },
+    {
+      "dimension": "D7c_discourse_genre",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 0,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 0,
+      "mean_values_per_work": null,
+      "dominant_value": null,
+      "dominant_share_of_value_tokens": null,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 0,
+        "observed_mean_similarity": null,
+        "chance_similarity_from_own_marginals": null,
+        "excess_over_chance": null,
+        "excess_within_declared_chance_band": null
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 0,
+        "observed_mean_similarity": null,
+        "chance_similarity_from_own_marginals": null,
+        "excess_over_chance": null,
+        "excess_within_declared_chance_band": null
+      },
+      "readings_disagree": false,
+      "status": "dead_no_work_carries_a_value"
+    },
+    {
+      "dimension": "D7d_epistemic_commitment",
+      "cardinality_declared_by_the_frame": "single",
+      "statistic_the_frame_declares": "exact_match",
+      "population_measured": "every pair of works that both carry a value for this dimension",
+      "works_with_an_attested_value": 0,
+      "works_in_corpus": 65,
+      "distinct_values_attested": 0,
+      "mean_values_per_work": null,
+      "dominant_value": null,
+      "dominant_share_of_value_tokens": null,
+      "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+      "works_where_the_exact_match_rule_has_no_defined_answer": null,
+      "declared_rule": {
+        "statistic": "exact_match",
+        "pairs_compared": 0,
+        "observed_mean_similarity": null,
+        "chance_similarity_from_own_marginals": null,
+        "excess_over_chance": null,
+        "excess_within_declared_chance_band": null
+      },
+      "value_sets": {
+        "statistic": "jaccard",
+        "pairs_compared": 0,
+        "observed_mean_similarity": null,
+        "chance_similarity_from_own_marginals": null,
+        "excess_over_chance": null,
+        "excess_within_declared_chance_band": null
+      },
+      "readings_disagree": false,
+      "status": "dead_no_work_carries_a_value"
+    }
+  ],
+  "dead_dimensions": [
+    "D7b_speech_act",
+    "D7c_discourse_genre",
+    "D7d_epistemic_commitment"
+  ],
+  "indistinguishable_from_chance": {
+    "declared_rule": [
+      "D2a_acknowledged_population",
+      "D2b_reality_of_others",
+      "D7a_speaker_attribution"
+    ],
+    "value_sets": [
+      "D2b_reality_of_others",
+      "D7a_speaker_attribution"
+    ]
+  },
+  "blocks": {
+    "blocks": {
+      "functional_or_pressure_prone": {
+        "declared_propensity": 0.714286,
+        "keys_declared": [
+          "D3_agency",
+          "D4_cosmic_function",
+          "D2c_worship_exclusivity"
+        ],
+        "keys_live_on_this_corpus": [
+          "D3_agency",
+          "D4_cosmic_function",
+          "D2c_worship_exclusivity"
+        ],
+        "keys_dead_on_this_corpus": [],
+        "readings": {
+          "declared_rule": {
+            "keys_indistinguishable_from_chance": [],
+            "raw_mean_similarity": 0.63423,
+            "excess_mean_over_chance": 0.125379,
+            "excess_mean_over_chance_dropping_the_band_keys": 0.125379
+          },
+          "value_sets": {
+            "keys_indistinguishable_from_chance": [],
+            "raw_mean_similarity": 0.670896,
+            "excess_mean_over_chance": 0.126078,
+            "excess_mean_over_chance_dropping_the_band_keys": 0.126078
+          }
+        }
+      },
+      "structural": {
+        "declared_propensity": 0.5,
+        "keys_declared": [
+          "D2a_acknowledged_population",
+          "D2b_reality_of_others",
+          "D5_universe_relationship",
+          "D6_temporal_nature",
+          "D7d_epistemic_commitment"
+        ],
+        "keys_live_on_this_corpus": [
+          "D2a_acknowledged_population",
+          "D2b_reality_of_others",
+          "D5_universe_relationship",
+          "D6_temporal_nature"
+        ],
+        "keys_dead_on_this_corpus": [
+          "D7d_epistemic_commitment"
+        ],
+        "readings": {
+          "declared_rule": {
+            "keys_indistinguishable_from_chance": [
+              "D2a_acknowledged_population",
+              "D2b_reality_of_others"
+            ],
+            "raw_mean_similarity": 0.320015,
+            "excess_mean_over_chance": 0.048,
+            "excess_mean_over_chance_dropping_the_band_keys": 0.063376
+          },
+          "value_sets": {
+            "keys_indistinguishable_from_chance": [
+              "D2b_reality_of_others"
+            ],
+            "raw_mean_similarity": 0.469568,
+            "excess_mean_over_chance": 0.057399,
+            "excess_mean_over_chance_dropping_the_band_keys": 0.063498
+          }
+        }
+      },
+      "arbitrary_or_expressive": {
+        "declared_propensity": 0.285714,
+        "keys_declared": [
+          "D7a_speaker_attribution",
+          "D7b_speech_act",
+          "D7c_discourse_genre",
+          "D1_ontological_category"
+        ],
+        "keys_live_on_this_corpus": [
+          "D7a_speaker_attribution",
+          "D1_ontological_category"
+        ],
+        "keys_dead_on_this_corpus": [
+          "D7b_speech_act",
+          "D7c_discourse_genre"
+        ],
+        "readings": {
+          "declared_rule": {
+            "keys_indistinguishable_from_chance": [
+              "D7a_speaker_attribution"
+            ],
+            "raw_mean_similarity": 0.498508,
+            "excess_mean_over_chance": 0.05605,
+            "excess_mean_over_chance_dropping_the_band_keys": 0.104503
+          },
+          "value_sets": {
+            "keys_indistinguishable_from_chance": [
+              "D7a_speaker_attribution"
+            ],
+            "raw_mean_similarity": 0.612145,
+            "excess_mean_over_chance": 0.055737,
+            "excess_mean_over_chance_dropping_the_band_keys": 0.103019
+          }
+        }
+      }
+    },
+    "verdicts": {
+      "declared_rule_raw": {
+        "reading": "declared_rule",
+        "quantity": "raw",
+        "statistic": "jaccard",
+        "block_means": {
+          "functional_or_pressure_prone": 0.63423,
+          "structural": 0.320015,
+          "arbitrary_or_expressive": 0.498508
+        },
+        "ordering_observed": [
+          "functional_or_pressure_prone",
+          "arbitrary_or_expressive",
+          "structural"
+        ],
+        "spread_across_blocks": 0.314215,
+        "adjacent_predictions": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.314215,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.178493,
+            "verdict": "reversed"
+          }
+        ],
+        "keys_carried_by_a_single_live_dimension": [],
+        "why_this_can_be_wrong": "blocks are measured over different numbers of live keys, so a mean over one block is not the same quantity as a mean over another",
+        "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+      },
+      "declared_rule_chance_corrected": {
+        "reading": "declared_rule",
+        "quantity": "chance_corrected",
+        "statistic": "jaccard",
+        "block_means": {
+          "functional_or_pressure_prone": 0.125379,
+          "structural": 0.048,
+          "arbitrary_or_expressive": 0.05605
+        },
+        "ordering_observed": [
+          "functional_or_pressure_prone",
+          "arbitrary_or_expressive",
+          "structural"
+        ],
+        "spread_across_blocks": 0.077379,
+        "adjacent_predictions": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.077379,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.00805,
+            "verdict": "tie_within_the_declared_separability"
+          }
+        ],
+        "keys_carried_by_a_single_live_dimension": [],
+        "why_this_can_be_wrong": "the chance line comes from this population's own marginals, so a dimension that is genuinely universal and a dimension the detector cannot separate produce the same excess",
+        "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+      },
+      "declared_rule_chance_corrected_dropping_the_band_keys": {
+        "reading": "declared_rule",
+        "quantity": "chance_corrected_dropping_the_band_keys",
+        "statistic": "jaccard",
+        "block_means": {
+          "functional_or_pressure_prone": 0.125379,
+          "structural": 0.063376,
+          "arbitrary_or_expressive": 0.104503
+        },
+        "ordering_observed": [
+          "functional_or_pressure_prone",
+          "arbitrary_or_expressive",
+          "structural"
+        ],
+        "spread_across_blocks": 0.062003,
+        "adjacent_predictions": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.062003,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.041127,
+            "verdict": "tie_within_the_declared_separability"
+          }
+        ],
+        "keys_carried_by_a_single_live_dimension": [],
+        "why_this_can_be_wrong": "dropping a dimension for sitting inside the chance band is a choice about the instrument, not about the traditions, and it moves the ordering; both readings are published because neither is the one you should have to trust",
+        "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+      },
+      "value_sets_raw": {
+        "reading": "value_sets",
+        "quantity": "raw",
+        "statistic": "jaccard",
+        "block_means": {
+          "functional_or_pressure_prone": 0.670896,
+          "structural": 0.469568,
+          "arbitrary_or_expressive": 0.612145
+        },
+        "ordering_observed": [
+          "functional_or_pressure_prone",
+          "arbitrary_or_expressive",
+          "structural"
+        ],
+        "spread_across_blocks": 0.201328,
+        "adjacent_predictions": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.201328,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.142577,
+            "verdict": "reversed"
+          }
+        ],
+        "keys_carried_by_a_single_live_dimension": [],
+        "why_this_can_be_wrong": "blocks are measured over different numbers of live keys, so a mean over one block is not the same quantity as a mean over another",
+        "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+      },
+      "value_sets_chance_corrected": {
+        "reading": "value_sets",
+        "quantity": "chance_corrected",
+        "statistic": "jaccard",
+        "block_means": {
+          "functional_or_pressure_prone": 0.126078,
+          "structural": 0.057399,
+          "arbitrary_or_expressive": 0.055737
+        },
+        "ordering_observed": [
+          "functional_or_pressure_prone",
+          "structural",
+          "arbitrary_or_expressive"
+        ],
+        "spread_across_blocks": 0.070341,
+        "adjacent_predictions": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.068679,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": 0.001662,
+            "verdict": "tie_within_the_declared_separability"
+          }
+        ],
+        "keys_carried_by_a_single_live_dimension": [],
+        "why_this_can_be_wrong": "the chance line comes from this population's own marginals, so a dimension that is genuinely universal and a dimension the detector cannot separate produce the same excess",
+        "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+      },
+      "value_sets_chance_corrected_dropping_the_band_keys": {
+        "reading": "value_sets",
+        "quantity": "chance_corrected_dropping_the_band_keys",
+        "statistic": "jaccard",
+        "block_means": {
+          "functional_or_pressure_prone": 0.126078,
+          "structural": 0.063498,
+          "arbitrary_or_expressive": 0.103019
+        },
+        "ordering_observed": [
+          "functional_or_pressure_prone",
+          "arbitrary_or_expressive",
+          "structural"
+        ],
+        "spread_across_blocks": 0.06258,
+        "adjacent_predictions": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.06258,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.039521,
+            "verdict": "tie_within_the_declared_separability"
+          }
+        ],
+        "keys_carried_by_a_single_live_dimension": [],
+        "why_this_can_be_wrong": "dropping a dimension for sitting inside the chance band is a choice about the instrument, not about the traditions, and it moves the ordering; both readings are published because neither is the one you should have to trust",
+        "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+      }
+    },
+    "minimum_block_spread_declared": 0.05
+  },
+  "pair_graph": {
+    "conditioning": "the pairs compare_models.similarity_between scores, at least 6 comparable keys",
+    "pairs_scorable": 1237,
+    "works_covered": 52,
+    "dimensions": [
+      {
+        "dimension": "D1_ontological_category",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 52,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 6,
+        "mean_values_per_work": 3.4231,
+        "dominant_value": "personal_being",
+        "dominant_share_of_value_tokens": 0.292135,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.56571,
+          "chance_similarity_from_own_marginals": 0.446923,
+          "excess_over_chance": 0.118787,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.56571,
+          "chance_similarity_from_own_marginals": 0.446603,
+          "excess_over_chance": 0.119107,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D2a_acknowledged_population",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 46,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 6,
+        "mean_values_per_work": 2.5217,
+        "dominant_value": "many_graded",
+        "dominant_share_of_value_tokens": 0.258621,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 33,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.717391,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 1019,
+          "observed_mean_similarity": 0.048086,
+          "chance_similarity_from_own_marginals": 0.029324,
+          "excess_over_chance": 0.018762,
+          "excess_within_declared_chance_band": true
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1019,
+          "observed_mean_similarity": 0.339957,
+          "chance_similarity_from_own_marginals": 0.293141,
+          "excess_over_chance": 0.046816,
+          "excess_within_declared_chance_band": true
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D2b_reality_of_others",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 38,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 3,
+        "mean_values_per_work": 1.8947,
+        "dominant_value": "others_real_but_subordinate",
+        "dominant_share_of_value_tokens": 0.416667,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 23,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.605263,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 703,
+          "observed_mean_similarity": 0.196302,
+          "chance_similarity_from_own_marginals": 0.168272,
+          "excess_over_chance": 0.02803,
+          "excess_within_declared_chance_band": true
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 703,
+          "observed_mean_similarity": 0.520152,
+          "chance_similarity_from_own_marginals": 0.479501,
+          "excess_over_chance": 0.040651,
+          "excess_within_declared_chance_band": true
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D2c_worship_exclusivity",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 25,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 2,
+        "mean_values_per_work": 1.12,
+        "dominant_value": "devotion_mediated_by_hierarchy",
+        "dominant_share_of_value_tokens": 0.892857,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 3,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.12,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 300,
+          "observed_mean_similarity": 0.78,
+          "chance_similarity_from_own_marginals": 0.635583,
+          "excess_over_chance": 0.144417,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 300,
+          "observed_mean_similarity": 0.89,
+          "chance_similarity_from_own_marginals": 0.743583,
+          "excess_over_chance": 0.146417,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D3_agency",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 52,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 6,
+        "mean_values_per_work": 2.3654,
+        "dominant_value": "personalhood_mind_and_will",
+        "dominant_share_of_value_tokens": 0.422764,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.541108,
+          "chance_similarity_from_own_marginals": 0.38902,
+          "excess_over_chance": 0.152088,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.541108,
+          "chance_similarity_from_own_marginals": 0.389998,
+          "excess_over_chance": 0.15111,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D4_cosmic_function",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 52,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 10,
+        "mean_values_per_work": 7.6731,
+        "dominant_value": "rescuing_healing_restoring",
+        "dominant_share_of_value_tokens": 0.130326,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.694919,
+          "chance_similarity_from_own_marginals": 0.626493,
+          "excess_over_chance": 0.068426,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.694919,
+          "chance_similarity_from_own_marginals": 0.626394,
+          "excess_over_chance": 0.068525,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D5_universe_relationship",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 50,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 4,
+        "mean_values_per_work": 2.64,
+        "dominant_value": "world_as_appearance",
+        "dominant_share_of_value_tokens": 0.333333,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1164,
+          "observed_mean_similarity": 0.587128,
+          "chance_similarity_from_own_marginals": 0.515756,
+          "excess_over_chance": 0.071372,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1164,
+          "observed_mean_similarity": 0.587128,
+          "chance_similarity_from_own_marginals": 0.514165,
+          "excess_over_chance": 0.072963,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D6_temporal_nature",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 52,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 5,
+        "mean_values_per_work": 3.0192,
+        "dominant_value": "born_in_time",
+        "dominant_share_of_value_tokens": 0.292994,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.511897,
+          "chance_similarity_from_own_marginals": 0.45553,
+          "excess_over_chance": 0.056367,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1237,
+          "observed_mean_similarity": 0.511897,
+          "chance_similarity_from_own_marginals": 0.455434,
+          "excess_over_chance": 0.056463,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D7a_speaker_attribution",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 43,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 2,
+        "mean_values_per_work": 1.6744,
+        "dominant_value": "praying_or_praising_human_voice",
+        "dominant_share_of_value_tokens": 0.541667,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 29,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.674419,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 893,
+          "observed_mean_similarity": 0.509518,
+          "chance_similarity_from_own_marginals": 0.500249,
+          "excess_over_chance": 0.009269,
+          "excess_within_declared_chance_band": true
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 893,
+          "observed_mean_similarity": 0.733483,
+          "chance_similarity_from_own_marginals": 0.725094,
+          "excess_over_chance": 0.008389,
+          "excess_within_declared_chance_band": true
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D7b_speech_act",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 0,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 0,
+        "mean_values_per_work": null,
+        "dominant_value": null,
+        "dominant_share_of_value_tokens": null,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "readings_disagree": false,
+        "status": "dead_no_work_carries_a_value"
+      },
+      {
+        "dimension": "D7c_discourse_genre",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 0,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 0,
+        "mean_values_per_work": null,
+        "dominant_value": null,
+        "dominant_share_of_value_tokens": null,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "readings_disagree": false,
+        "status": "dead_no_work_carries_a_value"
+      },
+      {
+        "dimension": "D7d_epistemic_commitment",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "the pairs the comparison layer is willing to score, and the works they cover",
+        "works_with_an_attested_value": 0,
+        "works_in_corpus": 52,
+        "distinct_values_attested": 0,
+        "mean_values_per_work": null,
+        "dominant_value": null,
+        "dominant_share_of_value_tokens": null,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "readings_disagree": false,
+        "status": "dead_no_work_carries_a_value"
+      }
+    ],
+    "chance_similarity_per_dimension": {
+      "D1_ontological_category": 0.446923,
+      "D2a_acknowledged_population": 0.029324,
+      "D2b_reality_of_others": 0.168272,
+      "D2c_worship_exclusivity": 0.635583,
+      "D3_agency": 0.38902,
+      "D4_cosmic_function": 0.626493,
+      "D5_universe_relationship": 0.515756,
+      "D6_temporal_nature": 0.45553,
+      "D7a_speaker_attribution": 0.500249
+    },
+    "blocks": {
+      "blocks": {
+        "functional_or_pressure_prone": {
+          "declared_propensity": 0.714286,
+          "keys_declared": [
+            "D3_agency",
+            "D4_cosmic_function",
+            "D2c_worship_exclusivity"
+          ],
+          "keys_live_on_this_corpus": [
+            "D3_agency",
+            "D4_cosmic_function",
+            "D2c_worship_exclusivity"
+          ],
+          "keys_dead_on_this_corpus": [],
+          "readings": {
+            "declared_rule": {
+              "keys_indistinguishable_from_chance": [],
+              "raw_mean_similarity": 0.672009,
+              "excess_mean_over_chance": 0.121644,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.121644
+            },
+            "value_sets": {
+              "keys_indistinguishable_from_chance": [],
+              "raw_mean_similarity": 0.708676,
+              "excess_mean_over_chance": 0.122017,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.122017
+            }
+          }
+        },
+        "structural": {
+          "declared_propensity": 0.5,
+          "keys_declared": [
+            "D2a_acknowledged_population",
+            "D2b_reality_of_others",
+            "D5_universe_relationship",
+            "D6_temporal_nature",
+            "D7d_epistemic_commitment"
+          ],
+          "keys_live_on_this_corpus": [
+            "D2a_acknowledged_population",
+            "D2b_reality_of_others",
+            "D5_universe_relationship",
+            "D6_temporal_nature"
+          ],
+          "keys_dead_on_this_corpus": [
+            "D7d_epistemic_commitment"
+          ],
+          "readings": {
+            "declared_rule": {
+              "keys_indistinguishable_from_chance": [
+                "D2a_acknowledged_population",
+                "D2b_reality_of_others"
+              ],
+              "raw_mean_similarity": 0.335853,
+              "excess_mean_over_chance": 0.043633,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.063869
+            },
+            "value_sets": {
+              "keys_indistinguishable_from_chance": [
+                "D2a_acknowledged_population",
+                "D2b_reality_of_others"
+              ],
+              "raw_mean_similarity": 0.489783,
+              "excess_mean_over_chance": 0.054223,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.064713
+            }
+          }
+        },
+        "arbitrary_or_expressive": {
+          "declared_propensity": 0.285714,
+          "keys_declared": [
+            "D7a_speaker_attribution",
+            "D7b_speech_act",
+            "D7c_discourse_genre",
+            "D1_ontological_category"
+          ],
+          "keys_live_on_this_corpus": [
+            "D7a_speaker_attribution",
+            "D1_ontological_category"
+          ],
+          "keys_dead_on_this_corpus": [
+            "D7b_speech_act",
+            "D7c_discourse_genre"
+          ],
+          "readings": {
+            "declared_rule": {
+              "keys_indistinguishable_from_chance": [
+                "D7a_speaker_attribution"
+              ],
+              "raw_mean_similarity": 0.537614,
+              "excess_mean_over_chance": 0.064028,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.118787
+            },
+            "value_sets": {
+              "keys_indistinguishable_from_chance": [
+                "D7a_speaker_attribution"
+              ],
+              "raw_mean_similarity": 0.649597,
+              "excess_mean_over_chance": 0.063748,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.119107
+            }
+          }
+        }
+      },
+      "verdicts": {
+        "declared_rule_raw": {
+          "reading": "declared_rule",
+          "quantity": "raw",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.672009,
+            "structural": 0.335853,
+            "arbitrary_or_expressive": 0.537614
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.336156,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.336156,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.201761,
+              "verdict": "reversed"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "blocks are measured over different numbers of live keys, so a mean over one block is not the same quantity as a mean over another",
+          "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+        },
+        "declared_rule_chance_corrected": {
+          "reading": "declared_rule",
+          "quantity": "chance_corrected",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.121644,
+            "structural": 0.043633,
+            "arbitrary_or_expressive": 0.064028
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.078011,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.078011,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.020395,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "the chance line comes from this population's own marginals, so a dimension that is genuinely universal and a dimension the detector cannot separate produce the same excess",
+          "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+        },
+        "declared_rule_chance_corrected_dropping_the_band_keys": {
+          "reading": "declared_rule",
+          "quantity": "chance_corrected_dropping_the_band_keys",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.121644,
+            "structural": 0.063869,
+            "arbitrary_or_expressive": 0.118787
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.057775,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.057775,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.054918,
+              "verdict": "reversed"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "dropping a dimension for sitting inside the chance band is a choice about the instrument, not about the traditions, and it moves the ordering; both readings are published because neither is the one you should have to trust",
+          "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+        },
+        "value_sets_raw": {
+          "reading": "value_sets",
+          "quantity": "raw",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.708676,
+            "structural": 0.489783,
+            "arbitrary_or_expressive": 0.649597
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.218893,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.218893,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.159814,
+              "verdict": "reversed"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "blocks are measured over different numbers of live keys, so a mean over one block is not the same quantity as a mean over another",
+          "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+        },
+        "value_sets_chance_corrected": {
+          "reading": "value_sets",
+          "quantity": "chance_corrected",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.122017,
+            "structural": 0.054223,
+            "arbitrary_or_expressive": 0.063748
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.067794,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.067794,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.009525,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "the chance line comes from this population's own marginals, so a dimension that is genuinely universal and a dimension the detector cannot separate produce the same excess",
+          "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+        },
+        "value_sets_chance_corrected_dropping_the_band_keys": {
+          "reading": "value_sets",
+          "quantity": "chance_corrected_dropping_the_band_keys",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.122017,
+            "structural": 0.064713,
+            "arbitrary_or_expressive": 0.119107
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.057304,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.057304,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.054394,
+              "verdict": "reversed"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "dropping a dimension for sitting inside the chance band is a choice about the instrument, not about the traditions, and it moves the ordering; both readings are published because neither is the one you should have to trust",
+          "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+        }
+      },
+      "minimum_block_spread_declared": 0.05
+    },
+    "why_a_second_population": "the model comparison refuses a pair below the declared minimum comparable keys, so the means it pools are measured over 1237 of 2080 pairs covering 52 of 65 works, and a work rich enough to be scored is not a random work. On this corpus the observed mean of `D4_cosmic_function`, read as `declared_rule`, moves 0.098787 between the carrier graph and the scored graph — further than the 0.05 this scan uses to call an excess indistinguishable from chance. So a chance line has to name the graph it was drawn on before anyone subtracts it, and the chance numbers below come from the scored graph alone. This is the population the M4 block-profile test reads.",
+    "movement_between_the_two_graphs": [
+      {
+        "dimension": "D1_ontological_category",
+        "reading": "declared_rule",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.496007,
+        "scored_graph_mean": 0.56571,
+        "carrier_chance": 0.391504,
+        "scored_chance": 0.446923,
+        "shift": 0.069703
+      },
+      {
+        "dimension": "D1_ontological_category",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.496007,
+        "scored_graph_mean": 0.56571,
+        "carrier_chance": 0.392988,
+        "scored_chance": 0.446603,
+        "shift": 0.069703
+      },
+      {
+        "dimension": "D2a_acknowledged_population",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": 0.069728,
+        "scored_graph_mean": 0.048086,
+        "carrier_chance": 0.033299,
+        "scored_chance": 0.029324,
+        "shift": -0.021642
+      },
+      {
+        "dimension": "D2a_acknowledged_population",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.34409,
+        "scored_graph_mean": 0.339957,
+        "carrier_chance": 0.282015,
+        "scored_chance": 0.293141,
+        "shift": -0.004133
+      },
+      {
+        "dimension": "D2b_reality_of_others",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": 0.196302,
+        "scored_graph_mean": 0.196302,
+        "carrier_chance": 0.167482,
+        "scored_chance": 0.168272,
+        "shift": 0.0
+      },
+      {
+        "dimension": "D2b_reality_of_others",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.520152,
+        "scored_graph_mean": 0.520152,
+        "carrier_chance": 0.481053,
+        "scored_chance": 0.479501,
+        "shift": 0.0
+      },
+      {
+        "dimension": "D2c_worship_exclusivity",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": 0.78,
+        "scored_graph_mean": 0.78,
+        "carrier_chance": 0.632883,
+        "scored_chance": 0.635583,
+        "shift": 0.0
+      },
+      {
+        "dimension": "D2c_worship_exclusivity",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.89,
+        "scored_graph_mean": 0.89,
+        "carrier_chance": 0.74395,
+        "scored_chance": 0.743583,
+        "shift": 0.0
+      },
+      {
+        "dimension": "D3_agency",
+        "reading": "declared_rule",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.526557,
+        "scored_graph_mean": 0.541108,
+        "carrier_chance": 0.368697,
+        "scored_chance": 0.38902,
+        "shift": 0.014551
+      },
+      {
+        "dimension": "D3_agency",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.526557,
+        "scored_graph_mean": 0.541108,
+        "carrier_chance": 0.366005,
+        "scored_chance": 0.389998,
+        "shift": 0.014551
+      },
+      {
+        "dimension": "D4_cosmic_function",
+        "reading": "declared_rule",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.596132,
+        "scored_graph_mean": 0.694919,
+        "carrier_chance": 0.524972,
+        "scored_chance": 0.626493,
+        "shift": 0.098787
+      },
+      {
+        "dimension": "D4_cosmic_function",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.596132,
+        "scored_graph_mean": 0.694919,
+        "carrier_chance": 0.524499,
+        "scored_chance": 0.626394,
+        "shift": 0.098787
+      },
+      {
+        "dimension": "D5_universe_relationship",
+        "reading": "declared_rule",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.536472,
+        "scored_graph_mean": 0.587128,
+        "carrier_chance": 0.465222,
+        "scored_chance": 0.515756,
+        "shift": 0.050656
+      },
+      {
+        "dimension": "D5_universe_relationship",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.536472,
+        "scored_graph_mean": 0.587128,
+        "carrier_chance": 0.464336,
+        "scored_chance": 0.514165,
+        "shift": 0.050656
+      },
+      {
+        "dimension": "D6_temporal_nature",
+        "reading": "declared_rule",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.477558,
+        "scored_graph_mean": 0.511897,
+        "carrier_chance": 0.422058,
+        "scored_chance": 0.45553,
+        "shift": 0.034339
+      },
+      {
+        "dimension": "D6_temporal_nature",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.477558,
+        "scored_graph_mean": 0.511897,
+        "carrier_chance": 0.421274,
+        "scored_chance": 0.455434,
+        "shift": 0.034339
+      },
+      {
+        "dimension": "D7a_speaker_attribution",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": 0.50101,
+        "scored_graph_mean": 0.509518,
+        "carrier_chance": 0.493414,
+        "scored_chance": 0.500249,
+        "shift": 0.008508
+      },
+      {
+        "dimension": "D7a_speaker_attribution",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": 0.728283,
+        "scored_graph_mean": 0.733483,
+        "carrier_chance": 0.719828,
+        "scored_chance": 0.725094,
+        "shift": 0.0052
+      },
+      {
+        "dimension": "D7b_speech_act",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": null,
+        "scored_graph_mean": null,
+        "carrier_chance": null,
+        "scored_chance": null,
+        "shift": null
+      },
+      {
+        "dimension": "D7b_speech_act",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": null,
+        "scored_graph_mean": null,
+        "carrier_chance": null,
+        "scored_chance": null,
+        "shift": null
+      },
+      {
+        "dimension": "D7c_discourse_genre",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": null,
+        "scored_graph_mean": null,
+        "carrier_chance": null,
+        "scored_chance": null,
+        "shift": null
+      },
+      {
+        "dimension": "D7c_discourse_genre",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": null,
+        "scored_graph_mean": null,
+        "carrier_chance": null,
+        "scored_chance": null,
+        "shift": null
+      },
+      {
+        "dimension": "D7d_epistemic_commitment",
+        "reading": "declared_rule",
+        "statistic": "exact_match",
+        "carrier_graph_mean": null,
+        "scored_graph_mean": null,
+        "carrier_chance": null,
+        "scored_chance": null,
+        "shift": null
+      },
+      {
+        "dimension": "D7d_epistemic_commitment",
+        "reading": "value_sets",
+        "statistic": "jaccard",
+        "carrier_graph_mean": null,
+        "scored_graph_mean": null,
+        "carrier_chance": null,
+        "scored_chance": null,
+        "shift": null
+      }
+    ],
+    "adjacency_verdicts_that_change_with_the_graph": {
+      "declared_rule_chance_corrected_dropping_the_band_keys": {
+        "carrier_graph": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.062003,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.041127,
+            "verdict": "tie_within_the_declared_separability"
+          }
+        ],
+        "scored_graph": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.057775,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.054918,
+            "verdict": "reversed"
+          }
+        ]
+      },
+      "value_sets_chance_corrected_dropping_the_band_keys": {
+        "carrier_graph": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.06258,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.039521,
+            "verdict": "tie_within_the_declared_separability"
+          }
+        ],
+        "scored_graph": [
+          {
+            "stronger": "functional_or_pressure_prone",
+            "weaker": "structural",
+            "observed_difference": 0.057304,
+            "verdict": "holds"
+          },
+          {
+            "stronger": "structural",
+            "weaker": "arbitrary_or_expressive",
+            "observed_difference": -0.054394,
+            "verdict": "reversed"
+          }
+        ]
+      }
+    },
+    "indistinguishable_from_chance": {
+      "declared_rule": [
+        "D2a_acknowledged_population",
+        "D2b_reality_of_others",
+        "D7a_speaker_attribution"
+      ],
+      "value_sets": [
+        "D2a_acknowledged_population",
+        "D2b_reality_of_others",
+        "D7a_speaker_attribution"
+      ]
+    }
+  },
+  "sensitivity_under_the_endorsement_frame": {
+    "frame": "affirmative_doctrine_count > 0",
+    "dimensions": [
+      {
+        "dimension": "D1_ontological_category",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 63,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 6,
+        "mean_values_per_work": 2.9365,
+        "dominant_value": "personal_being",
+        "dominant_share_of_value_tokens": 0.308108,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1953,
+          "observed_mean_similarity": 0.463722,
+          "chance_similarity_from_own_marginals": 0.370978,
+          "excess_over_chance": 0.092744,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1953,
+          "observed_mean_similarity": 0.463722,
+          "chance_similarity_from_own_marginals": 0.370811,
+          "excess_over_chance": 0.092911,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D2a_acknowledged_population",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 45,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 6,
+        "mean_values_per_work": 2.2,
+        "dominant_value": "many_graded",
+        "dominant_share_of_value_tokens": 0.272727,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 28,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.622222,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 990,
+          "observed_mean_similarity": 0.064646,
+          "chance_similarity_from_own_marginals": 0.041157,
+          "excess_over_chance": 0.02349,
+          "excess_within_declared_chance_band": true
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 990,
+          "observed_mean_similarity": 0.31596,
+          "chance_similarity_from_own_marginals": 0.279739,
+          "excess_over_chance": 0.03622,
+          "excess_within_declared_chance_band": true
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D2b_reality_of_others",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 37,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 3,
+        "mean_values_per_work": 1.7297,
+        "dominant_value": "others_real_but_subordinate",
+        "dominant_share_of_value_tokens": 0.421875,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 20,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.540541,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 666,
+          "observed_mean_similarity": 0.186186,
+          "chance_similarity_from_own_marginals": 0.159947,
+          "excess_over_chance": 0.026239,
+          "excess_within_declared_chance_band": true
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 666,
+          "observed_mean_similarity": 0.495996,
+          "chance_similarity_from_own_marginals": 0.45374,
+          "excess_over_chance": 0.042256,
+          "excess_within_declared_chance_band": true
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D2c_worship_exclusivity",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 24,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 2,
+        "mean_values_per_work": 1.0833,
+        "dominant_value": "devotion_mediated_by_hierarchy",
+        "dominant_share_of_value_tokens": 0.923077,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 2,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.083333,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 276,
+          "observed_mean_similarity": 0.84058,
+          "chance_similarity_from_own_marginals": 0.722536,
+          "excess_over_chance": 0.118043,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 276,
+          "observed_mean_similarity": 0.92029,
+          "chance_similarity_from_own_marginals": 0.800435,
+          "excess_over_chance": 0.119855,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D3_agency",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 61,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 6,
+        "mean_values_per_work": 1.8525,
+        "dominant_value": "personalhood_mind_and_will",
+        "dominant_share_of_value_tokens": 0.504425,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1830,
+          "observed_mean_similarity": 0.543962,
+          "chance_similarity_from_own_marginals": 0.386863,
+          "excess_over_chance": 0.157099,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1830,
+          "observed_mean_similarity": 0.543962,
+          "chance_similarity_from_own_marginals": 0.383568,
+          "excess_over_chance": 0.160394,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D4_cosmic_function",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 64,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 10,
+        "mean_values_per_work": 6.5781,
+        "dominant_value": "rescuing_healing_restoring",
+        "dominant_share_of_value_tokens": 0.147268,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 2016,
+          "observed_mean_similarity": 0.587623,
+          "chance_similarity_from_own_marginals": 0.498912,
+          "excess_over_chance": 0.088711,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 2016,
+          "observed_mean_similarity": 0.587623,
+          "chance_similarity_from_own_marginals": 0.498642,
+          "excess_over_chance": 0.08898,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D5_universe_relationship",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 56,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 4,
+        "mean_values_per_work": 2.3393,
+        "dominant_value": "world_as_appearance",
+        "dominant_share_of_value_tokens": 0.366412,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1540,
+          "observed_mean_similarity": 0.508983,
+          "chance_similarity_from_own_marginals": 0.440527,
+          "excess_over_chance": 0.068456,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1540,
+          "observed_mean_similarity": 0.508983,
+          "chance_similarity_from_own_marginals": 0.440272,
+          "excess_over_chance": 0.068711,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D6_temporal_nature",
+        "cardinality_declared_by_the_frame": "set-valued",
+        "statistic_the_frame_declares": "jaccard",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 56,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 5,
+        "mean_values_per_work": 2.5714,
+        "dominant_value": "born_in_time",
+        "dominant_share_of_value_tokens": 0.326389,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": null,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "jaccard",
+          "pairs_compared": 1540,
+          "observed_mean_similarity": 0.467229,
+          "chance_similarity_from_own_marginals": 0.413904,
+          "excess_over_chance": 0.053326,
+          "excess_within_declared_chance_band": false
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 1540,
+          "observed_mean_similarity": 0.467229,
+          "chance_similarity_from_own_marginals": 0.412004,
+          "excess_over_chance": 0.055226,
+          "excess_within_declared_chance_band": false
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D7a_speaker_attribution",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 32,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 2,
+        "mean_values_per_work": 1.5625,
+        "dominant_value": "divine_self_speech",
+        "dominant_share_of_value_tokens": 0.52,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 18,
+        "works_where_the_exact_match_rule_has_no_defined_answer": 0.5625,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 496,
+          "observed_mean_similarity": 0.395161,
+          "chance_similarity_from_own_marginals": 0.400786,
+          "excess_over_chance": -0.005625,
+          "excess_within_declared_chance_band": true
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 496,
+          "observed_mean_similarity": 0.649194,
+          "chance_similarity_from_own_marginals": 0.654093,
+          "excess_over_chance": -0.004899,
+          "excess_within_declared_chance_band": true
+        },
+        "readings_disagree": false,
+        "status": "live"
+      },
+      {
+        "dimension": "D7b_speech_act",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 0,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 0,
+        "mean_values_per_work": null,
+        "dominant_value": null,
+        "dominant_share_of_value_tokens": null,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "readings_disagree": false,
+        "status": "dead_no_work_carries_a_value"
+      },
+      {
+        "dimension": "D7c_discourse_genre",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 0,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 0,
+        "mean_values_per_work": null,
+        "dominant_value": null,
+        "dominant_share_of_value_tokens": null,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "readings_disagree": false,
+        "status": "dead_no_work_carries_a_value"
+      },
+      {
+        "dimension": "D7d_epistemic_commitment",
+        "cardinality_declared_by_the_frame": "single",
+        "statistic_the_frame_declares": "exact_match",
+        "population_measured": "every pair of works that both carry a value for this dimension",
+        "works_with_an_attested_value": 0,
+        "works_in_corpus": 65,
+        "distinct_values_attested": 0,
+        "mean_values_per_work": null,
+        "dominant_value": null,
+        "dominant_share_of_value_tokens": null,
+        "cells_where_a_single_valued_key_carries_more_than_one_value": 0,
+        "works_where_the_exact_match_rule_has_no_defined_answer": null,
+        "declared_rule": {
+          "statistic": "exact_match",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "value_sets": {
+          "statistic": "jaccard",
+          "pairs_compared": 0,
+          "observed_mean_similarity": null,
+          "chance_similarity_from_own_marginals": null,
+          "excess_over_chance": null,
+          "excess_within_declared_chance_band": null
+        },
+        "readings_disagree": false,
+        "status": "dead_no_work_carries_a_value"
+      }
+    ],
+    "blocks": {
+      "blocks": {
+        "functional_or_pressure_prone": {
+          "declared_propensity": 0.714286,
+          "keys_declared": [
+            "D3_agency",
+            "D4_cosmic_function",
+            "D2c_worship_exclusivity"
+          ],
+          "keys_live_on_this_corpus": [
+            "D3_agency",
+            "D4_cosmic_function",
+            "D2c_worship_exclusivity"
+          ],
+          "keys_dead_on_this_corpus": [],
+          "readings": {
+            "declared_rule": {
+              "keys_indistinguishable_from_chance": [],
+              "raw_mean_similarity": 0.657388,
+              "excess_mean_over_chance": 0.121284,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.121284
+            },
+            "value_sets": {
+              "keys_indistinguishable_from_chance": [],
+              "raw_mean_similarity": 0.683958,
+              "excess_mean_over_chance": 0.123076,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.123076
+            }
+          }
+        },
+        "structural": {
+          "declared_propensity": 0.5,
+          "keys_declared": [
+            "D2a_acknowledged_population",
+            "D2b_reality_of_others",
+            "D5_universe_relationship",
+            "D6_temporal_nature",
+            "D7d_epistemic_commitment"
+          ],
+          "keys_live_on_this_corpus": [
+            "D2a_acknowledged_population",
+            "D2b_reality_of_others",
+            "D5_universe_relationship",
+            "D6_temporal_nature"
+          ],
+          "keys_dead_on_this_corpus": [
+            "D7d_epistemic_commitment"
+          ],
+          "readings": {
+            "declared_rule": {
+              "keys_indistinguishable_from_chance": [
+                "D2a_acknowledged_population",
+                "D2b_reality_of_others"
+              ],
+              "raw_mean_similarity": 0.306761,
+              "excess_mean_over_chance": 0.042878,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.060891
+            },
+            "value_sets": {
+              "keys_indistinguishable_from_chance": [
+                "D2a_acknowledged_population",
+                "D2b_reality_of_others"
+              ],
+              "raw_mean_similarity": 0.447042,
+              "excess_mean_over_chance": 0.050603,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.061968
+            }
+          }
+        },
+        "arbitrary_or_expressive": {
+          "declared_propensity": 0.285714,
+          "keys_declared": [
+            "D7a_speaker_attribution",
+            "D7b_speech_act",
+            "D7c_discourse_genre",
+            "D1_ontological_category"
+          ],
+          "keys_live_on_this_corpus": [
+            "D7a_speaker_attribution",
+            "D1_ontological_category"
+          ],
+          "keys_dead_on_this_corpus": [
+            "D7b_speech_act",
+            "D7c_discourse_genre"
+          ],
+          "readings": {
+            "declared_rule": {
+              "keys_indistinguishable_from_chance": [
+                "D7a_speaker_attribution"
+              ],
+              "raw_mean_similarity": 0.429442,
+              "excess_mean_over_chance": 0.043559,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.092744
+            },
+            "value_sets": {
+              "keys_indistinguishable_from_chance": [
+                "D7a_speaker_attribution"
+              ],
+              "raw_mean_similarity": 0.556458,
+              "excess_mean_over_chance": 0.044006,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.092911
+            }
+          }
+        }
+      },
+      "verdicts": {
+        "declared_rule_raw": {
+          "reading": "declared_rule",
+          "quantity": "raw",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.657388,
+            "structural": 0.306761,
+            "arbitrary_or_expressive": 0.429442
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.350627,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.350627,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.122681,
+              "verdict": "reversed"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "blocks are measured over different numbers of live keys, so a mean over one block is not the same quantity as a mean over another",
+          "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+        },
+        "declared_rule_chance_corrected": {
+          "reading": "declared_rule",
+          "quantity": "chance_corrected",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.121284,
+            "structural": 0.042878,
+            "arbitrary_or_expressive": 0.043559
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.078406,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.078406,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.000681,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "the chance line comes from this population's own marginals, so a dimension that is genuinely universal and a dimension the detector cannot separate produce the same excess",
+          "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+        },
+        "declared_rule_chance_corrected_dropping_the_band_keys": {
+          "reading": "declared_rule",
+          "quantity": "chance_corrected_dropping_the_band_keys",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.121284,
+            "structural": 0.060891,
+            "arbitrary_or_expressive": 0.092744
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.060393,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.060393,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.031853,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "dropping a dimension for sitting inside the chance band is a choice about the instrument, not about the traditions, and it moves the ordering; both readings are published because neither is the one you should have to trust",
+          "what_this_reading_is": "scored with the statistic the model comparison uses, which is 0 or 1 on a key the frame calls single-valued even when a work carries several"
+        },
+        "value_sets_raw": {
+          "reading": "value_sets",
+          "quantity": "raw",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.683958,
+            "structural": 0.447042,
+            "arbitrary_or_expressive": 0.556458
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.236916,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.236916,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.109416,
+              "verdict": "reversed"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "blocks are measured over different numbers of live keys, so a mean over one block is not the same quantity as a mean over another",
+          "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+        },
+        "value_sets_chance_corrected": {
+          "reading": "value_sets",
+          "quantity": "chance_corrected",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.123076,
+            "structural": 0.050603,
+            "arbitrary_or_expressive": 0.044006
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "structural",
+            "arbitrary_or_expressive"
+          ],
+          "spread_across_blocks": 0.07907,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.072473,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": 0.006597,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "the chance line comes from this population's own marginals, so a dimension that is genuinely universal and a dimension the detector cannot separate produce the same excess",
+          "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+        },
+        "value_sets_chance_corrected_dropping_the_band_keys": {
+          "reading": "value_sets",
+          "quantity": "chance_corrected_dropping_the_band_keys",
+          "statistic": "jaccard",
+          "block_means": {
+            "functional_or_pressure_prone": 0.123076,
+            "structural": 0.061968,
+            "arbitrary_or_expressive": 0.092911
+          },
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "spread_across_blocks": 0.061108,
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.061108,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.030943,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "keys_carried_by_a_single_live_dimension": [],
+          "why_this_can_be_wrong": "dropping a dimension for sitting inside the chance band is a choice about the instrument, not about the traditions, and it moves the ordering; both readings are published because neither is the one you should have to trust",
+          "what_this_reading_is": "scored as set overlap, which stays defined on a multi-valued cell but is not the quantity the likelihoods are built from"
+        }
+      },
+      "minimum_block_spread_declared": 0.05
+    },
+    "why": "a block ordering that flips between the candidate frame and the endorsement frame is not a fact about the traditions; the two frames differ only in how loudly the detector fired"
+  },
+  "pairs": {
+    "top_pairs_by_excess_agreement": [
+      {
+        "work_a": "myths_legends_china",
+        "work_b": "myths_mexico_peru",
+        "comparable_keys": 7,
+        "observed_similarity_under_the_declared_rule": 0.904762,
+        "observed_similarity_as_value_sets": 0.904762,
+        "similarity_class": "near",
+        "excess_over_chance": 0.528859,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.38641,
+          "functional_or_pressure_prone": 0.242244,
+          "structural": 0.70778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_12333",
+        "work_b": "mahabharata_v1",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.875,
+        "observed_similarity_as_value_sets": 0.875,
+        "similarity_class": "near",
+        "excess_over_chance": 0.483554,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.401414,
+          "functional_or_pressure_prone": 0.367244,
+          "structural": 0.58278
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v3",
+        "work_b": "mahabharata_v4",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.888889,
+        "observed_similarity_as_value_sets": 0.888889,
+        "similarity_class": "near",
+        "excess_over_chance": 0.470317,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.426414,
+          "functional_or_pressure_prone": 0.249635,
+          "structural": 0.657779
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "book_of_mormon",
+        "work_b": "legends_of_the_jews_v1",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.877778,
+        "observed_similarity_as_value_sets": 0.877778,
+        "similarity_class": "near",
+        "excess_over_chance": 0.459206,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.401414,
+          "functional_or_pressure_prone": 0.316301,
+          "structural": 0.595279
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "cherokee_myths",
+        "work_b": "chinese_folklore",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.855556,
+        "observed_similarity_as_value_sets": 0.855556,
+        "similarity_class": "near",
+        "excess_over_chance": 0.447193,
+        "block_excess": {
+          "arbitrary_or_expressive": -0.046923,
+          "functional_or_pressure_prone": 0.375561,
+          "structural": 0.624446
+        },
+        "arbitrary_block_outagrees_functional_block": false,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "chinese_folklore",
+        "work_b": "strange_stories_chinese",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.853472,
+        "observed_similarity_as_value_sets": 0.853472,
+        "similarity_class": "near",
+        "excess_over_chance": 0.44511,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.353077,
+          "functional_or_pressure_prone": 0.375561,
+          "structural": 0.52028
+        },
+        "arbitrary_block_outagrees_functional_block": false,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v1",
+        "work_b": "mahabharata_v3",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.844444,
+        "observed_similarity_as_value_sets": 0.918519,
+        "similarity_class": "near",
+        "excess_over_chance": 0.425872,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.426414,
+          "functional_or_pressure_prone": 0.382968,
+          "structural": 0.45778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_7864",
+        "work_b": "mahabharata_v2",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.8125,
+        "observed_similarity_as_value_sets": 0.8625,
+        "similarity_class": "near",
+        "excess_over_chance": 0.421054,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": 0.242244,
+          "structural": 0.45778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v1",
+        "work_b": "mahabharata_v2",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.833333,
+        "observed_similarity_as_value_sets": 0.888889,
+        "similarity_class": "near",
+        "excess_over_chance": 0.414761,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": 0.282968,
+          "structural": 0.45778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v2",
+        "work_b": "mahabharata_v3",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.833333,
+        "observed_similarity_as_value_sets": 0.922222,
+        "similarity_class": "near",
+        "excess_over_chance": 0.414761,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.426414,
+          "functional_or_pressure_prone": 0.349635,
+          "structural": 0.45778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_7864",
+        "work_b": "mahabharata_v1",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.8,
+        "observed_similarity_as_value_sets": 0.875,
+        "similarity_class": "near",
+        "excess_over_chance": 0.408554,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": 0.192244,
+          "structural": 0.45778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v2",
+        "work_b": "mahabharata_v4",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.826543,
+        "observed_similarity_as_value_sets": 0.915432,
+        "similarity_class": "near",
+        "excess_over_chance": 0.407971,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": 0.329264,
+          "structural": 0.40778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "chinese_folklore",
+        "work_b": "myths_legends_japan",
+        "comparable_keys": 7,
+        "observed_similarity_under_the_declared_rule": 0.782143,
+        "observed_similarity_as_value_sets": 0.782143,
+        "similarity_class": "near",
+        "excess_over_chance": 0.40624,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.153077,
+          "functional_or_pressure_prone": 0.263077,
+          "structural": 0.541113
+        },
+        "arbitrary_block_outagrees_functional_block": false,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_7864",
+        "work_b": "mahabharata_v4",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.794444,
+        "observed_similarity_as_value_sets": 0.869444,
+        "similarity_class": "near",
+        "excess_over_chance": 0.402999,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": 0.270021,
+          "structural": 0.40778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_7864",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.794444,
+        "observed_similarity_as_value_sets": 0.844444,
+        "similarity_class": "near",
+        "excess_over_chance": 0.402999,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": 0.270021,
+          "structural": 0.40778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      }
+    ],
+    "pairs_counted": 1237,
+    "pairs_where_the_arbitrary_block_outagrees_the_functional_block": [
+      {
+        "work_a": "pistis_sophia",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.483333,
+        "observed_similarity_as_value_sets": 0.668519,
+        "similarity_class": "far",
+        "excess_over_chance": 0.064761,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.217032,
+          "structural": 0.04528
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "kjv_bible",
+        "work_b": "poetic_edda_bellows",
+        "comparable_keys": 7,
+        "observed_similarity_under_the_declared_rule": 0.65,
+        "observed_similarity_as_value_sets": 0.721429,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.140064,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.200365,
+          "structural": 0.264357
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "chinese_folklore",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.429167,
+        "observed_similarity_as_value_sets": 0.595833,
+        "similarity_class": "far",
+        "excess_over_chance": 0.020804,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.553077,
+          "functional_or_pressure_prone": -0.105921,
+          "structural": -0.017221
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "chinese_fairy_book",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 7,
+        "observed_similarity_under_the_declared_rule": 0.633333,
+        "observed_similarity_as_value_sets": 0.704762,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.123397,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.105921,
+          "structural": 0.064357
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "chinese_folklore",
+        "work_b": "jataka_v1",
+        "comparable_keys": 7,
+        "observed_similarity_under_the_declared_rule": 0.440476,
+        "observed_similarity_as_value_sets": 0.440476,
+        "similarity_class": "far",
+        "excess_over_chance": 0.064574,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.553077,
+          "functional_or_pressure_prone": -0.049423,
+          "structural": -0.000554
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": false
+      },
+      {
+        "work_a": "myths_legends_china",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.475926,
+        "observed_similarity_as_value_sets": 0.688889,
+        "similarity_class": "far",
+        "excess_over_chance": 0.057354,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.426414,
+          "functional_or_pressure_prone": -0.172588,
+          "structural": 0.04528
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "book_of_enoch",
+        "work_b": "odyssey",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.611111,
+        "observed_similarity_as_value_sets": 0.673611,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.219665,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.063312,
+          "structural": 0.20778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": false
+      },
+      {
+        "work_a": "chaldean_genesis",
+        "work_b": "quran_sale",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.391667,
+        "observed_similarity_as_value_sets": 0.545833,
+        "similarity_class": "far",
+        "excess_over_chance": -0.016696,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.553077,
+          "functional_or_pressure_prone": -0.033699,
+          "structural": -0.146387
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "chinese_fairy_book",
+        "work_b": "mahabharata_7864",
+        "comparable_keys": 6,
+        "observed_similarity_under_the_declared_rule": 0.697222,
+        "observed_similarity_as_value_sets": 0.697222,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.208227,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.04109,
+          "structural": 0.139357
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "arabian_nights",
+        "work_b": "cunnie_rabbit",
+        "comparable_keys": 6,
+        "observed_similarity_under_the_declared_rule": 0.666667,
+        "observed_similarity_as_value_sets": 0.666667,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.256159,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.553077,
+          "functional_or_pressure_prone": -0.007756,
+          "structural": 0.33313
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": false
+      },
+      {
+        "work_a": "odyssey",
+        "work_b": "younger_edda",
+        "comparable_keys": 6,
+        "observed_similarity_under_the_declared_rule": 0.488889,
+        "observed_similarity_as_value_sets": 0.488889,
+        "similarity_class": "far",
+        "excess_over_chance": 0.078381,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.553077,
+          "functional_or_pressure_prone": -0.007756,
+          "structural": -0.022426
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v1",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.705556,
+        "observed_similarity_as_value_sets": 0.816667,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.286983,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.033699,
+          "structural": 0.40778
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "jataka_v1",
+        "work_b": "mahabharata_7864",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.55625,
+        "observed_similarity_as_value_sets": 0.68125,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.164804,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.032756,
+          "structural": 0.08278
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "bhagavad_gita_arnold",
+        "work_b": "iliad",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.482292,
+        "observed_similarity_as_value_sets": 0.586458,
+        "similarity_class": "far",
+        "excess_over_chance": 0.090846,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.526414,
+          "functional_or_pressure_prone": -0.02859,
+          "structural": -0.06722
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "kjv_bible",
+        "work_b": "pistis_sophia",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.477778,
+        "observed_similarity_as_value_sets": 0.651852,
+        "similarity_class": "far",
+        "excess_over_chance": 0.059206,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.401414,
+          "functional_or_pressure_prone": -0.150365,
+          "structural": 0.04528
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      }
+    ],
+    "count_of_such_pairs": 547,
+    "reading": "a high pair is a candidate for a shared transmission route, not evidence of one; and the inverted list is the shape M4 says should be rare, so it is the list a reviewer should read first"
+  },
+  "what_this_is_not": "no dates, so no transmission claim; detector output over English translations, not human coding; works are not independent, so dependence is flagged per pair rather than filtered away; the chance line comes from the corpus's own marginals"
+}

@@ -1,4 +1,4 @@
-% One Origin, a Thousand Stories? -- typeset edition, version 1.4
+% One Origin, a Thousand Stories? -- typeset edition, version 1.5
 %
 % BUILD
 %   pdflatex main.tex          (run twice for cross-references)
@@ -52,7 +52,7 @@
 \title{\textbf{One Origin, a Thousand Stories?}\\[4pt]
 \large A falsifiable comparative framework for investigating the ancestry\\
 and transmission of human narratives and divine concepts\\[10pt]
-\normalsize Research paper --- version 1.4 (typeset edition)\\
+\normalsize Research paper --- version 1.5 (typeset edition)\\
 2 November 2026}
 \author{}
 \date{}
@@ -124,11 +124,21 @@ ready for two independent coders, has never been opened, and therefore
 corresponds to no reliability figure anywhere in this paper. The frame ships as
 a methodology with four competing historical models, priced operator derivations
 and licence conditions on reporting them; the model-comparison layer's own
-output is \texttt{not\_yet\_testable}. The further claim that no such being
+output is \texttt{not\_yet\_testable}. What the instrument \emph{does} say, once
+each dimension is measured against a chance line drawn from this corpus's own
+value frequencies, is a set of findings about the instrument: three of its twelve
+dimensions fire on no work at all, the speaker-attribution dimension clears its
+own base rate by \(+0.009\), the exact-match rule the frame declares has no
+defined answer on \(0.567\) of the single-valued cells it is applied to, and the
+one prediction that separates M4 from a second null reverses on raw similarity
+(\(-0.177\)) and ties once each dimension's base rate is subtracted
+(\(-0.020\)) --- so the registered falsification hook is published as
+scale-dependent instead of being read as a refutation of the model or of the
+corpus. The further claim that no such being
 exists remains outside the reach of any textual method, in either direction.
 Global comparison is defensible as candidate discovery and falsification;
 reconstruction must be restricted to elements supported by explicit historical
-models, and 305 unit tests plus 7 parameterised subtests and the result
+models, and 339 unit tests plus 7 parameterised subtests and the result
 validators enforce those boundaries.
 
 \medskip
@@ -1279,6 +1289,134 @@ reliability artifact exists in this repository, and this paper reports no
 classifications in Table~\ref{tab:states} are therefore candidates, not gold
 standard.
 
+\subsection{The instrument measured against its own chance line}
+\label{sec:anomalies}
+
+A concordance number means nothing until something is subtracted from it. Two works
+that both print \field{devotion\_mediated\_by\_hierarchy} agree, but only the second
+one is interesting if that value is not simply what this corpus always prints --- and
+here it is, carrying \(0.893\) of the \dimkey{D2c} value tokens and setting that
+dimension's own baseline at \(0.636\). So
+\texttt{tools/scan\_dimension\_anomalies.py} measures every dimension against a
+baseline computed from the corpus's own value frequencies and publishes
+\texttt{results/dimension\_anomalies.json}. The null is a per-dimension configuration
+model: each synthetic work draws exactly as many values as the real work it replaces,
+weighted by that dimension's observed prevalence, and the synthetic pairs are then
+scored with the statistic the frame declares --- exact match on a single-valued key,
+Jaccard on a set-valued one. No permutation control is offered, and none exists to
+offer: the mean over a complete graph is invariant to permuting which work owns which
+set, so a label-shuffled ``control'' would return the observed number and call it a
+null. The draw is seeded (\texttt{seed} \(20261102\), \(200\) repetitions) and, after
+a run-to-run drift of \(10^{-4}\) was traced to iteration order, sorted twice ---
+marginals by value, carriers by work id --- so the artifact is byte-reproducible under
+any \texttt{PYTHONHASHSEED}.
+
+Table~\ref{tab:chance} is the result. It is measured on the pair graph the comparison
+layer actually scores, which is a subset of the corpus: of \(2080\) possible pairs of
+the \(65\) works, \texttt{similarity\_between} refuses any pair below \(6\) comparable
+keys, leaving \(1237\) pairs over \(52\) works.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Every dimension the detector fired on, over the \(1237\) pairs the model
+comparison is willing to score, against a chance line drawn from this corpus's own
+marginals \emph{on the same graph and with the same statistic}. The last column is the
+share of works whose \dimkey{D2a}-type cell holds more than one value, which is where
+the declared exact-match rule has no defined answer. Numbers are emitted by
+\texttt{tools/scan\_dimension\_anomalies.py} and re-checked against the artifact by
+\texttt{tests/test\_dimension\_anomalies.py}.}
+\label{tab:chance}
+\begin{tabular}{L{4.7cm} l r r r r r}
+\toprule
+Dimension & Statistic & pairs & observed & chance & excess & multi-\(^\dagger\) \\
+\midrule
+\dimkey{D1\_ontological\_category} & jaccard & 1237 & 0.566 & 0.447 & \(+0.119\) & --- \\
+\dimkey{D2a\_acknowledged\_population} & exact\_match & 1019 & 0.048 & 0.029 & \(+0.019\) & \(0.717\) \\
+\dimkey{D2b\_reality\_of\_others} & exact\_match & 703 & 0.196 & 0.168 & \(+0.028\) & \(0.605\) \\
+\dimkey{D2c\_worship\_exclusivity} & exact\_match & 300 & 0.780 & 0.636 & \(+0.144\) & \(0.120\) \\
+\dimkey{D3\_agency} & jaccard & 1237 & 0.541 & 0.389 & \(+0.152\) & --- \\
+\dimkey{D4\_cosmic\_function} & jaccard & 1237 & 0.695 & 0.626 & \(+0.068\) & --- \\
+\dimkey{D5\_universe\_relationship} & jaccard & 1164 & 0.587 & 0.516 & \(+0.071\) & --- \\
+\dimkey{D6\_temporal\_nature} & jaccard & 1237 & 0.512 & 0.456 & \(+0.056\) & --- \\
+\dimkey{D7a\_speaker\_attribution} & exact\_match & 893 & 0.510 & 0.500 & \(+0.009\) & \(0.674\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\(\dagger\)~the last column is the fraction of that dimension's carrying works for which
+the frame's own cardinality declaration is contradicted by the data.
+
+\textbf{Six findings, none of which is a claim about the traditions.}
+
+\textbf{(1) The frame is a nine-key instrument on this corpus.} \dimkey{D7b\_speech\_act},
+\dimkey{D7c\_discourse\_genre} and \dimkey{D7d\_epistemic\_commitment} fired on \(0\) of
+the \(65\) works. They are the three discourse keys whose absence this layer had already
+conceded in prose; here the concession is measured. The consequence is asymmetric: the
+\texttt{arbitrary\_or\_expressive} block, which M4 predicts to be the \emph{least}
+concordant, is left with two live keys of the five it declares, and one of those two sits
+inside the chance band, so the block is carried by a single dimension.
+
+\textbf{(2) \dimkey{D7a\_speaker\_attribution} does not clear its own base rate.} Observed
+agreement is \(0.510\), which reads like a coin flip; the chance line computed from its
+own marginals is \(0.500\), so the excess is \(+0.009\), and under the stricter endorsement
+frame --- the same dimension counted only where the text's own voice affirms it --- the
+excess is \(-0.006\), which is not a direction. A dimension this flat cannot support the
+claim that ``who is speaking'' is a separable axis of this corpus, and the D7 panel in
+\texttt{results/track\_b\_state.html} should be read as a display of one value's
+prevalence, not of an interpretive structure.
+
+\textbf{(3) The declared statistic has no defined answer on most of the cells it is applied
+to.} The frame declares \dimkey{D2a}, \dimkey{D2b}, \dimkey{D2c} and \dimkey{D7a}
+single-valued, yet \(89\) of the \(157\) works that carry one of those four keys carry
+\(>1\) value, so exact match is undefined on \(0.567\) of the live single-valued cells. The
+comparison layer now treats such a cell as a set and publishes the count of offenders per
+dimension rather than choosing silently between two readings; both readings are in the
+artifact, and on \dimkey{D7a} they differ by more than the whole excess.
+
+\textbf{(4) The pair population you choose changes a verdict.} A work rich enough to be
+scored at all is not a random work, so the scored graph and the carrier graph give different
+means: \dimkey{D4\_cosmic\_function} moves \(0.0988\) between them, which is larger than the
+\(0.05\) this scan uses to call an excess indistinguishable from chance. It gets worse than
+that. Dropping the dimensions inside the chance band from the block means --- an operation
+whose only content is ``the instrument cannot separate these values'' --- leaves the declared
+adjacency \texttt{structural \(>\) arbitrary} a \emph{tie} on the carrier graph and a
+\emph{reversal} on the scored graph. Same corpus, same statistic, same registered
+separability, one arithmetic choice about which pairs to count.
+
+\textbf{(5) The falsification hook that was registered against M4 fires on the raw scale and
+not on the corrected one, so it fires on the instrument.} M4's alpha vector predicts
+\texttt{functional \(>\) structural \(>\) arbitrary}. On the \(1237\) pairs the gate reads,
+raw mean similarity gives \(0.636\), \(0.365\), \(0.542\): the middle block is the
+\emph{lowest}, a reversal of \(-0.177\), which is the committed
+\texttt{block\_ordering\_contradicts\_declared\_propensity} verdict, and under the version of
+this test registered before the chance line existed it was the verdict the corpus produced.
+Subtract each dimension's own baseline and the same three block means become \(0.122\),
+\(0.044\), \(0.064\): the reversal is \(-0.020\), which is inside the
+\(0.05\) separability this layer itself declares in \field{minimum\_block\_spread}, whose
+recorded basis already says ``a reversal smaller than it is a tie, not a refutation.'' The
+test now publishes both readings and, because they straddle the disqualification line, issues
+\texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale} and disqualifies
+nothing. That is the honest outcome in both directions: it does not let a base-rate artefact
+strip M4's name, and it does not let M4 be scored as confirmed by a profile that reverses on
+whichever scale the analyst happened to subtract.
+
+\textbf{(6) The pairs that look like transmission are the pairs that are the same book.}
+\(547\) of the \(1237\) scored pairs show the pattern M4 predicts to be rare --- the
+arbitrary block out-agreeing the functional one --- and every one of the top \(15\) pairs by
+excess agreement above chance is flagged dependent: \texttt{mahabharata\_v3} against
+\texttt{mahabharata\_v4}, \texttt{cherokee\_myths} against \texttt{chinese\_folklore},
+\texttt{myths\_legends\_china} against \texttt{myths\_mexico\_peru}. Dependence is published
+per pair and never filtered away, because filtering would delete the very structure the
+ranking is confusing for signal.
+
+What this section is not: the null preserves each work's own number of values and each
+dimension's prevalence, and it does not preserve correlations \emph{between} values inside a
+work, so every excess here is an upper bound on what structure could be attributed to that
+dimension; the classification is detector output over English translations, awaiting the
+human coding that has not happened; and with zero dated attestations filled, none of these
+numbers can be read as transmission in either direction.
+
 \section{The four competing models and the licence conditions on preferring one}
 \label{sec:models}
 
@@ -1490,14 +1628,27 @@ over M4, and licences them on the smaller. A second fixture, 193 \texttt{partial
 matters. M4 is therefore last, not decorative. Its attractor alpha vector predicts a concordance ordering over
 the three dimension blocks --- functional-or-pressure-prone highest at \(q = \alpha/(\alpha + 1) = 0.714286\),
 structural 0.5, arbitrary-or-expressive 0.285714 --- and the block profile of every pair is now pooled
-key-weightedly and scored against it. A spread under the registered 0.05, or an adjacency pointing the wrong
-way, disqualifies M4 from being \emph{named} the stage-1 leader: the ranking and every likelihood are published
-unchanged and the verdict falls to \texttt{no\_decisive\_winner}. A pair set that reaches fewer than two of the
+and scored against it: the raw means pooled key-weightedly, the chance correction averaged over the
+dimensions each block declares, both read against the anomaly scan's per-dimension baseline measured on
+\emph{the same pair graph with the same statistic} and identified by SHA-256 in the published verdict. An
+adjacency now has three outcomes, not two: a gap of at least the registered 0.05 in the predicted direction
+holds, a gap of that size backwards reverses, and anything smaller is recorded as
+\texttt{tie\_within\_the\_declared\_separability}, because this layer's own registration of that number says
+``a reversal smaller than it is a tie, not a refutation,'' and the first version of the test scored a
+\(0.0003\) gap as a refutation. A flat or reversed profile disqualifies M4 from being \emph{named} the
+stage-1 leader: the ranking and every likelihood are published
+unchanged and the verdict falls to \texttt{no\_decisive\_winner}. Where the two scales straddle that line ---
+which is what this corpus produces, at \(-0.177\) raw against \(-0.020\) corrected --- the test issues
+\texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale} and disqualifies nothing, because a rule
+that strips a model's name on an arithmetic choice the analyst has not yet defended strips it on the
+instrument. A pair set that reaches fewer than two of the
 ranked blocks, or never reaches two of them together, reports \texttt{m4\_block\_profile\_not\_testable} and is
 refused, since a test that is silent on thin data is a test that never runs; and the confirming outcome is
 labelled the weakest confirmable one, because three blocks admit six orderings and a surviving prediction is
 the absence of a refutation, not corroboration. The simulated floors did not move with this gate --- the power
-generator's synthetic pairs carry no per-key block profile --- and that is stated rather than glossed over, so
+generator's synthetic pairs carry no per-key block profile, and the recomputed
+\texttt{results/model\_power\_simulation.json} is byte-identical to the published one --- and that is stated
+rather than glossed over, so
 a reader can check that the calibration still describes the rule in force. The severity is deliberate: a priced
 thirteen-operator vocabulary will fit almost anything. Evidence counts are no longer asserted either. \texttt{--power} simulates each model as the
 truth on the declared grid and derives the smallest pair count at which stage 1 names the generating model
@@ -1633,7 +1784,14 @@ its own question badly --- a universality test over English translation vocabula
 reported as though it bore on ancestry --- and the corrected version answers
 nothing at all yet, because its inheritance layer is empty by design, its
 annotation packet has never been opened, and its model-comparison layer prints
-\texttt{not\_yet\_testable}.
+\texttt{not\_yet\_testable}. Measured against a chance line drawn from its own
+value frequencies, the same instrument reports that three of its twelve
+dimensions fire on no work at all, that its speaker-attribution axis clears its
+own base rate by \(+0.009\), and that the single prediction separating M4 from a
+second null reverses on raw similarity and ties once each dimension's base rate
+is subtracted --- which is why the falsification hook registered against M4 is
+published here as a statement about the scale an analyst chooses to subtract, and
+not as a verdict about these traditions.
 
 The present evidence justifies continued investigation of particular narrative
 families. It does not justify a claim that all mythologies descend from one
@@ -1730,6 +1888,7 @@ directory; artifacts are grouped by the section that uses them.
 \texttt{tools/build\_ontology\_graph.py}, \texttt{results/ontology\_graph.json}, \texttt{ontology\_passage\_index.json.gz}, \texttt{ontology\_passage\_pairs.jsonl.gz} & five-layer state graph. Candidate generation is an exact inverted index over 14{,}036 live-state passages, 44 features and 30{,}070 postings: 22{,}940{,}506 distinct cross-work pairs share at least one live coded state (31{,}851{,}655 counting each shared feature), spanning 2{,}078 of the 2{,}080 work pairs. The index is shipped so that the relation regenerates byte-identically without this machine; the edge file is a labelled display slice of 41{,}238 rows under a published cap of 20 per work pair, never a sample of the relation. The graph also carries the one coverage inventory the paper quotes, and layer 4 is empty by design \\
 \texttt{tools/validate\_graph\_recall.py}, \texttt{results/graph\_recall\_validation.json} & the superseded MinHash banding measured against the exact relation twice over: corpus-wide, 538{,}529 of 22{,}940{,}506 pairs recovered (recall 0.023475; 0.206698 with the bucket cap removed; 4{,}203{,}223 lost to the cap and 18{,}198{,}754 to banding), and on a deterministic 1{,}632-passage stratified subset, 9{,}600 of 413{,}552 (recall 0.023214). Precision is 1.0 in both runs, so banding's only defect was coverage \\
 \texttt{tools/render\_track\_b\_state.py}, \texttt{results/track\_b\_state.html} & self-contained figure set: concept dimensions on candidate counts, D7a--d on their own denominator with their own legend, a separate affirmative-doctrine heat map, coverage panel \\
+\texttt{tools/scan\_dimension\_anomalies.py}, \texttt{results/dimension\_anomalies.json} & the instrument turned on itself: every dimension measured on two pair graphs (all carrier pairs, and only the pairs \texttt{similarity\_between} agrees to score) under two statistics (the one the frame declares, and set overlap), each against a per-dimension configuration-model chance line drawn from this corpus's own marginals on the same graph and statistic --- 200 draws, seed 20261102, sorted so the bytes do not move with \texttt{PYTHONHASHSEED}; the artifact adds the dead dimensions, the dimensions inside the 0.05 chance band under each reading, the cells where a single-valued key carries several values, the block orderings with their adjacency verdicts read through \texttt{compare\_models.adjacency\_verdicts}, the endorsed-frame sensitivity, and a per-pair excess ranking with the dependence flag, and \texttt{compare\_models.py} reads its chance line out of this file and stamps its SHA-256 into the published verdict \\
 \midrule
 \multicolumn{2}{l}{\emph{Annotation (built, unused)}}\\
 \texttt{tools/prepare\_annotation\_packet.py}, \texttt{results/annotation\_packet\_coder\_view.csv}, \texttt{annotation\_packet\_key.jsonl}, \texttt{annotation\_codebook.csv}, \texttt{annotation\_sampling\_plan.json} & 6{,}199 blinded propositions --- 4{,}699 machine-flagged candidates over 48 value strata with 11 censuses, 65 works, 8 speech acts, plus 1{,}500 no-record probe rows in two disjoint strata with their exact \(\pi\) and \(w = 1/\pi\) published per row; seed 20261101, separate answer key, published codebook and sizing rationale \\
@@ -1737,12 +1896,12 @@ directory; artifacts are grouped by the section that uses them.
 \texttt{tools/score\_annotation.py} & the \(\kappa\)-and-Jaccard scorer plus the weighted recall estimator: per-value precision on candidate rows, Horvitz--Thompson miss counts on probe rows over \texttt{candidate}-state records only, a precision discount and a coverage adjustment on the recall numerator and denominator each with the uncorrected figure published beside it as a bound, a one-sided exact binomial bound where a stratum found none, and \textbf{refusals} --- one coder, the same sheet twice, a key with no probe rows, a probe row with no weight, a stratum reporting two populations --- and correspondingly, \textbf{no \texttt{results/annotation\_reliability.json} exists}, because no human has coded the packet \\
 \midrule
 \multicolumn{2}{l}{\emph{Models (Section 7)}}\\
-\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome and a flat or contradicted M4 block profile disqualifying M4 from the name; stage 2 asks the separate licence question, an inheritance-bearing model over \textbf{both} no-edge nulls at the same single declared margin), the M4 attractor block-profile test over the three dimension blocks, the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}. \\
+\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome and a flat or contradicted M4 block profile disqualifying M4 from the name; stage 2 asks the separate licence question, an inheritance-bearing model over \textbf{both} no-edge nulls at the same single declared margin), the M4 attractor block-profile test over the three dimension blocks, read twice --- once on raw mean similarity and once on mean excess over the anomaly scan's same-graph chance line, with a third adjacency class for a gap inside the registered separability and a scale disagreement that issues no disqualification --- and publishing the chance file's SHA-256 beside its verdict, the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}; the block profile on the corpus's own \(1237\) scored pairs reads \texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale}. \\
 \texttt{tools/compare\_models.py --power}, \texttt{results/model\_power\_simulation.json} & the floors the layer enforces, simulated rather than asserted: each of the four models run as the truth over the declared grid (20--400 pairs by 20, 200 replications, seed 20261031) at a 0.8 target, the pair floor taken as the maximum over the four so that no truth is left unresolved (220 pairs, M1 binding), the effective-sample floor as the 5th percentile Kish count of that binding cell (29.051621), three sensitivity scenarios and a per-row Monte Carlo standard error, with the declared parameters hashed and any overridden run stamped \texttt{SMOKE RUN}. A run that derives no floor refuses every pair set instead of falling back to the superseded analyst number of 20. \\
 \midrule
 \multicolumn{2}{l}{\emph{Method and tests}}\\
 \texttt{TRACK\_B\_METHOD\_v2.md} & the Track B methodology as rebuilt: unit of analysis, the twelve dimensions and why two were split, the three-question state model, audit findings, the four models with their admissions, the operator discipline, the licence conditions on reporting, the acquisition plan \\
-\texttt{tests/}, \texttt{tools/validate\_*.py} & 305 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 107 model-comparison, 36 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
+\texttt{tests/}, \texttt{tools/validate\_*.py} & 339 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 113 model-comparison, 28 anomaly-scan, 36 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, \texttt{tests/test\_dimension\_anomalies.py} re-derives Table~\ref{tab:chance} and every prose figure in Section~\ref{sec:anomalies} from the artifact it quotes, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
 \bottomrule
 \end{longtable}
 
@@ -1764,7 +1923,8 @@ measurement rather than a disclaimer: \texttt{tests/test\_tex\_typesetting.py} r
 count repeats and the log stops asking for a rerun, and fails the suite if the engine
 exits non-zero, if its log reports an overfull or underfull box, if a reference or
 citation is still undefined on the final pass, if the length is still moving after four
-passes, or if the page count the prose states is not the page count the engine produced. On this machine (MiKTeX 25.12) the paper sets to 34 pages with none of those
+passes, or if the page count the prose states is not the page count the engine produced.
+On this machine (MiKTeX 25.12) the paper sets to 37 pages with none of those
 occurring; the earlier edition of this paragraph said no \LaTeX{} engine was installed,
 which was true of that machine and wrong as a reason not to look. Where no engine is
 installed the test skips and says so, instead of leaving the geometry unverified in

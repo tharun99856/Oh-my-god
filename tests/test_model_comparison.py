@@ -164,11 +164,13 @@ def block_profile(means):
     """A pair's per-block means in the shape `similarity_between` writes them.
 
     `None` for a block means that pair compared no key in it, which is what keeps a block out of the pooled
-    profile rather than pulling its mean toward zero.
+    profile rather than pulling its mean toward zero. A fixture declares one mean per block, so each key in
+    that block carries it; the pooling in `observed_block_profile` then reproduces it exactly.
     """
     if means is None:
         return None
-    return {name: {"keys_compared": list(keys), "mean_similarity": means[name]}
+    return {name: {"keys_compared": list(keys), "per_key": {key: means[name] for key in keys},
+                   "mean_similarity": means[name]}
             for name, keys in DIMENSION_BLOCKS.items() if means.get(name) is not None}
 
 
@@ -589,6 +591,24 @@ class RefusalTests(unittest.TestCase):
         self.assertAlmostEqual(score["block_profile"]["structural"]["mean_similarity"], 4 / 5, places=6)
         self.assertEqual(score["similarity_class"], "near")
         self.assertEqual(len(score["comparable_keys"]), 12)
+
+    def test_a_single_valued_cell_that_carries_several_values_is_compared_as_a_set(self):
+        """Exact match has no defined answer there, so the comparison is set equality and the cell is published."""
+        key = next(k for k in DIMENSION_BLOCKS["arbitrary_or_expressive"] if k not in SET_VALUED)
+        a = state(**{key: ["polytheistic_leaning", "monotheistic_leaning"]})
+        b = state(**{key: ["monotheistic_leaning", "polytheistic_leaning"]})
+        score = cm.similarity_between(a, b, CONFIG)
+        self.assertEqual(score["similarity"], 1.0,
+                         "two works carrying the same two values cannot be split by the order they were written in")
+        self.assertEqual(score["keys_where_the_single_valued_rule_had_no_defined_answer"], [key])
+        c = state(**{key: ["monotheistic_leaning", "something_else"]})
+        self.assertLess(cm.similarity_between(a, c, CONFIG)["similarity"], 1.0,
+                        "different sets are not identical merely because both carry two values")
+        clean = cm.similarity_between(state(), state(), CONFIG)
+        self.assertEqual(clean["keys_where_the_single_valued_rule_had_no_defined_answer"], [],
+                         "a key that really holds one value is not reported as outside the rule")
+        self.assertEqual(clean["block_profile"]["arbitrary_or_expressive"]["per_key"][key], 1.0,
+                         "the per-key scores a chance correction needs are published with the block mean")
 
     def test_undecidable_keys_are_skipped_and_published(self):
         a = state(D6_temporal_nature="undecidable")
@@ -1062,7 +1082,8 @@ class M4BlockProfileTests(unittest.TestCase):
         self.assertEqual(test["status"], cm.STATUS_PROFILE_CONFIRMS)
         self.assertFalse(test["disqualifies_m4_from_being_named_leader"])
         self.assertGreaterEqual(test["spread_across_blocks"], test["minimum_block_spread_declared"])
-        self.assertTrue(all(item["holds"] for item in test["adjacent_predictions"]), test["adjacent_predictions"])
+        self.assertTrue(all(item["verdict"] == "holds" for item in test["adjacent_predictions"]),
+                        test["adjacent_predictions"])
         self.assertIn("absence of the refutation", test["reason"],
                       "a surviving prediction is not corroboration, and the reason must say so")
 
@@ -1081,6 +1102,78 @@ class M4BlockProfileTests(unittest.TestCase):
         self.assertEqual(len(test["reversed_predictions"]), 2, "both adjacent predictions point the wrong way")
         self.assertEqual(test["observed_ordering"][0], "arbitrary_or_expressive",
                          "the observed ordering is published, not just a verdict token")
+
+    SUB_BAND_REVERSAL = {"functional_or_pressure_prone": 0.70, "structural": 0.50,
+                         "arbitrary_or_expressive": 0.51}
+    CONTRADICTS_RAW = {"functional_or_pressure_prone": 0.70, "structural": 0.30,
+                       "arbitrary_or_expressive": 0.45}
+    TIED_CORRECTED = {"functional_or_pressure_prone": 0.20, "structural": 0.10,
+                      "arbitrary_or_expressive": 0.08}
+
+    def chance_table_for(self, raw_means, corrected_means):
+        """A chance table that puts each block's mean excess at `corrected_means` for a fixture at `raw_means`.
+
+        The fixtures declare one mean per block, so every key in a block carries it and the gap the table has to
+        supply is the same for all of them.
+        """
+        dimensions = {}
+        for name, keys in DIMENSION_BLOCKS.items():
+            gap = round(raw_means[name] - corrected_means[name], 6)
+            for key in keys:
+                dimensions[key] = gap
+        return {"path": "tests/fixture_chance_table.json", "sha256": "0" * 64,
+                "dimensions": dimensions, "null_model": {"name": "fixture, not the corpus scan"}}
+
+    def test_a_gap_inside_the_registered_separability_is_a_tie_not_a_refutation(self):
+        """The registered basis for `minimum_block_spread` promises this; the code used to score a 0.01 gap as a reversal."""
+        test = cm.attractor_block_profile_test(
+            pair_set(MINIMUM_PAIRS, "identical", block_means=self.SUB_BAND_REVERSAL), CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_TIED)
+        self.assertFalse(test["disqualifies_m4_from_being_named_leader"],
+                         "a reversal smaller than the declared separability is a tie, and a tie refutes nothing")
+        self.assertEqual(test["adjacent_predictions"][0]["verdict"], "holds")
+        self.assertEqual(test["adjacent_predictions"][1]["verdict"], cm.ADJACENCY_TIE)
+        self.assertGreaterEqual(test["spread_across_blocks"], test["minimum_block_spread_declared"],
+                                "the blocks are not flat; one declared adjacency simply did not resolve")
+        self.assertIn("registered separability", test["reason"])
+
+    def test_a_tied_profile_leaves_the_name_with_the_model_that_declared_it(self):
+        decision = cm.decide_four_way(self.m4_leading_set(self.SUB_BAND_REVERSAL), CONFIG)
+        self.assertEqual(decision["status"], cm.STATUS_DECISIVE, "a tie is not a disqualification")
+        self.assertEqual(decision["leader"], "M4")
+        self.assertFalse(decision["m4_disqualified_from_being_named_leader"])
+        self.assertEqual(decision["m4_block_profile_test"]["status"], cm.STATUS_PROFILE_TIED)
+
+    def test_readings_that_disagree_about_disqualification_disqualify_nothing(self):
+        pairs = pair_set(MINIMUM_PAIRS, "identical", block_means=self.CONTRADICTS_RAW)
+        raw = cm.attractor_block_profile_test(pairs, CONFIG)
+        both = cm.attractor_block_profile_test(pairs, CONFIG,
+                                               self.chance_table_for(self.CONTRADICTS_RAW, self.TIED_CORRECTED))
+        self.assertEqual(raw["status"], cm.STATUS_PROFILE_CONTRADICTS, "one reading alone still calls it a reversal")
+        self.assertEqual(both["readings"]["raw_similarity"]["status"], cm.STATUS_PROFILE_CONTRADICTS)
+        self.assertEqual(both["readings"]["excess_over_chance"]["status"], cm.STATUS_PROFILE_TIED)
+        self.assertEqual(both["status"], cm.STATUS_PROFILE_SCALE_DEPENDENT)
+        self.assertFalse(both["disqualifies_m4_from_being_named_leader"],
+                         "the disagreement is about the scale, so it is not evidence against the model")
+        self.assertIn("choice of scale", both["reason"])
+        self.assertTrue(both["chance_similarity_table"]["used"])
+        self.assertEqual(both["chance_similarity_table"]["sha256"], "0" * 64,
+                         "the table a verdict was reached with is identified, not just mentioned")
+
+    def test_a_disqualification_both_readings_agree_on_still_strips_the_name(self):
+        """The two-scale rule can only ever soften a disqualification, never invent one or erase an agreed one."""
+        corrected = {"functional_or_pressure_prone": 0.20, "structural": 0.05, "arbitrary_or_expressive": 0.40}
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical", block_means=self.CONTRADICTS_RAW),
+                                              CONFIG, self.chance_table_for(self.CONTRADICTS_RAW, corrected))
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_CONTRADICTS)
+        self.assertTrue(test["disqualifies_m4_from_being_named_leader"])
+        self.assertEqual(test["readings_that_disconfirm"], ["excess_over_chance", "raw_similarity"])
+
+    def test_no_chance_table_means_one_reading_and_the_result_says_so(self):
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical"), CONFIG)
+        self.assertFalse(test["chance_similarity_table"]["used"])
+        self.assertIsNone(test["chance_similarity_table"]["sha256"])
+        self.assertEqual(list(test["readings"]), ["raw_similarity"])
 
     def test_the_spread_and_the_sign_are_two_separate_checks(self):
         """A profile can clear the minimum spread while reversing one adjacency and holding the other."""
@@ -1129,7 +1222,8 @@ class M4BlockProfileTests(unittest.TestCase):
         test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical", block_means=ends_only), CONFIG)
         self.assertEqual(test["status"], cm.STATUS_PROFILE_NOT_TESTABLE)
         self.assertEqual(len(test["adjacent_predictions"]), 2, "both predictions are listed as unjudged")
-        self.assertTrue(all(item["holds"] is None for item in test["adjacent_predictions"]))
+        self.assertTrue(all(item["verdict"] == "unmeasured" for item in test["adjacent_predictions"]),
+                        "a block the pair set never reached is unjudged, not a broken prediction")
         self.assertGreaterEqual(test["spread_across_blocks"], test["minimum_block_spread_declared"],
                                 "the spread alone is not what makes the test runnable")
 
