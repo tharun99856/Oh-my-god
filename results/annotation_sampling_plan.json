@@ -29,24 +29,29 @@
     "universe": {
       "propositions_in_universe": 1028478,
       "eligible_passages_scanned": 23385,
-      "hit_by_the_machine": 36775,
-      "no_record_in_universe": 991703,
-      "of_which_cue_positive": 47252,
-      "of_which_cue_negative": 944451
+      "hit_by_the_machine": 36334,
+      "propositions_with_any_machine_record": 36775,
+      "of_which_the_machine_asserted_nothing": 441,
+      "records_excluded_as_non_detections": 519,
+      "of_which_not_yet_instrumented": 379,
+      "of_which_requires_human_disambiguation": 140,
+      "no_record_in_universe": 992144,
+      "of_which_cue_positive": 47311,
+      "of_which_cue_negative": 944833
     },
     "strata": {
       "no_candidate_uncued": {
-        "population": 944451,
+        "population": 944833,
         "sampled": 900,
-        "inclusion_probability": 0.000952934562,
-        "sampling_weight": 1049.39,
+        "inclusion_probability": 0.000952549286,
+        "sampling_weight": 1049.8144,
         "draw": "simple random sample without replacement over the whole stratum, so the inclusion probability is n/N exactly and needs no approximation"
       },
       "no_candidate_cue_positive": {
-        "population": 47252,
+        "population": 47311,
         "sampled": 600,
-        "inclusion_probability": 0.012697875222,
-        "sampling_weight": 78.7533,
+        "inclusion_probability": 0.012682040118,
+        "sampling_weight": 78.8517,
         "draw": "simple random sample without replacement over the whole stratum, so the inclusion probability is n/N exactly and needs no approximation"
       }
     },
@@ -63,7 +68,8 @@
       "status": "a sampling instruction; a cue never produces an attestation, a value assignment or a doctrinal count"
     },
     "estimator": {
-      "detected_v": "propositions carrying a machine record for value v, counted over the whole corpus, not over the packet",
+      "detected_v": "propositions carrying an `assertion_state: candidate` record for value v, counted over the whole corpus, not over the packet",
+      "what_is_not_a_detection": "a `not_yet_instrumented` record names a value this detector declares it cannot detect, and a `candidate_requires_human_disambiguation` record names a value it refused to choose. Neither is a detection: counting them gave values with no detector a nonzero numerator, and counting their propositions as hits removed them from the frame where a miss could be found. Both are still sampled, in the candidate strata, so a human read can validate them.",
       "estimated_misses_v": "the sum of sampling_weight over probe rows a human coded as carrying value v -- Horvitz-Thompson, one weight per drawn proposition",
       "recall_hat_v": "detected_v / (detected_v + estimated_misses_v)",
       "pooled_across_both_probe_strata": true,
@@ -761,6 +767,6 @@
     "attestations_sha256": "955f5038b850b049981b819971ec3ff47bd7fc8d1955e2c64c3ab274fb8920b1",
     "ontology_sha256": "a828d8759e90cc0db5cdc661d216d07c63a52695c981a374909a0e919732c841",
     "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4",
-    "code_sha256": "cc0d44c11fa3d8f9cab82af172cb99048baf594ea5afddc807bb1c4663301e46"
+    "code_sha256": "0de4091d904dc455d3afdc33e355bc6fd7f006c62d1245baead52d08fb5bf4e9"
   }
 }

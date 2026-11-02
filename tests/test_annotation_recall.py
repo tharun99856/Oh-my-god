@@ -66,9 +66,9 @@ def probe_key(token, role=PROBE_ROLES[0], population=1000, sampled=10):
             "sampling_weight": round(1 / probability, 4), "machine_values_by_dimension": {}}
 
 
-def attestation(work, passage, start, dimension, value):
+def attestation(work, passage, start, dimension, value, state="candidate"):
     return {"work_id": work, "passage_id": passage, "proposition_char_start": start,
-            "dimension": dimension, "value": value}
+            "dimension": dimension, "value": value, "assertion_state": state}
 
 
 class Harness(unittest.TestCase):
@@ -258,6 +258,86 @@ class EstimandSeparationTests(Harness):
         self.assertIn("it is NOT recall", " ".join(result["reading_rules"]))
 
 
+class DetectionFrameTests(Harness):
+    """What counts as a detection, and what the answer does to recall's numerator.
+
+    `divinity_ontology.py` writes three `assertion_state` values. Only `candidate` asserts the machine
+    found something; `not_yet_instrumented` announces that no detector for the value exists and
+    `candidate_requires_human_disambiguation` is a value the detector declined to choose. All three are
+    sampled, which is correct, and treating all three as hits was not: it handed values with no instrument
+    a nonzero numerator and pulled their propositions out of the frame where a miss could be found.
+    """
+
+    def test_a_value_with_only_placeholder_records_has_no_numerator(self):
+        keys = [probe_key("p1", population=1000, sampled=10), probe_key("p2", population=1000, sampled=10)]
+        rows = [blank_row("p1", **{UNIT_COLUMN: "single_proposition", COLUMNS[D4]: "no_function_attributed"}),
+                mundane("p2")]
+        result = self.run_scorer(rows, rows, keys,
+                                 [attestation("w", "p", 1, D4, "no_function_attributed",
+                                              state="not_yet_instrumented")])
+        recall = result["detector_recall"]
+        self.assertEqual(recall["records_excluded_as_non_detections"], {"not_yet_instrumented": 1})
+        entry = recall["by_value"][f"{D4}=no_function_attributed"]
+        self.assertEqual(entry["detected_propositions_corpus_wide"], 0)
+        self.assertEqual(entry["estimated_missed_propositions_weighted"], 100.0)
+        self.assertEqual(entry["recall_hat"], 0.0)
+        self.assertIn("produced no record", entry["status"])
+
+    def test_a_disambiguation_record_is_not_a_hit_either(self):
+        keys = [probe_key("p1", population=1000, sampled=10), probe_key("p2", population=1000, sampled=10)]
+        rows = [mundane("p1"), mundane("p2")]
+        result = self.run_scorer(rows, rows, keys,
+                                 [attestation("w", "p", 1, D2A, "one_only",
+                                              state="candidate_requires_human_disambiguation")])
+        self.assertEqual(result["detector_recall"]["records_excluded_as_non_detections"],
+                         {"candidate_requires_human_disambiguation": 1})
+        self.assertEqual(result["detector_recall"]["propositions_with_any_machine_record_corpus_wide"], 0)
+        self.assertNotIn(f"{D2A}=one_only", result["detector_recall"]["by_value"])
+
+    def test_the_precision_the_candidate_rows_find_discounts_the_recall_numerator(self):
+        # two detections of D4=judging_moral_order, one of them confirmed by both readers on a candidate
+        # row, and one weighted miss of 100 found on a probe row.
+        keys = [candidate_key("c1", {D4: ["judging_moral_order"]}, 0.5),
+                candidate_key("c2", {D4: ["judging_moral_order"]}, 0.5),
+                probe_key("p1", population=1000, sampled=10)]
+        rows = [blank_row("c1", **{UNIT_COLUMN: "single_proposition", COLUMNS[D4]: "judging_moral_order"}),
+                blank_row("c2", **{UNIT_COLUMN: "single_proposition", COLUMNS[D4]: "sustaining_order"}),
+                blank_row("p1", **{UNIT_COLUMN: "single_proposition", COLUMNS[D4]: "judging_moral_order"})]
+        result = self.run_scorer(rows, rows, keys,
+                                 [attestation("w", "p", s, D4, "judging_moral_order") for s in (1, 2)])
+        entry = result["detector_recall"]["by_value"][f"{D4}=judging_moral_order"]
+        self.assertEqual(entry["precision_within_sampled_candidates"], 0.5)
+        self.assertEqual(entry["true_positive_propositions_implied"], 1.0)
+        self.assertEqual(entry["recall_hat"], round(1 / 101, 4))
+        # the uncorrected figure stays published beside it, so a reader can see the size of the discount
+        self.assertEqual(entry["recall_hat_upper_bound_ignoring_precision"], round(2 / 102, 4))
+        self.assertLess(entry["recall_hat"], entry["recall_hat_upper_bound_ignoring_precision"])
+
+    def test_an_unanswered_draw_widens_the_miss_estimate_instead_of_shrinking_it(self):
+        # a stratum of 1,000 with 2 draws at weight 500 covers its population exactly, but only one of the
+        # two rows was coded by both, so half the stratum is an uncovered remainder holding unseen misses.
+        keys = [probe_key("p1", population=1000, sampled=2), probe_key("p2", population=1000, sampled=2)]
+        rows = [blank_row("p1", **{UNIT_COLUMN: "single_proposition", COLUMNS[D4]: "judging_moral_order"}),
+                blank_row("p2")]
+        result = self.run_scorer(rows, rows, keys, [attestation("w", "p", 1, D4, "judging_moral_order")])
+        stratum = result["detector_recall"]["probe_strata"][PROBE_ROLES[0]]
+        self.assertEqual(stratum["rows_drawn_in_key"], 2)
+        self.assertEqual(stratum["rows_coded_by_both"], 1)
+        self.assertEqual(stratum["unit_answer_missing"], 1)
+        self.assertEqual(stratum["weight_sum_of_the_drawn_stratum"], 1000.0)
+        self.assertEqual(stratum["coverage_of_drawn_weight"], 0.5)
+        self.assertEqual(stratum["estimated_missed_divine_propositions_weighted"], 500.0)
+        self.assertEqual(stratum["estimated_missed_divine_propositions_coverage_adjusted"], 1000.0)
+        self.assertGreater(stratum["estimated_missed_divine_propositions_coverage_adjusted"],
+                           stratum["estimated_missed_divine_propositions_weighted"])
+
+    def test_a_stratum_that_reports_two_populations_is_refused(self):
+        keys = [probe_key("p1", population=1000, sampled=10), probe_key("p2", population=2000, sampled=10)]
+        rows = [mundane("p1"), mundane("p2")]
+        message = self.run_expecting_exit(rows, rows, keys, [])
+        self.assertIn("cannot be weighted", message)
+
+
 class RefusalTests(Harness):
     def test_a_key_without_probe_rows_is_refused_because_it_cannot_measure_recall(self):
         keys = [candidate_key("c1", {D4: ["judging_moral_order"]}, 0.25),
@@ -297,8 +377,11 @@ class CoderBehaviourTests(Harness):
         self.assertEqual(tally["total_choices"], 3)          # one filled cell per candidate row
         self.assertEqual(tally["undecidable_choices"], 3)
         self.assertEqual(tally["undecidable_share_of_choices"], 1.0)
-        self.assertEqual(tally["candidate_rows_coded"], 3)
-        self.assertEqual(tally["probe_rows_coded"], 1)
+        self.assertEqual(tally["machine_candidate_rows_answered"], 3)
+        # the probe row was answered too -- `not_a_divine_proposition` is an answer, not a blank
+        self.assertEqual(tally["probe_rows_answered"], 1)
+        self.assertEqual(tally["rows_answered_with_a_unit"], 4)
+        self.assertEqual(tally["propositions_coded"], 4)
 
     def test_row_groups_are_reported_separately_for_every_dimension(self):
         keys = [candidate_key("c1", {D4: ["judging_moral_order"]}, 0.5), probe_key("p1")]
@@ -440,22 +523,74 @@ class PublishedArtifactTests(unittest.TestCase):
         cls.plan = json.loads((ROOT / "results/annotation_sampling_plan.json").read_text(encoding="utf-8"))
 
     def test_every_probe_row_in_the_shipped_key_carries_an_exact_weight(self):
-        probe = sa.require_probe_weights(self.key)
+        probe, register = sa.require_probe_weights(self.key)
         rows_added = self.plan["recall_probe"]["rows_added"]
         self.assertEqual(len(probe), rows_added[PROBE_ROLES[0]] + rows_added[PROBE_ROLES[1]])
         for record in probe:
             self.assertGreater(record["sampling_weight"], 0)
             self.assertAlmostEqual(record["sampling_weight"], 1 / record["inclusion_probability"], places=3)
+        # The register is what coverage is measured against, so it has to agree with the plan.
+        for role, rows in register.items():
+            self.assertEqual(rows["rows_drawn"], rows_added[role])
+            self.assertAlmostEqual(rows["sampling_weight"] * rows["rows_drawn"], rows["stratum_population"], 0)
 
     def test_detection_rows_still_carry_their_candidate_weights(self):
         for record in self.key.values():
             if record.get("sample_role") == "machine_candidate":
                 self.assertIsNotNone(record["sampling_weight"])
 
-    def test_recall_numerator_counts_the_same_propositions_the_packet_called_hits(self):
-        counts, propositions = sa.detected_by_value(ROOT / "results/ontology_attestations.jsonl.gz")
+    def test_recall_numerator_counts_only_asserted_candidates(self):
+        counts, propositions, excluded = sa.detected_by_value(ROOT / "results/ontology_attestations.jsonl.gz")
+        # `hit_by_the_machine` is the frame the packet was built on, so the two have to be the same set or
+        # the estimator and the sampler disagree about what a detection is.
         self.assertEqual(propositions, self.plan["recall_probe"]["universe"]["hit_by_the_machine"])
         self.assertGreater(sum(counts.values()), 0)
+        self.assertEqual(sum(excluded.values()), self.plan["recall_probe"]["universe"]["records_excluded_as_non_detections"])
+
+    def test_a_placeholder_record_is_not_a_detection(self):
+        # The shipped artifact carries placeholders, and every one of them used to buy its value a published
+        # recall figure for an instrument that was never written. A value whose only records are
+        # placeholders must come back with no detections at all.
+        path = ROOT / "results/ontology_attestations.jsonl.gz"
+        if not path.exists():
+            self.skipTest("the attestation artifact has not been produced yet")
+        placeholder_only, placeholder_rows = {}, 0
+        with gzip.open(path, "rt", encoding="utf-8") as handle:
+            for line in handle:
+                record = json.loads(line)
+                state = record.get("assertion_state") or "candidate"
+                label = f"{record['dimension']}={record['value']}"
+                if state != "candidate":
+                    placeholder_rows += 1
+                    placeholder_only[label] = placeholder_only.get(label, 0) + 1
+                else:
+                    placeholder_only.pop(label, None)
+        self.assertTrue(placeholder_only, "the shipped artifact carries no placeholder-only values")
+        counts, _, excluded = sa.detected_by_value(path)
+        for label in placeholder_only:
+            self.assertNotIn(label, counts)
+            self.assertEqual(counts.get(label, 0), 0)
+        self.assertEqual(sum(excluded.values()), placeholder_rows)
+
+    def test_the_frame_splits_where_the_packet_says_it_splits(self):
+        # `of_which_the_machine_asserted_nothing` is the 441 propositions that carry a record and still carry
+        # no detection. They have to be enumerated with the no-record part, or the estimator measures misses
+        # against a population that already excludes the propositions most likely to be misses.
+        path = ROOT / "results/ontology_attestations.jsonl.gz"
+        groups = {}
+        with gzip.open(path, "rt", encoding="utf-8") as handle:
+            for line in handle:
+                record = json.loads(line)
+                key = (record["work_id"], record["passage_id"], record["proposition_char_start"])
+                groups.setdefault(key, []).append(record["assertion_state"])
+        with_records = len(groups)
+        no_detection = sum(1 for states in groups.values() if "candidate" not in states)
+        universe = self.plan["recall_probe"]["universe"]
+        self.assertEqual(with_records, universe["propositions_with_any_machine_record"])
+        self.assertEqual(no_detection, universe["of_which_the_machine_asserted_nothing"])
+        self.assertGreater(no_detection, 0)
+        self.assertEqual(universe["propositions_in_universe"],
+                         universe["hit_by_the_machine"] + universe["no_record_in_universe"])
 
     def test_the_probe_universe_is_the_hit_universe_plus_the_missed_population(self):
         universe = self.plan["recall_probe"]["universe"]

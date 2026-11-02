@@ -128,7 +128,7 @@ output is \texttt{not\_yet\_testable}. The further claim that no such being
 exists remains outside the reach of any textual method, in either direction.
 Global comparison is defensible as candidate discovery and falsification;
 reconstruction must be restricted to elements supported by explicit historical
-models, and 282 unit tests plus 7 parameterised subtests and the result
+models, and 289 unit tests plus 7 parameterised subtests and the result
 validators enforce those boundaries.
 
 \medskip
@@ -1236,9 +1236,10 @@ Judgments per coder & 74{,}388 \\
 Enforced strata & dimension value (48, target 60), work (65, target 35), D7b speech act (8, target 45), no-record cue-negative (900), no-record cue-positive (600) \\
 Rare strata taken as whole-population census & 11 \\
 Detector's proposition universe & 1{,}028{,}478 segments in 23{,}385 eligible passages \\
-\quad hit by the machine & 36{,}775 (3.57\%) \\
-\quad no record, cue-negative & 944{,}451; \(\pi = 0.000952934562\), \(w = 1049.39\) \\
-\quad no record, cue-positive & 47{,}252; \(\pi = 0.012697875222\), \(w = 78.7533\) \\
+\quad asserted a candidate (the only detection state) & 36{,}334 (3.53\%) \\
+\quad record but no detection & 441 propositions, 519 records: 379 \texttt{not\_yet\_instrumented}, 140 \texttt{candidate\_requires\_human\_disambiguation} \\
+\quad no record, cue-negative & 944{,}833; \(\pi = 0.000952549286\), \(w = 1049.8144\) \\
+\quad no record, cue-positive & 47{,}311; \(\pi = 0.012682040118\), \(w = 78.8517\) \\
 Cue list status & 111 English cues verified against this corpus, \texttt{not\_a\_detector: true}: a cue decides where to look, never what to record \\
 Dimensions coded & 12 (5 set-valued, 7 single-valued) \\
 Random seed & 20261101, published \\
@@ -1257,9 +1258,20 @@ supplied, and refuses to run on one coder or on the same sheet supplied twice. I
 now also refuses a key whose probe rows carry no weight, and it keeps the two
 estimands in separate blocks: per-value precision is computed on machine-flagged
 rows only, and detector recall is a Horvitz--Thompson estimate,
-\(\text{detected}_v / (\text{detected}_v + \sum w)\), where the miss sum runs over
-probe rows \emph{both} coders independently read as carrying a divine claim, and
-\(\text{detected}_v\) is counted over the whole corpus rather than over the packet.
+\(\text{tp}_v / (\text{tp}_v + \sum w / c)\), where \(\text{tp}_v\) is
+\(\text{detected}_v\) multiplied by the share of flagged propositions both coders
+kept on a candidate row, the miss sum runs over
+probe rows \emph{both} coders independently read as carrying a divine claim, \(c\)
+is the share of the drawn stratum's weight that was actually coded, and
+\(\text{detected}_v\) is counted over the whole corpus rather than over the packet,
+over records whose \texttt{assertion\_state} is \texttt{candidate} and no other.
+A \texttt{not\_yet\_instrumented} record announces that no detector for the value
+exists and a \texttt{candidate\_requires\_human\_disambiguation} record names a value
+the detector declined to choose; counting either as a detection gave five values a
+published recall for an instrument that was never written, and removed their
+propositions from the frame where a miss could be found. The uncorrected
+\(\text{detected}_v / (\text{detected}_v + \sum w)\) is published beside the
+discounted figure as an upper bound, so the size of the correction is visible.
 A stratum that finds no miss reports a one-sided exact binomial bound on its miss
 share instead of a recall of one. No human has coded the packet. Consequently no
 reliability artifact exists in this repository, and this paper reports no
@@ -1704,7 +1716,7 @@ directory; artifacts are grouped by the section that uses them.
 \multicolumn{2}{l}{\emph{Annotation (built, unused)}}\\
 \texttt{tools/prepare\_annotation\_packet.py}, \texttt{results/annotation\_packet\_coder\_view.csv}, \texttt{annotation\_packet\_key.jsonl}, \texttt{annotation\_codebook.csv}, \texttt{annotation\_sampling\_plan.json} & 6{,}199 blinded propositions --- 4{,}699 machine-flagged candidates over 48 value strata with 11 censuses, 65 works, 8 speech acts, plus 1{,}500 no-record probe rows in two disjoint strata with their exact \(\pi\) and \(w = 1/\pi\) published per row; seed 20261101, separate answer key, published codebook and sizing rationale \\
 \texttt{config/recall\_probe\_cues.json}, \texttt{tools/check\_recall\_cues.py} & the 111 English cues that decide where the probe looks, each counted over the eligible passages by the checker, with the six ambiguous cues retired and their reasons recorded; the file sets \texttt{not\_a\_detector: true} and the packet builder refuses a cue list it has not verified \\
-\texttt{tools/score\_annotation.py} & the \(\kappa\)-and-Jaccard scorer plus the weighted recall estimator: per-value precision on candidate rows, Horvitz--Thompson miss counts on probe rows, a one-sided exact binomial bound where a stratum found none, and \textbf{refusals} --- one coder, the same sheet twice, a key with no probe rows, a probe row with no weight --- and correspondingly, \textbf{no \texttt{results/annotation\_reliability.json} exists}, because no human has coded the packet \\
+\texttt{tools/score\_annotation.py} & the \(\kappa\)-and-Jaccard scorer plus the weighted recall estimator: per-value precision on candidate rows, Horvitz--Thompson miss counts on probe rows over \texttt{candidate}-state records only, a precision discount and a coverage adjustment on the recall numerator and denominator each with the uncorrected figure published beside it as a bound, a one-sided exact binomial bound where a stratum found none, and \textbf{refusals} --- one coder, the same sheet twice, a key with no probe rows, a probe row with no weight, a stratum reporting two populations --- and correspondingly, \textbf{no \texttt{results/annotation\_reliability.json} exists}, because no human has coded the packet \\
 \midrule
 \multicolumn{2}{l}{\emph{Models (Section 7)}}\\
 \texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome; stage 2 asks the separate licence question, an inheritance-bearing model over the no-edge baseline at the same single declared margin), the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}. \\
@@ -1712,7 +1724,7 @@ directory; artifacts are grouped by the section that uses them.
 \midrule
 \multicolumn{2}{l}{\emph{Method and tests}}\\
 \texttt{TRACK\_B\_METHOD\_v2.md} & the Track B methodology as rebuilt: unit of analysis, the twelve dimensions and why two were split, the three-question state model, audit findings, the four models with their admissions, the operator discipline, the licence conditions on reporting, the acquisition plan \\
-\texttt{tests/}, \texttt{tools/validate\_*.py} & 282 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 91 model-comparison, 29 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
+\texttt{tests/}, \texttt{tools/validate\_*.py} & 289 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 91 model-comparison, 36 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
 \bottomrule
 \end{longtable}
 

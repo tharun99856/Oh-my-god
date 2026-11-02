@@ -47,6 +47,30 @@ value. That alias is invisible in machine output -- an association between a fie
 a copy of itself is 1.0 and says nothing -- so what is compared is one coder's two
 answers, proposition by proposition. Until a coder fills both columns the block reports
 `pending_human_coding` and no number at all.
+
+v3.3 fixes three ways this scorer could report a recall figure too high, found by
+reading its own arithmetic against the shipped records rather than by a coder:
+
+  a detection was any record. 47,641 records include 379 whose `assertion_state` is
+      `not_yet_instrumented` -- a declared absence of a detector, over five values -- and
+      140 whose state is `candidate_requires_human_disambiguation`, a value the detector
+      refused to choose. Both counted as detections, so `from_lost_past` would have had a
+      numerator of 202 and a nonzero recall for an instrument that does not exist. Only
+      `candidate` is a detection now; the two states are counted and published as
+      exclusions, and the packet builder no longer treats their propositions as hits.
+
+  recall's numerator was uncorrected for precision. Every machine record was assumed a
+      true positive, so the false-positive share measured on the candidate rows never
+      reached the recall denominator. The headline figure now multiplies detections by
+      that precision; the uncorrected figure is still published, labelled as an upper
+      bound that assumes the detector never errs.
+
+  a stratum's weight coverage was asserted, not measured. The artifact used to print
+      `weight_sum_equals_population_only_if_every_drawn_row_is_coded: True` beside its own
+      `unit_answer_missing` counter. Coverage is now computed from the rows the key drew
+      against the rows both coders answered, and missed counts are divided by it, so
+      uncoded draws widen the estimate in the conservative direction instead of
+      quietly shrinking it.
 """
 from __future__ import annotations
 
@@ -62,7 +86,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from prepare_annotation_packet import (  # noqa: E402
-    ANSWER_VOCABULARIES, PROBE_ROLE_PREFIX, QUESTION_COLUMNS, REFERENT_COLUMN,
+    ANSWER_VOCABULARIES, DETECTION_STATE, PROBE_ROLE_PREFIX, QUESTION_COLUMNS, REFERENT_COLUMN,
     UNIT_COLUMN, coding_columns, column_cardinalities)
 
 KEY = ROOT / "results/annotation_packet_key.jsonl"
@@ -149,7 +173,13 @@ def is_probe(record):
 
 
 def require_probe_weights(key):
-    """Refuse to estimate recall from rows that cannot represent the population they were drawn from."""
+    """Refuse to estimate recall from rows that cannot represent the population they were drawn from.
+
+    Returns `(probe rows, per-stratum register)`. The register carries the population, the weight and the
+    number of drawn rows for each stratum, taken from the key rather than guessed at read time: the drawn
+    count is what coverage is measured against, and a stratum whose rows disagree about its own population
+    cannot be weighted at all.
+    """
     probe = [record for record in key.values() if is_probe(record)]
     unweighted = [record["token"] for record in probe
                   if not isinstance(record.get("sampling_weight"), (int, float))
@@ -165,27 +195,85 @@ def require_probe_weights(key):
             "the key has no no_candidate probe rows, so this packet cannot measure recall: it samples only "
             "propositions the machine already flagged, and a sample of hits contains no misses. Rebuild it "
             "with tools/prepare_annotation_packet.py (v3 packet or later).")
-    return probe
+    register = {}
+    for role in sorted({str(record["sample_role"]) for record in probe}):
+        rows = [record for record in probe if record["sample_role"] == role]
+        populations = {record.get("stratum_population") for record in rows}
+        weights = {round(float(record["sampling_weight"]), 6) for record in rows}
+        if populations == {None} or len(populations) > 1 or len(weights) > 1:
+            raise SystemExit(
+                f"probe stratum `{role}` spans {len(populations)} distinct stratum_population values and "
+                f"{len(weights)} distinct weights across {len(rows)} rows. One exact inclusion probability per "
+                "stratum is the only thing that makes a Horvitz-Thompson total unbiased for the population it "
+                "was drawn from, so a stratum that reports two populations cannot be weighted. Rebuild the "
+                "packet with tools/prepare_annotation_packet.py.")
+        register[role] = {"stratum_population": next(iter(populations)),
+                          "sampling_weight": next(iter(weights)), "rows_drawn": len(rows)}
+    return probe, register
 
 
 def detected_by_value(path):
-    """Corpus-wide count of distinct propositions carrying a machine record for each value.
+    """Corpus-wide count of distinct propositions carrying a *detection* for each value.
 
     Recall's numerator has to be the detector's whole output, not the packet's slice of it:
     `detected / (detected + estimated_misses)` mixes a sample count with a population estimate
     if `detected` is read off the sampled rows.
+
+    `assertion_state: candidate` is the only state that detects. A `not_yet_instrumented` record
+    announces that no detector for that value exists, and a `candidate_requires_human_disambiguation`
+    record names a value the detector declined to choose; counting either as a detection gave five
+    values a nonzero numerator and a published recall for an instrument that does not exist. The two
+    states are tallied and returned so the artifact can show what it excluded.
     """
     seen = set()
     propositions = set()
+    excluded = Counter()
     with gzip.open(path, "rt", encoding="utf-8") as handle:
         for line in handle:
             record = json.loads(line)
-            label = f"{record['dimension']}={record['value']}"
+            state = record.get("assertion_state") or DETECTION_STATE
             proposition = (record["work_id"], record["passage_id"], record["proposition_char_start"])
-            seen.add((label, proposition))
+            if state != DETECTION_STATE:
+                excluded[state] += 1
+                continue
+            seen.add((f"{record['dimension']}={record['value']}", proposition))
             propositions.add(proposition)
-    counts = Counter(label for label, _ in seen)
-    return dict(counts), len(propositions)
+    return dict(Counter(label for label, _ in seen)), len(propositions), dict(excluded)
+
+
+def proposition_level_recall(detected, confirmation_share, misses, misses_conservative, misses_bound):
+    """The corpus-wide recall figures, corrected for what the candidate rows say about precision.
+
+    `detected` counts every proposition the detector asserted something about, and two readers keep only a
+    share of those, so a recall numerator is `detected * share`: the rest are false positives, and a false
+    positive cannot be a true positive. Where no candidate row was coded the share is unknown, the figure
+    stays uncorrected, and the key names that rather than hiding it -- an uncorrected recall is an upper
+    bound, not a result. Misses enter twice: the realised weighted count, widened where draws went uncoded,
+    and each stratum's one-sided 95% bound summed, which is the number to publish.
+    """
+    effective = detected * confirmation_share if confirmation_share is not None else detected
+    total = effective + misses_conservative
+    uncorrected_total = detected + misses_conservative
+    return {
+        "detected_propositions_corpus_wide": detected,
+        "detection_confirmation_share_from_candidate_rows": confirmation_share,
+        "true_positive_propositions_implied": round(effective, 2),
+        "estimated_missed_divine_propositions_weighted": round(misses, 2),
+        "estimated_missed_divine_propositions_coverage_adjusted": round(misses_conservative, 2),
+        "upper_bound_on_missed_divine_propositions_95pct": round(misses_bound, 2),
+        "recall_of_divine_propositions_point": round(effective / total, 4) if total else None,
+        "recall_of_divine_propositions_upper_bound_ignoring_precision": (
+            round(detected / uncorrected_total, 4) if uncorrected_total and confirmation_share is not None
+            else None),
+        "recall_of_divine_propositions_lower_bound_95pct": (
+            round(effective / (effective + misses_bound), 4) if (effective + misses_bound) else None),
+        "reads_as": "of the propositions in the corpus that a divine claim is about, this share is the "
+                    "detector's. The numerator is the corpus-wide detection count discounted by the share "
+                    "two readers kept among the flagged propositions; the denominator adds the weighted "
+                    "misses the probe found, widened by the weight the coders could not get to. The lower "
+                    "bound replaces those misses with each stratum's one-sided 95% upper bound, summed. "
+                    "Publish the lower bound.",
+    }
 
 
 def cohens_kappa(pairs):
@@ -237,13 +325,16 @@ def parse_cell(row, column, cardinality):
     return frozenset([raw])
 
 
-def probe_declines_null(row_a, row_b):
-    """True when two readers, independently, refuse to code a no-record row as mundane.
+def both_readers_decline_the_null(row_a, row_b):
+    """True when two readers, independently, refuse to code a row as mundane.
 
     One coder's over-reading must not become a corpus-wide miss, so a row counts only when
     both filled the unit column and neither chose `not_a_divine_proposition` or `undecidable`.
     `too_large_should_split` and `too_small_should_join` do count: each says a divine claim
     is on the page and only the segmentation is wrong, which is a detector miss either way.
+
+    The same rule decides both directions of error: on a probe row it is a miss the detector
+    walked past, and on a candidate row it is a detection the readers confirm rather than refuse.
     """
     units = {(row_a.get(UNIT_COLUMN) or "").strip(), (row_b.get(UNIT_COLUMN) or "").strip()}
     return bool(all(units)) and not (units & {NULL_UNIT_ANSWER, UNDECIDABLE})
@@ -271,9 +362,8 @@ def main():
         raise SystemExit("the two packets share no tokens; nothing to compare")
     if len(overlap) < 2:
         raise SystemExit("one shared row is not a reliability sample; a second coder has to code the packet")
-    probe_records = require_probe_weights(key)
-    detected_counts, detected_propositions = detected_by_value(args.attestations)
-    probe_overlap = sum(1 for t in overlap if is_probe(key[t]))
+    probe_records, strata_register = require_probe_weights(key)
+    detected_counts, detected_propositions, excluded_records = detected_by_value(args.attestations)
 
     exact_pairs = defaultdict(list)
     exact_pairs_by_group = defaultdict(list)
@@ -290,6 +380,11 @@ def main():
     probe_rows_in = defaultdict(lambda: {"rows_coded_by_both": 0, "weight_sum": 0.0,
                                          "declined_null": 0, "declined_null_weight": 0.0,
                                          "unit_answer_missing": 0, "coders_disagree_on_null": 0})
+    # Recall's numerator has to be true positives, not machine firings. The candidate rows are the only
+    # place the two questions can be compared, so the share of flagged propositions that both readers keep
+    # is measured here and applied to the corpus-wide detection count below.
+    candidate_rows_answered_by_both = 0
+    candidate_rows_confirmed_divine = 0
     weighted_value_misses = defaultdict(lambda: {"stratum_weight": defaultdict(float),
                                                  "consensus_rows": 0})
     construct_pairs = defaultdict(list)
@@ -303,20 +398,30 @@ def main():
         role = str(record.get("sample_role") or "")
         rows_by_group[group]["rows_compared"] += 1
         machine_sets = record["machine_values_by_dimension"]
+        declines_null = both_readers_decline_the_null(row_a, row_b)
+        if (row_a.get(UNIT_COLUMN) or "").strip() and (row_b.get(UNIT_COLUMN) or "").strip():
+            if not probe:
+                candidate_rows_answered_by_both += 1
+                if declines_null:
+                    candidate_rows_confirmed_divine += 1
         if probe:
             tally = probe_rows_in[role]
-            tally["rows_coded_by_both"] += 1
-            tally["weight_sum"] += weight
-            if not ((row_a.get(UNIT_COLUMN) or "").strip() and (row_b.get(UNIT_COLUMN) or "").strip()):
+            units = {(row_a.get(UNIT_COLUMN) or "").strip(), (row_b.get(UNIT_COLUMN) or "").strip()}
+            if not all(units):
+                # A row a reader left blank is not a row that was coded and found empty: it is a draw that
+                # was never realised, and it belongs in the uncovered remainder. Counting it as coded would
+                # push coverage to 1.0 on a half-coded stratum and shrink the miss estimate accordingly.
                 tally["unit_answer_missing"] += 1
-            elif probe_declines_null(row_a, row_b):
-                tally["declined_null"] += 1
-                tally["declined_null_weight"] += weight
-            elif {(row_a.get(UNIT_COLUMN) or "").strip(),
-                  (row_b.get(UNIT_COLUMN) or "").strip()} & {NULL_UNIT_ANSWER}:
-                tally["coders_disagree_on_null"] += (
-                    1 if (row_a.get(UNIT_COLUMN) or "").strip()
-                    != (row_b.get(UNIT_COLUMN) or "").strip() else 0)
+            else:
+                tally["rows_coded_by_both"] += 1
+                tally["weight_sum"] += weight
+                if declines_null:
+                    tally["declined_null"] += 1
+                    tally["declined_null_weight"] += weight
+                elif units & {NULL_UNIT_ANSWER}:
+                    tally["coders_disagree_on_null"] += (
+                        1 if (row_a.get(UNIT_COLUMN) or "").strip()
+                        != (row_b.get(UNIT_COLUMN) or "").strip() else 0)
         for dimension, column in columns.items():
             left = parse_cell(row_a, column, cardinality[dimension])
             right = parse_cell(row_b, column, cardinality[dimension])
@@ -334,9 +439,11 @@ def main():
             partial_union[dimension][token] = left | right
             for value in (left | right) - agreed:
                 one_coder_only[dimension][value] += 1
-            if probe:
+            if probe and declines_null:
                 # A probe row has no machine value to be right or wrong about; its consensus
-                # values are evidence about what the detector missed, weighted by 1/pi.
+                # values are evidence about what the detector missed, weighted by 1/pi -- but only
+                # on a row both readers still treat as a divine proposition, or a value named on a
+                # row one of them called mundane would inflate that value's miss count.
                 for value in agreed - {UNDECIDABLE}:
                     bucket = weighted_value_misses[f"{dimension}={value}"]
                     bucket["stratum_weight"][role] += weight
@@ -370,8 +477,11 @@ def main():
         for coder, row in (("a", row_a), ("b", row_b)):
             tally = undecidable_rate.setdefault(coder, Counter())
             tally["propositions_coded"] += 1
-            tally["probe_rows_coded"] = probe_overlap
-            tally["candidate_rows_coded"] = len(overlap) - probe_overlap
+            if (row.get(UNIT_COLUMN) or "").strip():
+                # What this coder actually answered, in this row group. The packet-wide count would be
+                # the same for both coders whatever either of them did, which is what the earlier line
+                # reported.
+                tally[f"{group}_rows_answered"] += 1
             selections = []
             for dimension, column in columns.items():
                 selections.extend(parse_cell(row, column, cardinality[dimension]))
@@ -384,19 +494,31 @@ def main():
 
     strata = {}
     for role, tally in sorted(probe_rows_in.items()):
-        population = Counter(int(record.get("stratum_population") or 0) for record in probe_records
-                             if record.get("sample_role") == role)
-        n_population = population.most_common(1)[0][0] if population else 0
+        register = strata_register.get(role) or {}
+        n_population = int(register.get("stratum_population") or 0)
+        drawn = int(register.get("rows_drawn") or 0)
+        drawn_weight = drawn * float(register.get("sampling_weight") or 0.0)
         coded = tally["rows_coded_by_both"]
+        coverage = (tally["weight_sum"] / drawn_weight) if drawn_weight else None
         p_upper = binomial_upper_bound_on_p(tally["declined_null"], coded)
+        # Uncoded draws are not evidence of absence: a stratum whose rows went partly unanswered is
+        # holding back misses it never saw, so the miss count is divided by the realised weight share.
+        # That widens the estimate, which is the only direction a recall floor is allowed to fail in.
+        adjusted = (tally["declined_null_weight"] / coverage
+                    if coverage else tally["declined_null_weight"])
         strata[role] = {
             "stratum_population": n_population or None,
+            "rows_drawn_in_key": drawn,
             "rows_coded_by_both": coded,
             "sampling_weight": round(tally["weight_sum"] / coded, 4) if coded else None,
             "weight_sum_of_coded_rows": round(tally["weight_sum"], 2),
-            "weight_sum_equals_population_only_if_every_drawn_row_is_coded": True,
+            "weight_sum_of_the_drawn_stratum": round(drawn_weight, 2) or None,
+            "coverage_of_drawn_weight": round(coverage, 6) if coverage is not None else None,
+            "coded_weight_as_share_of_stratum_population": (
+                round(tally["weight_sum"] / n_population, 6) if n_population else None),
             "declined_null": tally["declined_null"],
             "estimated_missed_divine_propositions_weighted": round(tally["declined_null_weight"], 2),
+            "estimated_missed_divine_propositions_coverage_adjusted": round(adjusted, 2),
             "estimated_miss_share_of_stratum": (round(tally["declined_null_weight"] / tally["weight_sum"], 6)
                                                 if tally["weight_sum"] else None),
             "coders_disagree_on_null": tally["coders_disagree_on_null"],
@@ -406,23 +528,45 @@ def main():
                 round(n_population * p_upper, 2) if p_upper is not None and n_population else None),
         }
     misses_found = sum(t["estimated_missed_divine_propositions_weighted"] for t in strata.values())
+    misses_conservative = sum(t["estimated_missed_divine_propositions_coverage_adjusted"] or 0
+                              for t in strata.values())
     # Summing two one-sided 95% bounds is conservative for the pooled count; it over-covers
     # rather than under-covers, which is the direction a recall floor has to fail in.
     misses_bound = sum(t["one_sided_95pct_upper_bound_on_missed_propositions"] or 0 for t in strata.values())
+    candidate_confirmation_share = (round(candidate_rows_confirmed_divine / candidate_rows_answered_by_both, 6)
+                                    if candidate_rows_answered_by_both else None)
 
     by_value = {}
     for label in sorted(set(detected_counts) | set(weighted_value_misses)):
         bucket = weighted_value_misses.get(label)
         detected = detected_counts.get(label, 0)
         found = round(sum(bucket["stratum_weight"].values()), 2) if bucket else 0.0
+        found_adjusted = (round(sum(weight / (strata[role]["coverage_of_drawn_weight"] or 1.0)
+                                    for role, weight in bucket["stratum_weight"].items()), 2)
+                          if bucket else 0.0)
+        counts = per_value.get(label) or {}
+        proposed, both = counts.get("machine_proposed", 0), counts.get("both", 0)
+        precision = (both / proposed) if proposed else None
+        numerator = detected * precision if precision is not None else detected
         entry = {
             "detected_propositions_corpus_wide": detected,
+            "precision_within_sampled_candidates": round(precision, 4) if precision is not None else None,
+            "precision_sampled_from_candidate_rows": proposed,
+            "true_positive_propositions_implied": round(numerator, 2),
             "estimated_missed_propositions_weighted": found,
+            "estimated_missed_propositions_coverage_adjusted": found_adjusted,
             "misses_by_probe_stratum": ({k: round(v, 2) for k, v in sorted(bucket["stratum_weight"].items())}
                                         if bucket else {}),
             "probe_rows_with_consensus_for_this_value": bucket["consensus_rows"] if bucket else 0,
-            "recall_hat": (round(detected / (detected + found), 4) if (detected + found) else None),
+            "recall_hat": (round(numerator / (numerator + found_adjusted), 4)
+                           if (numerator + found_adjusted) else None),
+            "recall_hat_upper_bound_ignoring_precision": (
+                round(detected / (detected + found_adjusted), 4) if (detected + found_adjusted) else None),
         }
+        if precision is None and detected:
+            entry["precision_status"] = (
+                "uncorrected: no machine_candidate row proposing this value was coded by both readers, so its "
+                "true-positive share is unknown and `recall_hat` here still assumes every detection is real")
         if not bucket and detected:
             # A perfect-recall claim from an empty probe sample is exactly the kind of number
             # this project has been asked to stop producing.
@@ -440,6 +584,8 @@ def main():
         out = dict(sorted(counter.items()))
         out["undecidable_share_of_choices"] = (round(out["undecidable_choices"] / out["total_choices"], 4)
                                                if out.get("total_choices") else None)
+        out["rows_answered_with_a_unit"] = (out.get("machine_candidate_rows_answered", 0)
+                                            + out.get("probe_rows_answered", 0))
         out["referent_share_of_rows"] = (round(out["referent_terms_given"] / out["propositions_coded"], 4)
                                          if out.get("propositions_coded") else None)
         return out
@@ -464,7 +610,10 @@ def main():
                           "figure below come from machine_candidate rows only, because only those rows have a "
                           "machine value to be wrong about. `detector_recall` comes from the no_candidate probe "
                           "rows only, weighted by 1/pi. The two are never pooled: pooling them would compute "
-                          "recall out of a sample that cannot contain a miss.",
+                          "recall out of a sample that cannot contain a miss. What the candidate rows do lend "
+                          "recall is a rate, not a count -- the share of flagged propositions two readers kept "
+                          "-- because a numerator of raw machine firings would count every false positive the "
+                          "precision table just found as a true positive.",
         "detector_recall": {
             "estimand": "P(a proposition that carries divine concept v is flagged by the detector with a record "
                         "for v), over propositions the detector's own segmentation produced in eligible passages",
@@ -473,20 +622,15 @@ def main():
             "probe_strata": strata,
             "probe_rows_in_key": len(probe_records),
             "probe_rows_coded_by_both": sum(t["rows_coded_by_both"] for t in strata.values()),
-            "proposition_level": {
-                "estimated_missed_divine_propositions_weighted": round(misses_found, 2),
-                "upper_bound_on_missed_divine_propositions_95pct": round(misses_bound, 2),
-                "recall_of_divine_propositions_point": (
-                    round(detected_propositions / (detected_propositions + misses_found), 4)
-                    if detected_propositions else None),
-                "recall_of_divine_propositions_lower_bound_95pct": (
-                    round(detected_propositions / (detected_propositions + misses_bound), 4)
-                    if detected_propositions else None),
-                "reads_as": "of the propositions in the corpus that a divine claim is about, this share is the "
-                            "detector's. The point estimate divides the corpus-wide record count by that count "
-                            "plus the weighted misses found; the lower bound replaces the found misses with "
-                            "each stratum's one-sided 95% upper bound, summed. Publish the lower bound.",
-            },
+            "records_excluded_as_non_detections": excluded_records,
+            "records_excluded_because": "only `assertion_state: candidate` detects; `not_yet_instrumented` "
+                                        "declares that no detector for the value exists and "
+                                        "`candidate_requires_human_disambiguation` is a value the detector "
+                                        "declined to choose, so counting either would give a value with no "
+                                        "instrument a nonzero numerator and a published recall",
+            "proposition_level": proposition_level_recall(
+                detected_propositions, candidate_confirmation_share,
+                misses_found, misses_conservative, misses_bound),
             "by_value": by_value,
             "assumptions": [
                 "a probe row is a miss only when both coders, independently, decline the null "
@@ -494,6 +638,16 @@ def main():
                 "the estimator is Horvitz-Thompson with one exact inclusion probability per stratum: "
                 "estimated misses = sum of 1/pi over the rows that qualify, which is design-unbiased for the "
                 "no-record population of that stratum",
+                "a stratum whose drawn rows were only partly coded is widened, not quietly shortened: the "
+                "miss count is divided by the share of the drawn weight two readers actually reached, which "
+                "assumes uncoded draws miss at the coded rate. Uncoded rows are reported per stratum, and a "
+                "key that reports two different populations for one stratum is refused rather than averaged",
+                "recall's numerator is the detection count discounted by the candidate-row confirmation "
+                "share, because a flagged proposition one reader rejects is not a true positive; where no "
+                "candidate row for a value was coded, that discount is unknown and the entry says so instead "
+                "of pretending to be corrected",
+                "a probe value is only counted on a row both readers also kept as a divine proposition, so a "
+                "label named on a row one of them called mundane inflates nothing",
                 "the two probe strata are disjoint by construction (a proposition is either cue-positive or it "
                 "is not), so their weighted counts add without double-counting",
                 "a value's `recall_hat` counts only misses that both coders named with that exact value; misses "

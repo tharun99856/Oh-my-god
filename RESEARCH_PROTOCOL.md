@@ -499,7 +499,7 @@ Recorded as observed, including the gates that failed.
 | Two independent codings for a preregistered subset | **not met** | all 14 versions coded by one analyst; no reliability estimate exists |
 | Positive, negative and matched controls in the same pipeline | **met** | dependent witnesses, 6 predicted-unrelated negatives, length-matched lexical pairs |
 | Scores reproducible from a frozen input and configuration | **met** | seed 20261031, recorded SHA-256 inputs, byte-identical rerun of the candidate set |
-| No historical confidence inferred from descriptive similarity alone | **met and enforced** | no composite, no `DESCENDS_FROM`/`BORROWS_FROM` edge, empty adjudication layer, zero `RESEMBLES` edges, 282 tests |
+| No historical confidence inferred from descriptive similarity alone | **met and enforced** | no composite, no `DESCENDS_FROM`/`BORROWS_FROM` edge, empty adjudication layer, zero `RESEMBLES` edges, 289 tests |
 | Preregistered order-sensitivity floor | **failed** | mean `S_sequence` drop 0.0186 against a 0.02 floor; cause identified as the gap-cost ceiling, reported rather than tuned |
 | Controls behave in the expected direction | **partly** | dependent witnesses outrank all negatives; famous cross-tradition parallels do **not** rank high, which the model reports rather than explains away |
 | Sensitivity analyses do not reverse substantive conclusions | **not met for alignment parameters** | on the scale above, the gap sweep moves the published ranking by 0.231–0.291 (Kendall τ 0.11–0.34) while the preregistered g = 1.0 reproduces itself at 0.001 (τ = 0.998); predicate-credit, motif-cap and leave-one-region-out shifts are ≤ 0.017 (τ ≥ 0.973) |

@@ -244,24 +244,37 @@ candidate strata all draw from propositions that already carry a machine record,
 precision and cannot say anything about misses — a sample of hits contains no misses — and the graph layer's
 pairing recall (0.023214 measured on the deterministic 1,632-passage subset, 0.023475 corpus-wide, both now
 superseded by the exact index) was never the detector's recall. `tools/prepare_annotation_packet.py` now enumerates the detector's
-own proposition universe over the eligible passages (**1,028,478** segments, **36,775** of them carrying a record
-and **991,703** carrying none) and draws two disjoint simple random samples from the no-record part:
-**900** of the 944,451 cue-negative segments (π = 0.000952934562, w = 1,049.39) and **600** of the 47,252
-cue-positive ones (π = 0.012697875222, w = 78.7533). Each probe row carries its exact inclusion probability and
+own proposition universe over the eligible passages (**1,028,478** segments, **36,334** of them carrying an asserted
+candidate and **992,144** carrying nothing the detector asserted) and draws two disjoint simple random samples from
+the no-record part: **900** of the 944,833 cue-negative segments (π = 0.000952549286, w = 1,049.8144) and **600** of the 47,311
+cue-positive ones (π = 0.012682040118, w = 78.8517). Each probe row carries its exact inclusion probability and
 weight into the answer key, and the cue list that decides which stratum a segment falls in
 (`config/recall_probe_cues.json`, 111 cues, each counted over the eligible passages by
 `tools/check_recall_cues.py`, with 6 ambiguous cues retired and their reasons recorded) is marked
 `not_a_detector: true`: a cue decides where to look and never what to record. Two strata rather than one because
 misses concentrate where the text names a divinity; a single uniform draw would spend almost every row where
 nothing is, and the dense part would go unmeasured. Probe rows are indistinguishable from detection rows in the
-coder view, so neither kind can be coded to a different standard. `tools/score_annotation.py` keeps the two
+coder view, so neither kind can be coded to a different standard.
+
+The frame is drawn on `assertion_state: candidate`, and only that state. **441** propositions carry a machine
+record and still carry no detection: **379** `not_yet_instrumented` records and **140**
+`candidate_requires_human_disambiguation` records — **519** records in all — name values the detector either
+declares it has no instrument for or declined to choose. The first build of the probe counted all of them as
+hits, which did two damaging things at once: it gave five values a nonzero numerator and a published recall for
+an instrument that was never written, and it removed their propositions from the very frame a miss is measured
+in. They are still sampled, in the candidate strata, because a human read of them is how such a value gets
+validated; they are simply not detections. `tools/score_annotation.py` keeps the two
 estimands apart: per-value precision is computed on `machine_candidate` rows only, and recall is a
-Horvitz–Thompson estimate `detected_v / (detected_v + Σ w)` whose weight sum runs over probe rows *both* coders
-independently read as carrying value `v`, with `detected_v` counted over the whole corpus rather than over the
-packet. A stratum that finds no miss returns a one-sided exact binomial bound on its miss share, not a recall of
-1.0, and a value the probe never produced returns no estimate. The scorer refuses a key with no probe rows and a
-probe row with no weight. `tests/test_annotation_recall.py` (23 tests) pins the arithmetic, both refusals, the
-two-estimand separation, and the accumulation bug that made `undecidable_selection_rate` report only the last
+Horvitz–Thompson estimate whose numerator is `detected_v` multiplied by the share of flagged propositions both
+coders actually kept — a false positive cannot be a true positive — over a denominator that adds the probe rows
+*both* coders independently read as carrying value `v`, weighted by 1/π and divided by the share of the drawn
+stratum that was realised. The uncorrected figure is published beside it as an upper bound. A stratum that finds
+no miss returns a one-sided exact binomial bound on its miss share, not a recall of
+1.0, and a value the probe never produced returns no estimate. A blank draw counts as uncovered, not as coded
+and empty, so a half-coded stratum widens the miss estimate instead of shrinking it. The scorer refuses a key
+with no probe rows, a probe row with no weight, and a stratum whose rows report two different populations.
+`tests/test_annotation_recall.py` (36 tests) pins the arithmetic, the refusals, the
+two-estimand separation, the detection frame, and the accumulation bug that made `undecidable_selection_rate` report only the last
 row it read. **No human has coded the packet, so no recall figure exists yet either** — the instrument to measure
 it does, which is the whole of the change.
 
@@ -354,9 +367,9 @@ The sharpest number in the table was the one that cut against the motive: the do
 
 ## 9. Validation and reproducibility
 
-- `python -m pytest tests -q` → **282 passed, plus 7 subtests** (12 pipeline tests, 37 structural-engine tests,
+- `python -m pytest tests -q` → **289 passed, plus 7 subtests** (12 pipeline tests, 37 structural-engine tests,
   19 schema tests, 8 divinity-probe tests, 27 exclusivist-audit tests, 31 Track B state-coder tests,
-  13 graph-recall tests, 91 model-comparison tests, 29 annotation-recall tests, 9 typesetting tests, 6
+  13 graph-recall tests, 91 model-comparison tests, 36 annotation-recall tests, 9 typesetting tests, 6
   documented-count tests). The figure is no longer re-measured by hand at all: `tests/test_documented_counts.py`
   runs the collector and the two subtest-bearing tests in subprocesses and fails if the number in this document,
   the number in `paper/main.tex`, the number in `ARCHITECTURE.md` or the per-suite breakdown disagrees with what
@@ -411,7 +424,7 @@ The frozen 42-work baseline (`results/run_summary.json`, `results/model_comparis
 | Order claim | word-shuffle 0.6740 shown as a caveat | event alignment + preregistered permutation floor | order sensitivity measured and **fails** (0.0186 < 0.02); cause identified |
 | Schema | `expression.based_on_expression_id` self-reference, percent-scale `score` | `expression_dependency`, `work_family`, `comparison_class`, `evidence_assessment`; score whitelisted to the five descriptive `S_*` measures in `[0,1]`; separate `retrieval_score`, `retrieval_aggregate` and `statistical_test` tables; `event.passage_id` `NOT NULL` with a composite FK through `narrative_attestation` | a retrieval score or a permutation p-value can no longer be stored where a similarity would be read, and an event citation cannot point at a passage outside its own version |
 | Motive claim | assumed that "god" names one concept worldwide, so its recurrence would indicate one invention | v1 census of ten concept grammars, every match located; then an audit of every exclusivist-monotheism match and a twelve-dimension, proposition-level replacement of the frame | the assumption is under-specified, and v1's negative verdict about common ancestry is **withdrawn**: the audit showed the anthology volume's 9 hits were Qur'an reprints already counted under `quran_sale` and 2 more were substring collisions, while whitespace normalisation recovered 5 missed formulas including Isaiah 44:6 |
-| Verification | 6 unit tests, hash and offset checks | 282 tests + annotation validator + result/layer validator + freshness assertions + a real LaTeX compile | found two code defects, one measurement defect, one documentation defect and two locator defects (§7.1) |
+| Verification | 6 unit tests, hash and offset checks | 289 tests + annotation validator + result/layer validator + freshness assertions + a real LaTeX compile | found two code defects, one measurement defect, one documentation defect and two locator defects (§7.1) |
 
 The revision's net research conclusion is narrower than the baseline's, which is the point: the baseline ranked "strongest parallels" that turned out to be editorial commentary quoting 1 Samuel, index pages, and shared editions. The revised pipeline reports those as dependence, refuses to score what it cannot measure, and publishes a failed preregistered gate instead of adjusting the gate.
 
@@ -442,4 +455,4 @@ python tools/validate_tex.py
 python tools/validate_tex.py --self-test
 ```
 
-Key outputs: `corpus/acquisition_manifest.json`, `corpus/derived/passages_v2.jsonl`, `results/v2_run_summary.json`, `results/v2_cleaning_ablation.json`, `results/v2_candidate_pairs.jsonl`, `results/v2_manual_review.json`, `results/narrative_component_pairs.jsonl`, `results/narrative_validation.json`, `results/narrative_run_summary.json`, `results/v2_relevance_graph.json`, `results/divinity_terms.json`, `results/exclusivist_monotheism_audit.json`, `results/ontology_attestations.jsonl.gz`, `results/ontology_passage_matrix.csv.gz`, `results/ontology_work_states.csv`, `results/ontology_run_summary.json`, `results/ontology_graph.json`, `results/ontology_passage_pairs.jsonl.gz`, `results/ontology_workpair_dimensions.csv`, `results/graph_recall_validation.json`, `results/attestation_scaffold.csv`, `config/recall_probe_cues.json`, `results/annotation_packet_coder_view.csv`, `results/annotation_packet_key.jsonl`, `results/annotation_sampling_plan.json`, `results/annotation_codebook.csv`, `results/track_b_state.html`, `results/model_power_simulation.json`, `results/figures/*.svg`. `tools/compare_models.py` prints its `not_yet_testable` result to stdout and writes an artifact only with `--write-to`; `tools/compare_models.py --power` runs the declared grid and writes `results/model_power_simulation.json`, which is the file the pair and effective-sample gates are read from, and a run with any override stamps itself `SMOKE RUN` instead of overwriting the published artifact cleanly. `tools/score_annotation.py` is deliberately absent from this list, because it needs two coded sheets that do not exist yet and refuses to run without them, without a packet that carries no-record probe rows, and without a weight on every probe row. `tools/validate_tex.py` writes nothing at all: it prints a line-numbered structural report on `paper/main.tex` (environment nesting, per-row cell counts against the column spec, escapes, label and citation cross-checks, and whether every `\texttt{\_}` artifact name carries a breakpoint) and exits non-zero on any problem. Its `--self-test` mode exists because an unverified verifier is decoration: it injects ten defect classes — a short table row, an unclosed environment, a mismatched `\end`, a dropped brace, a dangling `\ref`, an orphaned `\bibitem`, an unbreakable typewriter underscore, and unescaped `_`, `#` and `$` — one at a time into an in-memory copy of the source and requires the matching check to fire, then re-runs the clean copy and requires zero problems. Current status: all ten fire, clean copy passes with 0 problems over 1807 lines. The earlier claim in this document that no LaTeX engine is installed was true when it was written and is not true now: MiKTeX 25.12 is installed in this environment (off `PATH`, at `C:/Users/tharu/AppData/Local/Programs/MiKTeX/miktex/bin/x64`), `paper/main.pdf` is compiled here, and `tests/test_tex_typesetting.py` runs that compiler as part of the suite, failing on any overfull box, undefined reference or length change between passes. The page count is therefore a measured property of this file rather than an expectation about it.
+Key outputs: `corpus/acquisition_manifest.json`, `corpus/derived/passages_v2.jsonl`, `results/v2_run_summary.json`, `results/v2_cleaning_ablation.json`, `results/v2_candidate_pairs.jsonl`, `results/v2_manual_review.json`, `results/narrative_component_pairs.jsonl`, `results/narrative_validation.json`, `results/narrative_run_summary.json`, `results/v2_relevance_graph.json`, `results/divinity_terms.json`, `results/exclusivist_monotheism_audit.json`, `results/ontology_attestations.jsonl.gz`, `results/ontology_passage_matrix.csv.gz`, `results/ontology_work_states.csv`, `results/ontology_run_summary.json`, `results/ontology_graph.json`, `results/ontology_passage_pairs.jsonl.gz`, `results/ontology_workpair_dimensions.csv`, `results/graph_recall_validation.json`, `results/attestation_scaffold.csv`, `config/recall_probe_cues.json`, `results/annotation_packet_coder_view.csv`, `results/annotation_packet_key.jsonl`, `results/annotation_sampling_plan.json`, `results/annotation_codebook.csv`, `results/track_b_state.html`, `results/model_power_simulation.json`, `results/figures/*.svg`. `tools/compare_models.py` prints its `not_yet_testable` result to stdout and writes an artifact only with `--write-to`; `tools/compare_models.py --power` runs the declared grid and writes `results/model_power_simulation.json`, which is the file the pair and effective-sample gates are read from, and a run with any override stamps itself `SMOKE RUN` instead of overwriting the published artifact cleanly. `tools/score_annotation.py` is deliberately absent from this list, because it needs two coded sheets that do not exist yet and refuses to run without them, without a packet that carries no-record probe rows, and without a weight on every probe row. `tools/validate_tex.py` writes nothing at all: it prints a line-numbered structural report on `paper/main.tex` (environment nesting, per-row cell counts against the column spec, escapes, label and citation cross-checks, and whether every `\texttt{\_}` artifact name carries a breakpoint) and exits non-zero on any problem. Its `--self-test` mode exists because an unverified verifier is decoration: it injects ten defect classes — a short table row, an unclosed environment, a mismatched `\end`, a dropped brace, a dangling `\ref`, an orphaned `\bibitem`, an unbreakable typewriter underscore, and unescaped `_`, `#` and `$` — one at a time into an in-memory copy of the source and requires the matching check to fire, then re-runs the clean copy and requires zero problems. Current status: all ten fire, clean copy passes with 0 problems over 1819 lines. The earlier claim in this document that no LaTeX engine is installed was true when it was written and is not true now: MiKTeX 25.12 is installed in this environment (off `PATH`, at `C:/Users/tharu/AppData/Local/Programs/MiKTeX/miktex/bin/x64`), `paper/main.pdf` is compiled here, and `tests/test_tex_typesetting.py` runs that compiler as part of the suite, failing on any overfull box, undefined reference or length change between passes. The page count is therefore a measured property of this file rather than an expectation about it.

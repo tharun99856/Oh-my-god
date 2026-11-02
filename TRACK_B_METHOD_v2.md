@@ -661,10 +661,17 @@ Machine records are candidates. The annotation layer must be independent of the 
   banding scored 0.023214 measured on the deterministic 1,632-passage subset and 0.023475 corpus-wide, and the
   exact index that replaced it scores 1.0 against the relation it defines without telling you anything about the
   40 declared values it has no pattern for. So the builder enumerates the detector's own proposition universe over the eligible passages —
-  **1,028,478 segments**, of which **36,775** carry a record and **991,703** carry none — and draws two
-  disjoint simple random samples from the no-record part: **944,451 cue-negative** segments (900 drawn,
-  π = 0.000952934562, w = 1,049.39) and **47,252 cue-positive** segments (600 drawn, π = 0.012697875222,
-  w = 78.7533). Each drawn row carries its exact inclusion probability and weight into the answer key.
+  **1,028,478 segments**, of which **36,334** carry an asserted candidate and **992,144** carry nothing the
+  detector asserted — and draws two
+  disjoint simple random samples from the no-record part: **944,833 cue-negative** segments (900 drawn,
+  π = 0.000952549286, w = 1,049.8144) and **47,311 cue-positive** segments (600 drawn, π = 0.012682040118,
+  w = 78.8517). Each drawn row carries its exact inclusion probability and weight into the answer key.
+  The frame is drawn on `assertion_state: candidate` alone. **441** propositions carry a record yet carry no
+  detection — 379 `not_yet_instrumented` records and 140 `candidate_requires_human_disambiguation` records, 519
+  in all — and the first build of the probe counted them as hits, which simultaneously gave five values a
+  published recall for an instrument that does not exist and removed their propositions from the population a
+  miss is measured against. They remain in the candidate strata, where a human read can validate them; they are
+  not detections.
   Two strata rather than one because misses concentrate where the text names a divinity: a single uniform draw
   would spend nearly all its rows where nothing is, and the cued region would go unmeasured; stratifying and
   weighting keeps the pooled estimate design-unbiased over the whole no-record population. The cue list
@@ -675,12 +682,18 @@ Machine records are candidates. The annotation layer must be independent of the 
   the two kinds of row from being coded to two standards.
 - **Two estimands, kept in two blocks.** [tools/score_annotation.py](tools/score_annotation.py) computes
   per-value precision on `machine_candidate` rows only, and detector recall on the probe rows only, as a
-  Horvitz–Thompson estimate: `recall_hat(v) = detected_v / (detected_v + Σ w)`, where the weight sum runs over
+  Horvitz–Thompson estimate: `recall_hat(v) = tp_v / (tp_v + Σ w / c)`, where `tp_v` is `detected_v` times the
+  share of flagged propositions both coders kept on a candidate row — a false positive cannot be a true
+  positive, and the precision table the same script computes is what finds them — the weight sum runs over
   probe rows *both* coders independently read as carrying value `v` — one coder's over-reading is never
-  projected onto a corpus — and `detected_v` is counted over the whole corpus, not over the packet. A stratum
+  projected onto a corpus — `c` is the share of the drawn stratum's weight that was actually coded, so an
+  unfinished stratum widens the miss count instead of shrinking it, and `detected_v` is counted over the whole
+  corpus, not over the packet. The uncorrected `detected_v / (detected_v + Σ w)` is published beside it as
+  `recall_hat_upper_bound_ignoring_precision`, so the size of the discount is visible. A stratum
   that finds no miss reports a one-sided exact binomial bound on its miss share instead of a recall of 1.0, and
   a value the probe never produced gets no estimate rather than a perfect one. The scorer refuses to run on a
-  key with no probe rows and on a probe row with no weight.
+  key with no probe rows, on a probe row with no weight, and on a stratum whose rows report two different
+  populations.
 - **The scorer also refuses** to run on one coder and refuses the same sheet supplied twice.
   The packet is **above** the 3,000-proposition target in size; what it is short of is coders. **No coder has
   coded it**, so it produces no reliability figure. That, and not a number, is the current state

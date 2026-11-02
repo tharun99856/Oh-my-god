@@ -111,6 +111,12 @@ ANSWER_VOCABULARIES = {
 # the rows the instrument is already sure of.
 SAMPLING_STATES = ("candidate", "candidate_requires_human_disambiguation", "not_yet_instrumented")
 
+# Sampling all three is right; calling all three a detection is not. `not_yet_instrumented` records the
+# absence of a detector and `candidate_requires_human_disambiguation` records a value the detector refused
+# to choose, so a proposition carrying only those two was never flagged for anything. Treating it as a hit
+# removed it from the frame where a miss can be found and put it in recall's numerator at the same time.
+DETECTION_STATE = "candidate"
+
 
 @lru_cache(maxsize=1)
 def dimensions():
@@ -354,7 +360,17 @@ def build(per_stratum, per_work, per_act, probe_uncued, probe_cued, seed):
     # ---- recall probe: propositions the machine produced no record for -------------------------------
     cue_config = json.loads(CUE_CONFIG.read_text(encoding="utf-8"))
     cue_pattern, live_cues = compile_cue_pattern(cue_config)
-    universe_stats, pool_uncued, pool_cued = enumerate_universe(set(groups), cue_pattern)
+    detections = {key for key, group in groups.items()
+                  if any(r["assertion_state"] == DETECTION_STATE for r in group)}
+    universe_stats, pool_uncued, pool_cued = enumerate_universe(detections, cue_pattern)
+    universe_stats["propositions_with_any_machine_record"] = len(groups)
+    universe_stats["of_which_the_machine_asserted_nothing"] = len(groups) - len(detections)
+    universe_stats["records_excluded_as_non_detections"] = sum(
+        1 for record in records if record["assertion_state"] != DETECTION_STATE)
+    universe_stats["of_which_not_yet_instrumented"] = sum(
+        1 for record in records if record["assertion_state"] == "not_yet_instrumented")
+    universe_stats["of_which_requires_human_disambiguation"] = sum(
+        1 for record in records if record["assertion_state"] == "candidate_requires_human_disambiguation")
     probe_rng = random.Random(seed + 2)
     take_uncued, n_uncued, pi_uncued = draw_simple_random(pool_uncued, probe_uncued, probe_rng)
     take_cued, n_cued, pi_cued = draw_simple_random(pool_cued, probe_cued, probe_rng)
@@ -494,8 +510,15 @@ def build(per_stratum, per_work, per_act, probe_uncued, probe_cued, seed):
                          "status": "a sampling instruction; a cue never produces an attestation, a value "
                                    "assignment or a doctrinal count"},
             "estimator": {
-                "detected_v": "propositions carrying a machine record for value v, counted over the whole "
-                              "corpus, not over the packet",
+                "detected_v": "propositions carrying an `assertion_state: candidate` record for value v, "
+                              "counted over the whole corpus, not over the packet",
+                "what_is_not_a_detection": "a `not_yet_instrumented` record names a value this detector declares "
+                                           "it cannot detect, and a `candidate_requires_human_disambiguation` "
+                                           "record names a value it refused to choose. Neither is a detection: "
+                                           "counting them gave values with no detector a nonzero numerator, and "
+                                           "counting their propositions as hits removed them from the frame where "
+                                           "a miss could be found. Both are still sampled, in the candidate "
+                                           "strata, so a human read can validate them.",
                 "estimated_misses_v": "the sum of sampling_weight over probe rows a human coded as carrying "
                                       "value v -- Horvitz-Thompson, one weight per drawn proposition",
                 "recall_hat_v": "detected_v / (detected_v + estimated_misses_v)",
