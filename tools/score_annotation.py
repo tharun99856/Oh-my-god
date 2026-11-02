@@ -3,6 +3,15 @@
 
 Usage:
     python tools/score_annotation.py --coder-a FILE.csv --coder-b FILE.csv
+    python tools/score_annotation.py --pilot --coder-a FILE.csv --coder-b FILE.csv
+
+The second form scores the 300-proposition pilot slice (`results/pilot_slice.json`, built by
+`tools/make_pilot_packet.py`) and produces agreement only: it refuses `--key` and `--attestations` on
+purpose, because a pilot slice is not allocated to a precision or recall estimate, and a scorer that could
+print one from a sample chosen for a different purpose is how a project gets a headline it did not pay for.
+It also refuses two sheets that carry the same coder_id, a sheet that is not the slice, a value name that is
+not on the frame's list, and a required column left empty -- and it counts the rows where neither reader
+wrote anything instead of averaging them into a Jaccard of 1.0.
 
 Reads the answer key written by prepare_annotation_packet.py, plus the corpus-wide
 detector output in results/ontology_attestations.jsonl.gz (recall's numerator), and
@@ -77,6 +86,7 @@ from __future__ import annotations
 import argparse
 import csv
 import gzip
+import hashlib
 import json
 import math
 import sys
@@ -88,10 +98,14 @@ sys.path.insert(0, str(ROOT / "tools"))
 from prepare_annotation_packet import (  # noqa: E402
     ANSWER_VOCABULARIES, DETECTION_STATE, PROBE_ROLE_PREFIX, QUESTION_COLUMNS, REFERENT_COLUMN,
     UNIT_COLUMN, coding_columns, column_cardinalities)
+from make_pilot_packet import (  # noqa: E402  one slice, one codebook read, one list of never-blank columns
+    REQUIRED_COLUMNS as REQUIRED_CODER_COLUMNS, codebook_values_by_dimension)
 
 KEY = ROOT / "results/annotation_packet_key.jsonl"
 ATTESTATIONS = ROOT / "results/ontology_attestations.jsonl.gz"
 OUT = ROOT / "results/annotation_reliability.json"
+PILOT_SLICE = ROOT / "results/pilot_slice.json"
+PILOT_OUT = ROOT / "results/pilot_agreement.json"
 
 # A probe row is a miss only when both readers independently decline the null. Any
 # looser rule lets one coder's over-reading become a corpus-wide miss.
@@ -340,20 +354,271 @@ def both_readers_decline_the_null(row_a, row_b):
     return bool(all(units)) and not (units & {NULL_UNIT_ANSWER, UNDECIDABLE})
 
 
+def pilot_slice(path):
+    """The slice definition, plus the source hashes it was drawn against."""
+    if not Path(path).exists():
+        raise SystemExit(
+            f"{display_path(path)} does not exist, so there is no pilot to score. Build it with "
+            "python tools/make_pilot_packet.py first: a pilot scored against a slice that was never "
+            "published is a sample chosen after the answer was known.")
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
+def coder_id_of(rows, label):
+    """One identifier per sheet, or a refusal: a sheet whose coder_id changes mid-file is two sheets."""
+    ids = {(row.get("coder_id") or "").strip() for row in rows}
+    if ids == {""} or not ids:
+        raise SystemExit(f"{label} carries no coder_id, so its coding could not be attributed to anyone")
+    if len(ids) > 1:
+        raise SystemExit(f"{label} carries {len(ids)} different coder_id values; one sheet is one coder")
+    return ids.pop()
+
+
+def require_the_slice_was_coded(rows_a, rows_b, wanted):
+    """Both sheets must contain exactly the slice: a self-selected subset is the bias a pilot exists to avoid."""
+    for label, rows in (("coder A", rows_a), ("coder B", rows_b)):
+        extra = sorted(set(rows) - wanted)
+        missing = sorted(wanted - set(rows))
+        if extra or missing:
+            raise SystemExit(
+                f"{label} does not match the published slice ({len(extra)} rows outside it, {len(missing)} of "
+                "its rows absent). Coding the interesting half of a random sample measures the interesting half.")
+
+
+def require_answer_vocabulary(rows_a, rows_b, columns, cardinality, vocabulary):
+    """Refuse a sheet that invented a value name, rather than scoring the invention as its own category."""
+    offenders = defaultdict(Counter)
+    for label, rows in (("coder A", rows_a), ("coder B", rows_b)):
+        for token, row in sorted(rows.items()):
+            for name, column in sorted(columns.items()):
+                allowed = vocabulary.get(name)
+                if allowed is None:
+                    raise SystemExit(f"the codebook has no rows for {name}, so nothing may be validated against it")
+                for value in sorted(parse_cell(row, column, cardinality.get(name, "single")) - allowed):
+                    offenders[f"{label} / {column}"][value] += 1
+    if offenders:
+        detail = "; ".join(f"{where}: " + ", ".join(f"{value} x{count}" for value, count in sorted(cells.items()))
+                           for where, cells in sorted(offenders.items()))
+        raise SystemExit(
+            f"a sheet contains answers that are not on the frame's lists, so they cannot be scored as "
+            f"disagreement -- {detail}")
+
+
+def blank_or_undecidable(pairs):
+    """How often each reader reached for the two answers that end a discussion rather than starting one."""
+    left, right = [a for a, _ in pairs], [b for _, b in pairs]
+    return {
+        "blank_share_coder_a": round(sum(1 for value in left if not value) / len(left), 4) if left else None,
+        "blank_share_coder_b": round(sum(1 for value in right if not value) / len(right), 4) if right else None,
+        "undecidable_share_coder_a": round(sum(1 for value in left if value == UNDECIDABLE) / len(left), 4)
+                                     if left else None,
+        "undecidable_share_coder_b": round(sum(1 for value in right if value == UNDECIDABLE) / len(right), 4)
+                                     if right else None,
+    }
+
+
+def single_valued_pilot_block(pairs, column):
+    """Exact match and kappa over the rows where at least one reader wrote something.
+
+    Both-blank rows are counted and reported apart, never averaged in. A dimension nobody coded would
+    otherwise score as perfect agreement, which is the same trap the corpus-side anomaly scan found: an
+    instrument reporting 0.5095 concordance for a column whose values two readers never wrote.
+    """
+    coded = [(a, b) for a, b in pairs if a or b]
+    kappa, kappa_n = cohens_kappa(coded) if coded else (None, 0)
+    disagreements = [(a, b) for a, b in coded if a != b]
+    return {
+        "coder_column": column,
+        "statistic": "cohen_kappa over rows where either reader coded",
+        "rows_compared": len(pairs),
+        "rows_where_either_reader_coded": len(coded),
+        "rows_both_left_blank": len(pairs) - len(coded),
+        "exact_agreement_on_coded_rows": round((len(coded) - len(disagreements)) / len(coded), 4)
+                                         if coded else None,
+        "cohen_kappa": round(kappa, 4) if kappa is not None else None,
+        "kappa_n": kappa_n,
+        "kappa_is_none_because_only_one_answer_occurs": kappa is None and bool(coded),
+        "disagreement_cells": dict(sorted(Counter(f"{a or '(blank)'} -> {b or '(blank)'}"
+                                                  for a, b in disagreements).items())),
+        "blank_and_undecidable": blank_or_undecidable(pairs),
+        "flag": ("neither_reader_used_this_column: agreement here would be a measurement of nothing"
+                 if not coded else None),
+    }
+
+
+def set_valued_pilot_block(value_pairs, column):
+    """Mean Jaccard and exact-set agreement over rows carrying at least one value, plus the one-sided reads."""
+    coded = [(a, b) for a, b in value_pairs if (a or b)]
+    scores = [jaccard(a, b) for a, b in coded]
+    one_only = Counter()
+    for a, b in coded:
+        for value in sorted(a ^ b):
+            one_only[value] += 1
+    return {
+        "coder_column": column,
+        "statistic": "mean Jaccard over rows where either reader coded",
+        "rows_compared": len(value_pairs),
+        "rows_where_either_reader_coded": len(coded),
+        "rows_both_left_blank": len(value_pairs) - len(coded),
+        "mean_jaccard_on_coded_rows": round(sum(scores) / len(scores), 4) if scores else None,
+        "exact_set_agreement_on_coded_rows": round(sum(1 for a, b in coded if a == b) / len(coded), 4)
+                                             if coded else None,
+        "value_seen_by_one_reader_only": dict(sorted(one_only.items())),
+        "blank_and_undecidable": blank_or_undecidable([(";".join(sorted(a)), ";".join(sorted(b)))
+                                                       for a, b in value_pairs]),
+        "flag": ("neither_reader_used_this_column: a Jaccard of 1.0 on two empty sets is two people "
+                 "saying nothing, so it is excluded rather than averaged" if not coded else None),
+    }
+
+
+def run_pilot(args):
+    """Two completed pilot sheets -> agreement, and nothing else. The answer key is never opened."""
+    if args.key is not None or args.attestations is not None:
+        raise SystemExit(
+            "--pilot refuses --key and --attestations: the slice is not allocated to a precision or recall "
+            "estimate, so scoring it against the machine would print a number the design cannot support")
+    slice_definition = pilot_slice(args.slice)
+    tokens = sorted({token for stratum in slice_definition["strata"].values() for token in stratum["tokens"]})
+    if len(tokens) != slice_definition["pilot_rows"]:
+        raise SystemExit(
+            f"the slice file names {len(tokens)} tokens for a pilot of {slice_definition['pilot_rows']} rows; "
+            "rebuild it with python tools/make_pilot_packet.py rather than scoring a half-written derivation")
+    a, b = read_packet(args.coder_a), read_packet(args.coder_b)
+    coder_a, coder_b = coder_id_of(a.values(), "coder A's sheet"), coder_id_of(b.values(), "coder B's sheet")
+    if coder_a == coder_b:
+        raise SystemExit(
+            f"both sheets declare coder_id {coder_a!r}: one person coding twice is not inter-coder agreement")
+    require_the_slice_was_coded(a, b, set(tokens))
+    wanted = set(tokens)
+    a = {token: row for token, row in a.items() if token in wanted}
+    b = {token: row for token, row in b.items() if token in wanted}
+
+    columns = coding_columns()
+    cardinality = column_cardinalities()
+    vocabulary = codebook_values_by_dimension()
+    require_answer_vocabulary(a, b, columns, cardinality, vocabulary)
+    require_answer_vocabulary(a, b, {name: name for name in REQUIRED_CODER_COLUMNS},
+                              {name: "single" for name in REQUIRED_CODER_COLUMNS}, vocabulary)
+    for column in REQUIRED_CODER_COLUMNS:
+        for label, rows in (("coder A", a), ("coder B", b)):
+            blank = sorted(token for token in tokens if not (rows[token].get(column) or "").strip())
+            if blank:
+                raise SystemExit(
+                    f"{label} left `{column}` empty on {len(blank)} row(s), starting at {blank[0]}. These "
+                    "columns are never blank: an empty one is an unfinished sheet, and unfinished sheets are "
+                    "what the packet's own weight-coverage field exists to stop being counted as favourable")
+
+    blocks_single, blocks_set = {}, {}
+    for name, column in sorted(columns.items()):
+        pairs = [((a[token].get(column) or "").strip(), (b[token].get(column) or "").strip()) for token in tokens]
+        if cardinality[name] == "single":
+            blocks_single[name] = single_valued_pilot_block(pairs, column)
+        else:
+            blocks_set[name] = set_valued_pilot_block(
+                [[frozenset(value.strip() for value in cell.split(";") if value.strip()) for cell in pair]
+                 for pair in pairs], column)
+    questions = {name: single_valued_pilot_block(
+        [((a[token].get(name) or "").strip(), (b[token].get(name) or "").strip()) for token in tokens], name)
+        for name in REQUIRED_CODER_COLUMNS}
+
+    scored_single = [row["cohen_kappa"] for row in blocks_single.values() if row["cohen_kappa"] is not None]
+    scored_set = [row["mean_jaccard_on_coded_rows"] for row in blocks_set.values()
+                  if row["mean_jaccard_on_coded_rows"] is not None]
+    unused = sorted([name for name, row in blocks_single.items() if not row["rows_where_either_reader_coded"]]
+                    + [name for name, row in blocks_set.items() if not row["rows_where_either_reader_coded"]])
+    result = {
+        "instrument": "two-coder pilot agreement",
+        "status": "pilot_agreement_only",
+        "produced_by": "python tools/score_annotation.py --pilot",
+        "coders": {"coder_a": coder_a, "coder_b": coder_b},
+        "rows_compared": len(tokens),
+        "slice": {"path": display_path(args.slice).replace("\\", "/"),
+                  "sha256": hashlib.sha256(Path(args.slice).read_bytes()).hexdigest(),
+                  "seed": slice_definition["seed"], "pilot_rows": slice_definition["pilot_rows"],
+                  "packet_rows": slice_definition["packet_rows"]},
+        "sheets": {"coder_a": {"path": display_path(args.coder_a),
+                               "sha256": hashlib.sha256(Path(args.coder_a).read_bytes()).hexdigest()},
+                   "coder_b": {"path": display_path(args.coder_b),
+                               "sha256": hashlib.sha256(Path(args.coder_b).read_bytes()).hexdigest()}},
+        "headline": {
+            "segmentation_answer_exact_agreement": questions[UNIT_COLUMN]["exact_agreement_on_coded_rows"],
+            "segmentation_cohen_kappa": questions[UNIT_COLUMN]["cohen_kappa"],
+            "single_valued_dimensions_reaching_a_kappa": len(scored_single),
+            "single_valued_dimensions_in_frame": len(blocks_single),
+            "set_valued_dimensions_reaching_a_jaccard": len(scored_set),
+            "columns_neither_reader_used": unused,
+            "mean_kappa_over_the_single_valued_dimensions_that_have_one":
+                round(sum(scored_single) / len(scored_single), 4) if scored_single else None,
+            "how_to_read_a_mean_of_kappas": "a convenience summary over an unweighted set of dimensions, not a "
+                                            "reliability coefficient for the frame; the per-dimension figures "
+                                            "above are the result and this one is not quotable",
+        },
+        "single_valued_dimensions": blocks_single,
+        "set_valued_dimensions": blocks_set,
+        "coder_questions": questions,
+        "machine_key_was_read": False,
+        "what_this_is": [
+            f"agreement between two readers on {len(tokens)} propositions, per dimension, on the statistic the "
+            "frame declares for that dimension",
+            "a test of whether a coder who did not write the frame can finish a sheet and knows what to do "
+            "with the hard rows",
+            "the first number in this project that does not come from the person who authored the categories",
+        ],
+        "what_it_cannot_support": [
+            "a precision estimate for any value: the slice is not allocated across the value strata and the "
+            "key was never opened",
+            "a recall estimate: same reason, plus recall needs the packet's design weights over 1,500 probe "
+            "rows, not 300 sliced ones",
+            "an inter-coder reliability coefficient for the corpus: it is a coefficient for this slice, from "
+            "two people who volunteered for a pilot",
+            "any inference about the traditions coded: agreement measures the frame, not the texts",
+        ],
+    }
+    out = args.out
+    if out is None:
+        raise SystemExit(
+            "--pilot requires an explicit --out. A pilot agreement file at results/pilot_agreement.json is "
+            "a record that two named people filled these sheets, so the run that creates it should be the "
+            "one that says so: --out results/pilot_agreement.json")
+    out.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="")
+    print(json.dumps({"status": result["status"], "coders": result["coders"],
+                      "rows_compared": result["rows_compared"],
+                      "segmentation_kappa": result["headline"]["segmentation_cohen_kappa"],
+                      "kappa_by_single_valued_dimension":
+                          {name: row["cohen_kappa"] for name, row in blocks_single.items()},
+                      "mean_jaccard_by_set_valued_dimension":
+                          {name: row["mean_jaccard_on_coded_rows"] for name, row in blocks_set.items()},
+                      "columns_neither_reader_used": unused}, indent=2))
+    print(f"wrote {display_path(out)}")
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--coder-a", required=True, type=Path)
     parser.add_argument("--coder-b", required=True, type=Path)
-    parser.add_argument("--key", type=Path, default=KEY,
-                        help="answer key; a synthetic key is how the weighted recall estimator gets tested")
-    parser.add_argument("--attestations", type=Path, default=ATTESTATIONS,
-                        help="the corpus-wide detector output that supplies recall's numerator")
-    parser.add_argument("--out", type=Path, default=OUT,
+    parser.add_argument("--key", type=Path, default=None,
+                        help="answer key; a synthetic key is how the weighted recall estimator gets tested. "
+                             "Refused with --pilot.")
+    parser.add_argument("--attestations", type=Path, default=None,
+                        help="the corpus-wide detector output that supplies recall's numerator. "
+                             "Refused with --pilot.")
+    parser.add_argument("--out", type=Path, default=None,
                         help="where to write; a developer run against synthetic sheets must not "
                              "overwrite the canonical reliability file with figures no human produced")
+    parser.add_argument("--pilot", action="store_true",
+                        help="score two completed pilot sheets for agreement only, and refuse to open the key")
+    parser.add_argument("--slice", type=Path, default=PILOT_SLICE,
+                        help="the published pilot slice definition, whose token list the sheets must match")
     args = parser.parse_args()
     if args.coder_a.resolve() == args.coder_b.resolve():
         raise SystemExit("one sheet supplied twice is not two independent codings")
+    if args.pilot:
+        run_pilot(args)
+        return
+    args.key = args.key or KEY
+    args.attestations = args.attestations or ATTESTATIONS
+    args.out = args.out or OUT
     a, b, key = read_packet(args.coder_a), read_packet(args.coder_b), key_index(args.key)
     columns = coding_columns()
     cardinality = column_cardinalities()

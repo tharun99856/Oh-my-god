@@ -51,6 +51,7 @@ SUITE_LABELS = {
     "model-comparison": "tests/test_model_comparison.py",
     "anomaly-scan": "tests/test_dimension_anomalies.py",
     "annotation-recall": "tests/test_annotation_recall.py",
+    "pilot-kit": "tests/test_pilot_kit.py",
     "typesetting": "tests/test_tex_typesetting.py",
     "documented-counts": "tests/test_documented_counts.py",
 }

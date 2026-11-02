@@ -707,6 +707,24 @@ Machine records are candidates. The annotation layer must be independent of the 
   winner; 3 such propositions are in the packet (10 records in the run carry a `value_conflict` list), and the
   coder — not the sampler — decides which value the proposition carries; 9 packet propositions are flagged
   overlong.
+- **The ask now has an address.** [tools/make_pilot_packet.py](tools/make_pilot_packet.py) cuts a **300-row pilot**
+  out of the packet's coder view and renders what two strangers would need: the blank sheet
+  ([results/pilot_packet_coder_view.csv](results/pilot_packet_coder_view.csv), 29 columns),
+  [annotation/PILOT_CODEBOOK.md](annotation/PILOT_CODEBOOK.md) and
+  [annotation/CODER_INSTRUCTIONS.md](annotation/CODER_INSTRUCTIONS.md). The cut is arithmetic, not judgement: the
+  packet's three roles are allocated by largest remainder (227 `machine_candidate`, 44 `no_candidate_uncued`, 29
+  `no_candidate_cue_positive`, design weights 20.7004 / 20.4545 / 20.6897) and drawn inside each stratum by a
+  simple random sample over tokens **sorted before the generator sees them**, so `PYTHONHASHSEED` cannot move the
+  draw. The key is read only for `sample_role`, no key field reaches the sheet, and the handout deliberately omits
+  the per-stratum counts — knowing which rows the machine flagged changes how hard a reader looks. All three
+  handouts are generated, `--check` re-renders them and fails on drift, and
+  [results/pilot_slice.json](results/pilot_slice.json) publishes their SHA-256s (not its own: a file cannot
+  contain its own hash), the four figures the slice cannot support, and
+  `coders_who_have_returned_sheets: []`. `tools/score_annotation.py --pilot` scores two returned sheets, refuses
+  `--key` and `--attestations` outright, and reports the statistic the frame declares per column — kappa where
+  single-valued, mean Jaccard where set-valued — with rows both readers left blank counted apart rather than
+  averaged into 1.0. Status: `pilot_prepared_not_coded`. A returned pair would be an agreement coefficient for
+  300 rows, not a reliability estimate for the corpus, and it would still not be a precision or recall figure.
 - **The packet can now measure recall, which it provably could not before.** The three candidate strata all
   draw from propositions that already carry a machine record, so they bound precision and say nothing about
   misses: a sample of hits contains no misses, and no pairing figure is the detector's recall — the superseded

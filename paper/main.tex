@@ -138,7 +138,7 @@ corpus. The further claim that no such being
 exists remains outside the reach of any textual method, in either direction.
 Global comparison is defensible as candidate discovery and falsification;
 reconstruction must be restricted to elements supported by explicit historical
-models, and 339 unit tests plus 7 parameterised subtests and the result
+models, and 372 unit tests plus 7 parameterised subtests and the result
 validators enforce those boundaries.
 
 \medskip
@@ -1417,6 +1417,68 @@ dimension; the classification is detector output over English translations, awai
 human coding that has not happened; and with zero dated attestations filled, none of these
 numbers can be read as transmission in either direction.
 
+\subsection{The handout a second coder can be given}
+\label{sec:pilot}
+
+Every agreement figure this paper lacks has the same reason: one person wrote the frame and
+one person applied it. The remedy is not another layer of code but two readers who have not
+spoken to each other filling the same sheet, and that ask becomes specific only when the
+slice, the value lists and the instructions exist as files. So
+\texttt{tools/make\_pilot\_packet.py} now cuts a pilot out of the coding packet and renders
+the handout, with the selection recorded as arithmetic rather than as a choice: the packet's
+own three roles, a largest-remainder allocation proportional to them, a seeded simple random
+draw inside each stratum over tokens sorted before the generator sees them, and the blinded
+coder view carried through unchanged.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The pilot slice and the packet it was cut from. The weights are the ratio of the
+two columns, so their near-uniformity is a property of proportional allocation, not a
+design that was tuned to make the pilot easy.}
+\label{tab:pilot}
+\begin{tabular}{L{5.2cm} r r r}
+\toprule
+stratum & rows in packet & pilot rows & design weight \\
+\midrule
+\texttt{machine\_candidate} & 4699 & 227 & 20.7004 \\
+\texttt{no\_candidate\_uncued} & 900 & 44 & 20.4545 \\
+\texttt{no\_candidate\_cue\_positive} & 600 & 29 & 20.6897 \\
+\textbf{total} & \textbf{6199} & \textbf{300} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:pilot} is the whole of the sampling decision. One row asks
+\(15\) answers --- the twelve dimension columns plus the unit, representation and
+endorsement questions --- so the pilot asks \(4500\) of them, against \(74388\) for the full
+packet; \texttt{results/annotation\_codebook.csv} carries \(93\) dimension values and \(14\)
+answers to the three questions that are not dimensions, and
+\texttt{annotation/PILOT\_CODEBOOK.md} and \texttt{annotation/CODER\_INSTRUCTIONS.md} are
+generated from those rows rather than typed beside them, because a hand-edit to a handout is
+a second version of the frame that the scorer has never seen.
+
+The pilot scorer, \texttt{tools/score\_annotation.py --pilot}, is written to be less capable
+than the one that scores the full packet. It refuses \texttt{-{}-key} and
+\texttt{-{}-attestations} outright, so a 300-row slice that was never allocated across the
+value strata cannot produce a precision or recall figure even by accident; it refuses two
+sheets carrying the same \texttt{coder\_id}, a sheet whose rows are not exactly the published
+slice, a value name that is not on the frame's list, a required column left empty, and a run
+that does not name its own output file. It also refuses the trap that Section
+\ref{sec:anomalies} found on the machine side: rows where neither reader wrote anything are
+counted and reported apart, never averaged into a Jaccard of \(1.0\), so a dimension nobody
+used reports \texttt{neither\_reader\_used\_this\_column} instead of perfect agreement.
+
+What this buys, and what it does not: a returned pair of sheets would put the first
+inter-coder coefficient in this project beside the \texttt{not\_yet\_testable} verdicts, and
+it would be computed by a scorer that cannot see the machine's answers. It would not be a
+reliability estimate for the corpus, which needs the full packet's value strata and its
+design weights, and it would not make any historical claim decidable --- the inheritance
+layer is still empty, because the dates in it are still blank. As of this build nobody has
+returned a sheet: \texttt{results/pilot\_slice.json} states
+\texttt{pilot\_prepared\_not\_coded} and lists its returned coders as an empty array, and the
+artifacts above are the honest form of an ask that has not yet been answered.
+
 \section{The four competing models and the licence conditions on preferring one}
 \label{sec:models}
 
@@ -1743,7 +1805,11 @@ structural pilot's predicate families, motif definitions and comparison classes
 were authored by the person who applied them, and the state coder's blinded
 6{,}199-proposition packet exists, is scored by a tool that refuses one coder and
 refuses a key whose probe rows carry no sampling weight, and
-has never been opened. Every D7 assignment, every affirmative-doctrine count and
+has never been opened. What has changed since this sentence was first written is
+only the logistics: a 300-proposition pilot slice, its codebook and its
+instructions are now generated files with published hashes, so the ask no longer
+requires anything from the project except two readers who do not talk to each
+other. Every D7 assignment, every affirmative-doctrine count and
 every speech-act split in this paper is therefore single-analyst and
 machine-classified. Second, adjudicated historical edges must be produced one at a
 time by source criticism --- the adjudication layer of both exported graphs is
@@ -1894,6 +1960,7 @@ directory; artifacts are grouped by the section that uses them.
 \texttt{tools/prepare\_annotation\_packet.py}, \texttt{results/annotation\_packet\_coder\_view.csv}, \texttt{annotation\_packet\_key.jsonl}, \texttt{annotation\_codebook.csv}, \texttt{annotation\_sampling\_plan.json} & 6{,}199 blinded propositions --- 4{,}699 machine-flagged candidates over 48 value strata with 11 censuses, 65 works, 8 speech acts, plus 1{,}500 no-record probe rows in two disjoint strata with their exact \(\pi\) and \(w = 1/\pi\) published per row; seed 20261101, separate answer key, published codebook and sizing rationale \\
 \texttt{config/recall\_probe\_cues.json}, \texttt{tools/check\_recall\_cues.py} & the 111 English cues that decide where the probe looks, each counted over the eligible passages by the checker, with the six ambiguous cues retired and their reasons recorded; the file sets \texttt{not\_a\_detector: true} and the packet builder refuses a cue list it has not verified \\
 \texttt{tools/score\_annotation.py} & the \(\kappa\)-and-Jaccard scorer plus the weighted recall estimator: per-value precision on candidate rows, Horvitz--Thompson miss counts on probe rows over \texttt{candidate}-state records only, a precision discount and a coverage adjustment on the recall numerator and denominator each with the uncorrected figure published beside it as a bound, a one-sided exact binomial bound where a stratum found none, and \textbf{refusals} --- one coder, the same sheet twice, a key with no probe rows, a probe row with no weight, a stratum reporting two populations --- and correspondingly, \textbf{no \texttt{results/annotation\_reliability.json} exists}, because no human has coded the packet \\
+\texttt{tools/make\_pilot\_packet.py}, \texttt{results/pilot\_slice.json}, \texttt{results/pilot\_packet\_coder\_view.csv}, \texttt{annotation/PILOT\_CODEBOOK.md}, \texttt{annotation/CODER\_INSTRUCTIONS.md} & the handout two strangers can be asked to fill in: \(300\) of the \(6199\) blinded propositions, allocated across the packet's three roles by largest remainder and drawn inside each stratum by a seeded simple random sample over tokens sorted before the generator sees them (seed 20261102), which is why the design weights are near-uniform by construction rather than by tuning; the \(29\)-column sheet, the codebook's \(93\) dimension values and \(14\) fixed-question answers and every count in the instructions are rendered from the packet, the key and the codebook, \texttt{--check} re-renders all four and fails on drift, and the derivation publishes the three handouts' SHA-256, the four things this slice \textbf{cannot} support, and \texttt{coders\_who\_have\_returned\_sheets} as an empty array \\
 \midrule
 \multicolumn{2}{l}{\emph{Models (Section 7)}}\\
 \texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome and a flat or contradicted M4 block profile disqualifying M4 from the name; stage 2 asks the separate licence question, an inheritance-bearing model over \textbf{both} no-edge nulls at the same single declared margin), the M4 attractor block-profile test over the three dimension blocks, read twice --- once on raw mean similarity and once on mean excess over the anomaly scan's same-graph chance line, with a third adjacency class for a gap inside the registered separability and a scale disagreement that issues no disqualification --- and publishing the chance file's SHA-256 beside its verdict, the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}; the block profile on the corpus's own \(1237\) scored pairs reads \texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale}. \\
@@ -1901,7 +1968,7 @@ directory; artifacts are grouped by the section that uses them.
 \midrule
 \multicolumn{2}{l}{\emph{Method and tests}}\\
 \texttt{TRACK\_B\_METHOD\_v2.md} & the Track B methodology as rebuilt: unit of analysis, the twelve dimensions and why two were split, the three-question state model, audit findings, the four models with their admissions, the operator discipline, the licence conditions on reporting, the acquisition plan \\
-\texttt{tests/}, \texttt{tools/validate\_*.py} & 339 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 113 model-comparison, 28 anomaly-scan, 36 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, \texttt{tests/test\_dimension\_anomalies.py} re-derives Table~\ref{tab:chance} and every prose figure in Section~\ref{sec:anomalies} from the artifact it quotes, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
+\texttt{tests/}, \texttt{tools/validate\_*.py} & 372 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 113 model-comparison, 28 anomaly-scan, 36 annotation-recall, 33 pilot-kit, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, \texttt{tests/test\_dimension\_anomalies.py} re-derives Table~\ref{tab:chance} and every prose figure in Section~\ref{sec:anomalies} from the artifact it quotes, \texttt{tests/test\_pilot\_kit.py} re-derives Table~\ref{tab:pilot} and the prose figures of Section~\ref{sec:pilot} from the slice derivation and refuses to let the two handouts and the packet drift apart, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
 \bottomrule
 \end{longtable}
 
@@ -1924,7 +1991,7 @@ count repeats and the log stops asking for a rerun, and fails the suite if the e
 exits non-zero, if its log reports an overfull or underfull box, if a reference or
 citation is still undefined on the final pass, if the length is still moving after four
 passes, or if the page count the prose states is not the page count the engine produced.
-On this machine (MiKTeX 25.12) the paper sets to 37 pages with none of those
+On this machine (MiKTeX 25.12) the paper sets to 39 pages with none of those
 occurring; the earlier edition of this paragraph said no \LaTeX{} engine was installed,
 which was true of that machine and wrong as a reason not to look. Where no engine is
 installed the test skips and says so, instead of leaving the geometry unverified in

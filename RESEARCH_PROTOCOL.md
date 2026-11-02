@@ -264,6 +264,8 @@ At least two annotators independently code a preregistered subset, with source a
 
 Low reliability triggers codebook revision and re-annotation, not more elaborate statistics.
 
+**Status for the state coder (2 November 2026).** The preregistered subset now exists as a distributable handout rather than as an intention: `tools/make_pilot_packet.py` cuts 300 of the packet's 6,199 blinded propositions, allocates them across the packet's three sampling roles by largest remainder, and draws inside each stratum with a seeded simple random sample over tokens sorted before the generator sees them (seed 20261102), so the draw does not move with `PYTHONHASHSEED`. The coder sheet, `annotation/PILOT_CODEBOOK.md` and `annotation/CODER_INSTRUCTIONS.md` are generated from the packet, the key and the codebook — `--check` re-renders them and fails on drift — and `results/pilot_slice.json` publishes the per-stratum counts, the design weights, the SHA-256 of the three handouts, the four figures this slice cannot support, and `coders_who_have_returned_sheets: []`. `tools/score_annotation.py --pilot` scores two returned sheets and refuses `--key` and `--attestations` outright, because a sample drawn for agreement contains no frame in which a miss can be found. No sheet has come back, so no agreement coefficient is reported anywhere in this project, and none is imputed.
+
 ---
 
 ## 7. Comparison and scoring
@@ -503,7 +505,7 @@ Recorded as observed, including the gates that failed.
 | Two independent codings for a preregistered subset | **not met** | all 14 versions coded by one analyst; no reliability estimate exists |
 | Positive, negative and matched controls in the same pipeline | **met** | dependent witnesses, 6 predicted-unrelated negatives, length-matched lexical pairs |
 | Scores reproducible from a frozen input and configuration | **met** | seed 20261031, recorded SHA-256 inputs, byte-identical rerun of the candidate set |
-| No historical confidence inferred from descriptive similarity alone | **met and enforced** | no composite, no `DESCENDS_FROM`/`BORROWS_FROM` edge, empty adjudication layer, zero `RESEMBLES` edges, 339 tests |
+| No historical confidence inferred from descriptive similarity alone | **met and enforced** | no composite, no `DESCENDS_FROM`/`BORROWS_FROM` edge, empty adjudication layer, zero `RESEMBLES` edges, 372 tests |
 | Preregistered order-sensitivity floor | **failed** | mean `S_sequence` drop 0.0186 against a 0.02 floor; cause identified as the gap-cost ceiling, reported rather than tuned |
 | Controls behave in the expected direction | **partly** | dependent witnesses outrank all negatives; famous cross-tradition parallels do **not** rank high, which the model reports rather than explains away |
 | Sensitivity analyses do not reverse substantive conclusions | **not met for alignment parameters** | on the scale above, the gap sweep moves the published ranking by 0.231–0.291 (Kendall τ 0.11–0.34) while the preregistered g = 1.0 reproduces itself at 0.001 (τ = 0.998); predicate-credit, motif-cap and leave-one-region-out shifts are ≤ 0.017 (τ ≥ 0.973) |
@@ -591,7 +593,7 @@ column and a missing edge each say something about this instrument and nothing a
 **What Track B requires before it may publish a historical conclusion.**
 
 1. Original-language and dated expressions per dimension value, not one English translation per work; the current corpus cannot support priority claims, and the current instrument cannot say anything except about English translation vocabulary — it is a multilingual-**ready** framework, not a multilingual or language-independent one, and `expression_language` is `English (translation)` on all 47,641 records.
-2. A second analyst-authored lexicon, independently built, with inter-annotator agreement on value assignment across the twelve dimensions (κ per single-valued dimension, mean Jaccard per set-valued one); a census whose categories are authored by its only coder is a description of one reading.
+2. A second analyst-authored lexicon, independently built, with inter-annotator agreement on value assignment across the twelve dimensions (κ per single-valued dimension, mean Jaccard per set-valued one); a census whose categories are authored by its only coder is a description of one reading. The handout for this exists since 2 November 2026 (§6.5 status note): `tools/make_pilot_packet.py` publishes a 300-row blinded slice with generated codebook and instructions, and `tools/score_annotation.py --pilot` scores two returned sheets without ever opening the answer key; `results/pilot_slice.json` records `pilot_prepared_not_coded` and an empty returned-coder list, so this requirement is unmet and now unmet for a reason that is nobody's fault but the absence of two readers.
 3. Anthropological and historical-literacy sources for the concept’s institutional life (cult, ritual, office, self-referential use), since a vocabulary census cannot see any of that.
 4. Community and specialist review for living-tradition material, per §5.4, before its concepts are used as distribution data.
 5. The gate in §12.2 applied to concept claims as well: no `DESCENDS_FROM` for a concept until a dated attestation chain and reviewed counterevidence exist in the fifth graph layer.
