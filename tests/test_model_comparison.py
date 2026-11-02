@@ -152,7 +152,28 @@ def nodes_of(derivation):
     return {item["node_id"]: item for item in derivation["nodes"]}
 
 
-def observation(pair_id, similarity_class, n_vertical=2, background=None, works=None, witnesses=None, lineage=None):
+DIMENSION_BLOCKS = CONFIG["dimension_similarity_rules"]["dimension_blocks"]
+
+# The ordering M4's alpha vector declares: functional most concordant, structural middle, arbitrary least.
+# Fixtures carry it by default so that a test about margins and gates is not accidentally a test about the
+# attractor prior; a test that wants the prior to fail passes its own means.
+DECLARED_BLOCK_ORDER = {"functional_or_pressure_prone": 0.70, "structural": 0.50, "arbitrary_or_expressive": 0.30}
+
+
+def block_profile(means):
+    """A pair's per-block means in the shape `similarity_between` writes them.
+
+    `None` for a block means that pair compared no key in it, which is what keeps a block out of the pooled
+    profile rather than pulling its mean toward zero.
+    """
+    if means is None:
+        return None
+    return {name: {"keys_compared": list(keys), "mean_similarity": means[name]}
+            for name, keys in DIMENSION_BLOCKS.items() if means.get(name) is not None}
+
+
+def observation(pair_id, similarity_class, n_vertical=2, background=None, works=None, witnesses=None, lineage=None,
+                block_means=DECLARED_BLOCK_ORDER):
     work_a, work_b = works or (f"work-{pair_id}-a", f"work-{pair_id}-b")
     witness_a, witness_b = witnesses or (f"witness-{pair_id}-a", f"witness-{pair_id}-b")
     record = {
@@ -170,6 +191,9 @@ def observation(pair_id, similarity_class, n_vertical=2, background=None, works=
         "composition_a": date_object(-900, -800),
         "composition_b": date_object(-500, -400),
     }
+    profile = block_profile(block_means)
+    if profile:
+        record["block_profile"] = profile
     if lineage:
         record["declared_lineage"] = lineage
     return record
@@ -235,9 +259,22 @@ class ConfigContractTests(unittest.TestCase):
 
     def test_every_declared_number_is_registered_as_analyst_set(self):
         register = json.dumps(CONFIG["analyst_set_parameters_register"])
-        for needle in ("margin_log10_bayes_factor", "max_operator_applications_per_derivation", "ordering_rule threshold"):
+        for needle in ("margin_log10_bayes_factor", "max_operator_applications_per_derivation",
+                       "ordering_rule threshold", "minimum_block_spread"):
             self.assertIn(needle.split()[-1], register, needle)
         self.assertIn("analyst-set", json.dumps(CONFIG["operator_cost_matrix"]) + json.dumps(CONFIG["edge_rate_parameters"]))
+
+    def test_a_registered_number_still_says_what_the_tool_reads(self):
+        """A register entry that has drifted from the live key is a registration of a different rule."""
+        registered = {item["parameter"]: item for item in CONFIG["analyst_set_parameters_register"]}
+        spread = CONFIG["m4_block_profile_test"]["minimum_block_spread"]
+        margin = cm.declared_margin(CONFIG)
+        self.assertIn(f"m4_block_profile_test.minimum_block_spread = {spread}", registered,
+                      "the register names the number it registers, so editing the key strands the entry")
+        self.assertIn(f"margin_log10_bayes_factor = {margin}", registered)
+        entry = registered[f"m4_block_profile_test.minimum_block_spread = {spread}"]
+        self.assertIn("analyst", entry["basis"], "the spread is a judgement and has to be labelled as one")
+        self.assertIn("never after a run", entry["may_be_changed"])
 
     def test_the_replaced_monotone_prediction_is_named_not_silently_dropped(self):
         replaced = CONFIG["probabilistic_transformation_model"]["replaces"]
@@ -707,7 +744,7 @@ class MarginTests(unittest.TestCase):
         pairs = pair_set(MINIMUM_PAIRS, "unrelated")
         result = cm.evaluate_derivation(derivation(), CONFIG, observations=pairs)
         self.assertEqual(result["status"], cm.STATUS_NOT_PREFERRED)
-        self.assertEqual(result["models_meeting_margin_vs_M2"], [])
+        self.assertEqual(result["models_meeting_the_licence_margin"], [])
         self.assertIsNotNone(result["model_scores"])
         self.assertIn("none asserted", result["historical_conclusion"])
 
@@ -723,7 +760,7 @@ class MarginTests(unittest.TestCase):
         self.assertTrue(result["models_meeting_margin_on_whole_set"])
         self.assertEqual(result["models_meeting_margin_on_held_out"], [])
         self.assertEqual(result["status"], cm.STATUS_NOT_PREFERRED)
-        self.assertEqual(result["models_meeting_margin_vs_M2"], [])
+        self.assertEqual(result["models_meeting_the_licence_margin"], [])
 
     def test_only_inheritance_bearing_models_can_be_preferred(self):
         pairs = pair_set(MINIMUM_PAIRS, "far", n_vertical=1)
@@ -938,7 +975,8 @@ class FourWayCompetitionTests(unittest.TestCase):
         self.assertEqual(decision["leader"], "M4")
         self.assertEqual(decision["status"], cm.STATUS_DECISIVE)
         comparison = cm.compare_observations(pairs, CONFIG)
-        self.assertEqual(comparison["models_meeting_margin_vs_M2"], [], "convergence is never a demonstrated derivation")
+        self.assertEqual(comparison["models_meeting_the_licence_margin"], [],
+                         "convergence is never a demonstrated derivation")
 
     def test_no_decisive_winner_is_reachable_and_published_as_a_result(self):
         pairs = pair_set(MINIMUM_PAIRS, "identical")
@@ -993,6 +1031,174 @@ class FourWayCompetitionTests(unittest.TestCase):
         self.assertTrue(result["both_stages_published"])
         self.assertIn("different", result["stages_answer_different_questions"])
         self.assertTrue(result["status_is_stage_2"], "the headline status is the licence question, and says so")
+
+
+class M4BlockProfileTests(unittest.TestCase):
+    """The fourth model's one distinguishing prediction, confronted with data.
+
+    M4 admits no edges, so its likelihood is the same function of a pair set any other no-edge model would
+    produce. What separates the two is the alpha vector, and that vector says something checkable: concordance
+    is highest in `functional_or_pressure_prone`, middle in `structural`, lowest in `arbitrary_or_expressive`.
+    The per-pair `block_profile` that tests it used to be computed, published and read by nothing.
+    """
+
+    FLAT = {"functional_or_pressure_prone": 0.50, "structural": 0.49, "arbitrary_or_expressive": 0.51}
+    REVERSED = {"functional_or_pressure_prone": 0.20, "structural": 0.45, "arbitrary_or_expressive": 0.75}
+
+    def m4_leading_set(self, block_means):
+        return pair_set(MINIMUM_PAIRS, "unrelated", background={"identical": 1.0}, n_vertical=0,
+                        block_means=block_means)
+
+    def test_the_propensity_is_read_back_out_of_the_alpha_vector(self):
+        alpha = CONFIG["model_likelihoods"]["M4_independent_development_then_convergence"]["attractor_prior_alpha"]["alpha_vector"]
+        declared = cm.declared_block_propensities(CONFIG)
+        self.assertEqual(declared, {block: round(value / (value + 1), 6) for block, value in alpha.items()})
+        ordering = CONFIG["m4_block_profile_test"]["declared_ordering"]
+        self.assertEqual(ordering, sorted(ordering, key=lambda block: -declared[block]),
+                         "the declared ordering is the alpha vector's, not a second list that can drift from it")
+
+    def test_the_declared_fixture_confirms_and_disqualifies_nothing(self):
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical"), CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_CONFIRMS)
+        self.assertFalse(test["disqualifies_m4_from_being_named_leader"])
+        self.assertGreaterEqual(test["spread_across_blocks"], test["minimum_block_spread_declared"])
+        self.assertTrue(all(item["holds"] for item in test["adjacent_predictions"]), test["adjacent_predictions"])
+        self.assertIn("absence of the refutation", test["reason"],
+                      "a surviving prediction is not corroboration, and the reason must say so")
+
+    def test_a_flat_profile_is_the_falsification_hook_the_alpha_vector_declared(self):
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical", block_means=self.FLAT), CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_FLAT)
+        self.assertTrue(test["disqualifies_m4_from_being_named_leader"])
+        self.assertLess(test["spread_across_blocks"], test["minimum_block_spread_declared"])
+        self.assertIn("falsification_hook", test["reason"])
+
+    def test_a_reversed_profile_names_which_prediction_broke(self):
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical", block_means=self.REVERSED),
+                                               CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_CONTRADICTS)
+        self.assertTrue(test["disqualifies_m4_from_being_named_leader"])
+        self.assertEqual(len(test["reversed_predictions"]), 2, "both adjacent predictions point the wrong way")
+        self.assertEqual(test["observed_ordering"][0], "arbitrary_or_expressive",
+                         "the observed ordering is published, not just a verdict token")
+
+    def test_the_spread_and_the_sign_are_two_separate_checks(self):
+        """A profile can clear the minimum spread while reversing one adjacency and holding the other."""
+        mixed = {"functional_or_pressure_prone": 0.70, "structural": 0.30, "arbitrary_or_expressive": 0.45}
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical", block_means=mixed), CONFIG)
+        self.assertGreaterEqual(test["spread_across_blocks"], test["minimum_block_spread_declared"],
+                                "a wide spread is not a pass; the ordering is what M4 claims")
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_CONTRADICTS)
+        self.assertEqual([item["stronger"] for item in test["reversed_predictions"]],
+                         ["structural"], "only the broken adjacency is reported as reversed")
+
+    def test_a_disconfirmed_profile_strips_the_name_and_moves_no_score(self):
+        confirmed = cm.decide_four_way(self.m4_leading_set(DECLARED_BLOCK_ORDER), CONFIG)
+        disconfirmed = cm.decide_four_way(self.m4_leading_set(self.REVERSED), CONFIG)
+        self.assertEqual(confirmed["status"], cm.STATUS_DECISIVE)
+        self.assertEqual(confirmed["leader"], "M4")
+        self.assertEqual(disconfirmed["status"], cm.STATUS_NO_DECISIVE_WINNER,
+                         "M4 is not named while the data contradict the claim that made it a model")
+        self.assertEqual(disconfirmed["leader"], "M4", "the ranking is published unchanged; the name is withheld")
+        self.assertTrue(disconfirmed["m4_disqualified_from_being_named_leader"])
+        self.assertIn("no model is named", disconfirmed["reason"])
+        self.assertEqual(disconfirmed["model_scores"], confirmed["model_scores"],
+                         "the profile test gates a name, it does not edit a likelihood")
+        self.assertEqual(disconfirmed["ranking_by_log_likelihood"], confirmed["ranking_by_log_likelihood"])
+
+    def test_a_disconfirmed_profile_is_published_beside_the_verdict_not_buried(self):
+        result = cm.evaluate_derivation(derivation(), CONFIG, observations=self.m4_leading_set(self.REVERSED))
+        self.assertEqual(result["m4_block_profile_test"]["status"], cm.STATUS_PROFILE_CONTRADICTS)
+        self.assertIn("m4_block_profile_test", result)
+
+    def test_a_block_no_pair_reached_is_an_absence_not_a_zero(self):
+        sparse = pair_set(MINIMUM_PAIRS, "identical",
+                          block_means={"functional_or_pressure_prone": 0.70, "structural": None,
+                                       "arbitrary_or_expressive": None})
+        test = cm.attractor_block_profile_test(sparse, CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_NOT_TESTABLE)
+        self.assertEqual(test["blocks_measured"], ["functional_or_pressure_prone"])
+        self.assertEqual(test["observed_block_means"], {"functional_or_pressure_prone": 0.70},
+                         "the two unmeasured blocks are absent from the means rather than sitting at 0.0")
+        self.assertFalse(test["disqualifies_m4_from_being_named_leader"],
+                         "a missing input must not be read as a refutation of M4")
+
+    def test_measuring_the_extremes_without_the_middle_checks_nothing(self):
+        """The two adjacent predictions both involve `structural`, so a set that never reaches it judges none."""
+        ends_only = {"functional_or_pressure_prone": 0.90, "structural": None, "arbitrary_or_expressive": 0.10}
+        test = cm.attractor_block_profile_test(pair_set(MINIMUM_PAIRS, "identical", block_means=ends_only), CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_NOT_TESTABLE)
+        self.assertEqual(len(test["adjacent_predictions"]), 2, "both predictions are listed as unjudged")
+        self.assertTrue(all(item["holds"] is None for item in test["adjacent_predictions"]))
+        self.assertGreaterEqual(test["spread_across_blocks"], test["minimum_block_spread_declared"],
+                                "the spread alone is not what makes the test runnable")
+
+    def test_a_pair_set_with_no_block_profile_at_all_refuses_rather_than_passing(self):
+        pairs = pair_set(MINIMUM_PAIRS, "identical", block_means=None)
+        test = cm.attractor_block_profile_test(pairs, CONFIG)
+        self.assertEqual(test["status"], cm.STATUS_PROFILE_NOT_TESTABLE)
+        self.assertEqual(test["pairs_carrying_a_block_profile"], 0)
+        refusal = cm.missing_required_inputs(CONFIG, observations=pairs)
+        self.assertTrue(any(item.startswith("block_profile:") for item in refusal), refusal)
+
+
+class InheritanceLicenceBaselinesTests(unittest.TestCase):
+    """The licence has two no-edge nulls to clear, and the harder of them is the one that decides."""
+
+    # A background distribution that makes independent origin a poor account of these pairs and convergence a
+    # near-equal one: 193 `partial` pairs, which M4 predicts better than M1 does, against 27 `identical` ones,
+    # which M1 predicts far better. The two effects cancel to under the margin over M4 while leaving a huge
+    # margin over M2 -- which is exactly the case a single-baseline rule used to license on the strength of.
+    PARTIAL_WEIGHT = 193
+    BACKGROUND = {"identical": 0.01, "near": 0.01, "partial": 0.01, "far": 0.01, "unrelated": 0.96}
+
+    def licence_split_set(self):
+        pairs = []
+        for index in range(MINIMUM_PAIRS):
+            similarity = "partial" if index < self.PARTIAL_WEIGHT else "identical"
+            pairs.append(observation(
+                "p%03d" % index, similarity,
+                works=(f"work-{index:03d}-a", f"work-{index:03d}-b"),
+                witnesses=(f"witness-{index:03d}-a", f"witness-{index:03d}-b"),
+                background=self.BACKGROUND))
+        return pairs
+
+    def test_clearing_the_independent_origin_null_alone_is_not_a_licence(self):
+        comparison = cm.compare_observations(self.licence_split_set(), CONFIG)
+        self.assertEqual(comparison["models_meeting_margin_vs_M2"], ["M1", "M3"])
+        self.assertEqual(comparison["models_meeting_margin_vs_M4"], [])
+        self.assertEqual(comparison["models_meeting_the_licence_margin"], [],
+                         "a derivation that cannot beat convergence has not earned the word 'inherited'")
+        self.assertEqual(comparison["stage_2_inheritance_licence"]["status"], cm.STATUS_NOT_PREFERRED)
+
+    def test_the_binding_baseline_is_the_null_the_model_beats_by_least(self):
+        comparison = cm.compare_observations(self.licence_split_set(), CONFIG)
+        for model in CONFIG["independent_origin_baseline_and_margin"]["inheritance_bearing_models"]:
+            margins = {"M2": comparison["log10_bayes_factor_vs_M2"][model],
+                       "M4": comparison["log10_bayes_factor_vs_M4"][model]}
+            self.assertEqual(comparison["licence_binding_baseline"][model], min(margins, key=margins.get))
+            self.assertAlmostEqual(comparison["licence_min_margin_over_baselines"][model], min(margins.values()))
+
+    def test_the_minimum_over_baselines_is_never_larger_than_either_margin(self):
+        for pairs in (pair_set(MINIMUM_PAIRS, "identical"), self.licence_split_set()):
+            comparison = cm.compare_observations(pairs, CONFIG)
+            for model, value in comparison["licence_min_margin_over_baselines"].items():
+                self.assertLessEqual(value, comparison["log10_bayes_factor_vs_M2"][model])
+                self.assertLessEqual(value, comparison["log10_bayes_factor_vs_M4"][model])
+
+    def test_a_licence_needs_both_baselines_and_so_m4_can_stop_one(self):
+        """M4 cannot win the licence -- convergence is not a demonstrated derivation -- but it can deny one."""
+        rule = CONFIG["independent_origin_baseline_and_margin"]
+        self.assertEqual(sorted(rule["baselines"]), ["M2", "M4"])
+        self.assertNotIn("M4", rule["inheritance_bearing_models"])
+        comparison = cm.compare_observations(self.licence_split_set(), CONFIG)
+        self.assertNotIn("M4", comparison["models_meeting_the_licence_margin"])
+        self.assertEqual(comparison["stage_2_inheritance_licence"]["baselines"], ["M2", "M4"])
+
+    def test_the_licence_still_clears_when_both_nulls_are_beaten(self):
+        comparison = cm.compare_observations(pair_set(MINIMUM_PAIRS, "identical"), CONFIG)
+        self.assertEqual(comparison["models_meeting_the_licence_margin"], ["M1", "M3"])
+        self.assertEqual(comparison["stage_2_inheritance_licence"]["status"], cm.STATUS_MARGIN_MET)
 
 
 class PowerSimulationTests(unittest.TestCase):

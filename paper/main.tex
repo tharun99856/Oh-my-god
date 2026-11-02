@@ -1,4 +1,4 @@
-% One Origin, a Thousand Stories? -- typeset edition, version 1.3
+% One Origin, a Thousand Stories? -- typeset edition, version 1.4
 %
 % BUILD
 %   pdflatex main.tex          (run twice for cross-references)
@@ -52,8 +52,8 @@
 \title{\textbf{One Origin, a Thousand Stories?}\\[4pt]
 \large A falsifiable comparative framework for investigating the ancestry\\
 and transmission of human narratives and divine concepts\\[10pt]
-\normalsize Research paper --- version 1.3 (typeset edition)\\
-1 November 2026}
+\normalsize Research paper --- version 1.4 (typeset edition)\\
+2 November 2026}
 \author{}
 \date{}
 
@@ -128,7 +128,7 @@ output is \texttt{not\_yet\_testable}. The further claim that no such being
 exists remains outside the reach of any textual method, in either direction.
 Global comparison is defensible as candidate discovery and falsification;
 reconstruction must be restricted to elements supported by explicit historical
-models, and 289 unit tests plus 7 parameterised subtests and the result
+models, and 305 unit tests plus 7 parameterised subtests and the result
 validators enforce those boundaries.
 
 \medskip
@@ -1294,11 +1294,13 @@ everything explains nothing.
 \centering
 \small
 \caption{The four models, the edges each may use, what each predicts that the
-others do not, and what would make it less likely. M2 and M4 are baselines for
+others do not, and what would make it less likely. M2 and M4 are both baselines for
 the licence question, which is stage 2 of the rule: only an inheritance-bearing
-model (M1, M3) may be reported as preferred, and only by the margin specified
-below. Stage 1, which asks which model describes a pair set, scores all four on
-the same footing and can end with no decisive winner.}
+model (M1, M3) may be reported as preferred, and only by beating each of the two
+nulls by the margin specified below. Stage 1, which asks which model describes a
+pair set, scores all four on the same footing and can end with no decisive winner;
+and M4's block-concentration row is the prediction stage 1 now tests rather than
+merely reports.}
 \label{tab:models}
 \begin{tabular}{L{1.1cm} L{4.2cm} L{4.3cm} L{3.6cm}}
 \toprule
@@ -1476,12 +1478,28 @@ over M2, because a rule written as ``inheritance beats the null'' makes M2 the d
 the choice between M1 and M3 untested --- the asymmetry the first version of this rule had.
 \texttt{no\_decisive\_winner} is a declared outcome and a published result, not a run that failed to produce
 one. Stage 2 keeps the licence question the margin was originally written to answer: an inheritance-bearing
-model over the no-edge, no-operator baseline at the same single declared margin, with M4 reported separately
-because convergence can mimic inheritance more closely than pure independent origin can. Both stages are
-emitted on every run and neither implies the other; the layer's own fixture is the demonstration, two
-inheritance-bearing models predicting one profile, so stage 1 separates them by exactly 0.0 while stage 2 puts
-both 226.99 log units over M2. The severity is deliberate: a priced thirteen-operator vocabulary will fit
-almost anything. Evidence counts are no longer asserted either. \texttt{--power} simulates each model as the
+model must beat \emph{both} no-edge, no-operator nulls at the same single declared margin, the licensed quantity
+being the smaller of its \(\log_{10}\) Bayes factors over M2 and over M4, with the binding one published per
+model --- because the first version of this rule named M4 a second baseline, observed that a margin against M2
+alone is too easy, and then applied a margin against M2 alone. Both stages are emitted on every run and neither
+implies the other; the layer's own fixture is the demonstration, two inheritance-bearing models predicting one
+profile, so stage 1 separates them by exactly 0.0 while stage 2 puts both 226.99 log units over M2 and 847.12
+over M4, and licences them on the smaller. A second fixture, 193 \texttt{partial} pairs against 27
+\texttt{identical} ones under a background that makes independent origin a poor account of both, clears M2 by
+276.09 and misses M4 at 1.97, so it is licensed by nothing: that construction is the only reason the minimum
+matters. M4 is therefore last, not decorative. Its attractor alpha vector predicts a concordance ordering over
+the three dimension blocks --- functional-or-pressure-prone highest at \(q = \alpha/(\alpha + 1) = 0.714286\),
+structural 0.5, arbitrary-or-expressive 0.285714 --- and the block profile of every pair is now pooled
+key-weightedly and scored against it. A spread under the registered 0.05, or an adjacency pointing the wrong
+way, disqualifies M4 from being \emph{named} the stage-1 leader: the ranking and every likelihood are published
+unchanged and the verdict falls to \texttt{no\_decisive\_winner}. A pair set that reaches fewer than two of the
+ranked blocks, or never reaches two of them together, reports \texttt{m4\_block\_profile\_not\_testable} and is
+refused, since a test that is silent on thin data is a test that never runs; and the confirming outcome is
+labelled the weakest confirmable one, because three blocks admit six orderings and a surviving prediction is
+the absence of a refutation, not corroboration. The simulated floors did not move with this gate --- the power
+generator's synthetic pairs carry no per-key block profile --- and that is stated rather than glossed over, so
+a reader can check that the calibration still describes the rule in force. The severity is deliberate: a priced
+thirteen-operator vocabulary will fit almost anything. Evidence counts are no longer asserted either. \texttt{--power} simulates each model as the
 truth on the declared grid and derives the smallest pair count at which stage 1 names the generating model
 decisively in 0.8 of replications \emph{for every one of the four} --- 220 pairs here, M1 the binding truth ---
 and takes the 5th-percentile Kish effective count of that binding cell (29.051621) as a second floor, so
@@ -1719,12 +1737,12 @@ directory; artifacts are grouped by the section that uses them.
 \texttt{tools/score\_annotation.py} & the \(\kappa\)-and-Jaccard scorer plus the weighted recall estimator: per-value precision on candidate rows, Horvitz--Thompson miss counts on probe rows over \texttt{candidate}-state records only, a precision discount and a coverage adjustment on the recall numerator and denominator each with the uncorrected figure published beside it as a bound, a one-sided exact binomial bound where a stratum found none, and \textbf{refusals} --- one coder, the same sheet twice, a key with no probe rows, a probe row with no weight, a stratum reporting two populations --- and correspondingly, \textbf{no \texttt{results/annotation\_reliability.json} exists}, because no human has coded the packet \\
 \midrule
 \multicolumn{2}{l}{\emph{Models (Section 7)}}\\
-\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome; stage 2 asks the separate licence question, an inheritance-bearing model over the no-edge baseline at the same single declared margin), the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}. \\
+\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome and a flat or contradicted M4 block profile disqualifying M4 from the name; stage 2 asks the separate licence question, an inheritance-bearing model over \textbf{both} no-edge nulls at the same single declared margin), the M4 attractor block-profile test over the three dimension blocks, the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}. \\
 \texttt{tools/compare\_models.py --power}, \texttt{results/model\_power\_simulation.json} & the floors the layer enforces, simulated rather than asserted: each of the four models run as the truth over the declared grid (20--400 pairs by 20, 200 replications, seed 20261031) at a 0.8 target, the pair floor taken as the maximum over the four so that no truth is left unresolved (220 pairs, M1 binding), the effective-sample floor as the 5th percentile Kish count of that binding cell (29.051621), three sensitivity scenarios and a per-row Monte Carlo standard error, with the declared parameters hashed and any overridden run stamped \texttt{SMOKE RUN}. A run that derives no floor refuses every pair set instead of falling back to the superseded analyst number of 20. \\
 \midrule
 \multicolumn{2}{l}{\emph{Method and tests}}\\
 \texttt{TRACK\_B\_METHOD\_v2.md} & the Track B methodology as rebuilt: unit of analysis, the twelve dimensions and why two were split, the three-question state model, audit findings, the four models with their admissions, the operator discipline, the licence conditions on reporting, the acquisition plan \\
-\texttt{tests/}, \texttt{tools/validate\_*.py} & 289 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 91 model-comparison, 36 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
+\texttt{tests/}, \texttt{tools/validate\_*.py} & 305 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 107 model-comparison, 36 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
 \bottomrule
 \end{longtable}
 
@@ -1746,7 +1764,7 @@ measurement rather than a disclaimer: \texttt{tests/test\_tex\_typesetting.py} r
 count repeats and the log stops asking for a rerun, and fails the suite if the engine
 exits non-zero, if its log reports an overfull or underfull box, if a reference or
 citation is still undefined on the final pass, if the length is still moving after four
-passes, or if the page count the prose states is not the page count the engine produced. On this machine (MiKTeX 25.12) the paper sets to 33 pages with none of those
+passes, or if the page count the prose states is not the page count the engine produced. On this machine (MiKTeX 25.12) the paper sets to 34 pages with none of those
 occurring; the earlier edition of this paragraph said no \LaTeX{} engine was installed,
 which was true of that machine and wrong as a reason not to look. Where no engine is
 installed the test skips and says so, instead of leaving the geometry unverified in

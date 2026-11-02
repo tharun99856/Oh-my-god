@@ -495,12 +495,44 @@ first version of this section had. `no_decisive_winner` is a declared outcome an
 that failed to produce an answer.
 
 **Stage 2 asks whether a historical sentence is licensed.** An inheritance-bearing model (M1 or M3) must beat
-the no-edge, no-operator baseline M2 by the same declared margin, with M4 reported separately and never
-counted as a demonstrated derivation. Both stages are emitted on every run and neither implies the other: the
-fixture set in [tests/test_model_comparison.py](tests/test_model_comparison.py) has M1 and M3 predicting the
-same profile, so stage 1 separates them by exactly **0.0** log10 units while stage 2 puts both of them
-**226.988839** log10 units over M2. One headline status would have had to be either an overstatement or a
-silence; two published stages are neither.
+**both** no-edge nulls by the same declared margin — M2, independent origin, and M4, convergence — so the
+licensed quantity is `min(log10 BF over M2, log10 BF over M4)`, and the baseline that produced the minimum is
+published per model as `licence_binding_baseline`. The previous version of this paragraph named M4 a second
+baseline, said in the same breath that a margin against M2 alone is too easy, and then applied a margin against
+M2 alone; `log10_bayes_factor_vs_M4` was computed, published, and load-bearing for nothing, which is a model
+reported rather than tested. M4 can never win the licence — convergence is not a demonstrated derivation — but
+it can now refuse one, which is the whole of what "reported separately" was supposed to mean. Both stages are
+emitted on every run and neither implies the other: the fixture set in
+[tests/test_model_comparison.py](tests/test_model_comparison.py) has M1 and M3 predicting the same profile, so
+stage 1 separates them by exactly **0.0** log10 units while stage 2 puts both of them **226.988839** log10 units
+over M2 and **847.121639** over M4, and the licence takes the smaller. A second fixture — 193 `partial` pairs
+against 27 `identical` ones, under a background distribution that makes independent origin a poor account of
+either — clears M2 by **276.086702** and M4 by **1.967332**, so it is licensed by nothing. That construction is
+the only reason the minimum matters: on a single-baseline rule the same pair set reads as a demonstration of
+inheritance. One headline status would have had to be either an overstatement or a silence; two published stages
+are neither.
+
+**M4 is scored on the claim that makes it a model rather than a second null.** M4 admits no edges, so its
+likelihood is the same function of a pair set that any other no-edge model would produce; the only thing that
+separates the two is its attractor alpha vector, and that vector says something checkable — concordance should
+be highest in `functional_or_pressure_prone` (**0.714286** per key), middle in `structural` (**0.5**) and lowest
+in `arbitrary_or_expressive` (**0.285714**), where the propensity is `q = alpha / (alpha + 1)` read back out of
+the published alphas rather than typed in beside them. `attractor_block_profile_test` pools every pair's
+per-block `block_profile` into a key-weighted mean per block — key-weighted because the alpha vector declares
+concordance per dimension key, not per pair — and scores three outcomes against one analyst-set threshold,
+`m4_block_profile_test.minimum_block_spread = 0.05`: `block_ordering_confirms_declared_propensity` when the
+spread clears it and both adjacent predictions hold, `block_profile_flat_the_falsification_hook_fired` when it
+does not, and `block_ordering_contradicts_declared_propensity` when an adjacency points the wrong way. The flat
+and contradicts outcomes disqualify M4 from being *named* the decisive leader of stage 1: the ranking and every
+likelihood are published unchanged, and the verdict falls to `no_decisive_winner` with the disqualification
+recorded beside it. A pair set that measures fewer than two of the three ranked blocks, or never measures two of
+them *together*, reports `m4_block_profile_not_testable` — which is a missing input and a refusal, not a pass,
+because a test that reports nothing when the data are thin is a test that never runs. The confirm outcome is
+deliberately called the weakest of the confirmable ones: three blocks admit six orderings, so a surviving
+prediction is the absence of a refutation, not corroboration. The power floors do not move with this gate — the
+simulator scores from likelihood totals and its synthetic pairs carry no per-key block profile — so
+**220 pairs / n_eff 29.051621** remain the calibrated floors for the rule now in force, and a calibration that
+silently described a different rule would be worthless.
 
 **The evidence floor is simulated, not asserted.** A winner is emitted only when the pair set clears two
 floors published by `python tools/compare_models.py --power` into

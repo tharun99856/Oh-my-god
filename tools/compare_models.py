@@ -66,6 +66,12 @@ STATUS_DECISIVE = "decisive"
 STATUS_NO_DECISIVE_WINNER = "no_decisive_winner"
 STATUS_INSUFFICIENT_PAIRS = "insufficient_pairs"
 STATUS_CLUSTER_KEYS_MISSING = "cluster_keys_missing"
+STATUS_PROFILE_CONFIRMS = "block_ordering_confirms_declared_propensity"
+STATUS_PROFILE_FLAT = "block_profile_flat_the_falsification_hook_fired"
+STATUS_PROFILE_CONTRADICTS = "block_ordering_contradicts_declared_propensity"
+STATUS_PROFILE_NOT_TESTABLE = "m4_block_profile_not_testable"
+# Outcomes that mean the data contradict the one prediction that separates M4 from a second null.
+STATUS_PROFILE_DISCONFIRMED = (STATUS_PROFILE_FLAT, STATUS_PROFILE_CONTRADICTS)
 STAGE_ONE_OUTCOMES = (STATUS_DECISIVE, STATUS_NO_DECISIVE_WINNER, STATUS_INSUFFICIENT_PAIRS, STATUS_CLUSTER_KEYS_MISSING)
 
 
@@ -713,6 +719,112 @@ def attractor_distribution(config):
     return {name: round(value / total, 8) for name, value in out.items()}
 
 
+def declared_block_propensities(config):
+    """q(block) = alpha / (alpha + 1) for each dimension block, read back out of the published alpha vector."""
+    alpha = config["model_likelihoods"]["M4_independent_development_then_convergence"]["attractor_prior_alpha"]["alpha_vector"]
+    return {block: round(value / (value + 1), 6) for block, value in alpha.items()}
+
+
+def observed_block_profile(observations):
+    """Key-weighted mean similarity per dimension block, pooled over the pair set.
+
+    Weighted by keys compared, not by pairs: the alpha vector declares concordance per dimension key, so a
+    pair that compared three keys in a block has three things to say there and one in a block where it
+    compared one. A block no pair reached stays absent rather than 0.0 -- an absent measurement is not
+    evidence of discordance.
+    """
+    totals = {}
+    for observation in observations:
+        for name, entry in (observation.get("block_profile") or {}).items():
+            keys, mean = entry.get("keys_compared") or [], entry.get("mean_similarity")
+            if not keys or mean is None:
+                continue
+            bucket = totals.setdefault(name, {"keys": 0, "weighted": 0.0, "pairs": 0})
+            bucket["keys"] += len(keys)
+            bucket["weighted"] += len(keys) * mean
+            bucket["pairs"] += 1
+    return {name: {"mean_similarity": round(bucket["weighted"] / bucket["keys"], 6),
+                   "keys_compared": bucket["keys"], "pairs_contributing": bucket["pairs"]}
+            for name, bucket in sorted(totals.items()) if bucket["keys"]}
+
+
+def attractor_block_profile_test(observations, config):
+    """Score the single claim that makes M4 a theory rather than a second null.
+
+    M4 admits no edges, so its likelihood is the same function of a pair set that any other no-edge model
+    would produce. What separates the two is the alpha vector, and that vector predicts an ordering:
+    `functional_or_pressure_prone` most concordant, `structural` middle, `arbitrary_or_expressive` least.
+    The per-pair `block_profile` that would test it was computed and published and read by nothing, so M4
+    could lose stage 1 without ever being asked whether its distinguishing prediction had come true.
+
+    A flat or reversed profile disqualifies M4 from being *named* the decisive leader. It changes no
+    likelihood and removes M4 from no ranking. Under simulation the pair carries no `block_profile` and the
+    test reports `m4_block_profile_not_testable`, which is why the published power floors do not move: a
+    gate that quietly reshaped a calibrated floor would make the calibration a statement about a different
+    rule than the one now in force.
+    """
+    rule = config["m4_block_profile_test"]
+    minimum_spread = rule["minimum_block_spread"]
+    declared = declared_block_propensities(config)
+    observed = observed_block_profile(observations)
+    predicted_order = list(rule["declared_ordering"])
+    result = {
+        "declared_propensity": declared,
+        "declared_ordering": predicted_order,
+        "observed_block_means": {name: value["mean_similarity"] for name, value in observed.items()},
+        "keys_compared_per_block": {name: value["keys_compared"] for name, value in observed.items()},
+        "pairs": len(observations),
+        "pairs_carrying_a_block_profile": sum(1 for item in observations if item.get("block_profile")),
+        "minimum_block_spread_declared": rule["minimum_block_spread"],
+        "disqualifies_m4_from_being_named_leader": False,
+    }
+    measured = [name for name in predicted_order if name in observed]
+    if len(observed) < 2:
+        return {**result, "status": STATUS_PROFILE_NOT_TESTABLE,
+                "blocks_measured": sorted(observed),
+                "blocks_without_a_measurement": sorted(set(declared) - set(observed)),
+                "reason": "fewer than two dimension blocks carry a comparable key in this pair set, so the "
+                          "ordering M4 declares cannot be checked against it. This is a missing input, not a "
+                          "pass: a test that reports nothing whenever the data are thin is a test that never runs."}
+    means = [observed[name]["mean_similarity"] for name in sorted(observed)]
+    spread = round(max(means) - min(means), 6)
+    adjacent = []
+    for stronger, weaker in rule["declared_adjacent_predictions"]:
+        if stronger not in observed or weaker not in observed:
+            adjacent.append({"stronger": stronger, "weaker": weaker, "observed_difference": None,
+                             "holds": None, "reason": "one of the two blocks carries no comparable key"})
+            continue
+        difference = round(observed[stronger]["mean_similarity"] - observed[weaker]["mean_similarity"], 6)
+        adjacent.append({"stronger": stronger, "weaker": weaker, "observed_difference": difference,
+                         "holds": difference > 0})
+    judged = [item for item in adjacent if item["holds"] is not None]
+    result.update({"spread_across_blocks": spread, "adjacent_predictions": adjacent,
+                   "observed_ordering": sorted(observed, key=lambda name: -observed[name]["mean_similarity"]),
+                   "blocks_without_a_measurement": sorted(set(declared) - set(observed))})
+    if not judged:
+        return {**result, "status": STATUS_PROFILE_NOT_TESTABLE,
+                "reason": "the pair set measures blocks, but never two of the three the alpha vector ranks "
+                          "together, so no adjacent prediction has an observable sign"}
+    if spread < minimum_spread:
+        return {**result, "status": STATUS_PROFILE_FLAT, "disqualifies_m4_from_being_named_leader": True,
+                "reason": f"the three blocks differ by {spread} at most, below the declared "
+                          f"{minimum_spread}. This is the case the alpha vector's own "
+                          "`falsification_hook` named: concordance is flat across the blocks, so the declared "
+                          "concentrations are wrong and M4's likelihood moves with them."}
+    reversed_pairs = [item for item in judged if not item["holds"]]
+    if reversed_pairs:
+        return {**result, "status": STATUS_PROFILE_CONTRADICTS,
+                "disqualifies_m4_from_being_named_leader": True,
+                "reversed_predictions": reversed_pairs,
+                "reason": "the observed block ordering contradicts the declared one, so M4's attractor prior is "
+                          "wrong in a directed way: the block it says converges most is not the block that "
+                          "agrees most in these pairs."}
+    return {**result, "status": STATUS_PROFILE_CONFIRMS,
+            "reason": "every adjacent prediction holds and the spread clears the declared minimum. This is the "
+                      "weakest of the confirmable outcomes: three blocks admit six orderings, so one surviving "
+                      "prediction is not corroboration, it is the absence of the refutation M4 was exposed to."}
+
+
 def pair_log_likelihood(model, observation, config):
     """log likelihood of one observed state pair under one model, per model_likelihoods edge admissions.
 
@@ -1138,10 +1250,14 @@ def decide_four_way(observations, config, gates=None, split=None):
             )
     else:
         gate_problems.append("effective independent samples: no floor published, run the power simulation")
-    status = STATUS_INSUFFICIENT_PAIRS if gate_problems else (
-        STATUS_DECISIVE if verdict["decisive"] else STATUS_NO_DECISIVE_WINNER
-    )
+    profile_test = attractor_block_profile_test(observations, config)
+    disqualified = "M4" if profile_test["disqualifies_m4_from_being_named_leader"] else None
+    leader_disqualified = bool(disqualified) and verdict["leader"] == disqualified and verdict["decisive"]
     gated = bool(gate_problems)
+    demoted = leader_disqualified and not gated
+    status = STATUS_INSUFFICIENT_PAIRS if gate_problems else (
+        STATUS_DECISIVE if verdict["decisive"] and not demoted else STATUS_NO_DECISIVE_WINNER
+    )
     return {
         "status": status,
         "competitors": list(models),
@@ -1176,7 +1292,13 @@ def decide_four_way(observations, config, gates=None, split=None):
             "discovery_clusters_spanning_folds_count": split["discovery_clusters_spanning_folds_count"],
         },
         "per_pair": per_pair,
-        "reason": {
+        "m4_block_profile_test": profile_test,
+        "m4_disqualified_from_being_named_leader": bool(disqualified),
+        "reason": (
+            f"the ranking puts {verdict['leader']} first by at least the margin, but the same pair set "
+            f"contradicts the one prediction that separates it from a second no-edge null "
+            f"({profile_test['status']}), so no model is named; the ranking is published unchanged"
+            if demoted else {
             STATUS_DECISIVE: f"{verdict['leader']} leads {verdict['runner_up']} by at least the declared margin on "
                              "the whole set and on the cluster holdout",
             STATUS_NO_DECISIVE_WINNER: "no model clears the declared margin over the runner-up on both the whole "
@@ -1184,7 +1306,7 @@ def decide_four_way(observations, config, gates=None, split=None):
                                        "produce one",
             STATUS_INSUFFICIENT_PAIRS: "; ".join(gate_problems),
             STATUS_CLUSTER_KEYS_MISSING: "pair labels missing",
-        }[status],
+        }[status]),
         "no_decisive_winner_is_expected": rule["stage_1_symmetric_competition"]["no_decisive_winner_is_expected"],
     }
 
@@ -1192,9 +1314,10 @@ def decide_four_way(observations, config, gates=None, split=None):
 def compare_observations(observations, config):
     """Run both published stages: the symmetric four-way competition, then the inheritance licence.
 
-    Stage 2 keeps its object -- does an inheritance-bearing model beat the no-edge null by the margin -- and
-    now carries it on the cluster holdout instead of a pair split. The two stages answer different questions
-    and neither implies the other, which is why both are emitted on every run.
+    Stage 2 keeps its object -- does an inheritance-bearing model beat the no-edge nulls by the margin -- and
+    carries it on the cluster holdout instead of a pair split. There are two no-edge nulls and the licence has
+    to clear both. The two stages answer different questions and neither implies the other, which is why both
+    are emitted on every run.
     """
     models = ("M1", "M2", "M3", "M4")
     reported_alongside = config["four_way_decision_rule"]["nested_case_key"]
@@ -1207,13 +1330,28 @@ def compare_observations(observations, config):
         return {"ok": False, "missing": [f"M2 background_distribution or M4 attractor input for pair {stalled.get('pair_id')}"]}
     margin = declared_margin(config)
     inheritance_bearing = tuple(config["independent_origin_baseline_and_margin"]["inheritance_bearing_models"])
+    baselines = tuple(config["independent_origin_baseline_and_margin"]["baselines"])
     log10_bf_vs_m2 = log10_bayes_factor(totals, "M2", models)
     log10_bf_vs_m4 = log10_bayes_factor(totals, "M4", models)
     test_totals, _ = model_totals(split["test"], config, models) if split["test"] else (None, None)
     held_out_bf = log10_bayes_factor(test_totals, "M2", models) if test_totals else {}
-    meeting_whole = [model for model, value in log10_bf_vs_m2.items() if value >= margin and model in inheritance_bearing]
-    meeting_held_out = [model for model, value in held_out_bf.items() if value >= margin and model in inheritance_bearing]
-    preferred = [model for model in meeting_whole if model in meeting_held_out] if held_out_bf else meeting_whole
+    held_out_bf_vs_m4 = log10_bayes_factor(test_totals, "M4", models) if test_totals else {}
+    # The licence is granted against the harder of the two no-edge nulls, not the easier one. Naming M4 a
+    # second baseline and then dividing only by M2 left `log10_bayes_factor_vs_M4` published and load-bearing
+    # for nothing, which is a model reported rather than tested.
+    against = {baseline: log10_bayes_factor(totals, baseline, models) for baseline in baselines}
+    held_out_against = {baseline: log10_bayes_factor(test_totals, baseline, models) if test_totals else {}
+                        for baseline in baselines}
+    licence_whole = {model: min(against[baseline].get(model, float("-inf")) for baseline in baselines)
+                     for model in inheritance_bearing}
+    licence_held_out = {model: min(held_out_against[baseline].get(model, float("-inf")) for baseline in baselines)
+                        for model in inheritance_bearing}
+    # The binding baseline is the one the model beats by *least*: the harder of the two no-edge nulls.
+    binding = {model: min(baselines, key=lambda baseline: against[baseline][model])
+               for model in inheritance_bearing}
+    meeting_whole = [model for model, value in licence_whole.items() if value >= margin]
+    meeting_held_out = [model for model, value in licence_held_out.items() if value >= margin]
+    preferred = [model for model in meeting_whole if model in meeting_held_out] if test_totals else meeting_whole
     ranked = sorted(models, key=lambda model: totals[model], reverse=True)
     stage_one = decide_four_way(observations, config, split=split)
     return {
@@ -1222,8 +1360,16 @@ def compare_observations(observations, config):
         "log10_bayes_factor_vs_M2": log10_bf_vs_m2,
         "log10_bayes_factor_vs_M4": log10_bf_vs_m4,
         "log10_bayes_factor_vs_M2_held_out": held_out_bf,
+        "log10_bayes_factor_vs_M4_held_out": held_out_bf_vs_m4,
+        "licence_baselines": list(baselines),
+        "licence_min_margin_over_baselines": {model: round(value, 6) for model, value in licence_whole.items()},
+        "licence_binding_baseline": {model: baseline for model, baseline in binding.items()},
         "margin_declared": margin,
-        "models_meeting_margin_vs_M2": preferred,
+        "models_meeting_margin_vs_M2": [model for model, value in log10_bf_vs_m2.items()
+                                        if value >= margin and model in inheritance_bearing],
+        "models_meeting_margin_vs_M4": [model for model, value in log10_bf_vs_m4.items()
+                                        if value >= margin and model in inheritance_bearing],
+        "models_meeting_the_licence_margin": preferred,
         "models_meeting_margin_on_whole_set": meeting_whole,
         "models_meeting_margin_on_held_out": meeting_held_out,
         "held_out_pairs": split["test_pairs"],
@@ -1234,8 +1380,14 @@ def compare_observations(observations, config):
         "stage_1_symmetric_competition": stage_one,
         "stage_2_inheritance_licence": {
             "status": STATUS_MARGIN_MET if preferred else STATUS_NOT_PREFERRED,
-            "models_meeting_margin_vs_M2": preferred,
-            "question": "does an inheritance-bearing model beat the no-edge, no-operator baseline by the declared margin",
+            "models_meeting_the_licence_margin": preferred,
+            "baselines": list(baselines),
+            "rule": "min(log10 BF over each baseline) >= margin, on the whole set and on the cluster holdout",
+            "licence_min_margin_over_baselines": {model: round(value, 6) for model, value in licence_whole.items()},
+            "licence_binding_baseline": {model: baseline for model, baseline in binding.items()},
+            "held_out": {model: round(licence_held_out[model], 6) for model in meeting_whole},
+            "question": "does an inheritance-bearing model beat both no-edge nulls -- independent origin and "
+                        "convergence -- by the declared margin",
             "relationship_to_stage_1": config["four_way_decision_rule"]["stage_2_inheritance_licence"]["relationship"],
         },
         "ranking_by_log_likelihood": ranked,
@@ -1687,6 +1839,13 @@ def missing_required_inputs(config, derivation=None, observations=None, scaffold
             )
         if any(not observation.get("background_distribution") for observation in observations):
             missing.append("background_distribution: empirical similarity-class distribution over pairs with historical_transmission = no_known_route, which only dated route-typed data can supply")
+        profile_test = attractor_block_profile_test(observations, config)
+        if profile_test["status"] == STATUS_PROFILE_NOT_TESTABLE:
+            missing.append(
+                f"block_profile: M4's alpha vector predicts an ordering over the three dimension blocks and this "
+                f"pair set cannot check it ({profile_test['reason']}); a four-way test in which the fourth model's "
+                "one distinguishing prediction is never confronted with data is a three-way test with a decoration"
+            )
     if derivation is not None:
         for node in derivation.get("nodes") or []:
             for which in ("composition", "witness"):
@@ -1772,7 +1931,8 @@ def evaluate_derivation(derivation, config, observations=None, scaffold=None):
     if not comparison.get("ok"):
         return refusal(config, missing + comparison["missing"], derivation=derivation, scaffold=scaffold)
     margin = comparison["margin_declared"]
-    inheritance_models = comparison["models_meeting_margin_vs_M2"]
+    licence = comparison["stage_2_inheritance_licence"]
+    inheritance_models = licence["models_meeting_the_licence_margin"]
     stage_one = comparison["stage_1_symmetric_competition"]
     status = STATUS_MARGIN_MET if inheritance_models else STATUS_NOT_PREFERRED
     return {
@@ -1782,8 +1942,13 @@ def evaluate_derivation(derivation, config, observations=None, scaffold=None):
         "model_ranking": comparison["ranking_by_log_likelihood"],
         "log10_bayes_factor_vs_M2": comparison["log10_bayes_factor_vs_M2"],
         "log10_bayes_factor_vs_M4": comparison["log10_bayes_factor_vs_M4"],
+        "licence_baselines": licence["baselines"],
+        "licence_min_margin_over_baselines": licence["licence_min_margin_over_baselines"],
+        "licence_binding_baseline": licence["licence_binding_baseline"],
         "margin_declared": margin,
-        "models_meeting_margin_vs_M2": inheritance_models,
+        "models_meeting_the_licence_margin": inheritance_models,
+        "models_meeting_margin_vs_M2": comparison["models_meeting_margin_vs_M2"],
+        "models_meeting_margin_vs_M4": comparison["models_meeting_margin_vs_M4"],
         "models_meeting_margin_on_whole_set": comparison["models_meeting_margin_on_whole_set"],
         "models_meeting_margin_on_held_out": comparison["models_meeting_margin_on_held_out"],
         "held_out_pairs": comparison["held_out_pairs"],
@@ -1792,19 +1957,23 @@ def evaluate_derivation(derivation, config, observations=None, scaffold=None):
         "cluster_holdout": comparison["cluster_holdout"],
         "effective_samples": comparison["effective_samples"],
         "stage_1_symmetric_competition": stage_one,
-        "stage_2_inheritance_licence": comparison["stage_2_inheritance_licence"],
+        "m4_block_profile_test": stage_one["m4_block_profile_test"],
+        "stage_2_inheritance_licence": licence,
         "both_stages_published": True,
         "stages_answer_different_questions": config["four_way_decision_rule"]["stage_2_inheritance_licence"]["relationship"],
         "monotone_decay_nested_case_reported": comparison["monotone_decay_nested_case_reported"],
         "log10_bayes_factor_vs_M2_held_out": comparison["log10_bayes_factor_vs_M2_held_out"],
+        "log10_bayes_factor_vs_M4_held_out": comparison["log10_bayes_factor_vs_M4_held_out"],
         "parsimony": parsimony,
         "pairs": comparison["pairs"],
         "per_pair": comparison["per_pair"],
         "preregistration": verification,
         "historical_conclusion": NO_HISTORICAL_CONCLUSION,
-        "reporting_rule": "stage 1 may name a winner only on its own margin rule; a derivation may be reported as "
-                          "preferred only if it meets the margin against the no-edge baseline on the cluster holdout "
-                          "as well as the whole set. Neither stage is a historical conclusion.",
+        "reporting_rule": "stage 1 may name a winner only on its own margin rule, and only a winner whose one "
+                          "distinguishing prediction the same pair set did not contradict; a derivation may be "
+                          "reported as preferred only if it meets the margin against both no-edge baselines -- "
+                          "independent origin and convergence -- on the cluster holdout as well as the whole set. "
+                          "Neither stage is a historical conclusion.",
     }
 
 

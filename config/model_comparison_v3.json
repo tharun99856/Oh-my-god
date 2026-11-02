@@ -854,9 +854,9 @@
       "no_decisive_winner_is_expected": "with a priced thirteen-operator vocabulary and a 100:1 margin, most real pair sets should land here. A layer that usually names a winner is a layer whose margin has been softened."
     },
     "stage_2_inheritance_licence": {
-      "keeps": "independent_origin_baseline_and_margin, unchanged in substance",
-      "relationship": "stage 2 is a second question with a different object. Stage 1 asks which of the four the data prefer; stage 2 asks whether an inheritance-bearing model has earned the word 'inherited' against the no-edge null. A model can win stage 1 and fail stage 2, and the reporting rule then names the winner of stage 1 without licence language.",
-      "why_not_merged_into_stage_1": "collapsing them would recreate the asymmetry this block exists to remove: a single rule of the form 'inheritance beats null' silently makes M2 the reference and M4 decorative."
+      "keeps": "independent_origin_baseline_and_margin, with one change of substance recorded in that block: the licence is now min(BF over M2, BF over M4), not BF over M2 alone",
+      "relationship": "stage 2 is a second question with a different object. Stage 1 asks which of the four the data prefer; stage 2 asks whether an inheritance-bearing model has earned the word 'inherited' against both no-edge nulls, independent origin and convergence. A model can win stage 1 and fail stage 2, and the reporting rule then names the winner of stage 1 without licence language.",
+      "why_not_merged_into_stage_1": "collapsing them would recreate the asymmetry this block exists to remove: a single rule of the form 'inheritance beats null' silently makes M2 the reference and M4 decorative. The fix for a decorative M4 is to give it stopping power, which the two-baseline minimum does, not to delete the second stage."
     },
     "reporting_rule": "both stages are published on every run, each with its own status. Neither is a historical conclusion, and no combination of the two is: see prohibitions and historical_conclusion."
   },
@@ -922,10 +922,13 @@
   },
   "independent_origin_baseline_and_margin": {
     "purpose": "a derivation is not preferred because it is possible. It is preferred only if it beats the no-edge, no-operator independent-origin likelihood by a declared margin.",
-    "baseline": "M2 (multiple independent origins) evaluated with the operator machinery switched off: typed edges contribute nothing, similarity is drawn from the background distribution over `no_known_route` pairs, and cost is irrelevant. M4 is a second baseline, reported separately, because convergence can mimic inheritance more closely than pure independent origin can and a margin against M2 alone is too easy.",
-    "margin_metric": "log10 Bayes factor of the inheritance-bearing model over the baseline, summed over the pair set",
+    "baseline": "two baselines, and the licence has to clear both. M2 (multiple independent origins) evaluated with the operator machinery switched off: typed edges contribute nothing, similarity is drawn from the background distribution over `no_known_route` pairs, and cost is irrelevant. M4 (independent development then convergence) admits no edges either and is the harder of the two, because convergence can mimic inheritance more closely than pure independent origin can.",
+    "baselines": ["M2", "M4"],
+    "licence_rule": "an inheritance-bearing model is licensed only if min(log10 BF over M2, log10 BF over M4) is at least the margin, on the whole set and on the cluster holdout. The minimum and the baseline that produced it are published per model as `licence_min_margin_over_baselines` and `licence_binding_baseline`, so a reader can see which null a derivation actually beat.",
+    "why_the_rule_changed": "the earlier text called M4 a second baseline and said a margin against M2 alone is too easy, then applied a margin against M2 alone. `log10_bayes_factor_vs_M4` was computed and published and gated nothing, which is the reviewer's item-4 complaint in its purest form: a model reported rather than tested. Beating the no-edge null of independent origin is a weak accomplishment for a vocabulary that prices thirteen operators; beating the no-edge null of convergence is the claim that the resemblance is better read as descent than as a shared attractor.",
+    "margin_metric": "log10 Bayes factor of the inheritance-bearing model over each baseline, summed over the pair set, and the minimum of the two",
     "inheritance_bearing_models": ["M1", "M3"],
-    "inheritance_bearing_models_note": "only an inheritance-bearing model can be reported as preferred by beating the independent-origin baseline. M2 is that baseline and M4 is a candidate explanation of a different kind, so M4's Bayes factor against M2 is published but can never make convergence count as a demonstrated derivation.",
+    "inheritance_bearing_models_note": "only an inheritance-bearing model can be reported as preferred by beating the independent-origin baselines. M2 is one of those baselines and M4 is the other, so M4 can never win the licence itself -- convergence is not a demonstrated derivation -- but it now stops one being granted, which is the whole of what 'reported separately' was supposed to mean.",
     "margin_declared_in": "four_way_decision_rule.stage_1_symmetric_competition.margin_log10_bayes_factor. This block no longer carries a number of its own: two declarations of 'the margin' are two knobs, and the tool reads one value through declared_margin() for both stages.",
     "margin_rationale": "analyst-set, and deliberately severe: 100:1. The vocabulary prices thirteen operators and a length-3 cap still names thousands of routes, so a derivation will nearly always fit *something*. A margin this size says the fit has to be far better than the no-route null before a reader is told the word 'inherited'. It is not a measurement and it is not adjustable after a run.",
     "margin_holds_out_rule": "the margin must be met on the whole set and on the cluster holdout defined by independent_cluster_holdout -- whole works, witnesses and declared lineages held out, not pairs -- as well as on the whole set; meeting it only on the pairs that generated the operators is not meeting it. The isolated fold whose pairs touch nothing but held-out clusters is published beside it.",
@@ -935,9 +938,31 @@
       "the derivation's total cost must be no greater than the cheapest admissible alternative path for the same pair set, published side by side",
       "no edge in the derivation may be `edge_type_ambiguous`, unless both typings are scored and the margin met under both",
       "`nominalisation`, `functional_transfer`, `scope_narrowing`, `scope_expansion` may not constitute the whole of a derivation (see may_alone_support_a_derivation)",
-      "the monotone-decay nested case is reported alongside, so the reader can see whether the transformation model earned its extra shape"
+      "the monotone-decay nested case is reported alongside, so the reader can see whether the transformation model earned its extra shape",
+      "the M4 attractor prior has been confronted with the dimension-block concordance it was declared over, and has not been disconfirmed by it (see m4_block_profile_test)"
     ],
     "on_failure": "status `not_preferred_over_independent_origin`, with both log-likelihoods and the achieved log10 Bayes factor published. That is a result, and it is the outcome this layer expects for most pairs today."
+  },
+  "m4_block_profile_test": {
+    "why_this_exists": "M4 admits no edges, so its likelihood is the same function of a pair set that any other no-edge model would produce. The one thing that makes it a theory rather than a second null is its alpha vector, and that vector says something checkable: concordance should be highest in `functional_or_pressure_prone`, middle in `structural` and lowest in `arbitrary_or_expressive`. `dimension_similarity_rules.dimension_block_profile` was computed for every pair and consumed by nothing outside its own test, so M4 could lose stage 1 without ever being asked whether its distinguishing prediction had come true.",
+    "measured_quantity": "per dimension block, the key-weighted mean of the pairwise similarity over the whole pair set, pooled from each pair's `block_profile`. Key-weighted because what the alpha vector declares is concordance per dimension key, not per pair; a pair that compared three keys in a block speaks three times there and once in a block where it compared one.",
+    "declared_ordering": ["functional_or_pressure_prone", "structural", "arbitrary_or_expressive"],
+    "declared_adjacent_predictions": [
+      ["functional_or_pressure_prone", "structural"],
+      ["structural", "arbitrary_or_expressive"]
+    ],
+    "minimum_block_spread": 0.05,
+    "minimum_block_spread_basis": "analyst-set. Below a 0.05 difference in mean similarity the three blocks are not separable at the pair counts this layer can currently license, so a spread under it is read as flat rather than as an ordering. It is one number, and the same number decides both directions: a reversal smaller than it is a tie, not a refutation.",
+    "outcomes": {
+      "block_ordering_confirms_declared_propensity": "spread is at least the minimum and every adjacent prediction holds",
+      "block_profile_flat_the_falsification_hook_fired": "spread is below the minimum. This is the case the alpha vector's own `falsification_hook` named: a flat profile means the declared concentrations are wrong, and M4's likelihood moves with them",
+      "block_ordering_contradicts_declared_propensity": "spread clears the minimum but an adjacent pair is reversed, so the vector is wrong in a directed way",
+      "m4_block_profile_not_testable": "fewer than two blocks carry a comparable key, or no pair in the set carries a `block_profile` at all. This is refused as a missing input, not passed silently"
+    },
+    "what_a_failure_does": "an outcome in the `flat` or `contradicts` class disqualifies M4 from being named the decisive leader of stage 1: a model whose one distinguishing prediction the same data contradicts cannot be reported as the model the data prefer, and the verdict falls to `no_decisive_winner` with the disqualification recorded beside the ranking. It does not touch the likelihoods, and it does not remove M4 from the ranking.",
+    "what_a_failure_does_not_do": "it does not license an inheritance-bearing model. Disconfirming convergence is not evidence of descent; the two baselines are not complements, and `m2_or_m4_is_wrong` is not a derivation.",
+    "why_the_power_floors_do_not_move": "the power simulation draws similarity classes, not per-key states, so a simulated pair carries no `block_profile` and the test reports `not_testable` there. A disqualification that never fires under simulation cannot change a floor derived under simulation, and the published floors remain valid for the rule as it now stands. Stating this is the point: a gate that silently reshapes a calibrated floor would make the calibration a lie.",
+    "registered_as_analyst_set_in": "analyst_set_parameters_register"
   },
   "date_handling": {
     "purpose": "dates are the one quantity every condition (b), every ordering, and the replaced distance prediction depend on, and they are the quantity this project holds least.",
@@ -1074,7 +1099,8 @@
         "attractor vector",
         "pressure variables"
       ],
-      "parsimony_term": "not defined; M4 is compared on likelihood alone, and any parsimony claim from M4 is a category error"
+      "parsimony_term": "not defined; M4 is compared on likelihood alone, and any parsimony claim from M4 is a category error",
+      "what_makes_it_a_theory_rather_than_a_second_null": "the alpha vector, and only the alpha vector. Two no-edge models that read similarity off different distributions are the same kind of model, so M4 earns its place by the ordering its declared concentrations predict across the three dimension blocks -- which is why m4_block_profile_test exists and why a flat or reversed profile disqualifies M4 from being named the stage-1 leader."
     },
     "comparison_is_by": "which predicts the observed distribution of dated, route-typed states best, per model_likelihoods and the margin in independent_origin_baseline_and_margin. Not by prior plausibility, not by tree length alone, and not by which story is easier to tell.",
     "status_of_all_four": "live. None is testable with the inputs this project holds, and this file does not change that."
@@ -1196,6 +1222,11 @@
       "parameter": "ordering_rule threshold = 0.95",
       "basis": "the direction is what turns a pair into a derivation",
       "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "m4_block_profile_test.minimum_block_spread = 0.05",
+      "basis": "analyst-set, and the same number the rule is called on: below this the three dimension blocks are not separable at the pair counts this layer can license, so the spread reads as flat; one number decides both the flat case and the tie case rather than two",
+      "may_be_changed": "never after a run; it is the threshold the M4 disqualification is called on, exactly like the margin"
     },
     {
       "parameter": "minimum_comparable_keys = 6",
