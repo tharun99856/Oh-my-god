@@ -1,0 +1,12 @@
+# Byte-exact storage, everywhere.
+#
+# Every published hash in this project is SHA-256 over file bytes read from disk
+# (`tools/validate_results_v2.py`, the config freshness assertions in
+# `tests/test_divinity_ontology.py`, `preregistration.mechanism.operator_cost_table_sha256`),
+# and this working tree mixes CRLF and LF. Git's default line-ending handling
+# (`core.autocrlf=true` on Windows) rewrites those bytes at checkout: the committed
+# blobs would land as LF on one machine and CRLF on another, and a clone would then
+# report every hashed artifact as stale. That is a reproducibility failure caused by
+# the transport, not by the data, so the conversion is switched off and the
+# repository stores exactly the bytes that produced the published hashes.
+* -text
