@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "run_at_utc": "2026-10-31T08:40:21.334424+00:00",
+  "elapsed_seconds": 163.278,
+  "interpretation": "English-translation lexical candidate retrieval only; not ancestry probability or historical relationship confidence",
+  "corpus": {
+    "works": 42,
+    "passages": 21580,
+    "words": 7549234,
+    "source_bytes": 44620860,
+    "regions": {
+      "West Asia and Europe": 2,
+      "West Asia": 3,
+      "North America": 3,
+      "East Africa and West Asia": 1,
+      "South Asia": 15,
+      "South Asia and West Asia": 1,
+      "Europe": 10,
+      "Central America": 1,
+      "Central and South America": 1,
+      "Oceania": 2,
+      "Sub-Saharan Africa": 1,
+      "East Asia": 1,
+      "West Asia and South Asia": 1
+    },
+    "source_roles": {
+      "scripture": 5,
+      "modern_compilation": 1,
+      "epic_excerpt": 1,
+      "epic": 13,
+      "philosophical_scripture": 1,
+      "birth_stories": 1,
+      "anthology": 1,
+      "mythological_handbook": 1,
+      "poetic_collection": 2,
+      "legendary_saga": 1,
+      "modern_epic": 1,
+      "medieval_prose": 1,
+      "translation_and_commentary": 2,
+      "historical_translation": 1,
+      "secondary_retelling": 3,
+      "historical_ethnography": 5,
+      "literary_collection": 1,
+      "purana": 1
+    },
+    "passages_with_motif_hits": 4448,
+    "motif_hit_counts": {
+      "serpent_reference": 2064,
+      "flood_destruction": 702,
+      "storm_lightning": 1879,
+      "divine_weapon": 477,
+      "water_release": 3,
+      "return_from_death": 258,
+      "creation_from_body": 17,
+      "death_descent": 71
+    }
+  },
+  "configuration": {
+    "seed": 20261031,
+    "vectorizer": {
+      "analyzer": "word",
+      "binary": false,
+      "decode_error": "strict",
+      "dtype": "<class 'numpy.float32'>",
+      "encoding": "utf-8",
+      "input": "content",
+      "lowercase": true,
+      "max_df": 0.85,
+      "max_features": 120000,
+      "min_df": 2,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "norm": "l2",
+      "preprocessor": null,
+      "smooth_idf": true,
+      "stop_words": "english",
+      "strip_accents": "unicode",
+      "sublinear_tf": true,
+      "token_pattern": "(?u)\\b\\w\\w+\\b",
+      "tokenizer": null,
+      "use_idf": true,
+      "vocabulary": null
+    },
+    "vocabulary_size": 120000,
+    "neighbors_per_passage": 6,
+    "minimum_retained_score": 0.15
+  },
+  "candidate_pairs": 9648,
+  "random_cross_work_pairs": {
+    "count": 18963,
+    "mean": 0.014145469292998314,
+    "median": 0.011818496510386467,
+    "p95": 0.03348081186413765,
+    "p99": 0.05124732851982117,
+    "max": 0.12400827556848526
+  },
+  "shuffled_sequence_sensitivity": {
+    "count": 256,
+    "mean": 0.6740479469299316,
+    "median": 0.6550725698471069,
+    "p95": 0.8903054594993591,
+    "p99": 0.9466878771781921,
+    "max": 0.9798370599746704
+  },
+  "known_overlap_checks": {
+    "sacred_books_east_vs_quran_sale": {
+      "left": "sacred_books_east:p000275",
+      "right": "quran_sale:p000477",
+      "score": 0.6021953821182251
+    },
+    "sacred_books_east_vs_dhammapada": {
+      "left": "sacred_books_east:p000114",
+      "right": "dhammapada_muller:p000001",
+      "score": 0.9118536114692688
+    }
+  },
+  "reproducibility": {
+    "acquisition_manifest_sha256": "57dd5af7140c42898ee561cba69d47f4a91e4ba604cc7c1892f729081b2248bc",
+    "passages_sha256": "34410bbf53ae52a0a287d9a05d41c52491d57699d3318683eaf67c8ed1df3267",
+    "motif_lexicon_sha256": "8107160f826e711dd43cd4da8f606390bbeca54e8e1404a7f9e9f3957737c638",
+    "python": "3.13.6",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.9.0"
+  }
+}

@@ -1,0 +1,309 @@
+{
+  "status": "passed",
+  "headline": {
+    "dependent_witness_pairs_rank_above_all_predicted_unrelated_negatives": true,
+    "pairs_scoring_above_event_order_permutation_null_at_p_0_05": 5,
+    "pairs_compared": 91
+  },
+  "group_summary": {
+    "same_narrative_dependent_witnesses": {
+      "pairs": 2,
+      "scored": 2,
+      "mean_S_sequence": 0.815833,
+      "min_S_sequence": 0.631667,
+      "max_S_sequence": 1.0,
+      "mean_S_motif": 0.696808,
+      "mean_motif_domain_where_scored": 8
+    },
+    "same_tradition_different_episode": {
+      "pairs": 1,
+      "scored": 1,
+      "mean_S_sequence": 0.067551,
+      "min_S_sequence": 0.067551,
+      "max_S_sequence": 0.067551,
+      "mean_S_motif": 0.6,
+      "mean_motif_domain_where_scored": 3
+    },
+    "same_class_different_tradition_to_test": {
+      "pairs": 10,
+      "scored": 10,
+      "mean_S_sequence": 0.129398,
+      "min_S_sequence": 0.042517,
+      "max_S_sequence": 0.243106,
+      "mean_S_motif": 0.288107,
+      "mean_motif_domain_where_scored": 8.1
+    },
+    "predicted_unrelated_negative": {
+      "pairs": 6,
+      "scored": 6,
+      "mean_S_sequence": 0.031422,
+      "min_S_sequence": 0.019318,
+      "max_S_sequence": 0.045,
+      "mean_S_motif": null,
+      "mean_motif_domain_where_scored": null
+    },
+    "unlabelled": {
+      "pairs": 72,
+      "scored": 72,
+      "mean_S_sequence": 0.044175,
+      "min_S_sequence": 0.0125,
+      "max_S_sequence": 0.243106,
+      "mean_S_motif": 0.231756,
+      "mean_motif_domain_where_scored": 4.75
+    }
+  },
+  "motif_domain_reliability": {
+    "rule": "a motif score over an assessed domain of one or two motifs is arithmetically valid but too thin to read as agreement",
+    "pairs_with_motif_score": 25,
+    "pairs_with_domain_of_one": 3,
+    "pairs_with_domain_of_two_or_less": 8,
+    "pairs_at_full_comparison_class_domain": 10,
+    "note": "Cross-class pairs are NA, not zero: the coder never adjudicated the other class's motifs."
+  },
+  "discrimination_violations": [],
+  "order_sensitivity": {
+    "pairs_tested": 91,
+    "mean_sequence_drop_under_single_sequence_permutation": 0.01861,
+    "max_sequence_drop": 0.918519,
+    "pairs_losing_score_to_order_constraint": 77,
+    "pairs_where_the_shorter_sequence_is_fully_matched": 91,
+    "mean_order_constraint_loss": 0.013136,
+    "max_order_constraint_loss": 0.101398,
+    "mean_abs_motif_change_under_permutation": 0.0,
+    "requirement": "permuting event order must lower S_sequence and must leave S_motif unchanged",
+    "checks": {
+      "motif_invariant_under_event_reordering": true,
+      "some_pairs_pay_for_order": true,
+      "mean_permutation_drop_above_preregistered_floor": false
+    },
+    "preregistered_floor": 0.02,
+    "passed": false,
+    "analytic_note": "The mismatch cost is 1 - s, which lives in [0, 1] and therefore never exceeds the preregistered gap of 1.0; gapping both events would cost twice as much as aligning them. A Needleman-Wunsch alignment run under those settings is consequently closer to a maximum-weight order-preserving matching than to a classical sequence alignment with substantial indels: 91 of 91 pairs matched every event of the shorter sequence, and a random re-ordering removes only 0.0186 of score on average. The order signal is present but small, and it is measured directly as the loss against the crossing relaxation (mean 0.0131, non-zero for 77 of 91 pairs). S_sequence must therefore be described as an event-matching score, not a plot-order score. Strengthening order sensitivity would mean dropping the gap below the mismatch ceiling, which imports a free parameter and changes what the measure means; the gap sweep in sensitivity_analysis shows the ranking moving by roughly that amount. Reported rather than tuned."
+  },
+  "synonym_stability": {
+    "pairs_tested": 91,
+    "max_abs_S_sequence_change_under_pure_renaming": 0.0,
+    "expected": 0.0,
+    "passed": true
+  },
+  "sensitivity_analysis": {
+    "reference_ranking_pairs": 91,
+    "variants": {
+      "gap_penalty_0.5": {
+        "mean_absolute_rank_shift": 0.291087,
+        "kendall_tau": 0.105739,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "gap_penalty_0.75": {
+        "mean_absolute_rank_shift": 0.262027,
+        "kendall_tau": 0.2,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "gap_penalty_1.0": {
+        "mean_absolute_rank_shift": 0.000977,
+        "kendall_tau": 0.998046,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "gap_penalty_1.25": {
+        "mean_absolute_rank_shift": 0.230525,
+        "kendall_tau": 0.344078,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "gap_penalty_1.5": {
+        "mean_absolute_rank_shift": 0.284249,
+        "kendall_tau": 0.190232,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "same_family_credit_0.25": {
+        "mean_absolute_rank_shift": 0.011477,
+        "kendall_tau": 0.975092,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "same_family_credit_0.5": {
+        "mean_absolute_rank_shift": 0.000977,
+        "kendall_tau": 0.998046,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "same_family_credit_0.75": {
+        "mean_absolute_rank_shift": 0.005617,
+        "kendall_tau": 0.988278,
+        "pairs_compared": 91,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "motif_weight_cap_0.6": {
+        "mean_absolute_rank_shift": 0.013333,
+        "kendall_tau": 0.973333,
+        "pairs_compared": 25,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "motif_weight_cap_0.8": {
+        "mean_absolute_rank_shift": 0.0,
+        "kendall_tau": 1.0,
+        "pairs_compared": 25,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      },
+      "motif_weight_cap_1.0": {
+        "mean_absolute_rank_shift": 0.0,
+        "kendall_tau": 1.0,
+        "pairs_compared": 25,
+        "pairs_missing_from_variant": 0,
+        "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+      }
+    },
+    "note": "mean_absolute_rank_shift is mean |rank displacement| divided by the full ranking range (P-1), so 0 means the variant reproduces the published order and 1 means it reverses it; kendall_tau is reported alongside as ordering agreement over the pairs present in both orderings. Large movement means the ordering is parameter-bound and must not be read as a settled similarity claim."
+  },
+  "leave_one_region_out": {
+    "Central America": {
+      "mean_absolute_rank_shift": 0.006667,
+      "kendall_tau": 0.986667,
+      "pairs_compared": 25,
+      "pairs_missing_from_variant": 0,
+      "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+    },
+    "East Asia": {
+      "mean_absolute_rank_shift": 0.0,
+      "kendall_tau": 1.0,
+      "pairs_compared": 25,
+      "pairs_missing_from_variant": 0,
+      "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+    },
+    "Europe": {
+      "mean_absolute_rank_shift": 0.01,
+      "kendall_tau": 0.98,
+      "pairs_compared": 25,
+      "pairs_missing_from_variant": 0,
+      "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+    },
+    "South Asia": {
+      "mean_absolute_rank_shift": 0.016667,
+      "kendall_tau": 0.966667,
+      "pairs_compared": 25,
+      "pairs_missing_from_variant": 0,
+      "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+    },
+    "West Asia": {
+      "mean_absolute_rank_shift": 0.006667,
+      "kendall_tau": 0.986667,
+      "pairs_compared": 25,
+      "pairs_missing_from_variant": 0,
+      "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+    },
+    "West Asia and Europe": {
+      "mean_absolute_rank_shift": 0.006667,
+      "kendall_tau": 0.986667,
+      "pairs_compared": 25,
+      "pairs_missing_from_variant": 0,
+      "scale": "mean absolute rank displacement divided by the full ranking range (P-1); 0 = identical order, 1 = exact reversal"
+    },
+    "weights_rule": "empirical weight = 1 / log(2 + versions asserting the motif), capped at the preregistered cap",
+    "note": "Judgement weights and corpus-derived weights are reported side by side; the pilot cannot yet justify a single set."
+  },
+  "structural_vs_lexical": {
+    "pairs_with_both_scores": 78,
+    "spearman_rho_S_sequence_vs_max_lexical": 0.264405,
+    "independence_p_value": 0.019322,
+    "independence_p_value_status": "not admissible as significance: pair observations share versions and are not independent draws",
+    "quadratic_assignment_test": {
+      "observed_spearman_rho": 0.264405,
+      "pair_observations": 78,
+      "versions_permuted": 14,
+      "permutation_draws_used": 200,
+      "permutation_draws_requested": 200,
+      "two_tailed_p_value": 0.064677,
+      "extreme_draws": 12,
+      "method": "quadratic assignment on version labels, seed and draw count recorded in reproducibility",
+      "why_not_the_textbook_p": "the 91 pair scores share 14 versions, so each version contributes 13 correlated observations and an independence-based p-value understates uncertainty"
+    },
+    "lexical_measure": "maximum cosine over the passage windows the annotation actually cites for the two versions, not a whole-work maximum",
+    "residual_limitation": "still a maximum, so a version citing more windows keeps a small advantage; window counts per version are uneven",
+    "status": "exploratory",
+    "multiple_comparisons": "one prespecified association; the other reported tests are the order-permutation null, renaming stability and the discrimination check, and no correction is applied to any of them",
+    "interpretation": "If rho is low, structural similarity carries information the lexical retriever does not, and vice versa. Neither is a historical measure."
+  },
+  "component_disagreement_examples": [
+    {
+      "pair": [
+        "noah_kjv",
+        "gilgamesh_flood_tablet_fragment"
+      ],
+      "S_sequence": 0.094697,
+      "S_motif": 0.55,
+      "motif_domain": 4,
+      "S_role": 0.074074,
+      "S_symbol": 0.2
+    },
+    {
+      "pair": [
+        "gilgamesh_flood_tablet_fragment",
+        "manu_fish_mahabharata"
+      ],
+      "S_sequence": 0.075556,
+      "S_motif": 0.688525,
+      "motif_domain": 4,
+      "S_role": 0.083333,
+      "S_symbol": 0.181818
+    },
+    {
+      "pair": [
+        "gilgamesh_flood_tablet_fragment",
+        "manu_fish_doublet"
+      ],
+      "S_sequence": 0.075556,
+      "S_motif": 0.688525,
+      "motif_domain": 4,
+      "S_role": 0.083333,
+      "S_symbol": 0.181818
+    },
+    {
+      "pair": [
+        "thor_fishing",
+        "thor_ragnarok_brief"
+      ],
+      "S_sequence": 0.067551,
+      "S_motif": 0.6,
+      "motif_domain": 3,
+      "S_role": 0.225,
+      "S_symbol": 0.066667
+    },
+    {
+      "pair": [
+        "marduk_tiamat",
+        "ymir_body"
+      ],
+      "S_sequence": 0.042517,
+      "S_motif": 1.0,
+      "motif_domain": 1,
+      "S_role": 0.108108,
+      "S_symbol": 0.064516
+    }
+  ],
+  "counts": {
+    "versions": 14,
+    "events": 94,
+    "pairs": 91,
+    "pairs_with_sequence_score": 91,
+    "pairs_with_motif_score": 25,
+    "pairs_with_causal_score": 91,
+    "pairs_with_role_score": 91,
+    "pairs_with_symbol_score": 91,
+    "pairs_with_na_motif": 66
+  },
+  "interpretation": "These are descriptive component measurements over analyst annotations. No value here is a probability of ancestry and no composite was formed."
+}

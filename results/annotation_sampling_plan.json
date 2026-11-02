@@ -1,0 +1,766 @@
+{
+  "instrument": "annotation packet v3.1",
+  "unit_of_analysis": "one proposition about an identified divine referent, with its utterance window carried as context",
+  "sizing": {
+    "propositions": 6199,
+    "machine_candidate_rows": 4699,
+    "recall_probe_rows": 1500,
+    "judgments_per_coder": 74388,
+    "why_this_size": "the binding constraint is a second coder, not more data; the packet is sized so every value stratum carries enough rows to put a usable interval on its precision, rare strata are taken as a census, and the two no-candidate strata are sized to bound the miss rate rather than to exhaust it",
+    "worst_case_95pct_margin_on_a_value_precision_at_target": "±0.124 at n=60 (p=0.5, normal approximation)",
+    "strata_taken_as_census": 11,
+    "census_strata": [
+      "D1_ontological_category=deified_mortal",
+      "D1_ontological_category=unknowable_or_conceptless",
+      "D2a_acknowledged_population=few_or_several",
+      "D2c_worship_exclusivity=devotion_to_others_permitted",
+      "D2c_worship_exclusivity=exclusive_devotion_commanded",
+      "D3_agency=law_without_will",
+      "D3_agency=reciprocal_dependency",
+      "D4_cosmic_function=no_function_attributed",
+      "D5_universe_relationship=scale_not_claimed",
+      "D5_universe_relationship=wholly_other",
+      "D6_temporal_nature=linear_once"
+    ],
+    "minimum_tier_if_only_one_coder_is_available": "code the 11 census strata first: those are the values with the least evidence, and they are the rows a single analyst's reading is least likely to have got right"
+  },
+  "recall_probe": {
+    "why_it_was_added": "the three detection strata all draw from propositions that already carry a machine record, so they can estimate precision and cannot estimate recall: a sample of hits contains no misses. not_yet_instrumented is a declared gap on a named value, not an estimate of what the detector walked past.",
+    "universe": {
+      "propositions_in_universe": 1028478,
+      "eligible_passages_scanned": 23385,
+      "hit_by_the_machine": 36775,
+      "no_record_in_universe": 991703,
+      "of_which_cue_positive": 47252,
+      "of_which_cue_negative": 944451
+    },
+    "strata": {
+      "no_candidate_uncued": {
+        "population": 944451,
+        "sampled": 900,
+        "inclusion_probability": 0.000952934562,
+        "sampling_weight": 1049.39,
+        "draw": "simple random sample without replacement over the whole stratum, so the inclusion probability is n/N exactly and needs no approximation"
+      },
+      "no_candidate_cue_positive": {
+        "population": 47252,
+        "sampled": 600,
+        "inclusion_probability": 0.012697875222,
+        "sampling_weight": 78.7533,
+        "draw": "simple random sample without replacement over the whole stratum, so the inclusion probability is n/N exactly and needs no approximation"
+      }
+    },
+    "rows_added": {
+      "no_candidate_uncued": 900,
+      "no_candidate_cue_positive": 600
+    },
+    "segmentation": "the detector's own normalise -> windows_of -> propositions_of, so the probe population is the population the detector claims to cover",
+    "cue_list": {
+      "file": "config/recall_probe_cues.json",
+      "cues_operative": 111,
+      "cues_retired_ambiguous": 6,
+      "sha256": "bacde4ff9a7cab6f14cda9e091ed0634880c2eb95c0f2d05efde22aa813de4b5",
+      "status": "a sampling instruction; a cue never produces an attestation, a value assignment or a doctrinal count"
+    },
+    "estimator": {
+      "detected_v": "propositions carrying a machine record for value v, counted over the whole corpus, not over the packet",
+      "estimated_misses_v": "the sum of sampling_weight over probe rows a human coded as carrying value v -- Horvitz-Thompson, one weight per drawn proposition",
+      "recall_hat_v": "detected_v / (detected_v + estimated_misses_v)",
+      "pooled_across_both_probe_strata": true,
+      "why_two_strata_not_one": "misses concentrate where the text names a divinity, so a single uniform draw would spend almost all of its rows on propositions with nothing in them and leave the dense region unmeasured; stratifying and weighting keeps the pooled estimate design-unbiased over the whole no-record universe while still looking hard at the part where a miss is likely",
+      "precision_still_comes_from": "the machine_candidate rows; probe rows carry no machine value to be wrong about"
+    },
+    "what_this_still_cannot_measure": [
+      "a divine proposition no human reader can identify from the proposition and its window either",
+      "propositions the segmentation itself never produced: a claim that spans two segments, or one the window splitter merged away, is outside the universe this probe draws from",
+      "any value whose detector gap is structural rather than lexical, except insofar as a human coding a probe row happens to name it"
+    ]
+  },
+  "sample_roles": {
+    "machine_candidate": 4699,
+    "no_candidate_uncued": 900,
+    "no_candidate_cue_positive": 600
+  },
+  "seed": 20261101,
+  "per_value_stratum_target": 60,
+  "per_work_stratum_target": 35,
+  "per_speech_act_stratum_target": 45,
+  "probe_uncued_target": 900,
+  "probe_cue_positive_target": 600,
+  "propositions_in_packet": 6199,
+  "states_sampled": [
+    "candidate",
+    "candidate_requires_human_disambiguation",
+    "not_yet_instrumented"
+  ],
+  "dimensions_coded": 12,
+  "set_valued_dimensions": [
+    "D1_ontological_category",
+    "D3_agency",
+    "D4_cosmic_function",
+    "D5_universe_relationship",
+    "D6_temporal_nature"
+  ],
+  "single_valued_dimensions": [
+    "D2a_acknowledged_population",
+    "D2b_reality_of_others",
+    "D2c_worship_exclusivity",
+    "D7a_speaker_attribution",
+    "D7b_speech_act",
+    "D7c_discourse_genre",
+    "D7d_epistemic_commitment"
+  ],
+  "strata_enforced": [
+    "dimension value",
+    "work",
+    "D7b speech act",
+    "no-record proposition, cue-negative",
+    "no-record proposition, cue-positive"
+  ],
+  "strata": {
+    "value_strata": {
+      "D1_ontological_category=animating_substance_or_power": {
+        "population": 199,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D1_ontological_category=collective_or_class": {
+        "population": 7179,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D1_ontological_category=deified_mortal": {
+        "population": 37,
+        "sampled": 37,
+        "whole_population_taken": true
+      },
+      "D1_ontological_category=impersonal_order_or_law": {
+        "population": 1082,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D1_ontological_category=manifestation_or_hypostasis": {
+        "population": 127,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D1_ontological_category=personal_being": {
+        "population": 6337,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D1_ontological_category=unknowable_or_conceptless": {
+        "population": 27,
+        "sampled": 27,
+        "whole_population_taken": true
+      },
+      "D2a_acknowledged_population=few_or_several": {
+        "population": 55,
+        "sampled": 55,
+        "whole_population_taken": true
+      },
+      "D2a_acknowledged_population=many_graded": {
+        "population": 694,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2a_acknowledged_population=none_acknowledged": {
+        "population": 71,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2a_acknowledged_population=one_only": {
+        "population": 67,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2a_acknowledged_population=two_polar": {
+        "population": 493,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2a_acknowledged_population=uncountable_or_numeric_scheme": {
+        "population": 89,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2b_reality_of_others=others_denied_unreal": {
+        "population": 122,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2b_reality_of_others=others_real_and_not_subordinate": {
+        "population": 548,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2b_reality_of_others=others_real_but_subordinate": {
+        "population": 710,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2c_worship_exclusivity=devotion_mediated_by_hierarchy": {
+        "population": 176,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D2c_worship_exclusivity=devotion_to_others_permitted": {
+        "population": 33,
+        "sampled": 33,
+        "whole_population_taken": true
+      },
+      "D2c_worship_exclusivity=exclusive_devotion_commanded": {
+        "population": 47,
+        "sampled": 47,
+        "whole_population_taken": true
+      },
+      "D3_agency=delegated_execution": {
+        "population": 152,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D3_agency=deliberating_will": {
+        "population": 164,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D3_agency=effortless_self_evolution": {
+        "population": 348,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D3_agency=law_without_will": {
+        "population": 5,
+        "sampled": 5,
+        "whole_population_taken": true
+      },
+      "D3_agency=non_agential": {
+        "population": 134,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D3_agency=personalhood_mind_and_will": {
+        "population": 6206,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D3_agency=reciprocal_dependency": {
+        "population": 3,
+        "sampled": 3,
+        "whole_population_taken": true
+      },
+      "D4_cosmic_function=crafting_from_prior_matter": {
+        "population": 240,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=creating_ex_nihilo_or_by_word": {
+        "population": 780,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=dissolving_or_reabsorbing": {
+        "population": 331,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=fertilisingWeather_agricultural": {
+        "population": 1839,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=generating_by_procreation": {
+        "population": 1301,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=guarding_localised": {
+        "population": 349,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=judging_moral_order": {
+        "population": 3687,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=no_function_attributed": {
+        "population": 13,
+        "sampled": 13,
+        "whole_population_taken": true
+      },
+      "D4_cosmic_function=rescuing_healing_restoring": {
+        "population": 3319,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=revealing_teaching_lawgiving": {
+        "population": 2191,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D4_cosmic_function=sustaining_order": {
+        "population": 166,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D5_universe_relationship=identical_with_world": {
+        "population": 210,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D5_universe_relationship=indwelling_in_world": {
+        "population": 610,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D5_universe_relationship=scale_not_claimed": {
+        "population": 3,
+        "sampled": 3,
+        "whole_population_taken": true
+      },
+      "D5_universe_relationship=wholly_other": {
+        "population": 33,
+        "sampled": 33,
+        "whole_population_taken": true
+      },
+      "D5_universe_relationship=world_as_appearance": {
+        "population": 936,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D6_temporal_nature=born_in_time": {
+        "population": 690,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D6_temporal_nature=cyclically_recurrent": {
+        "population": 486,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D6_temporal_nature=eschatologically_future": {
+        "population": 804,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D6_temporal_nature=from_lost_past": {
+        "population": 202,
+        "sampled": 60,
+        "whole_population_taken": false
+      },
+      "D6_temporal_nature=linear_once": {
+        "population": 31,
+        "sampled": 31,
+        "whole_population_taken": true
+      },
+      "D6_temporal_nature=uncreated_eternal": {
+        "population": 335,
+        "sampled": 60,
+        "whole_population_taken": false
+      }
+    },
+    "work_strata": {
+      "arabian_nights": {
+        "population": 229,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "australian_legendary_tales": {
+        "population": 104,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "babylonian_creation": {
+        "population": 254,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "bantu_folklore": {
+        "population": 29,
+        "sampled": 29,
+        "whole_population_taken": true
+      },
+      "beowulf": {
+        "population": 21,
+        "sampled": 21,
+        "whole_population_taken": true
+      },
+      "bhagavad_gita_arnold": {
+        "population": 91,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "book_of_enoch": {
+        "population": 112,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "book_of_mormon": {
+        "population": 2201,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "celtic_myths": {
+        "population": 294,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "chaldean_genesis": {
+        "population": 475,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "cherokee_myths": {
+        "population": 412,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "chinese_fairy_book": {
+        "population": 380,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "chinese_folklore": {
+        "population": 119,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "chinese_wonder_book": {
+        "population": 212,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "creek_migration": {
+        "population": 45,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "cunnie_rabbit": {
+        "population": 39,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "dhammapada_muller": {
+        "population": 5,
+        "sampled": 5,
+        "whole_population_taken": true
+      },
+      "euahlayi_tribe": {
+        "population": 55,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "filipino_popular_tales": {
+        "population": 533,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "hesiod_homerica": {
+        "population": 533,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "iliad": {
+        "population": 704,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "iroquois_myths": {
+        "population": 120,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "iroquois_stories": {
+        "population": 114,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "jain_sect": {
+        "population": 30,
+        "sampled": 30,
+        "whole_population_taken": true
+      },
+      "japanese_fairy_tales": {
+        "population": 179,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "jataka_v1": {
+        "population": 371,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "kalevala": {
+        "population": 284,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "kjv_bible": {
+        "population": 6931,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "legends_of_the_jews_v1": {
+        "population": 831,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mabinogion": {
+        "population": 299,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_11894": {
+        "population": 645,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_12058": {
+        "population": 101,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_12333": {
+        "population": 663,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_7864": {
+        "population": 894,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_7965": {
+        "population": 172,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_v1": {
+        "population": 2393,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_v2": {
+        "population": 1697,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_v3": {
+        "population": 2670,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "mahabharata_v4": {
+        "population": 1257,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "maori_port_hills": {
+        "population": 20,
+        "sampled": 20,
+        "whole_population_taken": true
+      },
+      "maui_legends": {
+        "population": 102,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "myths_legends_china": {
+        "population": 430,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "myths_legends_japan": {
+        "population": 381,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "myths_mexico_peru": {
+        "population": 464,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "myths_north_american": {
+        "population": 354,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "navaho_legends": {
+        "population": 399,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "north_american_oral_legends": {
+        "population": 145,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "odyssey": {
+        "population": 366,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "philippine_folk_tales": {
+        "population": 13,
+        "sampled": 13,
+        "whole_population_taken": true
+      },
+      "pistis_sophia": {
+        "population": 1032,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "poetic_edda_bellows": {
+        "population": 343,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "popol_vuh": {
+        "population": 21,
+        "sampled": 21,
+        "whole_population_taken": true
+      },
+      "quran_sale": {
+        "population": 1292,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "ramayana_griffith": {
+        "population": 1217,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "sacred_books_east": {
+        "population": 905,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "south_african_folk_tales": {
+        "population": 33,
+        "sampled": 33,
+        "whole_population_taken": true
+      },
+      "strange_stories_chinese": {
+        "population": 538,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "tinguian_traditions": {
+        "population": 327,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "upanishads_mead": {
+        "population": 162,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "vishnu_purana": {
+        "population": 851,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "volsunga_saga": {
+        "population": 137,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "west_african_folk_tales": {
+        "population": 104,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "where_animals_talk": {
+        "population": 285,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "younger_edda": {
+        "population": 332,
+        "sampled": 35,
+        "whole_population_taken": false
+      },
+      "zulu_customs_folklore": {
+        "population": 24,
+        "sampled": 24,
+        "whole_population_taken": true
+      }
+    },
+    "speech_act_strata": {
+      "D7b=address_or_praise": {
+        "population": 5440,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=assert": {
+        "population": 20468,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=boast": {
+        "population": 145,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=command": {
+        "population": 1166,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=condition": {
+        "population": 517,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=deny": {
+        "population": 219,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=question": {
+        "population": 2787,
+        "sampled": 45,
+        "whole_population_taken": false
+      },
+      "D7b=report": {
+        "population": 6033,
+        "sampled": 45,
+        "whole_population_taken": false
+      }
+    }
+  },
+  "value_strata_count": 48,
+  "rare_value_strata_taken_whole": 11,
+  "works_covered": 65,
+  "speech_acts_covered": 8,
+  "propositions_where_machine_gives_two_values_on_a_single_valued_dimension": 3,
+  "propositions_flagged_overlong": 9,
+  "blinding": [
+    "coder view carries no machine value, no dimension name and no expected answer",
+    "row order randomised so the oversampling of rare values is not visible",
+    "a probe row and a detection row are indistinguishable in the coder view: same columns, same locator format, no stratum marker, so a coder cannot tell which kind of row is being coded and cannot code the two kinds to different standards",
+    "answer key is a separate file and is joined only after both coders finish"
+  ],
+  "known_blinding_leak": [
+    "the locator names the work, so a coder with domain knowledge can guess what the proposition is about; full blinding would need the source withheld, which would make the coding worse rather than better"
+  ],
+  "questions_kept_separate": {
+    "concept_represented": "is this concept represented in the proposition at all",
+    "doctrine_endorsed_by_text": "does the voice the text itself endorses affirm it",
+    "historical_transmission": "not asked of a coder: transmission needs dated expressions and documented routes, and a single proposition cannot carry either"
+  },
+  "not_yet_done": [
+    "no coder has coded this packet",
+    "no kappa or precision figure exists",
+    "no recall figure exists either: the probe rows are un coded, so the detector's miss rate is still a design and not a measurement",
+    "the machine assignment in the key is single-analyst and is a candidate, not a gold standard",
+    "date_range is blank in the coder view because the corpus carries no composition date field that survives provenance checking"
+  ],
+  "reproducibility": {
+    "attestations_sha256": "955f5038b850b049981b819971ec3ff47bd7fc8d1955e2c64c3ab274fb8920b1",
+    "ontology_sha256": "a828d8759e90cc0db5cdc661d216d07c63a52695c981a374909a0e919732c841",
+    "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4",
+    "code_sha256": "cc0d44c11fa3d8f9cab82af172cb99048baf594ea5afddc807bb1c4663301e46"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "engine": "narrative_similarity",
+  "engine_version": "1.1",
+  "generated_at_utc": "2026-11-01T10:33:45.840472+00:00",
+  "annotation_set_version": "pilot-1",
+  "reproducibility": {
+    "annotations_sha256": "472f908795433c49384e9d9282f2e06d8b37d3f64dc307e4d121d276a69186aa",
+    "source_dependence_sha256": "dc1cd84bd41bc8406f4cc7d27aabc80bf065879f01e06a66fa1c2e7047af174b",
+    "code_sha256": "27f7a9200414450062c095babee30fc1c068fb2b6a466b2ec04596f0354849de",
+    "seed": 20261031,
+    "permutations": 200,
+    "numpy": "2.3.5"
+  },
+  "versions": 14,
+  "pairs": 91,
+  "annotation_coverage": {
+    "events": 94,
+    "events_without_outcome": 0,
+    "events_whose_outcome_yields_no_lexical_terms": 0,
+    "events_without_participants": 0,
+    "note": "On this pilot no event pair lost a part to renormalisation, so the fix changed no published score; it protects against shallower future coding.",
+    "versions_with_partial_attestation": [
+      "gilgamesh_flood_tablet_fragment",
+      "thor_ragnarok_brief",
+      "indra_vritra_allusive",
+      "ymir_body"
+    ]
+  },
+  "alignment_weights": {
+    "event_similarity_parts": {
+      "predicate": 0.5,
+      "participant": 0.3,
+      "outcome": 0.2
+    },
+    "predicate_credit": {
+      "exact": 1.0,
+      "same_family": 0.5,
+      "different_family": 0.0
+    },
+    "participant_pair_credit": {
+      "same_role_same_referent": 1.0,
+      "same_role_same_referent_kind": 0.5,
+      "same_role_different_referent_kind": 0.25,
+      "different_role": 0.0
+    },
+    "gap_penalty": 1.0,
+    "motif_weight_cap": 1.0,
+    "permutations": 200,
+    "seed": 20261031,
+    "note": "Preregistered on 1 November 2026 before any pair score was computed. None of these values were fitted to an outcome. The sensitivity sweep varies gap_penalty and predicate_credit.same_family and reports how much the ranking moves."
+  },
+  "status": "passed",
+  "headline": {
+    "dependent_witness_pairs_rank_above_all_predicted_unrelated_negatives": true,
+    "pairs_scoring_above_event_order_permutation_null_at_p_0_05": 5,
+    "pairs_compared": 91
+  },
+  "interpretation": "Component vectors only. No composite percentage is produced, and no edge here asserts common descent, borrowing or influence."
+}

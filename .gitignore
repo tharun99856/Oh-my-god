@@ -1,0 +1,14 @@
+# Corpus text is licensed print material fetched by `python tools/acquire_corpus.py`;
+# only the acquisition manifest is committed, so the corpus rebuilds from recorded URLs and hashes.
+corpus/raw/
+corpus/derived/
+
+# LaTeX build products. main.pdf is kept as the compiled record of this source.
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.toc
+
+__pycache__/
+*.py[cod]
+.pytest_cache/

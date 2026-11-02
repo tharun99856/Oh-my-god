@@ -1,0 +1,33 @@
+{
+  "corpus": {
+    "eligible_passages": 23385,
+    "eligible_words": 8731101,
+    "works_with_candidates": 65
+  },
+  "candidate_records_total": 35819,
+  "assertion_state_tally": {
+    "blocked_by_speech_act": 54,
+    "candidate": 21854,
+    "candidate_requires_human_disambiguation": 13532,
+    "not_yet_instrumented": 379
+  },
+  "dimension_coverage": {
+    "D1_divine_ontology": "partially_instrumented",
+    "D2_plurality": "instrumented",
+    "D3_agency": "partially_instrumented",
+    "D4_cosmic_function": "instrumented",
+    "D5_universe_relationship": "partially_instrumented",
+    "D6_temporal_nature": "partially_instrumented",
+    "D7_human_interpretation": "instrumented"
+  },
+  "values_not_yet_instrumented": [
+    "D1_divine_ontology=unknowable_or_conceptless",
+    "D3_agency=non_agential",
+    "D4_cosmic_function=no_function_attributed",
+    "D5_universe_relationship=scale_not_claimed",
+    "D5_universe_relationship=world_in_divine_not_exhausting",
+    "D6_temporal_nature=from_lost_past",
+    "D6_temporal_nature=outside_time"
+  ]
+}
+wrote ontology_attestations.jsonl.gz, ontology_passage_matrix.csv.gz, ontology_work_states.csv, ontology_run_summary.json

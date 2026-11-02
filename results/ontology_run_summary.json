@@ -1,0 +1,129 @@
+{
+  "instrument": "divinity-ontology v3",
+  "purpose": "code divine-concept states on twelve analytically distinct dimensions, proposition by proposition, across the whole corpus, for an inheritance-and-transformation question, not for a universality test",
+  "self_description": "multilingual-ready framework. Every detector in this run is an English translation-text pattern; no source-language detector is operational.",
+  "corpus": {
+    "eligible_passages": 23385,
+    "eligible_words": 8731101,
+    "works_with_candidates": 65
+  },
+  "candidate_records_total": 47641,
+  "assertion_state_tally": {
+    "candidate": 47122,
+    "candidate_requires_human_disambiguation": 140,
+    "not_yet_instrumented": 379
+  },
+  "affirmative_doctrine_records": 22818,
+  "conceptual_presence_tally": {
+    "represented_in_passage": 47262,
+    "undecidable_from_available_sources": 379
+  },
+  "doctrinal_endorsement_tally": {
+    "attributed_not_endorsed": 9211,
+    "endorsed_by_text": 22818,
+    "not_applicable_non_assertive": 4697,
+    "rejected_in_text": 1169,
+    "suspended_or_held_open": 1575,
+    "undecidable": 8171
+  },
+  "historical_transmission": {
+    "value": "not_yet_assessable",
+    "records": 47641,
+    "why": "transmission needs dated expressions and documented routes. date_earliest, date_latest and dating_basis are null in every record of this run, so the field is published rather than inferred."
+  },
+  "single_value_conflicts": {
+    "D2a_acknowledged_population": 2,
+    "D7a_speaker_attribution": 3
+  },
+  "propositions_flagged_run_on": 97,
+  "matched_propositions_per_passage": {
+    "0": 9202,
+    "1": 5703,
+    "2": 3357,
+    "3": 1924,
+    "4": 1168,
+    "5": 716,
+    "6": 1315
+  },
+  "dimension_coverage": {
+    "D1_ontological_category": "partially_instrumented",
+    "D2a_acknowledged_population": "instrumented",
+    "D2b_reality_of_others": "partially_instrumented",
+    "D2c_worship_exclusivity": "partially_instrumented",
+    "D3_agency": "partially_instrumented",
+    "D4_cosmic_function": "instrumented",
+    "D5_universe_relationship": "partially_instrumented",
+    "D6_temporal_nature": "partially_instrumented",
+    "D7a_speaker_attribution": "partially_instrumented",
+    "D7b_speech_act": "instrumented",
+    "D7c_discourse_genre": "partially_instrumented",
+    "D7d_epistemic_commitment": "instrumented"
+  },
+  "dimension_cardinality": {
+    "D1_ontological_category": "set",
+    "D2a_acknowledged_population": "single",
+    "D2b_reality_of_others": "single",
+    "D2c_worship_exclusivity": "single",
+    "D3_agency": "set",
+    "D4_cosmic_function": "set",
+    "D5_universe_relationship": "set",
+    "D6_temporal_nature": "set",
+    "D7a_speaker_attribution": "single",
+    "D7b_speech_act": "single",
+    "D7c_discourse_genre": "single",
+    "D7d_epistemic_commitment": "single"
+  },
+  "endorsement_scope": {
+    "what_it_is": "doctrinal_endorsement is a field on every record, not a filter that deletes records. The 54 matches v2 refused outright are retained here as conceptual evidence whose endorsement is withheld.",
+    "affirming_commitments": [
+      "endorsed_by_text"
+    ],
+    "affirming_acts": [
+      "assert",
+      "deny"
+    ],
+    "why_not_a_block": "a conditional about a divinity is not affirmed doctrine, but it is evidence that the proposition is represented in that text, and reported speech preserves evidence of competing beliefs. Collapsing the two questions cost v2 both.",
+    "consequence": "counts_as_affirmative_doctrine is the only field that may be used for a doctrinal tally, and it is machine-classified, not human-verified.",
+    "d7d_alias": "`doctrinal_endorsement` is D7d's value written onto the record, not an independent check on it: the two can never disagree except on a `not_yet_instrumented` row, where the record field is forced to `undecidable` while D7d keeps the value its unvalidated detector matched -- and that is the only divergence the field can show. Their agreement is not evidence. The questions genuinely apart from D7d are D7a (who speaks) and D7b (what act is performed) -- Pharaoh drowning asserts, and the narrative attributes without endorsing. The packet codes D7d and `doctrine_endorsed_by_text` as two separate coder questions, so two codings will show whether the frame's second question comes apart from D7d in observation or only in name."
+  },
+  "proposition_segmentation": {
+    "method": "windows split at coordinating and subordinating connectors; fragments under 3 words merged into the preceding proposition",
+    "known_failure_modes": [
+      "over-splits coordinated predicates that share a subject",
+      "under-splits paratactic clauses joined by no connector, which Hebrew and Old Norse narrative use constantly",
+      "a proposition carrying no divine term is not coded at all, so the proposition layer inherits the term detector's recall gap",
+      "attribution defaults to the framing voice where no quote frame fires; attribution_basis says which reading was a default and which was found"
+    ],
+    "consequence": "proposition counts are a machine approximation. The annotation packet codes whole propositions, and where a coder segments them differently that is a measurement of this segmentation, not an error to be corrected in the record."
+  },
+  "values_not_yet_instrumented": [
+    "D1_ontological_category=unknowable_or_conceptless",
+    "D2b_reality_of_others=others_not_addressed",
+    "D2c_worship_exclusivity=no_devotional_language",
+    "D3_agency=non_agential",
+    "D4_cosmic_function=no_function_attributed",
+    "D5_universe_relationship=scale_not_claimed",
+    "D5_universe_relationship=world_in_divine_not_exhausting",
+    "D6_temporal_nature=from_lost_past",
+    "D6_temporal_nature=outside_time"
+  ],
+  "reading_rules": [
+    "`candidate` means a human must code it; it does not mean attested.",
+    "`candidate_requires_human_disambiguation` now includes the case where a single-valued dimension matched two values on one proposition; v2 chose by precedence and published no trace of it.",
+    "`not_yet_instrumented` values are undetectable by this instrument and must never be reported as absent from a tradition.",
+    "`doctrinal_endorsement` is not `conceptual_presence`: a withheld endorsement says nothing about whether the concept is in the text.",
+    "`doctrinal_endorsement` is D7d's own value, so the two are one measurement and never corroborate each other; they differ only where the coverage state is `not_yet_instrumented` and the field is forced to `undecidable`. `counts_as_affirmative_doctrine` is their conjunction with the coverage state and inherits D7d's errors exactly.",
+    "the twelve dimensions are analytically distinct by definition, which is not the claim that they are orthogonal in observation: one English surface string populates several of them at once, and no coder has scored them yet.",
+    "`historical_transmission` is `not_yet_assessable` in every record and may not be argued from any number in this file.",
+    "no number in this file may be used to order concepts historically: composition, witness and translation dates are separate fields and are not yet filled."
+  ],
+  "reproducibility": {
+    "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4",
+    "rules_sha256": "7ea77765175ca85cfba7e7672748ff7c9836eba552343b4fac07230459445a10",
+    "ontology_sha256": "a828d8759e90cc0db5cdc661d216d07c63a52695c981a374909a0e919732c841",
+    "lexicon_sha256": "9ae41082a7cbd27f533f979040da7276abbb816c610ea5dc2568522c43ce9464",
+    "code_sha256": "ebffe02235a8a28df22ee0ab4b484071894bb2fe4be47fd685923802fd13bf2d",
+    "randomness": "none: sorted iteration, no sampling, no fitted parameters",
+    "python": "3.13.6"
+  }
+}

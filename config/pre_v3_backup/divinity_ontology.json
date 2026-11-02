@@ -1,0 +1,217 @@
+{
+  "schema_version": "2.0.0",
+  "instrument": "divinity-ontology v2 — orthogonal dimension coding frame",
+  "status": "methodology proposal; not yet used to draw any historical conclusion",
+  "replaces": "the ten conflated concept-grammars of tools/divinity_terms.py v1",
+  "design_motivation": [
+    "v1 named ten 'grammars', but each one mixed several independent questions. `exclusivist_monotheism` folded together a cardinality claim (how many divinities), an exclusivity claim (may others be worshipped), a truth-claim about other gods (are they real) and a speech act (who is saying this and in what voice). `personal_creator_of_world` folded an ontology (personal) into a cosmic function (creation). `explicit_non_theism_or_skepticism` folded a cardinality value (zero) into an interpretation status (denial, doubt, reported speech, polemic). Conflating axes is what produced the false positives and the mono-source 'four traditions' result the audit found.",
+    "v1 tested the wrong hypothesis. It asked whether one grammar is present in every work — a universality test — and treated failure as evidence against common origin. An inheritance-and-transformation hypothesis does not predict uniform surface forms; it predicts lineages of transformed states. This frame therefore measures states and admissible transformations, not sameness.",
+    "v1 was English-only. Every value below is defined by the concept it carves, not by an English word, and the lexicon carries original-language entries so a tradition is never scored absent because a Victorian translator lacked the term."
+  ],
+
+  "assertion_logic": {
+    "states": ["attested", "not_attested_in_available_sources", "undecidable_from_available_sources"],
+    "hard_rule": "Only the first state may enter a positive count. The other two are distinct and are never merged: `not_attested_in_available_sources` means the search was exhaustive over a corpus known to represent this tradition and found nothing; `undecidable_from_available_sources` means the corpus, the translation, the dating or the speech-act status cannot support a judgement.",
+    "prohibition": "No absence of an English surface pattern may be recorded as `not_attested_in_available_sources` unless every lexicon entry for that value in every language associated with the work's source tradition was searched and the translation's coverage of the relevant passage type was established. Otherwise the correct state is `undecidable_from_available_sources`. This is the single most important rule in the frame, because v1's headline conclusion was built from absences that were in fact undecidable."
+  },
+
+  "coding_record": {
+    "unit": "one utterance-window (a bounded run of connected text making one claim about divinity), not a whole work and not a chapter",
+    "required_fields": [
+      "record_id", "work_id", "passage_id", "char_start", "char_end", "expression_language",
+      "surface_text", "dimension_values", "assertion_state", "speech_act_ambiguity",
+      "composition_date_claim", "earliest_witness_date", "edition_or_translation_date",
+      "original_textual_source", "source_dependence_relation", "counts_as_independent_attestation",
+      "coder_id", "coding_date", "second_coder_id", "second_coding_date", "agreement_status",
+      "verification_status", "reference"
+    ],
+    "note": "Dates are three separate fields because a text's composition, its earliest surviving witness and the translation in hand routinely differ by two millennia; collapsing them is how undated attestation counts get read as chronology."
+  },
+
+  "dimensions": {
+    "D1_divine_ontology": {
+      "question": "What kind of thing is the divine, in the view expressed here?",
+      "cardinality": "single-valued",
+      "values": {
+        "personal_agent": "a being with mind, will and address, capable of being spoken to",
+        "impersonal_principle": "an order, law, ground or absolute that is not a being and has no mental states",
+        "animating_substance": "sacred power as a quantifiable stuff or property that things may contain",
+        "collective_or_class": "'the divine' names a class of beings; no single member is the referent",
+        "manifestation_or_hypostasis": "a visible face of a hidden depth; the addressed figure is not the whole",
+        "deified_mortal": "divinity as an honour a formerly human person received",
+        "unknowable_or_conceptless": "the ultimate is declared beyond the reach of these predicates",
+        "undecidable": "the window does not commit"
+      },
+      "orthogonality_note": "Does not record how many, what done, or whether the speaker believes it. 'impersonal_principle' is compatible with any plurality, agency and temporality value."
+    },
+    "D2_plurality": {
+      "question": "How many divine beings are counted, and what is the exclusivity relation among them?",
+      "cardinality": "single-valued",
+      "values": {
+        "sole_existent_others_unreal": "one divinity; others are explicitly denied reality or reduced to non-beings",
+        "sole_worshipable_others_acknowledged": "one divinity rightly worshipped; others exist but are not to be worshipped (monolatry, henotheism)",
+        "supreme_head_with_assembly": "one chief among a real and functioning plurality (council, pantheon, court)",
+        "many_co_equal": "a plurality without a permanent head",
+        "many_ranked": "a plurality with graded essence, office or genealogy",
+        "dyadic_polar": "two complementary terms, neither reducible to the other",
+        "numeric_scheme": "plurality expressed as a doctrinal number (three, seven, thirty-three, myriads)",
+        "none": "no divine beings are conceded",
+        "undecidable": "the window does not commit"
+      },
+      "orthogonality_note": "Exodus 20:3 ('Thou shalt have no other gods before me') codes here as `sole_worshipable_others_acknowledged`, NOT as `sole_existent_others_unreal`; the wording 'before me' is a prohibition on worship, not a claim about what exists. This single distinction is what v1's conflated family could not express."
+    },
+    "D3_agency": {
+      "question": "What sort of causal capacity is attributed?",
+      "cardinality": "single-valued",
+      "values": {
+        "deliberating_will": "decides, counsels, debates, commands, repents",
+        "effortless_self_evolution": "the divine produces without deliberation or labour (emanation, self-differentiation)",
+        "law_without_will": "cosmos runs by an impersonal regularity that is itself sacred",
+        "delegated_execution": "authorship is nominal; subordinates, angels, fate-figures or offices do the work",
+        "reciprocal_dependency": "the divine needs human rite, sacrifice or prayer to remain effective",
+        "non_agential": "the divine is contemplative, immobile, 'does nothing'",
+        "undecidable": "the window does not commit"
+      }
+    },
+    "D4_cosmic_function": {
+      "question": "What work is attributed to the divine?",
+      "cardinality": "SET-valued (several may hold of one window; this is not a contradiction)",
+      "values": {
+        "creating_ex_nihilo_or_by_word": "bringing world into being, often by utterance or command",
+        "crafting_from_prior_matter": "shaping already-existing material (demiurgic)",
+        "generating_by_procreation": "world and gods issued by begetting, birth or union",
+        "sustaining_order": "maintaining the cosmos against collapse (law, rain, seasons, upholding)",
+        "judging_moral_order": "requiring, weighing, punishing, vindicating",
+        "dissolving_or_reabsorbing": "ending or drawing the world back into itself",
+        "revealing_teaching_lawgiving": "communicating knowledge or statute to humans",
+        "rescuing_healing_restoring": "soteriological action toward humans in a damaged condition",
+        "fertilisingWeather_agricultural": "storm, dew, grain, fertility — the divine as livelihood guarantee",
+        "guarding_localised": "defence of a place, people, house or cult site",
+        "no_function_attributed": "the divine is invoked but credited with no cosmic or human work",
+        "undecidable": "the window does not commit"
+      }
+    },
+      "D5_universe_relationship": {
+      "question": "What is the spatial and constitutive relation between the divine and the cosmos?",
+      "cardinality": "single-valued",
+      "values": {
+        "wholly_other": "the divine and the world are distinct kinds; the world does not contain or constitute the divine",
+        "other_and_indwelling": "the divine exceeds the world and is also present within it",
+        "identical_with_world": "the cosmos itself, or its totality, is the divine (pantheistic)",
+        "world_in_divine_not_exhausting": "the world is within the divine but does not exhaust it (panentheistic)",
+        "retreated_or_absent": "a deity made the world and withdrew, was displaced, or is inaccessible (deus otiosus)",
+        "world_as_appearance": "the cosmos is unreal, degraded or illusory relative to the divine",
+        "scale_not_claimed": "the divine is bound to places, animals, lineage or cult; no cosmic-scale assertion is made",
+        "undecidable": "the window does not commit"
+      }
+    },
+    "D6_temporal_nature": {
+      "question": "What is the divine's relation to time and to beginning?",
+      "cardinality": "single-valued",
+      "values": {
+        "uncreated_eternal": "no beginning; exists necessarily or from ever",
+        "born_in_time": "the divine has a genealogy, a birth, a youngest generation",
+        "cyclically_recurrent": "divine acts or ages return on a measurable cycle",
+        "linear_once": "one creation and one consummation; history does not repeat",
+        "eschatologically_future": "the decisive divine reality is still to arrive",
+        "from_lost_past": "the divine walked with humans and has departed; what remains is trace, memory or rite",
+        "outside_time": "the divine is atemporal, and 'beginning' does not apply",
+        "undecidable": "the window does not commit"
+      }
+    },
+    "D7_human_interpretation": {
+      "question": "In what voice, and with what commitment, is this attestation made? This records the human act of interpretation, not the doctrine's truth.",
+      "cardinality": "single-valued",
+      "values": {
+        "asserted_doctrine": "propositional confessional: the text presents the claim as so",
+        "doxology_or_address": "vocative — prayer, hymn, praise spoken TO the divine; not a proposition about the divine",
+        "mythic_narration": "told as event, not affirmed as creed; the narrator reports what the beings did",
+        "philosophical_argument": "the claim is being inferred from premises; its status is that of a conclusion",
+        "prescriptive_command": "statute or prohibition; its force is 'you shall', not 'it is so'",
+        "conditional_hypothetical": "asserted only inside an 'if' — e.g. 'if there be no Christ there be no God'",
+        "reported_speech_of_opponent": "the text records a denial or an alien claim it does not endorse",
+        "polemic_denial": "iconoclasm aimed at specific other gods; the denial is the act, not the ontology",
+        "editorial_or_ethnographic_description": "a compiler, collector or missionary reporting that others hold this",
+        "boast_of_non_divine_claimant": "the divine formula put in the mouth of a human, city or ruler who is not divine",
+        "apophatic_negation": "denial performed as worship ('no attribute reaches it')",
+        "doubt_or_inquiry": "questioning that seeks, not rejecting that concludes",
+        "undecidable": "the window does not commit"
+      },
+      "why_this_dimension_exists": "v1 counted 46 'exclusivist monotheism' matches and 116 'skepticism' matches without asking who speaks. The audit shows why: 'there is no God' appears as Isaiah's confession, as Korihor's denied boast, as a conditional in a Book of Mormon argument, as Paul's 'the Lord is one spirit', and as Babylon's self-exaltation in the very same KJV volume. These are five different facts and one regex cannot see the difference."
+    }
+  },
+
+  "transformation_operators": {
+    "purpose": "An inheritance hypothesis predicts that a later state is reachable from an earlier one by an operator this table admits. A convergence hypothesis predicts the same state arises by a different route. Naming the operators is what makes the two hypotheses distinguishable rather than a matter of taste.",
+    "operators": {
+      "elevation": "a subordinate or junior divine becomes the supreme term while retaining attributes",
+      "demotion": "a divine becomes a demon, angel, saint, ancestor or spirit — the being survives, the rank does not",
+      "absorption": "two named terms merge, one name survives and inherits the other's functions",
+      "abstraction": "an agent becomes a principle (a personal creator is re-described as ground, law, or the absolute)",
+      "personification": "a principle becomes an agent (order, fate, fortune, the city's good takes a face and a temple)",
+      "euhemerisation": "the divine is re-explained as a deified human, usually with an invented genealogy or a travel route",
+      "negation_inversion": "the successor claim reuses the predecessor's grammar with its polarity flipped; the denial of a god is worded exactly as that god's confession",
+      "functional_transfer": "attributes migrate to a new holder without the holder's ontology changing (storm-power to creator, law-giving to a king)",
+      "scope_narrowing": "a cosmic term is re-applied to a people, city, cult or household",
+      "scope_expansion": "a local term is re-applied to the whole cosmos, often by absorbing rivals",
+      "differentiation": "one term splits into two or more with divided functions, often after a textual tradition grows commentarial",
+      "nominalisation": "a verb or title hardens into a proper name (or a name into a title), which is how translations silently create or destroy monotheism",
+      "silencing": "a term is removed by an editor, redactor or censor; absence in a recension is an event, not a datum"
+    },
+    "discipline": "An operator may only be asserted when (a) both states are attested with locators, (b) the earlier state's date is not later than the later state's date, (c) a contact, transmission or dependence relation between the two expressions is documented, and (d) at least one independent witness rules out the coincidence of a translator's habit. Two of these four being unmet yields `undecidable`, not a transformation claim."
+  },
+
+  "competing_models": {
+    "M1_single_ancestral_concept_then_transformation": {
+      "claims": "One ancestral divine-concept state, from which the attested states descend by the operators above, diversifying as it travels.",
+      "predicts": ["a small set of root states concentrated in the earliest dated strata of a connected region", "descendant states reachable by the fewest admissible operators from one root", "operator signatures preserved across languages even where surface vocabulary differs", "shared arbitrary non-functional detail — a predicative structure with no reason to recur — travelling with the contact chain", "gradient of dissimilarity increasing with dated distance from the root"],
+      "if_true_we_would_see": "A low parsimony score on a single root that explains most of the attested state distribution, and dated first attestations ordered consistently with transmission."
+    },
+    "M2_multiple_independent_origins": {
+      "claims": "Divinity-concepts arise separately in lineages without contact; similarity is limited or none.",
+      "predicts": ["root states in strata with no documented contact route", "high-frequency surface similarity confined to known translation reuse, not shared arbitrary detail", "operators required that no transmission path can supply", "state distributions better predicted by ecology or subsistence than by descent"],
+      "if_true_we_would_see": "Deep-lineage states sharing nothing but functional pressure, and an inheritance tree whose parsimony gains nothing over per-lineage roots."
+    },
+    "M3_regional_inheritance_then_cultural_mixing": {
+      "claims": "Several regional roots, each internally inherited, with later cross-regional transfer; the network is reticulate, not treelike.",
+      "predicts": ["strong phylogenetic signal within regions and weak or conflicting signal between them", "borrowing edges with dates later than both endpoints", "the same state reached by different operator paths in different regions", "hybrid states where two dimensions move together and a third does not"],
+      "if_true_we_would_see": "A tree that fits each region well but whose between-region edges are better modelled as transfer; dimension-level profiles that split, with D1 inherited while D2 is replaced."
+    },
+    "M4_independent_development_then_convergence": {
+      "claims": "Independent origins followed by convergent elaboration because the same cognitive, social or linguistic pressures favour similar states.",
+      "predicts": ["states recurring in lineages with no route and no shared arbitrary detail", "recurrence explained by functional or cognitive attractors (agency detection, hierarchy projection, moral policing)", "surface vocabulary differing while the state matches", "identical operator outcomes appearing without any contact that could transmit them"],
+      "if_true_we_would_see": "High state recurrence uncorrelated with contact distance, and shared *themes* without shared *arbitrary specifics*."
+    },
+    "model_comparison_discipline": "The four are compared by which predicts the observed distribution of dated states best, not by which is likeliest a priori. Parsimony, contact distance, and the arbitrary-detail test are the three scores. No model is adopted unless it beats the others on a preregistered combination of them, and all four remain live until then."
+  },
+
+  "lexicon_conventions": {
+    "purpose": "Each value owns entries in every language in which it is claimed to be expressible. A value is 'attested in a work' if ANY entry of that value matches in ANY language the work's sources are written in — never merely if an English phrase occurs.",
+    "entry_fields": ["expression", "script", "language", "iso_639_3", "transliteration", "gloss", "surface_patterns_in_english_translation", "source_text", "attested_from", "attested_to", "date_basis", "verification_status", "reference", "dependence_note"],
+    "verification_rule": "Entries carry `verification_status`. `verified_first_hand` requires the analyst to have read the passage in the source language or in a cited critical edition with page and line. `unverified_secondary_literature` means the entry is a claim taken from a book and has NOT been checked; such entries may generate search candidates but must never be counted as attestations. This project currently has zero `verified_first_hand` original-language entries and that is a gap in the instrument, not a finding about the past.",
+    "honesty_note": "The English corpus contains transliterated terms (deva, brahman, Elohim, yazata, manitou, Dao) only when a translator chose to leave them; the frame must therefore treat transliterated-term hits as evidence of the term's presence, never as evidence that a tradition lacks a concept whose term was translated away."
+  },
+
+  "evaluation": {
+    "semantic_precision_recall": {
+      "definition": "For a dimension value v: precision = (machine matches a human coder also assigns to v) / (all machine matches for v); recall = (all human-assigned v instances that the machine found) / (all human-assigned v instances). Computed per value, not per grammar, so that a value's failure is not hidden by a neighbour's success.",
+      "gold_standard": "stratified blinded double-coding of utterance-windows, oversampled for rare values, with disagreement adjudicated and recorded as data rather than resolved silently",
+      "required_report": "confusion matrix within each dimension, plus the rate at which `undecidable` was chosen by each coder — coders who never choose it are not reading, and that shows up here",
+      "inter_rater": "Cohen kappa for single-valued dimensions, Jaccard or Krippendorff alpha for the set-valued D4; no reliability claim may be made from one coder",
+      "baselines_to_defeat": "whitespace-normalised regex, per-work majority prior, and a word-only baseline — the ontology must beat all three or it is decoration"
+    },
+    "controls": {
+      "positive": "known-dependent pairs must score as dependent (anthology reprints such as quran_sale inside sacred_books_east)",
+      "negative": "matched pairs from unrelated lineages must not resolve to a shared root state by the operator path",
+      "ablation": "removing the D7 human-interpretation dimension must reproduce v1's false positives; if it does not, the instrument is not doing what this document claims"
+    }
+  },
+
+  "what_this_frame_may_not_say": [
+    "that a concept is absent from a tradition; only that it is not attested here or undecidable",
+    "that attestation counts order anything historically until composition and witness dates are separate fields and filled",
+    "that a state found in an English translation is a state the tradition held; translation choice, edition and censoring are live confounders",
+    "that any of the four models is true, false, or preferred — this is a coding frame and a model-comparison design, not a result",
+    "anything at all about whether divine beings exist, which no coding frame addresses"
+  ]
+}

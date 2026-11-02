@@ -1,0 +1,6636 @@
+{
+  "schema_version": "1.1",
+  "purpose": "measured recall of the superseded MinHash-LSH blocking step, against the exact inverted index join that now generates results/ontology_passage_pairs.jsonl.gz. The current build has no blocking approximation, so its recall against the relation it defines is 1 by construction; these numbers are the measured cost of the approximation that was replaced.",
+  "generated_by": "tools/validate_graph_recall.py",
+  "current_graph_build": {
+    "method": "exact_inverted_index_join",
+    "recall_of_the_current_build": "1.0 by construction, not measured: the index is the join, so every cross-work pair sharing a live state is enumerated. What remains unmeasured is the detector, not the pairing.",
+    "index_artifact": "results/ontology_passage_index.json.gz"
+  },
+  "reuses_the_graph_builders_own_path": {
+    "module": "tools/build_ontology_graph.py",
+    "functions": [
+      "load_attestations",
+      "features_of",
+      "minhash_signatures",
+      "band_candidates",
+      "inverted_index",
+      "exact_sharing_layer"
+    ],
+    "band_candidates_bucket_cap_argument": "the validator passes bucket_cap=None for the uncapped comparison; production default bog.BUCKET_CAP is unchanged",
+    "exact_sharing_layer_display_per_work_pair_argument": "the validator passes display_per_work_pair=None so no display slice bounds the corpus-wide denominator; the builder's production default is bog.EDGES_DISPLAY_PER_WORK_PAIR = 20",
+    "lsh_ran_over": "the full live-state passage population, so bucket sizes and cap losses are the production ones; only the pair sets are projected onto the subset"
+  },
+  "pair_definition": "cross-work pair of passages both carrying live states with >=1 common dimension=value, where live means assertion_state == 'candidate' (v3 schema). Co-occurrence of coded states, never a similarity or historical claim.",
+  "inputs": {
+    "attestations_sha256": "955f5038b850b049981b819971ec3ff47bd7fc8d1955e2c64c3ab274fb8920b1"
+  },
+  "population": {
+    "passages_with_live_states": 14036,
+    "naive_passage_pair_space": 98497630
+  },
+  "subset": {
+    "selection_rule": "sorted strata, quota cap, deterministic first-K by passage_id; no random selection, no fitted parameters; MinHash uses the builder's published seed",
+    "state_band_labels": [
+      {
+        "label": "1",
+        "min_states": 1,
+        "max_states": 1
+      },
+      {
+        "label": "2",
+        "min_states": 2,
+        "max_states": 2
+      },
+      {
+        "label": "3-4",
+        "min_states": 3,
+        "max_states": 4
+      },
+      {
+        "label": "5-9",
+        "min_states": 5,
+        "max_states": 9
+      },
+      {
+        "label": "10+",
+        "min_states": 10,
+        "max_states": null
+      }
+    ],
+    "stratum": "(work_id, live-state band)",
+    "strata_nonempty": 238,
+    "strata_kept_whole": 60,
+    "quota": 8,
+    "passages_in_subset": 1632,
+    "members": [
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p000"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p001"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p002"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p003"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p004"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p005"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p006"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p007"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p008"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p009"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p010"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p011"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0004:p012"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0007:p000"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0007:p001"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0007:p003"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0008:p003"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0008:p004"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0009:p007"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0009:p011"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0009:p015"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0009:p016"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0009:p017"
+      },
+      {
+        "work_id": "arabian_nights",
+        "passage_id": "arabian_nights:s0009:p018"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0016:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0017:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0017:p001"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0018:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0018:p001"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0018:p002"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0021:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0023:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0023:p002"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0024:p001"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0024:p002"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0025:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0026:p001"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0028:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0032:p001"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0038:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0039:p003"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0041:p000"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0041:p001"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0045:p002"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0045:p004"
+      },
+      {
+        "work_id": "australian_legendary_tales",
+        "passage_id": "australian_legendary_tales:s0046:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0000:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0002:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0003:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0004:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0005:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0005:p002"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0005:p004"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0005:p005"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0005:p006"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0005:p007"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p001"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p002"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p003"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p004"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p005"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0006:p006"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0007:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0007:p001"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0008:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0025:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0026:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0034:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0043:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0047:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0071:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0075:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0076:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0083:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0086:p000"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0087:p001"
+      },
+      {
+        "work_id": "babylonian_creation",
+        "passage_id": "babylonian_creation:s0089:p000"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0006:p000"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0006:p002"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0007:p000"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0014:p000"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0028:p003"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0029:p001"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0031:p000"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0031:p001"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0032:p000"
+      },
+      {
+        "work_id": "bantu_folklore",
+        "passage_id": "bantu_folklore:s0053:p001"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0018:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0030:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0043:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0061:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0155:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0190:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0246:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0292:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0309:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0341:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0388:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0396:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0463:p000"
+      },
+      {
+        "work_id": "beowulf",
+        "passage_id": "beowulf:s0474:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0010:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0011:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0011:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0011:p002"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0011:p003"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0011:p004"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0012:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0012:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0013:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0013:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0014:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0015:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0016:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0018:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0018:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0019:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0019:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0020:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0020:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0021:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0021:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0021:p003"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0021:p004"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0022:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0023:p000"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0023:p001"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0028:p004"
+      },
+      {
+        "work_id": "bhagavad_gita_arnold",
+        "passage_id": "bhagavad_gita_arnold:s0028:p005"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0000:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0002:p002"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0003:p001"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0003:p002"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0003:p003"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0004:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0005:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0005:p002"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0007:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0008:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0009:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0009:p001"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0010:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0014:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0017:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0017:p001"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0021:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0055:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0074:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0155:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0164:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0227:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0254:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0275:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0351:p000"
+      },
+      {
+        "work_id": "book_of_enoch",
+        "passage_id": "book_of_enoch:s0830:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0000:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0000:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0002:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0002:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0003:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0003:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0004:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0004:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0004:p002"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0005:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0005:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0005:p002"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0006:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0006:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0008:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0009:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0009:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0010:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0011:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0012:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0012:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0013:p002"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0016:p002"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0017:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0018:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0018:p001"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0018:p003"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0019:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0020:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0021:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0023:p000"
+      },
+      {
+        "work_id": "book_of_mormon",
+        "passage_id": "book_of_mormon:s0024:p001"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0005:p001"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0005:p002"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0008:p001"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0009:p000"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0009:p002"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0010:p002"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0010:p003"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0011:p000"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0011:p005"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0011:p006"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0012:p001"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0012:p002"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0018:p000"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0019:p004"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0019:p005"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0019:p006"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0019:p009"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0021:p002"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0021:p003"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0021:p005"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0021:p007"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0021:p012"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0022:p001"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0024:p000"
+      },
+      {
+        "work_id": "celtic_myths",
+        "passage_id": "celtic_myths:s0024:p003"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0001:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0001:p002"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0007:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0010:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0015:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0017:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0020:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0021:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0023:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0046:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0046:p001"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0046:p003"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0066:p001"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0066:p002"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0067:p001"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0067:p003"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0067:p005"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0067:p006"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0079:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0079:p001"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0079:p002"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0080:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0085:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0091:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0092:p001"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0106:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0110:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0142:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0143:p001"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0236:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0267:p000"
+      },
+      {
+        "work_id": "chaldean_genesis",
+        "passage_id": "chaldean_genesis:s0356:p000"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0078:p006"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p005"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p006"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p008"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p011"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p014"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p015"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p016"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p017"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0079:p018"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0083:p009"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0086:p001"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0092:p005"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0093:p024"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0093:p047"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0093:p065"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0098:p000"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0103:p000"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0104:p009"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0105:p004"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0105:p006"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0105:p007"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0106:p006"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0111:p001"
+      },
+      {
+        "work_id": "cherokee_myths",
+        "passage_id": "cherokee_myths:s0345:p001"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p001"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p002"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p003"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p004"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p005"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p008"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p009"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p010"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p015"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p016"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p017"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p018"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p019"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p020"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p021"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p022"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p023"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p024"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p025"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p026"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0045:p029"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0046:p000"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0046:p002"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0046:p003"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0046:p004"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0047:p003"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0048:p020"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0050:p012"
+      },
+      {
+        "work_id": "chinese_fairy_book",
+        "passage_id": "chinese_fairy_book:s0051:p012"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0011:p000"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0012:p000"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0014:p000"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0016:p000"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0016:p002"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0017:p001"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0017:p006"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0018:p001"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0022:p003"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0022:p007"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0022:p008"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0023:p000"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0025:p002"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0025:p003"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0025:p005"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0025:p008"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0027:p000"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0027:p001"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0027:p007"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0029:p003"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0029:p006"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0029:p008"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0030:p006"
+      },
+      {
+        "work_id": "chinese_folklore",
+        "passage_id": "chinese_folklore:s0030:p013"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p001"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p002"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p006"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p007"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p012"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p013"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p014"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p015"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0002:p017"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0003:p000"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0003:p002"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p000"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p001"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p003"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p004"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p005"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p006"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p008"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p009"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p010"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p011"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p012"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p015"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p018"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p026"
+      },
+      {
+        "work_id": "chinese_wonder_book",
+        "passage_id": "chinese_wonder_book:s0004:p060"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0009:p002"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0009:p011"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0014:p000"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0026:p000"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0026:p001"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0026:p004"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0026:p005"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0026:p006"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0028:p005"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0028:p013"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0032:p000"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0034:p003"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0059:p012"
+      },
+      {
+        "work_id": "creek_migration",
+        "passage_id": "creek_migration:s0059:p015"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0021:p000"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0023:p000"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0023:p001"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0023:p002"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0023:p003"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0025:p003"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0027:p001"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0029:p001"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0030:p004"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0030:p006"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0032:p000"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0034:p002"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0039:p000"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0039:p009"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0040:p000"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0045:p002"
+      },
+      {
+        "work_id": "cunnie_rabbit",
+        "passage_id": "cunnie_rabbit:s0047:p004"
+      },
+      {
+        "work_id": "dhammapada_muller",
+        "passage_id": "dhammapada_muller:s0011:p000"
+      },
+      {
+        "work_id": "dhammapada_muller",
+        "passage_id": "dhammapada_muller:s0103:p000"
+      },
+      {
+        "work_id": "dhammapada_muller",
+        "passage_id": "dhammapada_muller:s0190:p000"
+      },
+      {
+        "work_id": "dhammapada_muller",
+        "passage_id": "dhammapada_muller:s0222:p000"
+      },
+      {
+        "work_id": "dhammapada_muller",
+        "passage_id": "dhammapada_muller:s0263:p000"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0009:p004"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0010:p000"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0011:p000"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0011:p002"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0011:p003"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0012:p001"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0012:p002"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0012:p005"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0013:p000"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0013:p001"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0013:p003"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0013:p005"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0013:p006"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0014:p000"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0015:p002"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0015:p005"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0017:p004"
+      },
+      {
+        "work_id": "euahlayi_tribe",
+        "passage_id": "euahlayi_tribe:s0017:p005"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0037:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0037:p002"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0037:p003"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0037:p004"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0041:p000"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0041:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0041:p002"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0044:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0044:p002"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0046:p000"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0046:p002"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0046:p005"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0049:p002"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0051:p000"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0052:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0054:p000"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0054:p003"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0056:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0060:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0060:p006"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0062:p001"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0064:p000"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0074:p000"
+      },
+      {
+        "work_id": "filipino_popular_tales",
+        "passage_id": "filipino_popular_tales:s0121:p003"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0011:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0016:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0017:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0017:p003"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0017:p004"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0017:p005"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0017:p006"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0018:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0021:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0022:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0023:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0023:p001"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0024:p000"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p007"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p008"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p010"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p011"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p012"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p013"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p014"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p015"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p016"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p019"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p020"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p021"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p024"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0045:p028"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0046:p001"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0046:p005"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0046:p006"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0049:p006"
+      },
+      {
+        "work_id": "hesiod_homerica",
+        "passage_id": "hesiod_homerica:s0083:p011"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0007:p000"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p000"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p001"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p002"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p003"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p006"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p007"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p008"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0010:p009"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0011:p000"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p002"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p003"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p005"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p008"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p009"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p012"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p013"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0015:p014"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0016:p000"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0016:p001"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0016:p005"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0016:p006"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0016:p007"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0016:p008"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0019:p010"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0020:p001"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0021:p004"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0023:p005"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0029:p001"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0030:p008"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0032:p002"
+      },
+      {
+        "work_id": "iliad",
+        "passage_id": "iliad:s0035:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0008:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0008:p001"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0009:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0009:p002"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0009:p003"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0009:p005"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0009:p006"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0010:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0010:p001"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0010:p002"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0010:p003"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0011:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0011:p001"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0012:p002"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0012:p003"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0012:p004"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0012:p005"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0012:p006"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0013:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0013:p004"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0014:p000"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0015:p004"
+      },
+      {
+        "work_id": "iroquois_myths",
+        "passage_id": "iroquois_myths:s0016:p004"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0003:p000"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0005:p000"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p000"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p001"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p002"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p004"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p005"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p007"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p008"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p009"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p010"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p011"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p012"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p014"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p015"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p017"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p018"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p019"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p023"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p028"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p042"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p043"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p046"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p050"
+      },
+      {
+        "work_id": "iroquois_stories",
+        "passage_id": "iroquois_stories:s0006:p051"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p000"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p001"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p002"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p003"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p004"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p008"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p009"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p010"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0003:p011"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0006:p000"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0012:p000"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0021:p000"
+      },
+      {
+        "work_id": "jain_sect",
+        "passage_id": "jain_sect:s0026:p001"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p000"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p001"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p002"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p003"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p004"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p005"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p007"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p008"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p009"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p010"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p011"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p013"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0004:p015"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p001"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p004"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p005"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p007"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p015"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p017"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p018"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p019"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p020"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p021"
+      },
+      {
+        "work_id": "japanese_fairy_tales",
+        "passage_id": "japanese_fairy_tales:s0005:p024"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0036:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0036:p001"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0138:p001"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0143:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0164:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0177:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0195:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0242:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0249:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0299:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0302:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0348:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0349:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0349:p001"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0352:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0357:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0358:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0359:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0363:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0368:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0370:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0376:p000"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0394:p001"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0394:p006"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0394:p007"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0394:p008"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0395:p003"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0396:p004"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0398:p003"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0413:p001"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0418:p001"
+      },
+      {
+        "work_id": "jataka_v1",
+        "passage_id": "jataka_v1:s0425:p000"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0019:p000"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0019:p003"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0019:p004"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0019:p005"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p000"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p001"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p002"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p003"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p005"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p006"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p007"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p008"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p010"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p013"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0020:p017"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0021:p000"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0021:p002"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0023:p001"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0023:p002"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0024:p005"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0024:p006"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0029:p003"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0031:p000"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0034:p002"
+      },
+      {
+        "work_id": "kalevala",
+        "passage_id": "kalevala:s0034:p003"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p000"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p001"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p002"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p003"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p004"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p005"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p006"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p007"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p008"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p009"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p010"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p012"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p013"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p015"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p017"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p021"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p022"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p027"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p029"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p031"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p032"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p037"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p042"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p046"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0000:p081"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0001:p006"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0001:p024"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0001:p035"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0001:p050"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0001:p051"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0001:p052"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0002:p001"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0016:p124"
+      },
+      {
+        "work_id": "kjv_bible",
+        "passage_id": "kjv_bible:s0016:p168"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0002:p000"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0006:p000"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p001"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p005"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p006"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p007"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p008"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p009"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p011"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p012"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p013"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p014"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p015"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p017"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p018"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p019"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p020"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p023"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p024"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p025"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p026"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p027"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p029"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p030"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p031"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p032"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p034"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p038"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p039"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0008:p041"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0009:p009"
+      },
+      {
+        "work_id": "legends_of_the_jews_v1",
+        "passage_id": "legends_of_the_jews_v1:s0009:p019"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0014:p002"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0014:p003"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0014:p004"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0015:p000"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0015:p001"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p006"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p009"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p011"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p012"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p013"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p014"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p015"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p016"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p017"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p020"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p022"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p023"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p026"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p027"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p035"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p038"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p039"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p041"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p046"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0016:p191"
+      },
+      {
+        "work_id": "mabinogion",
+        "passage_id": "mabinogion:s0018:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0002:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0003:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0003:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0003:p003"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0003:p004"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0003:p005"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0004:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0004:p002"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0004:p003"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0005:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0005:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0006:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0008:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0013:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0013:p002"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0013:p003"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0015:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0022:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0023:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0024:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0032:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0039:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0041:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0041:p003"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0041:p004"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0042:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0042:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0078:p001"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0085:p007"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0092:p000"
+      },
+      {
+        "work_id": "mahabharata_11894",
+        "passage_id": "mahabharata_11894:s0093:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0002:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0003:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0005:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0005:p002"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0007:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0008:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0008:p002"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0009:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0009:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0010:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0013:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0015:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0015:p002"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0019:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0026:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0029:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0031:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0038:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0047:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0053:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0070:p000"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0070:p001"
+      },
+      {
+        "work_id": "mahabharata_12058",
+        "passage_id": "mahabharata_12058:s0073:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0002:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0002:p002"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0003:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0003:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0004:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0005:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0006:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0006:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0006:p002"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0006:p003"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0008:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0011:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0013:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0013:p002"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0015:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0017:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0018:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0018:p002"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0018:p003"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0019:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0020:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0022:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0024:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0025:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0028:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0029:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0030:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0038:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0045:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0045:p001"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0076:p000"
+      },
+      {
+        "work_id": "mahabharata_12333",
+        "passage_id": "mahabharata_12333:s0090:p002"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0005:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0005:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0005:p002"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0009:p002"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0009:p003"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0009:p004"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0009:p005"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0010:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0010:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0011:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0013:p002"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0016:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p003"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p004"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p007"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p008"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0017:p010"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0018:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0019:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0019:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0020:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0038:p001"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0041:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0054:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0065:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0069:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0070:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0076:p000"
+      },
+      {
+        "work_id": "mahabharata_7864",
+        "passage_id": "mahabharata_7864:s0082:p002"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0003:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0005:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0005:p001"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0005:p002"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0006:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0006:p001"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0007:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0007:p001"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0007:p003"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0007:p005"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0007:p006"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0007:p007"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0008:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0009:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0010:p001"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0014:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0014:p001"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0014:p002"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0015:p001"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0017:p003"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0018:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0021:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0022:p000"
+      },
+      {
+        "work_id": "mahabharata_7965",
+        "passage_id": "mahabharata_7965:s0038:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0003:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0003:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0003:p002"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0003:p003"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p002"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p003"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p004"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p007"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0004:p010"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0007:p002"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0010:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0010:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0010:p002"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0014:p002"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0016:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0018:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0018:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0018:p003"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0018:p004"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0018:p007"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0018:p008"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0020:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0040:p001"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0043:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0056:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0067:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0071:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0072:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0078:p000"
+      },
+      {
+        "work_id": "mahabharata_v1",
+        "passage_id": "mahabharata_v1:s0084:p002"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0002:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0003:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0005:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0005:p002"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0006:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0007:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0008:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0009:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0009:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0010:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0013:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0015:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0015:p002"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0019:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0026:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0028:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0030:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0037:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0047:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0053:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0070:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0070:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0073:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0136:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0140:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0140:p001"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0238:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0320:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0321:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0377:p000"
+      },
+      {
+        "work_id": "mahabharata_v2",
+        "passage_id": "mahabharata_v2:s0378:p000"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p001"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p008"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p013"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p014"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p015"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p018"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p019"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p022"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p024"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p027"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p029"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p030"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p031"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p033"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p034"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p046"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p070"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p076"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p077"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p078"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p079"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p082"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p083"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p086"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p087"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p089"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0001:p094"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0003:p000"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0003:p001"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0004:p017"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0005:p030"
+      },
+      {
+        "work_id": "mahabharata_v3",
+        "passage_id": "mahabharata_v3:s0006:p037"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0002:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0002:p001"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0002:p002"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0002:p005"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0003:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0003:p002"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0003:p004"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0004:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0005:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0005:p002"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0006:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0006:p001"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0007:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0007:p001"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0007:p002"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0009:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0013:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0013:p001"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0013:p002"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p000"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p001"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p004"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p007"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p008"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p012"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p015"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p024"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0015:p027"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0017:p002"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0017:p005"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0018:p008"
+      },
+      {
+        "work_id": "mahabharata_v4",
+        "passage_id": "mahabharata_v4:s0018:p022"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0008:p000"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0014:p000"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0014:p001"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0015:p001"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0015:p002"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0015:p003"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0019:p000"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0019:p001"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0019:p002"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0020:p000"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0020:p001"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0020:p002"
+      },
+      {
+        "work_id": "maori_port_hills",
+        "passage_id": "maori_port_hills:s0021:p002"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0011:p000"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0011:p002"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0011:p003"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0012:p000"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0013:p001"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p000"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p001"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p002"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p003"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p004"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p005"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p006"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p010"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p013"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p015"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p016"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0014:p017"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0015:p001"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0015:p003"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0015:p004"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0015:p006"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0016:p000"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0016:p002"
+      },
+      {
+        "work_id": "maui_legends",
+        "passage_id": "maui_legends:s0016:p012"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0009:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p001"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p002"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p003"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p004"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p006"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p007"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p008"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p009"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p013"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0012:p014"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0013:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0014:p001"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0015:p003"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0018:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0018:p002"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0018:p003"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0019:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p001"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p002"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p003"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p005"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p006"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p008"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0020:p009"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0021:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0021:p001"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0022:p000"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0022:p003"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0022:p007"
+      },
+      {
+        "work_id": "myths_legends_china",
+        "passage_id": "myths_legends_china:s0023:p001"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0015:p000"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p000"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p001"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p002"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p003"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p004"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p005"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p006"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p007"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p008"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0016:p010"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0017:p000"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0017:p001"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0018:p000"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0018:p002"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0018:p003"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p001"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p002"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p006"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p007"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p008"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p009"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0019:p011"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0020:p004"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0020:p005"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0061:p002"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0081:p000"
+      },
+      {
+        "work_id": "myths_legends_japan",
+        "passage_id": "myths_legends_japan:s0082:p011"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0009:p000"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0009:p002"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0010:p001"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p000"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p001"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p003"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p005"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p006"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p007"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p008"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p009"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p012"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p014"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p015"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p017"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p019"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0011:p021"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0012:p000"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0013:p000"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0013:p001"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0013:p003"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0013:p004"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0013:p008"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0013:p010"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0017:p001"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0017:p012"
+      },
+      {
+        "work_id": "myths_mexico_peru",
+        "passage_id": "myths_mexico_peru:s0034:p005"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p008"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p020"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p024"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p025"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p027"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p032"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p034"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p040"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p045"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p048"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0006:p049"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p000"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p001"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p002"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p005"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p010"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p012"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p013"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p014"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p015"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p016"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p017"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0007:p021"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0008:p002"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0008:p005"
+      },
+      {
+        "work_id": "myths_north_american",
+        "passage_id": "myths_north_american:s0017:p030"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0070:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0071:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0073:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0078:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0082:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0083:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0088:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0123:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0127:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0128:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0129:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0130:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0131:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0136:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0140:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0148:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0164:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0183:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0185:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0227:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0232:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0313:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0366:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0370:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0546:p000"
+      },
+      {
+        "work_id": "navaho_legends",
+        "passage_id": "navaho_legends:s0754:p000"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0000:p000"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0004:p000"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0004:p001"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0004:p002"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p000"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p001"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p002"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p004"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p005"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p006"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p007"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p008"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p009"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p010"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p011"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p014"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p018"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p019"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0005:p020"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0006:p001"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0006:p003"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0007:p002"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0007:p008"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0007:p010"
+      },
+      {
+        "work_id": "north_american_oral_legends",
+        "passage_id": "north_american_oral_legends:s0009:p023"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0007:p000"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p000"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p001"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p004"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p005"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p006"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p007"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0009:p008"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p000"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p001"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p002"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p003"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p004"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p005"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0010:p009"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0011:p002"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0012:p001"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0013:p000"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0013:p003"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0013:p006"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0013:p008"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0013:p010"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0015:p000"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0015:p006"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0015:p007"
+      },
+      {
+        "work_id": "odyssey",
+        "passage_id": "odyssey:s0015:p008"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0002:p000"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0005:p001"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0005:p003"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0005:p005"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0005:p006"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0005:p008"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0008:p002"
+      },
+      {
+        "work_id": "philippine_folk_tales",
+        "passage_id": "philippine_folk_tales:s0008:p003"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0002:p000"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0007:p000"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p000"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p001"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p002"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p003"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p004"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p005"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p006"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p007"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p009"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p010"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p011"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0014:p012"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0016:p001"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0016:p002"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0016:p003"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0016:p006"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0017:p000"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0017:p006"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0020:p001"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0020:p015"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0021:p008"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0021:p010"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0021:p026"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0021:p042"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0021:p060"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0021:p064"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0023:p000"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0025:p001"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0025:p011"
+      },
+      {
+        "work_id": "pistis_sophia",
+        "passage_id": "pistis_sophia:s0026:p036"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0005:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0006:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0006:p001"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0074:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0082:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0087:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0088:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0091:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0094:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0096:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0099:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0100:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0352:p001"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0368:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0383:p001"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0464:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0478:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0486:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0513:p001"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0513:p003"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0553:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0600:p000"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0600:p003"
+      },
+      {
+        "work_id": "poetic_edda_bellows",
+        "passage_id": "poetic_edda_bellows:s0614:p000"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0003:p000"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0003:p001"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0003:p002"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0003:p003"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0004:p000"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0005:p000"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0005:p002"
+      },
+      {
+        "work_id": "popol_vuh",
+        "passage_id": "popol_vuh:s0005:p003"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0002:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0004:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0004:p002"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0006:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0006:p002"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0007:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0008:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0009:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0009:p001"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0009:p002"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0010:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0021:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0030:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0063:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0065:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0065:p001"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0081:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0083:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0087:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0127:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0140:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0148:p001"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0156:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0168:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0177:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0177:p001"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0177:p002"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0205:p000"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0205:p001"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0205:p003"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0205:p004"
+      },
+      {
+        "work_id": "quran_sale",
+        "passage_id": "quran_sale:s0252:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0169:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0169:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0169:p002"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0169:p003"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0169:p004"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0170:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0170:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0171:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0172:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0173:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0174:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0175:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0177:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0177:p003"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0178:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0178:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0179:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0182:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0183:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0183:p002"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0184:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0185:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0187:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0189:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0190:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0266:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0298:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0400:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0405:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0629:p000"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0634:p001"
+      },
+      {
+        "work_id": "ramayana_griffith",
+        "passage_id": "ramayana_griffith:s0654:p000"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p000"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p001"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p003"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p005"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p006"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p007"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p008"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p009"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p010"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p011"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p012"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p014"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p015"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p021"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p024"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p027"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p028"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p029"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p030"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p031"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0013:p034"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0015:p003"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0015:p006"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0015:p007"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0016:p031"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0054:p008"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0054:p009"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0054:p010"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0055:p000"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0055:p001"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0055:p004"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0055:p006"
+      },
+      {
+        "work_id": "sacred_books_east",
+        "passage_id": "sacred_books_east:s0057:p007"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p000"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p002"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p005"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p006"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p007"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p008"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p010"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0004:p011"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p000"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p001"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p003"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p004"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p005"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p006"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p009"
+      },
+      {
+        "work_id": "south_african_folk_tales",
+        "passage_id": "south_african_folk_tales:s0005:p012"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0005:p000"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0005:p002"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0005:p003"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0006:p001"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0006:p002"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p000"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p001"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p002"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p003"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p004"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p006"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p007"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p009"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p012"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p015"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p019"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p023"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p024"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p025"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p027"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p028"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p029"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p031"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p033"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p058"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0007:p059"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0026:p045"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0028:p004"
+      },
+      {
+        "work_id": "strange_stories_chinese",
+        "passage_id": "strange_stories_chinese:s0029:p013"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0005:p000"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p001"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p008"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p009"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p010"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p011"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p012"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p013"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0016:p016"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p005"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p007"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p008"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p009"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p013"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p014"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p017"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p018"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p027"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0017:p068"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0018:p012"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0018:p013"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0018:p015"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0018:p018"
+      },
+      {
+        "work_id": "tinguian_traditions",
+        "passage_id": "tinguian_traditions:s0018:p023"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0005:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0005:p001"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0005:p002"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0005:p003"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0006:p003"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0006:p004"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0007:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0007:p001"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0007:p002"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0007:p003"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0008:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0008:p001"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0008:p002"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0009:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0010:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0010:p001"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0010:p003"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0011:p001"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0012:p001"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0013:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0014:p000"
+      },
+      {
+        "work_id": "upanishads_mead",
+        "passage_id": "upanishads_mead:s0014:p001"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0003:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0006:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0008:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0018:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0031:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0056:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0063:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0070:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0078:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0121:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0123:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0124:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0124:p001"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0124:p002"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0124:p003"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0125:p001"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0126:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0126:p001"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0127:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0127:p001"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0127:p002"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0129:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0130:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0131:p003"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0131:p004"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0133:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0134:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0135:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0135:p003"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0135:p004"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0137:p000"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0145:p001"
+      },
+      {
+        "work_id": "vishnu_purana",
+        "passage_id": "vishnu_purana:s0220:p002"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0002:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0003:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0003:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0004:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0004:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0005:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0005:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0005:p002"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0005:p003"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0005:p007"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0009:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0013:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0014:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0015:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0018:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0019:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0020:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0021:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0022:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0027:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0028:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0029:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0031:p001"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0035:p000"
+      },
+      {
+        "work_id": "volsunga_saga",
+        "passage_id": "volsunga_saga:s0037:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0028:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0029:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0031:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0031:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0031:p002"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0032:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0032:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0033:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0033:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0034:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0035:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0036:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0036:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0037:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0037:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0039:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0042:p002"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0043:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0044:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0044:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0045:p000"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0045:p001"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0051:p002"
+      },
+      {
+        "work_id": "west_african_folk_tales",
+        "passage_id": "west_african_folk_tales:s0053:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0041:p001"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0041:p002"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0041:p003"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0042:p003"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0042:p004"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0045:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0045:p001"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0047:p001"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0047:p003"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0047:p004"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0048:p002"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0051:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0052:p002"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0053:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0058:p006"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0063:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0064:p006"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0069:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0070:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0070:p001"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0076:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0076:p001"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0086:p000"
+      },
+      {
+        "work_id": "where_animals_talk",
+        "passage_id": "where_animals_talk:s0090:p002"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0021:p001"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0021:p004"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0023:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0023:p001"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0024:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0024:p001"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0026:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0029:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0030:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0033:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0038:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0039:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0040:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0042:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0044:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0045:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0046:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0049:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0051:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0052:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0053:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0058:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0060:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0063:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0064:p000"
+      },
+      {
+        "work_id": "younger_edda",
+        "passage_id": "younger_edda:s0114:p000"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p005"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p007"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p012"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p015"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p016"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p021"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p023"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p025"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p028"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p029"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p030"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0005:p031"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0006:p000"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0006:p002"
+      },
+      {
+        "work_id": "zulu_customs_folklore",
+        "passage_id": "zulu_customs_folklore:s0006:p005"
+      }
+    ]
+  },
+  "parameters": {
+    "num_hashes": 128,
+    "bands": 16,
+    "rows_per_band": 8,
+    "seed": 20261101,
+    "bucket_cap": 400
+  },
+  "results": {
+    "subset_definition": "deterministic stratified subset of 1632 of 14036 live-state passages: strata = (work, live-state band) over bands ['1', '2', '3-4', '5-9', '10+'], whole strata up to 8 passages kept complete, larger strata take the first 8 passage ids in sorted order; no random selection",
+    "pairwise_comparisons_within_subset": 1330896,
+    "exact_sharing_pairs": 413552,
+    "recovered_by_lsh": 9600,
+    "recall": 0.023214,
+    "recall_scope": "this recall is measured on the stratified subset above, not over the corpus. The corpus-wide figure lives in `corpus_wide`; quoting this one without the subset qualifier overstates or understates it and the two are not the same number.",
+    "recall_if_bucket_cap_removed": 0.139385,
+    "lost_to_bucket_cap": 48043,
+    "lost_to_banding": 355909,
+    "loss_decomposition_check": "exact_sharing_pairs = recovered_by_lsh + lost_to_bucket_cap + lost_to_banding",
+    "lsh_pairs_in_subset_not_in_exact": 0,
+    "note_false_positives": "banding can return subset pairs that share no live state (hash collision with no shared feature); the builder writes only pairs with shared states, so these do not reach the edge file and do not affect recall"
+  },
+  "corpus_wide": {
+    "exact_distinct_cross_work_pairs": 22940506,
+    "exact_pair_multiplicity_by_feature": 31851655,
+    "work_pairs_connected": 2078,
+    "lsh_candidates_with_bucket_cap": 538529,
+    "lsh_candidates_bucket_cap_removed": 4741752,
+    "recovered_by_lsh": 538529,
+    "recall": 0.023475,
+    "lost_to_bucket_cap": 4203223,
+    "lost_to_banding": 18198754,
+    "recall_if_bucket_cap_removed": 0.206698,
+    "loss_decomposition_check": "538529 + 4203223 + 18198754 = 22940506",
+    "precision_of_candidates": 1.0,
+    "precision_is_measured_not_assumed": "every candidate of both runs was re-tested for a shared live state; 538529 of 538529 and 4741752 of 4741752 passed, so banding produced no false positives here and its only defect was coverage",
+    "note": "the exact denominator is computed by the graph builder's own exact_sharing_layer with display_per_work_pair=None, so no cap and no display slice affects it. This is the corpus-wide form of the subset figure: the same loss decomposition over the whole live-state population instead of a stratified sample of it."
+  },
+  "what_this_does_not_measure": "Recall of the LSH blocking step is recall of candidate pairing given the states already recorded; it is NOT recall of the concept detector. The exact comparison only knows pairs that share a live dimension=value state the detector wrote down, so a pair the term detector never could see — a value with no instrumented detector, a concept expressed in source language but translated away, a state recorded only as not_yet_instrumented or pending human disambiguation — is invisible to the exact set and to LSH alike, and no number in this file bounds it. That limitation applies to the corpus-wide block too: its denominator is complete for the relation as defined and silent about every relation the instrument cannot define. The `results` block additionally covers only the stratified subset, not the full pair space.",
+  "summary_line": "superseded LSH blocking recall 0.023475 corpus-wide on 22940506 exact sharing pairs (0.023214 on the 413552-pair deterministic 1632-passage subset); 4203223 lost to the bucket cap 400, 18198754 lost to banding itself; the published graph now uses the exact index, whose recall against this relation is 1"
+}

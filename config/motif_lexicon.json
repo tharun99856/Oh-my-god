@@ -1,0 +1,10 @@
+{
+  "serpent_reference": ["serpent", "dragon", "snake", "vritra", "jormungandr", "typhon", "tiamat", "illuyanka", "midgard serpent"],
+  "storm_lightning": ["storm", "thunder", "lightning", "thunderbolt", "tempest"],
+  "divine_weapon": ["vajra", "thunderbolt", "mjolnir", "mjölnir", "trident", "divine weapon", "hammer of thor"],
+  "flood_destruction": ["flood", "deluge", "inundation", "drowned", "destroyed by water", "noah's ark", "ark of noah"],
+  "water_release": ["released the waters", "release the waters", "let loose the waters", "set free the waters", "waters flowed", "waters issued", "opened the waters"],
+  "creation_from_body": ["body became", "flesh became", "bones became", "skull became", "blood became", "body of ymir", "body of purusha", "body of pangu", "body of tiamat"],
+  "death_descent": ["descended into hades", "descended to hades", "underworld", "land of the dead", "realm of the dead", "helheim", "niflheim"],
+  "return_from_death": ["resurrection", "rose from the dead", "raised from the dead", "returned from the dead", "reborn", "reincarnated"]
+}

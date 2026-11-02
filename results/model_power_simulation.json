@@ -1,0 +1,2639 @@
+{
+  "schema_version": 1,
+  "artifact": "model_power_simulation",
+  "produced_by": "python tools/compare_models.py --power",
+  "status": "derived",
+  "question": "how many dated, route-typed pairs does the decision rule need before naming a winner tells a reader anything?",
+  "generative_assumption": "the true model is one of the four and its declared parameters in this file are right. The simulation measures the decision rule's power under that assumption. It does not measure whether any of the four is true, and it cannot: a rule can be perfectly powered and still be fed a world none of the four describes.",
+  "what_the_number_is": "the smallest pair count on the declared grid at which the stage-1 rule names the generating model decisively in at least the target share of replications, for every generating model -- so the binding cell is the hardest of the four to separate",
+  "what_the_number_is_not": [
+    "a claim that any of the four models is true; a rule can be perfectly powered and still be fed a world none of the four describes",
+    "a measurement of this corpus: every input is a declared parameter of the instrument",
+    "independent of the grid: the floor is the first grid point that clears the target, so it is reported to the grid step and no finer"
+  ],
+  "gate_is_not_part_of_what_is_measured": "each replication is scored with the pair-count and effective-sample gates switched off, because the simulation is what sets them; measuring the rule with the gate in force would measure the previous run's placeholder",
+  "declared_parameters": {
+    "seed": 20261031,
+    "target_correct_model_probability": 0.8,
+    "grid": {
+      "from": 20,
+      "to": 400,
+      "step": 20
+    },
+    "replications_per_cell": 200,
+    "synthetic_background_distribution": {
+      "identical": 0.02,
+      "near": 0.08,
+      "partial": 0.2,
+      "far": 0.35,
+      "unrelated": 0.35
+    },
+    "edge_count_models": {
+      "M1": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "M3": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      }
+    },
+    "cluster_structure": {
+      "works": 65,
+      "witnesses_per_work": 1
+    },
+    "decision_rule": {
+      "competitor_keys": [
+        "M1",
+        "M2",
+        "M3",
+        "M4"
+      ],
+      "margin_log10_bayes_factor": 2.0,
+      "test_cluster_fraction": 0.5,
+      "holdout_seed": 20261031
+    }
+  },
+  "declared_parameters_sha256": "a92a47e40db231eaa57c5d5453373d3df3a19cfafbd8a22e793db406ff1a3389",
+  "run_overrides": {},
+  "provenance": "declared parameters, no overrides",
+  "cells": [
+    {
+      "true_model": "M1",
+      "pairs": 20,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 0,
+      "power": 0.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 11.26817,
+      "fifth_percentile_effective_samples": 9.090909,
+      "minimum_effective_samples": 6.060606,
+      "mean_test_share_of_pairs": 0.509,
+      "leader_distribution": {
+        "M1": 156,
+        "M2": 1,
+        "M3": 43,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 40,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 7,
+      "power": 0.035,
+      "power_monte_carlo_standard_error": 0.012995,
+      "mean_effective_pairs": 16.534836,
+      "fifth_percentile_effective_samples": 13.793103,
+      "minimum_effective_samples": 12.698413,
+      "mean_test_share_of_pairs": 0.511,
+      "leader_distribution": {
+        "M1": 177,
+        "M2": 0,
+        "M3": 23,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 60,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 23,
+      "power": 0.115,
+      "power_monte_carlo_standard_error": 0.022558,
+      "mean_effective_pairs": 20.128593,
+      "fifth_percentile_effective_samples": 17.142857,
+      "minimum_effective_samples": 15.652174,
+      "mean_test_share_of_pairs": 0.511667,
+      "leader_distribution": {
+        "M1": 185,
+        "M2": 0,
+        "M3": 15,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 80,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 49,
+      "power": 0.245,
+      "power_monte_carlo_standard_error": 0.030412,
+      "mean_effective_pairs": 23.031916,
+      "fifth_percentile_effective_samples": 20.0,
+      "minimum_effective_samples": 18.604651,
+      "mean_test_share_of_pairs": 0.511437,
+      "leader_distribution": {
+        "M1": 194,
+        "M2": 0,
+        "M3": 6,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 100,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 78,
+      "power": 0.39,
+      "power_monte_carlo_standard_error": 0.034489,
+      "mean_effective_pairs": 25.061004,
+      "fifth_percentile_effective_samples": 22.123894,
+      "minimum_effective_samples": 21.097046,
+      "mean_test_share_of_pairs": 0.5105,
+      "leader_distribution": {
+        "M1": 195,
+        "M2": 0,
+        "M3": 5,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 120,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 100,
+      "power": 0.5,
+      "power_monte_carlo_standard_error": 0.035355,
+      "mean_effective_pairs": 26.708113,
+      "fifth_percentile_effective_samples": 23.84106,
+      "minimum_effective_samples": 22.08589,
+      "mean_test_share_of_pairs": 0.511125,
+      "leader_distribution": {
+        "M1": 196,
+        "M2": 0,
+        "M3": 4,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 140,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 117,
+      "power": 0.585,
+      "power_monte_carlo_standard_error": 0.034841,
+      "mean_effective_pairs": 27.805307,
+      "fifth_percentile_effective_samples": 25.0,
+      "minimum_effective_samples": 23.786408,
+      "mean_test_share_of_pairs": 0.509786,
+      "leader_distribution": {
+        "M1": 199,
+        "M2": 0,
+        "M3": 1,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 160,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 132,
+      "power": 0.66,
+      "power_monte_carlo_standard_error": 0.033496,
+      "mean_effective_pairs": 29.326197,
+      "fifth_percentile_effective_samples": 26.337449,
+      "minimum_effective_samples": 25.048924,
+      "mean_test_share_of_pairs": 0.511437,
+      "leader_distribution": {
+        "M1": 198,
+        "M2": 0,
+        "M3": 2,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 180,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 129,
+      "power": 0.645,
+      "power_monte_carlo_standard_error": 0.033836,
+      "mean_effective_pairs": 29.882549,
+      "fifth_percentile_effective_samples": 27.090301,
+      "minimum_effective_samples": 26.213592,
+      "mean_test_share_of_pairs": 0.510195,
+      "leader_distribution": {
+        "M1": 198,
+        "M2": 0,
+        "M3": 2,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 200,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 146,
+      "power": 0.73,
+      "power_monte_carlo_standard_error": 0.031393,
+      "mean_effective_pairs": 30.717847,
+      "fifth_percentile_effective_samples": 28.368794,
+      "minimum_effective_samples": 26.737968,
+      "mean_test_share_of_pairs": 0.510325,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 220,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 166,
+      "power": 0.83,
+      "power_monte_carlo_standard_error": 0.026561,
+      "mean_effective_pairs": 31.730604,
+      "fifth_percentile_effective_samples": 29.051621,
+      "minimum_effective_samples": 26.978818,
+      "mean_test_share_of_pairs": 0.511659,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 240,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 167,
+      "power": 0.835,
+      "power_monte_carlo_standard_error": 0.026246,
+      "mean_effective_pairs": 32.11972,
+      "fifth_percentile_effective_samples": 29.447853,
+      "minimum_effective_samples": 28.713858,
+      "mean_test_share_of_pairs": 0.511083,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 260,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 173,
+      "power": 0.865,
+      "power_monte_carlo_standard_error": 0.024164,
+      "mean_effective_pairs": 32.718393,
+      "fifth_percentile_effective_samples": 30.505415,
+      "minimum_effective_samples": 28.692699,
+      "mean_test_share_of_pairs": 0.510788,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 280,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 174,
+      "power": 0.87,
+      "power_monte_carlo_standard_error": 0.02378,
+      "mean_effective_pairs": 33.30937,
+      "fifth_percentile_effective_samples": 31.061807,
+      "minimum_effective_samples": 29.923664,
+      "mean_test_share_of_pairs": 0.510214,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 300,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 185,
+      "power": 0.925,
+      "power_monte_carlo_standard_error": 0.018625,
+      "mean_effective_pairs": 33.852897,
+      "fifth_percentile_effective_samples": 30.991736,
+      "minimum_effective_samples": 29.880478,
+      "mean_test_share_of_pairs": 0.510167,
+      "leader_distribution": {
+        "M1": 199,
+        "M2": 0,
+        "M3": 1,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 320,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 190,
+      "power": 0.95,
+      "power_monte_carlo_standard_error": 0.015411,
+      "mean_effective_pairs": 34.201012,
+      "fifth_percentile_effective_samples": 31.565968,
+      "minimum_effective_samples": 30.421866,
+      "mean_test_share_of_pairs": 0.510453,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 340,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 187,
+      "power": 0.935,
+      "power_monte_carlo_standard_error": 0.017432,
+      "mean_effective_pairs": 34.651103,
+      "fifth_percentile_effective_samples": 32.52673,
+      "minimum_effective_samples": 31.075269,
+      "mean_test_share_of_pairs": 0.509809,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 360,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 192,
+      "power": 0.96,
+      "power_monte_carlo_standard_error": 0.013856,
+      "mean_effective_pairs": 34.893444,
+      "fifth_percentile_effective_samples": 33.162743,
+      "minimum_effective_samples": 31.640625,
+      "mean_test_share_of_pairs": 0.511097,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 380,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 191,
+      "power": 0.955,
+      "power_monte_carlo_standard_error": 0.014659,
+      "mean_effective_pairs": 35.438193,
+      "fifth_percentile_effective_samples": 33.36414,
+      "minimum_effective_samples": 32.20339,
+      "mean_test_share_of_pairs": 0.511224,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M1",
+      "pairs": 400,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 2,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 1,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.37083456,
+        "near": 0.16613388,
+        "partial": 0.19836765,
+        "far": 0.19800422,
+        "unrelated": 0.06665969
+      },
+      "decisive_and_correct": 193,
+      "power": 0.965,
+      "power_monte_carlo_standard_error": 0.012995,
+      "mean_effective_pairs": 35.570914,
+      "fifth_percentile_effective_samples": 33.085194,
+      "minimum_effective_samples": 32.206119,
+      "mean_test_share_of_pairs": 0.511925,
+      "leader_distribution": {
+        "M1": 200,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 20,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 156,
+      "power": 0.78,
+      "power_monte_carlo_standard_error": 0.029292,
+      "mean_effective_pairs": 11.189249,
+      "fifth_percentile_effective_samples": 8.695652,
+      "minimum_effective_samples": 7.142857,
+      "mean_test_share_of_pairs": 0.507,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 40,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 191,
+      "power": 0.955,
+      "power_monte_carlo_standard_error": 0.014659,
+      "mean_effective_pairs": 16.577618,
+      "fifth_percentile_effective_samples": 13.559322,
+      "minimum_effective_samples": 11.267606,
+      "mean_test_share_of_pairs": 0.51225,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 60,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 199,
+      "power": 0.995,
+      "power_monte_carlo_standard_error": 0.004987,
+      "mean_effective_pairs": 20.300893,
+      "fifth_percentile_effective_samples": 17.475728,
+      "minimum_effective_samples": 16.071429,
+      "mean_test_share_of_pairs": 0.5105,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 80,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 23.073338,
+      "fifth_percentile_effective_samples": 20.253165,
+      "minimum_effective_samples": 18.823529,
+      "mean_test_share_of_pairs": 0.510687,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 100,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 24.880265,
+      "fifth_percentile_effective_samples": 21.73913,
+      "minimum_effective_samples": 20.325203,
+      "mean_test_share_of_pairs": 0.5116,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 120,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 26.416647,
+      "fifth_percentile_effective_samples": 23.452769,
+      "minimum_effective_samples": 21.301775,
+      "mean_test_share_of_pairs": 0.510917,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 140,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 27.980331,
+      "fifth_percentile_effective_samples": 25.128205,
+      "minimum_effective_samples": 23.844282,
+      "mean_test_share_of_pairs": 0.510822,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 160,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 28.984287,
+      "fifth_percentile_effective_samples": 26.722338,
+      "minimum_effective_samples": 24.06015,
+      "mean_test_share_of_pairs": 0.510781,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 180,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 29.967352,
+      "fifth_percentile_effective_samples": 27.272727,
+      "minimum_effective_samples": 25.592417,
+      "mean_test_share_of_pairs": 0.5115,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 200,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 30.669722,
+      "fifth_percentile_effective_samples": 28.011204,
+      "minimum_effective_samples": 27.28513,
+      "mean_test_share_of_pairs": 0.509475,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 220,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 31.460736,
+      "fifth_percentile_effective_samples": 28.775268,
+      "minimum_effective_samples": 27.375566,
+      "mean_test_share_of_pairs": 0.510432,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 240,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 31.965568,
+      "fifth_percentile_effective_samples": 29.357798,
+      "minimum_effective_samples": 27.324478,
+      "mean_test_share_of_pairs": 0.510729,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 260,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 32.861927,
+      "fifth_percentile_effective_samples": 30.699364,
+      "minimum_effective_samples": 29.468178,
+      "mean_test_share_of_pairs": 0.509885,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 280,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 33.334242,
+      "fifth_percentile_effective_samples": 31.210191,
+      "minimum_effective_samples": 30.084421,
+      "mean_test_share_of_pairs": 0.511536,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 300,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 33.711828,
+      "fifth_percentile_effective_samples": 31.490553,
+      "minimum_effective_samples": 29.880478,
+      "mean_test_share_of_pairs": 0.51045,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 320,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 34.130366,
+      "fifth_percentile_effective_samples": 32.120452,
+      "minimum_effective_samples": 30.713857,
+      "mean_test_share_of_pairs": 0.510687,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 340,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 34.530856,
+      "fifth_percentile_effective_samples": 32.344712,
+      "minimum_effective_samples": 30.728336,
+      "mean_test_share_of_pairs": 0.511044,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 360,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 35.053217,
+      "fifth_percentile_effective_samples": 32.546459,
+      "minimum_effective_samples": 31.563566,
+      "mean_test_share_of_pairs": 0.510958,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 380,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 35.359882,
+      "fifth_percentile_effective_samples": 33.50348,
+      "minimum_effective_samples": 31.228374,
+      "mean_test_share_of_pairs": 0.510855,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M2",
+      "pairs": 400,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 0.02,
+        "near": 0.08,
+        "partial": 0.2,
+        "far": 0.35,
+        "unrelated": 0.35
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 35.760187,
+      "fifth_percentile_effective_samples": 33.927057,
+      "minimum_effective_samples": 31.948882,
+      "mean_test_share_of_pairs": 0.510362,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 200,
+        "M3": 0,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 20,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 11,
+      "power": 0.055,
+      "power_monte_carlo_standard_error": 0.016121,
+      "mean_effective_pairs": 11.269454,
+      "fifth_percentile_effective_samples": 8.333333,
+      "minimum_effective_samples": 6.896552,
+      "mean_test_share_of_pairs": 0.514,
+      "leader_distribution": {
+        "M1": 38,
+        "M2": 0,
+        "M3": 162,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 40,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 31,
+      "power": 0.155,
+      "power_monte_carlo_standard_error": 0.025591,
+      "mean_effective_pairs": 16.638803,
+      "fifth_percentile_effective_samples": 13.559322,
+      "minimum_effective_samples": 12.121212,
+      "mean_test_share_of_pairs": 0.513,
+      "leader_distribution": {
+        "M1": 18,
+        "M2": 0,
+        "M3": 182,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 60,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 59,
+      "power": 0.295,
+      "power_monte_carlo_standard_error": 0.032247,
+      "mean_effective_pairs": 20.381284,
+      "fifth_percentile_effective_samples": 17.821782,
+      "minimum_effective_samples": 14.876033,
+      "mean_test_share_of_pairs": 0.509167,
+      "leader_distribution": {
+        "M1": 17,
+        "M2": 0,
+        "M3": 183,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 80,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 89,
+      "power": 0.445,
+      "power_monte_carlo_standard_error": 0.035141,
+      "mean_effective_pairs": 23.083676,
+      "fifth_percentile_effective_samples": 20.0,
+      "minimum_effective_samples": 18.823529,
+      "mean_test_share_of_pairs": 0.5105,
+      "leader_distribution": {
+        "M1": 5,
+        "M2": 0,
+        "M3": 195,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 100,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 119,
+      "power": 0.595,
+      "power_monte_carlo_standard_error": 0.034711,
+      "mean_effective_pairs": 24.600351,
+      "fifth_percentile_effective_samples": 21.73913,
+      "minimum_effective_samples": 20.661157,
+      "mean_test_share_of_pairs": 0.5107,
+      "leader_distribution": {
+        "M1": 4,
+        "M2": 0,
+        "M3": 196,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 120,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 131,
+      "power": 0.655,
+      "power_monte_carlo_standard_error": 0.033614,
+      "mean_effective_pairs": 26.527405,
+      "fifth_percentile_effective_samples": 23.529412,
+      "minimum_effective_samples": 22.291022,
+      "mean_test_share_of_pairs": 0.510375,
+      "leader_distribution": {
+        "M1": 2,
+        "M2": 0,
+        "M3": 198,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 140,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 153,
+      "power": 0.765,
+      "power_monte_carlo_standard_error": 0.029981,
+      "mean_effective_pairs": 27.708312,
+      "fifth_percentile_effective_samples": 25.128205,
+      "minimum_effective_samples": 20.545073,
+      "mean_test_share_of_pairs": 0.508893,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 160,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 163,
+      "power": 0.815,
+      "power_monte_carlo_standard_error": 0.027457,
+      "mean_effective_pairs": 28.922871,
+      "fifth_percentile_effective_samples": 26.122449,
+      "minimum_effective_samples": 25.246548,
+      "mean_test_share_of_pairs": 0.510969,
+      "leader_distribution": {
+        "M1": 2,
+        "M2": 0,
+        "M3": 198,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 180,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 168,
+      "power": 0.84,
+      "power_monte_carlo_standard_error": 0.025923,
+      "mean_effective_pairs": 29.931377,
+      "fifth_percentile_effective_samples": 27.364865,
+      "minimum_effective_samples": 25.796178,
+      "mean_test_share_of_pairs": 0.510972,
+      "leader_distribution": {
+        "M1": 1,
+        "M2": 0,
+        "M3": 199,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 200,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 176,
+      "power": 0.88,
+      "power_monte_carlo_standard_error": 0.022978,
+      "mean_effective_pairs": 30.777115,
+      "fifth_percentile_effective_samples": 28.050491,
+      "minimum_effective_samples": 26.490066,
+      "mean_test_share_of_pairs": 0.51095,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 220,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 182,
+      "power": 0.91,
+      "power_monte_carlo_standard_error": 0.020236,
+      "mean_effective_pairs": 31.460635,
+      "fifth_percentile_effective_samples": 28.809524,
+      "minimum_effective_samples": 27.657143,
+      "mean_test_share_of_pairs": 0.511341,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 240,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 190,
+      "power": 0.95,
+      "power_monte_carlo_standard_error": 0.015411,
+      "mean_effective_pairs": 32.17791,
+      "fifth_percentile_effective_samples": 29.599178,
+      "minimum_effective_samples": 28.235294,
+      "mean_test_share_of_pairs": 0.510292,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 260,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 186,
+      "power": 0.93,
+      "power_monte_carlo_standard_error": 0.018042,
+      "mean_effective_pairs": 32.92494,
+      "fifth_percentile_effective_samples": 30.783242,
+      "minimum_effective_samples": 27.258065,
+      "mean_test_share_of_pairs": 0.510961,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 280,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 189,
+      "power": 0.945,
+      "power_monte_carlo_standard_error": 0.016121,
+      "mean_effective_pairs": 33.266866,
+      "fifth_percentile_effective_samples": 31.111111,
+      "minimum_effective_samples": 29.855293,
+      "mean_test_share_of_pairs": 0.510589,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 300,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 193,
+      "power": 0.965,
+      "power_monte_carlo_standard_error": 0.012995,
+      "mean_effective_pairs": 33.794094,
+      "fifth_percentile_effective_samples": 31.734838,
+      "minimum_effective_samples": 30.160858,
+      "mean_test_share_of_pairs": 0.5109,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 320,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 197,
+      "power": 0.985,
+      "power_monte_carlo_standard_error": 0.008595,
+      "mean_effective_pairs": 34.271533,
+      "fifth_percentile_effective_samples": 32.241814,
+      "minimum_effective_samples": 29.223744,
+      "mean_test_share_of_pairs": 0.510797,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 340,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 197,
+      "power": 0.985,
+      "power_monte_carlo_standard_error": 0.008595,
+      "mean_effective_pairs": 34.619661,
+      "fifth_percentile_effective_samples": 32.490163,
+      "minimum_effective_samples": 31.481481,
+      "mean_test_share_of_pairs": 0.509706,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 360,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 196,
+      "power": 0.98,
+      "power_monte_carlo_standard_error": 0.009899,
+      "mean_effective_pairs": 34.967039,
+      "fifth_percentile_effective_samples": 33.044365,
+      "minimum_effective_samples": 32.303091,
+      "mean_test_share_of_pairs": 0.510486,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 380,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 198,
+      "power": 0.99,
+      "power_monte_carlo_standard_error": 0.007036,
+      "mean_effective_pairs": 35.20668,
+      "fifth_percentile_effective_samples": 33.287229,
+      "minimum_effective_samples": 30.209205,
+      "mean_test_share_of_pairs": 0.511132,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M3",
+      "pairs": 400,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 1,
+        "n_horizontal": 2,
+        "n_contact_borrowing": 0,
+        "n_restoration": 1
+      },
+      "generated_class_distribution": {
+        "identical": 0.57655175,
+        "near": 0.10783863,
+        "partial": 0.13184875,
+        "far": 0.1350468,
+        "unrelated": 0.04871408
+      },
+      "decisive_and_correct": 199,
+      "power": 0.995,
+      "power_monte_carlo_standard_error": 0.004987,
+      "mean_effective_pairs": 35.605541,
+      "fifth_percentile_effective_samples": 33.655869,
+      "minimum_effective_samples": 31.91065,
+      "mean_test_share_of_pairs": 0.51095,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 200,
+        "M4": 0
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 20,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 130,
+      "power": 0.65,
+      "power_monte_carlo_standard_error": 0.033727,
+      "mean_effective_pairs": 11.244525,
+      "fifth_percentile_effective_samples": 8.695652,
+      "minimum_effective_samples": 6.896552,
+      "mean_test_share_of_pairs": 0.51,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 40,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 187,
+      "power": 0.935,
+      "power_monte_carlo_standard_error": 0.017432,
+      "mean_effective_pairs": 16.694595,
+      "fifth_percentile_effective_samples": 13.559322,
+      "minimum_effective_samples": 11.594203,
+      "mean_test_share_of_pairs": 0.50975,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 60,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 20.103435,
+      "fifth_percentile_effective_samples": 16.981132,
+      "minimum_effective_samples": 15.0,
+      "mean_test_share_of_pairs": 0.51125,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 80,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 22.810753,
+      "fifth_percentile_effective_samples": 20.0,
+      "minimum_effective_samples": 16.931217,
+      "mean_test_share_of_pairs": 0.512,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 100,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 24.968449,
+      "fifth_percentile_effective_samples": 22.321429,
+      "minimum_effective_samples": 20.661157,
+      "mean_test_share_of_pairs": 0.51115,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 120,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 26.382294,
+      "fifth_percentile_effective_samples": 23.529412,
+      "minimum_effective_samples": 21.752266,
+      "mean_test_share_of_pairs": 0.511542,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 140,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 27.84503,
+      "fifth_percentile_effective_samples": 25.520833,
+      "minimum_effective_samples": 24.378109,
+      "mean_test_share_of_pairs": 0.510286,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 160,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 28.955081,
+      "fifth_percentile_effective_samples": 26.666667,
+      "minimum_effective_samples": 23.880597,
+      "mean_test_share_of_pairs": 0.511531,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 180,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 29.951716,
+      "fifth_percentile_effective_samples": 27.457627,
+      "minimum_effective_samples": 25.592417,
+      "mean_test_share_of_pairs": 0.510417,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 200,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 30.757724,
+      "fifth_percentile_effective_samples": 28.089888,
+      "minimum_effective_samples": 26.350461,
+      "mean_test_share_of_pairs": 0.51215,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 220,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 31.668991,
+      "fifth_percentile_effective_samples": 29.368932,
+      "minimum_effective_samples": 27.008929,
+      "mean_test_share_of_pairs": 0.511523,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 240,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 32.148801,
+      "fifth_percentile_effective_samples": 29.968783,
+      "minimum_effective_samples": 29.032258,
+      "mean_test_share_of_pairs": 0.511479,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 260,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 32.567143,
+      "fifth_percentile_effective_samples": 30.368374,
+      "minimum_effective_samples": 29.213483,
+      "mean_test_share_of_pairs": 0.510423,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 280,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 33.22449,
+      "fifth_percentile_effective_samples": 31.037213,
+      "minimum_effective_samples": 29.363296,
+      "mean_test_share_of_pairs": 0.510679,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 300,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 33.867937,
+      "fifth_percentile_effective_samples": 31.757234,
+      "minimum_effective_samples": 30.487805,
+      "mean_test_share_of_pairs": 0.511483,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 320,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 34.23165,
+      "fifth_percentile_effective_samples": 32.221523,
+      "minimum_effective_samples": 30.806258,
+      "mean_test_share_of_pairs": 0.510563,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 340,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 34.581935,
+      "fifth_percentile_effective_samples": 32.636928,
+      "minimum_effective_samples": 31.84573,
+      "mean_test_share_of_pairs": 0.51125,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 360,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 34.940155,
+      "fifth_percentile_effective_samples": 32.727273,
+      "minimum_effective_samples": 31.456311,
+      "mean_test_share_of_pairs": 0.510097,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 380,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 35.115719,
+      "fifth_percentile_effective_samples": 33.195402,
+      "minimum_effective_samples": 31.569742,
+      "mean_test_share_of_pairs": 0.510724,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    },
+    {
+      "true_model": "M4",
+      "pairs": 400,
+      "replications": 200,
+      "declared_edge_signature": {
+        "n_vertical": 0,
+        "n_horizontal": 0,
+        "n_contact_borrowing": 0,
+        "n_restoration": 0
+      },
+      "generated_class_distribution": {
+        "identical": 7.589e-05,
+        "near": 0.04678292,
+        "partial": 0.52102926,
+        "far": 0.41270075,
+        "unrelated": 0.01941118
+      },
+      "decisive_and_correct": 200,
+      "power": 1.0,
+      "power_monte_carlo_standard_error": 0.0,
+      "mean_effective_pairs": 35.759078,
+      "fifth_percentile_effective_samples": 33.500838,
+      "minimum_effective_samples": 32.760033,
+      "mean_test_share_of_pairs": 0.51195,
+      "leader_distribution": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 200
+      }
+    }
+  ],
+  "power_by_true_model_declared": {
+    "M1": 220,
+    "M2": 40,
+    "M3": 160,
+    "M4": 40
+  },
+  "maximum_power_by_true_model_declared": {
+    "M1": 0.965,
+    "M2": 1.0,
+    "M3": 0.995,
+    "M4": 1.0
+  },
+  "true_models_never_reaching_target_on_this_grid": [],
+  "reached_only_at_the_grid_ceiling": [],
+  "grid_provenance": "Declared as 10 to 200 step 10 first. A run on that grid reached the 0.8 target for M2, M3 and M4 but not for M1, whose power topped out at 0.73 at the ceiling, so the correct output of that grid was `not_derivable_on_declared_grid` and it is reported in results/model_power_simulation.json as the reason the ceiling moved. Extending a grid ceiling can only raise the derived floor or leave it alone -- it never manufactures a smaller one -- which is why this extension is conservative rather than a second attempt at the same question. Shortening or re-centring it after a result would be the post-hoc move this field exists to expose.",
+  "binding_true_model": "M1",
+  "derived_minimum_pairs": 220,
+  "derived_minimum_effective_samples": 29.051621,
+  "derivation_rule": "derived_minimum_pairs = max over the four generating models of the smallest grid pair count whose power reaches the declared target, and it is null unless every one of the four reaches it somewhere on the grid: a floor licensed where three of four truths resolve is a rule that goes silent on the fourth. derived_minimum_effective_samples = the 5th percentile (sorted, index ceil(0.05 * replications) - 1) of the Kish effective pair count over the replications of that binding cell",
+  "sensitivity": [
+    {
+      "label": "declared",
+      "change": "the config's own parameters",
+      "derived_minimum_pairs": 220,
+      "derived_minimum_effective_samples": 29.051621,
+      "binding_true_model": "M1",
+      "power_by_true_model": {
+        "M1": 220,
+        "M2": 40,
+        "M3": 160,
+        "M4": 40
+      },
+      "maximum_power_by_true_model": {
+        "M1": 0.965,
+        "M2": 1.0,
+        "M3": 0.995,
+        "M4": 1.0
+      },
+      "true_models_never_reaching_target_on_this_grid": []
+    },
+    {
+      "label": "three_witnesses_per_work",
+      "change": "witnesses_per_work 1 -> 3, so witness clusters add dependence on top of the work clusters",
+      "derived_minimum_pairs": 220,
+      "derived_minimum_effective_samples": 29.086538,
+      "binding_true_model": "M1",
+      "power_by_true_model": {
+        "M1": 220,
+        "M2": 40,
+        "M3": 180,
+        "M4": 40
+      },
+      "maximum_power_by_true_model": {
+        "M1": 0.96,
+        "M2": 1.0,
+        "M3": 0.995,
+        "M4": 1.0
+      },
+      "true_models_never_reaching_target_on_this_grid": []
+    },
+    {
+      "label": "flat_background",
+      "change": "M2's synthetic background made uniform over the five classes, so the null predicts less sharply",
+      "derived_minimum_pairs": 240,
+      "derived_minimum_effective_samples": 29.447853,
+      "binding_true_model": "M1",
+      "power_by_true_model": {
+        "M1": 240,
+        "M2": 20,
+        "M3": 160,
+        "M4": 20
+      },
+      "maximum_power_by_true_model": {
+        "M1": 0.96,
+        "M2": 1.0,
+        "M3": 0.995,
+        "M4": 1.0
+      },
+      "true_models_never_reaching_target_on_this_grid": []
+    }
+  ],
+  "caveats": [
+    "M1 and M3 predict a point mass at `identical` on a pair declaring no edges, because their likelihood is conditional on the declared edge multiset. Power against M2- and M4-generated sets is therefore driven by that collapse rather than by a comparison of distribution shapes, and those cells are easy. The binding cell is an edge-bearing comparison, which is why the derived floor is what it is.",
+    "the floor is reported to the grid step and no finer: a cell one step below the published floor may reach the target on a different seed, and the power column with its Monte Carlo standard error is published for every cell so a reader can see the noise rather than trust the crossing",
+    "a floor that lands on the grid ceiling is published as reached_only_at_the_grid_ceiling, and a model that reaches the target nowhere on the grid makes the floor null rather than partial",
+    "one witness per work is what the corpus is, and it is the weakest case for the effective-sample gate; the sensitivity scenario at three witnesses is published beside it rather than argued away"
+  ],
+  "limitations": [
+    "the simulation varies the pair count at a fixed cluster structure, so the two published floors are calibrated to each other and not independent; a pair set with a different work-per-pair ratio needs a rerun with that structure declared",
+    "power is a property of the decision rule under its own declared parameters, including the analyst-set background distribution M2 cannot yet supply"
+  ],
+  "historical_conclusion": "none asserted; this layer compares models against licence conditions, it does not settle a historical question",
+  "interpretation": "a derived floor is a statement about this rule's resolution, not about the past. It changes only by rerunning this file, and the artifact records the parameters it was run under."
+}

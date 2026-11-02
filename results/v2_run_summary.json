@@ -1,0 +1,182 @@
+{
+  "schema_version": "2.0",
+  "run_at_utc": "2026-11-01T10:06:04.876168+00:00",
+  "elapsed_seconds": 162.044,
+  "interpretation": "Cleaned English-translation lexical candidate retrieval only; not ancestry probability or historical relationship confidence",
+  "corpus": {
+    "works": 65,
+    "works_represented": 65,
+    "input_passages": 34281,
+    "excluded_or_short_passages": 10896,
+    "eligible_passages": 23385,
+    "eligible_words": 8731101,
+    "source_words": 9568271,
+    "source_bytes": 56619411,
+    "regions": {
+      "West Asia and Europe": 3,
+      "West Asia": 3,
+      "North America": 8,
+      "East Africa and West Asia": 1,
+      "South Asia": 16,
+      "South Asia and West Asia": 1,
+      "Europe": 10,
+      "Central America": 1,
+      "Central and South America": 1,
+      "Oceania": 4,
+      "Sub-Saharan Africa": 6,
+      "East Asia": 7,
+      "West Asia and South Asia": 1,
+      "Southeast Asia": 3
+    },
+    "source_roles": {
+      "scripture": 6,
+      "modern_compilation": 1,
+      "epic_excerpt": 1,
+      "epic": 13,
+      "philosophical_scripture": 1,
+      "birth_stories": 1,
+      "anthology": 1,
+      "mythological_handbook": 1,
+      "poetic_collection": 2,
+      "legendary_saga": 1,
+      "modern_epic": 1,
+      "medieval_prose": 1,
+      "translation_and_commentary": 2,
+      "historical_translation": 1,
+      "secondary_retelling": 7,
+      "historical_ethnography": 19,
+      "literary_collection": 3,
+      "purana": 1,
+      "historical_collection": 1,
+      "secondary_scholarship": 1
+    },
+    "passages_with_motif_hits": 4745,
+    "motif_hit_counts": {
+      "serpent_reference": 2296,
+      "flood_destruction": 743,
+      "storm_lightning": 2033,
+      "divine_weapon": 459,
+      "water_release": 4,
+      "return_from_death": 248,
+      "creation_from_body": 16,
+      "death_descent": 56
+    }
+  },
+  "configuration": {
+    "seed": 20261031,
+    "vectorizer": {
+      "analyzer": "word",
+      "binary": false,
+      "decode_error": "strict",
+      "dtype": "<class 'numpy.float32'>",
+      "encoding": "utf-8",
+      "input": "content",
+      "lowercase": true,
+      "max_df": 0.85,
+      "max_features": 120000,
+      "min_df": 2,
+      "ngram_range": [
+        1,
+        2
+      ],
+      "norm": "l2",
+      "preprocessor": null,
+      "smooth_idf": true,
+      "stop_words": "english",
+      "strip_accents": "unicode",
+      "sublinear_tf": true,
+      "token_pattern": "(?u)\\b\\w\\w+\\b",
+      "tokenizer": null,
+      "use_idf": true,
+      "vocabulary": null
+    },
+    "vocabulary_size": 120000,
+    "neighbors_per_passage": 6,
+    "minimum_retained_score": 0.15,
+    "length_matching": "Absolute passage word-count difference no greater than max(30, 25% of the left passage length)"
+  },
+  "candidate_pairs": 9428,
+  "known_dependent_pairs": 8677,
+  "discovery_pairs_not_known_dependent": 751,
+  "random_cross_work_pairs": {
+    "count": 20000,
+    "mean": 0.012050149962306023,
+    "median": 0.01039690338075161,
+    "p95": 0.02928963676095009,
+    "p99": 0.04160824045538902,
+    "max": 0.07474422454833984
+  },
+  "length_matched_cross_work_pairs": {
+    "count": 20000,
+    "mean": 0.012608113698661327,
+    "median": 0.011191310361027718,
+    "p95": 0.03029666654765606,
+    "p99": 0.042579639703035355,
+    "max": 0.12091126292943954,
+    "mean_absolute_word_count_difference": 11.83245
+  },
+  "baseline_note": "Both baselines exclude same-work pairs and configured dependence rules; absence of a configured rule does not prove independence.",
+  "order_diagnostics": {
+    "sample_size": 256,
+    "selection": "Eligible passages containing at least four sentence-like segments",
+    "interpretation": "Word shuffling tests local wording sensitivity. Sentence shuffling tests global order sensitivity; neither metric reconstructs narrative event order.",
+    "unigram_bigram": {
+      "word_shuffled": {
+        "count": 256,
+        "mean": 0.7125014066696167,
+        "median": 0.7125023603439331,
+        "p95": 0.9158727526664734,
+        "p99": 0.9522919654846191,
+        "max": 1.0
+      },
+      "sentence_shuffled": {
+        "count": 256,
+        "mean": 0.9858146905899048,
+        "median": 0.9875185489654541,
+        "p95": 1.0,
+        "p99": 1.0000001192092896,
+        "max": 1.0000001192092896
+      }
+    },
+    "bigram_only": {
+      "word_shuffled": {
+        "count": 256,
+        "mean": 0.1071275919675827,
+        "median": 0.07189719378948212,
+        "p95": 0.3041500449180603,
+        "p99": 0.5545998215675354,
+        "max": 1.0
+      },
+      "sentence_shuffled": {
+        "count": 256,
+        "mean": 0.9648827910423279,
+        "median": 0.9689085483551025,
+        "p95": 1.0,
+        "p99": 1.0000001192092896,
+        "max": 1.0000001192092896
+      }
+    }
+  },
+  "known_overlap_checks": {
+    "sacred_books_east_vs_quran_sale": {
+      "left": "sacred_books_east:s0054:p012",
+      "right": "quran_sale:s0632:p019",
+      "score": 0.5999650955200195
+    },
+    "sacred_books_east_vs_dhammapada": {
+      "left": "sacred_books_east:s0037:p000",
+      "right": "dhammapada_muller:s0263:p000",
+      "score": 0.6165671944618225
+    }
+  },
+  "reproducibility": {
+    "acquisition_manifest_sha256": "e102e7fe34df1a01b938bc8307396c725d31acbfb4e10ff7418e328342df08af",
+    "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4",
+    "motif_lexicon_sha256": "8107160f826e711dd43cd4da8f606390bbeca54e8e1404a7f9e9f3957737c638",
+    "source_dependence_sha256": "dc1cd84bd41bc8406f4cc7d27aabc80bf065879f01e06a66fa1c2e7047af174b",
+    "analysis_code_sha256": "c6fb56c4f421d40ee8c96f369d30e2803cca087232b695519e89b14e4ecaed0b",
+    "python": "3.13.6",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.9.0"
+  }
+}

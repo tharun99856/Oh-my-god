@@ -1,0 +1,1236 @@
+{
+  "schema_version": "3.0.0",
+  "artifact": "model_comparison_v3",
+  "layer": "model-comparison layer only — this file changes nothing about the coding frame, the detectors or the lexicon",
+  "status": "specification of the test, not a result. The four models are not testable with the data this project currently holds, and this file exists to say which inputs would make them testable and on what licence conditions a derivation may be reported.",
+  "implements": "external review item 4 — the four competing historical models are stated qualitatively while their mathematics is incomplete",
+  "supersedes_for_this_layer": [
+    "config/divinity_ontology.json > competing_models.M1_single_ancestral_concept_then_transformation.predicts[4] ('gradient of dissimilarity increasing with dated distance from the root') — replaced by probabilistic_transformation_model.prediction",
+    "config/divinity_ontology.json > transformation_operators.discipline ('Two of these four being unmet yields undecidable') — replaced by operator_discipline, which makes all four conditions jointly mandatory"
+  ],
+  "relationship_to_other_files": "This file is read by tools/compare_models.py. It does not edit config/divinity_ontology.json, config/ontology_english_rules.json or tools/divinity_ontology.py; where it contradicts them the contradiction is recorded here as a finding and left for the ontology revision to resolve.",
+  "numbers_are": "analyst-set priors, licence thresholds and arithmetic consequences of them. No number in this file is a measurement of a corpus, a date, an agreement statistic or a historical fact. Every analyst-set parameter is listed in analyst_set_parameters_register with the reason it has that value.",
+  "hard_constraint": "Nothing in this file may be used to assert that a concept was inherited, transformed, borrowed or independently invented. It specifies when such a sentence would be licensed. That condition is not met today.",
+  "dimension_keys": {
+    "note": "The frame is being split from seven dimensions to twelve. These twelve keys are the only dimension identifiers the model-comparison layer accepts. A derivation citing D2 or D7 as single keys is rejected as an unresolved-conflation error, because the split is exactly what makes the transformation operators distinguishable: D2a (who is counted), D2b (who is real) and D2c (who may be worshipped) move independently, and an operator that moves one of them is a different historical claim from an operator that moves all three.",
+    "keys": {
+      "D1_ontological_category": {
+        "cardinality": "set-valued"
+      },
+      "D2a_acknowledged_population": {
+        "cardinality": "single"
+      },
+      "D2b_reality_of_others": {
+        "cardinality": "single"
+      },
+      "D2c_worship_exclusivity": {
+        "cardinality": "single"
+      },
+      "D3_agency": {
+        "cardinality": "set-valued"
+      },
+      "D4_cosmic_function": {
+        "cardinality": "set-valued"
+      },
+      "D5_universe_relationship": {
+        "cardinality": "set-valued"
+      },
+      "D6_temporal_nature": {
+        "cardinality": "set-valued"
+      },
+      "D7a_speaker_attribution": {
+        "cardinality": "single"
+      },
+      "D7b_speech_act": {
+        "cardinality": "single"
+      },
+      "D7c_discourse_genre": {
+        "cardinality": "single"
+      },
+      "D7d_epistemic_commitment": {
+        "cardinality": "single"
+      }
+    },
+    "set_valued": [
+      "D1_ontological_category",
+      "D3_agency",
+      "D4_cosmic_function",
+      "D5_universe_relationship",
+      "D6_temporal_nature"
+    ],
+    "single_valued": [
+      "D2a_acknowledged_population",
+      "D2b_reality_of_others",
+      "D2c_worship_exclusivity",
+      "D7a_speaker_attribution",
+      "D7b_speech_act",
+      "D7c_discourse_genre",
+      "D7d_epistemic_commitment"
+    ]
+  },
+  "presence_fields": {
+    "note": "The old single refusal state (`assertion_state` carrying attested / not_attested / undecidable) cannot express the cases the transformation operators actually produce: a concept present in a tradition's discourse but never endorsed, an endorsement with no transmitted witness, a transmission with no endorsement. Three independent fields replace it, and every record in a derivation must carry all three.",
+    "fields": {
+      "conceptual_presence": {
+        "question": "Is this state present as a concept in the window's discourse at all?",
+        "allowed": [
+          "present",
+          "reported_only",
+          "absent_in_witness",
+          "undecidable"
+        ],
+        "rationale": "`reported_only` is the Isaiah-47 and Pharaoh-at-deathbed case: the formula is there and the text marks it as someone else's claim. `absent_in_witness` is a witness-level statement and never a tradition-level one."
+      },
+      "doctrinal_endorsement": {
+        "question": "Does the speaking voice or the enclosing composition endorse it?",
+        "allowed": [
+          "endorsed",
+          "condemned",
+          "conditional",
+          "neutral_descriptive",
+          "undecidable"
+        ],
+        "rationale": "Separating this from conceptual_presence is what stops an apophasis, a boast or a denunciation from being counted as a confession, which is the error class §4 of the method document records."
+      },
+      "historical_transmission": {
+        "question": "Is there a route by which this state could have reached this expression?",
+        "allowed": [
+          "documented_vertical",
+          "documented_horizontal",
+          "route_unknown",
+          "no_known_route",
+          "undecidable"
+        ],
+        "rationale": "This field, not conceptual_presence, is the one an edge type is read from. A state may be conceptually present with `no_known_route` and that is a datum for M2/M4, not a gap in the record."
+      }
+    },
+    "rules": [
+      "silencing may only ever change `historical_transmission` or `conceptual_presence` at the level of a named witness; it may never license the value `absent_in_witness` being read as absence from a tradition.",
+      "a pair of states whose twelve dimension keys are identical but whose `doctrinal_endorsement` differs is a different state for comparison purposes; similarity is computed on the dimension vector and then re-weighted by the presence triple, never the reverse.",
+      "`undecidable` in any of the three fields is recorded, never defaulted, and removes the record from any count that enters a model likelihood."
+    ]
+  },
+  "dimension_similarity_rules": {
+    "note": "Similarity must be a stated computable quantity, because the replaced prediction ('greater distance implies greater dissimilarity') was never defined well enough to be false.",
+    "single_valued_rule": "1.0 if the values are equal, 0.0 otherwise.",
+    "set_valued_rule": "Jaccard: |intersection| / |union| of the value sets.",
+    "aggregation": "mean over comparable keys; the comparable-key count is published with the score, so a pair similar on three keys and undecidable on nine is visibly thin. The mean is a mixture of two reading blocks (D1-D6 conceptual, D7a-d discourse) and is retained only because the similarity-class grid is defined on it; `reading_blocks` publishes the two block means and `pattern` reads them together, and a block with no comparable key is null rather than 0.0 or 1.0.",
+    "excluded_keys": [
+      "any key whose value is `undecidable` on either side",
+      "any key not instrumented for the record's source class"
+    ],
+    "refusal": "if fewer than `minimum_comparable_keys` are comparable the pair is `not_scorable` and similarity is null; no default similarity is substituted, because a defaulted 0.0 would look like evidence for M2 and a defaulted 1.0 like evidence for M1.",
+    "minimum_comparable_keys": 6,
+    "minimum_comparable_keys_basis": "analyst-set: half of the twelve keys, chosen so that a pair scored on a bare minority of dimensions cannot enter a likelihood. Not a measurement.",
+    "similarity_classes": {
+      "identical": {
+        "rule": "s == 1.0",
+        "split": 1.0
+      },
+      "near": {
+        "rule": "0.75 <= s < 1.0",
+        "split": 0.75
+      },
+      "partial": {
+        "rule": "0.5 <= s < 0.75",
+        "split": 0.5
+      },
+      "far": {
+        "rule": "0.25 <= s < 0.5",
+        "split": 0.25
+      },
+      "unrelated": {
+        "rule": "s < 0.25",
+        "split": 0.0
+      }
+    },
+    "dimension_blocks": {
+      "arbitrary_or_expressive": [
+        "D7a_speaker_attribution",
+        "D7b_speech_act",
+        "D7c_discourse_genre",
+        "D1_ontological_category"
+      ],
+      "functional_or_pressure_prone": [
+        "D3_agency",
+        "D4_cosmic_function",
+        "D2c_worship_exclusivity"
+      ],
+      "structural": [
+        "D2a_acknowledged_population",
+        "D2b_reality_of_others",
+        "D5_universe_relationship",
+        "D6_temporal_nature",
+        "D7d_epistemic_commitment"
+      ]
+    },
+    "dimension_blocks_rationale": "The arbitrary-detail test only works if some dimensions are declared arbitrary in advance. Concordance confined to `functional_or_pressure_prone` is M4's prediction; concordance carried by `arbitrary_or_expressive` is M1/M3's. Declaring the blocks before the run is what makes the test not a matter of taste, and the block assignment is analyst-set, not measured.",
+    "reading_blocks": {
+      "note": "A second partition of the same twelve keys, for a different purpose. `dimension_blocks` sorts keys by how prone they are to convergent pressure and serves the arbitrary-detail test. `reading_blocks` separates what a text says is the case from what kind of speech it is, and exists because averaging the two together makes a shared English genre look like a shared doctrine. Both partitions are declared here, before any pair is scored, and neither is measured.",
+      "conceptual": [
+        "D1_ontological_category",
+        "D2a_acknowledged_population",
+        "D2b_reality_of_others",
+        "D2c_worship_exclusivity",
+        "D3_agency",
+        "D4_cosmic_function",
+        "D5_universe_relationship",
+        "D6_temporal_nature"
+      ],
+      "discourse": [
+        "D7a_speaker_attribution",
+        "D7b_speech_act",
+        "D7c_discourse_genre",
+        "D7d_epistemic_commitment"
+      ],
+      "high_low_split": 0.5,
+      "high_low_split_basis": "the `partial` class boundary already declared in `similarity_classes`, reused rather than newly chosen, so the split is the same number the grid uses and not a second threshold tuned for this table. Analyst-set, not measured.",
+      "why_contextualised_not_averaged": "D7a-d are properties of the utterance, and in a corpus of English translations they are heavily properties of the translator's prose and of genre convention. A pair of catechisms can therefore reach a high overall mean while disagreeing on every conceptual dimension, and a creation narrative beside a creation hymn can reach a low one while agreeing on D1, D3, D4 and D6. Averaging hides both cases in the same number; the block means separate them, and the pattern names which block moved.",
+      "patterns": {
+        "shared_state_and_shared_speech_situation": "both blocks at or above the split. The least discriminating outcome: it is equally what a shared genre produces, what borrowing produces and what two translations of one composition produce.",
+        "shared_conceptual_state_differently_spoken": "conceptual high, discourse low. The shape inheritance with transformation predicts -- the claim carried across, the speech situation changed. Also the shape of two genres quoting one another, so it is not a descent warrant.",
+        "shared_genre_without_a_shared_state": "conceptual low, discourse high. The shape a translation-era vocabulary and a genre convention produce on unrelated compositions. If this pattern were common it would say the instrument is measuring English prose styles, not doctrines.",
+        "neither_block_shares": "both below the split. Not a disconfirmation of anything: with one translation per work and 40 values carrying no detector, divergence and invisibility are the same reading.",
+        "indeterminate_missing_block": "one block has no comparable key at all. Reported as missing rather than scored: an absent measurement is not a low score, and substituting either 0.0 or 1.0 would manufacture evidence for M2 or M1 respectively."
+      }
+    }
+  },
+  "implementation_grid": {
+    "note": "declared implementation choices, published so that a reader recomputes the numbers the tool computes. They discretise the model's own parameters and involve no data.",
+    "similarity_grid_step": 0.05,
+    "operator_application_truncation": 4,
+    "truncation_note": "per-operator Poisson mass is truncated at four applications and renormalised; a fifth application of one operator on one edge is already outside what a length-3 derivation licenses",
+    "likelihood_floor": 1e-06,
+    "likelihood_floor_note": "a zero predicted probability would give an infinite log likelihood against a model; the floor is a declared regulariser, not data, and it is the same floor for every model",
+    "class_midpoints": {
+      "identical": 1.0,
+      "near": 0.875,
+      "partial": 0.625,
+      "far": 0.375,
+      "unrelated": 0.125
+    }
+  },
+  "edge_rate_parameters": {
+    "horizontal_lambda_factor": 1.2,
+    "horizontal_lambda_factor_basis": "analyst-set. Contact is declared to raise the per-operator event rate by a fifth relative to a descent edge, because intensive or enforced contact is when re-ranking and functional transfer cluster. It is a prior about rate, not a claim that any specific pair was borrowed.",
+    "restoration_reset_probability": 0.35,
+    "restoration_reset_probability_basis": "analyst-set probability that a `deliberate_restoration`, `revival` or `back_borrowing` edge returns the state toward the archived witness instead of letting it drift on. This one parameter is what makes the predicted distribution non-monotone in date, and it is deliberately between zero and one: at zero the model collapses to the old decay prediction, at one the model claims restoration always succeeds.",
+    "restoration_reset_cap": 0.8,
+    "restoration_reset_cap_basis": "a restoration is never certain, because a reform movement reconstructs from what the archive can support; the cap keeps mass in the lower classes so that a restoration edge cannot by itself produce a perfect-match prediction.",
+    "effect": "predicted similarity may rise with distance when a restoration edge is documented, may fall below its nearer neighbour when a state is borrowed back changed, and follows no monotone function of date"
+  },
+  "edge_typing": {
+    "purpose": "Vertical inheritance and horizontal transmission are different historical claims with different evidence, and they predict different similarity profiles. They must never be represented by one relation.",
+    "vertical_inheritance": {
+      "definition": "descent of a cultural or population lineage: the later expression's community stands to the earlier one in a descent relation that is establishable without using the divine-concept states as evidence.",
+      "subtypes": {
+        "population_descent": "documented continuity of population, settlement or subsistence",
+        "language_family_descent": "established genealogical relation between the expression languages, from comparative linguistics, not from shared divine vocabulary",
+        "institutional_succession": "an identifiable school, priesthood, scriptorium, lineage of teachers or canonical community that hands on texts",
+        "canonical_reception": "a corpus explicitly received as authoritative by the successor community (a recension, a canon list, a translated scripture adopted)"
+      },
+      "evidence_requirements": [
+        "a descent claim for the lineage that is independent of the divine-concept states being explained",
+        "the two expressions located in that lineage with their date ranges",
+        "no documented contact route that alone could carry the state (if one exists, the edge is ambiguous and must be reported as such, not scored as descent)",
+        "the earlier expression's date range does not postdate the later's, per date_handling.ordering_rule"
+      ],
+      "anti_circularity_rule": "descent may not be argued from similarity of divine concepts. The reason this layer exists is that similarity is the thing being explained; using it to establish the edge makes the inheritance hypothesis unfalsifiable by construction.",
+      "acceptable_descent_bases": ["population_continuity", "comparative_linguistics", "institutional_records", "canon_list_or_reception_statement", "archaeological_context", "documented_teacher_lineage", "explicit_succession_statement"],
+      "acceptable_descent_bases_note": "a descent claim must state which of these it rests on, and each item is a warrant that exists independently of the divine-concept states being explained. `conceptual_similarity` is deliberately absent from the list and is refused by the tool.",
+      "predicted_similarity_profile": "high retention on `arbitrary_or_expressive` dimensions, because a handed-on register preserves meter, genre and formulae that have no functional reason to recur",
+      "rationale": "Descent predicts the *whole* transmission package, including the arbitrary parts, which is why it is the only edge type that can carry the arbitrary-detail test."
+    },
+    "horizontal_transmission": {
+      "definition": "movement between expressions that are not in the declared descent relation: contact, borrowing, back-borrowing, deliberate restoration, revival, and transfer through a translation or a coercive religiation.",
+      "subtypes": {
+        "contact_borrowing": "state moves along a documented contact route without descent",
+        "back_borrowing": "a state returns to a lineage from a recipient of an earlier export of it, which breaks any monotone distance-decay prediction outright",
+        "deliberate_restoration": "an older state is re-adopted on purpose from an archived witness (reform movements, antiquarian revival, liturgical archaism)",
+        "revival": "a state that had ceased to be transmitted is reinstated, possibly with a gap of centuries in which it was not transmitted at all",
+        "translation_mediated_transference": "a state enters through a translation or gloss and is then read back into the receiving tradition's doctrine",
+        "coercive_religiation": "states are imposed by political or missionary force, so the witness dates postdate the route rather than preceding it",
+        "editorial_citation": "a redactor quotes an older expression; the quotation is a witness to the older state and not to the editor's doctrine"
+      },
+      "evidence_requirements": [
+        "a dated contact, exchange, translation, mission, reform or citation event whose date range lies inside both expressions' date ranges",
+        "an independent witness of the event (trade or diplomatic record, colophon, missionary account, cited translation, legal or conciliar act), not the conceptual similarity itself",
+        "a direction argument: which side borrowed, from non-conceptual evidence; without it the edge is undirected and may not be used for priority",
+        "for `back_borrowing`, `deliberate_restoration` and `revival`: the archived witness that was restored, with its own date range, and the restoration event, with its own"
+      ],
+      "predicted_similarity_profile": "high on the functional dimensions that were wanted, low on the register that was not carried across — a borrowed god keeps a job and loses a meter",
+      "rationale": "Contact transmits selectively, so it predicts dimension-profile splits without any descent relation. This is the mechanism that makes M3's reticulate edges different from M1's tree edges, and the reason both must be typed at the edge rather than inferred afterwards."
+    },
+    "m1_conflation_finding": {
+      "statement": "M1 as currently written conflates vertical inheritance with horizontal transmission, and the conflation is visible in two places in config/divinity_ontology.json.",
+      "where": [
+        "competing_models.M1.predicts has no edge type at all: 'operator signatures preserved across languages even where surface vocabulary differs' and 'shared arbitrary non-functional detail travelling with the contact chain' are listed as predictions of one ancestral-root model, but a contact chain is a horizontal route; the fifth prediction ('gradient of dissimilarity increasing with dated distance') is then computed over a single undifferentiated distance.",
+        "transformation_operators.discipline condition (c) reads 'a contact, transmission or dependence relation between the two expressions is documented' — one disjunctive condition admitting descent and contact under the same gate, so a derivation can satisfy it with either and be scored as if it had satisfied both."
+      ],
+      "consequence": "an undifferentiated edge set lets a short-distance contact pair score like a long-distance descent pair; the parsimony term is then computed on a graph whose edges mean two different things, and M1's fit is upward-biased by exactly the amount the borrowing edges contribute. This is the failure mode a reticulate-network model (M3) is supposed to be compared against, so comparing them on a conflated edge set is not a test.",
+      "fix_enforced_by_this_file": "edge types are mandatory and exclusive; `edge_type: \"descent_or_contact\"` is an illegal value; a pair with both a descent claim and a contact route must be reported as `edge_type_ambiguous` and is scored under both edge models with both likelihoods published."
+    }
+  },
+  "probabilistic_transformation_model": {
+    "replaces": "the prediction that greater temporal distance implies greater dissimilarity (competing_models.M1.predicts[4]).",
+    "why_the_old_prediction_fails": "a monotone decay curve assumes one mechanism (time-since-split) and no reversals. Inherited concepts can be transformed by several different operators at different rates, rediscovered in an archive, borrowed back by the lineage that exported them, or deliberately restored by a reform movement that values the older state. Any of those puts a high-similarity pair at large distance, and any of those can be documented in advance; the monotone prediction is therefore not merely approximate, it is the wrong shape.",
+    "prediction": "the model's prediction is a distribution over similarity class given the pair's date ranges, its edge multiset (typed), and its contact status — not a curve. For a pair i, P(s_i | model, date range, edges) = sum over operator-event vectors k of [ product over operators o of Poisson(k_o; lambda_o * n_vertical_edges) and Poisson-like terms for horizontal events ] * P(s_i | k, rho). E[ln s] = sum_o k_o * ln(rho_o), so similarity is a product of per-operator retentions, and the operator identity, not the elapsed time, sets the rate of change.",
+    "nested_monotone_case": "the old monotone-decay prediction is recovered exactly as the special case lambda_o = lambda for all o, rho_o = rho for all o, and zero horizontal, restoration, revival and rediscovery events. Recording it as a nested special case is what makes it falsifiable rather than decorative: v3 and decay differ in shape, and the difference is testable on dated pairs.",
+    "non_monotone_mechanisms": [
+      "restoration and revival edges raise predicted similarity as distance grows, because the archived witness is older than the intervening transmission",
+      "back-borrowing makes the nearest neighbour in time the least similar, because the exported state was transformed abroad and returns changed",
+      "selective contact transmits functional dimensions without expressive ones, so distance predicts *which dimensions* match, not *how much*",
+      "conservative registers (liturgical, formulaic, commentarial) carry a lower effective event rate than the mean, so two near-contemporary doctrinal summaries may be less similar than two separated liturgies"
+    ],
+    "operator_transition_parameters": "per-operator rate lambda_o (probability the operator fires on one dated vertical edge) and retention rho_o (expected fraction of the previously-similar dimension keys still similar after the operator applies). Both are in operator_cost_matrix and both are analyst-set priors; they are the parameters the run must eventually estimate.",
+    "likelihood_of_an_observed_state_pair": {
+      "inputs_per_pair": [
+        "date range for each expression",
+        "typed edge multiset between them",
+        "similarity class from dimension_similarity_rules",
+        "presence triple",
+        "dimension-block profile",
+        "work and witness labels on both endpoints, and a declared lineage when one is declared: the clusters the holdout and the effective-sample estimate are computed on. A pair without them is refused as cluster_keys_missing."
+      ],
+      "formula": "L_i(M) = sum over latent edge explanations z admitted by M of P(z | M, features_i) * P(s_i, presence_i | z, M). Implemented in tools/compare_models.py as pair_log_likelihood, over a discretised similarity grid, so the number a reader disagrees with is recomputable from this file's parameters.",
+      "model_specific_edge_admissions": {
+        "M1": "vertical edges only from a single root; horizontal edges admitted only as contact_borrowing and only after the root is established; no restoration edges before the root's own date range",
+        "M2": "no edges at all; similarity drawn from the background distribution over pairs with `no_known_route`",
+        "M3": "vertical edges within a declared region plus horizontal edges between regions, each with its own rate",
+        "M4": "no edges; similarity drawn from the declared attractor prior over dimension blocks"
+      },
+      "background_null_definition": "M2's P(s) is estimated as the empirical similarity-class distribution over pairs whose `historical_transmission` value is `no_known_route` in both directions, with the pair set, the seed and the work list published; it is never asserted from memory.",
+      "attractor_prior_definition": "M4's P(s) is a declared Dirichlet-style prior concentrating mass on concordance within `functional_or_pressure_prone` and dispersing mass across `arbitrary_or_expressive`, with the alpha vector published so that a reader can see M4 is not a free parameter.",
+      "minimum_pairs": 20,
+      "minimum_pairs_basis": "SUPERSEDED as a justification. This was an analyst-set floor: a judgement about when a log-likelihood difference stops being dominated by single pairs, not a measurement of anything. The reviewer's item 4 asked for the number to be earned, so it now comes from power_simulation below and is read by the tool from results/model_power_simulation.json. The 20 stays here as the historical value and as the grid floor the simulation starts from, and the tool reports which of the two it used.",
+      "minimum_pairs_provenance": "see power_simulation.derived_minimum_pairs, published by tools/compare_models.py --power",
+      "effective_independent_samples": {
+        "why": "a pair set of n is not n independent observations. Two pairs that share a work share its wording, its translator and its manuscript, so their likelihoods are dependent and the raw count overstates the information the margin rule is spending. The reviewer's item 4 names this explicitly, and the cluster holdout is not enough on its own: holding out whole clusters removes leakage, it does not make the training pairs independent.",
+        "definition": "Kish effective sample size over the work clusters of the pair set: n_eff = (sum_c n_c)^2 / (sum_c n_c^2), where n_c is the number of pairs assigned to cluster c. Kish takes one cluster per unit and a pair has two endpoint works, so a pair is assigned to its more widely shared endpoint, ties broken by label; sum_c n_c = P for P pairs and n_eff is expressed in pairs. One implementation, kish_effective_size, is used by the rule and by the power simulation, so the floor cannot be calibrated against a formula the tool does not run.",
+        "worked_case_published_so_the_formula_is_checkable": "P pairs on 2P distinct works give n_eff = P, because nothing is shared. P pairs sharing one hub work give n_eff = 1 whichever side the hub is written on. P pairs between exactly two works give n_eff = 1: that is one comparison repeated, not P comparisons. P pairs spread evenly over C works give n_eff about C. An earlier draft of this sentence said the two-work case gives 2 and that each pair contributes to both endpoint clusters; the implementation was checked against the cases, the draft was wrong, and 1 is the honest answer for a repeated comparison.",
+        "gate": "the decision rule runs only when n_eff reaches power_simulation.derived_minimum_effective_samples, which is a different and usually smaller number than derived_minimum_pairs; both floors come from the same artifact and every run publishes which source it read"
+      }
+    },
+    "what_would_make_each_model_less_likely": {
+      "M1_single_root_then_transformation": [
+        "two or more root states surviving in the earliest dated stratum of one lineage, with the choice between them not decided by descent evidence",
+        "predicted similarity class and observed similarity class uncorrelated with the number of typed vertical edges once route and dating are closed",
+        "concordance confined to `functional_or_pressure_prone` dimensions across a documented descent chain, with `arbitrary_or_expressive` dimensions free — the arbitrary detail M1 requires did not travel",
+        "a proposed derivation whose shortest admissible operator path is longer than path_constraints.max_operator_applications_per_derivation, or whose only path needs an operator asserted without its required_evidence"
+      ],
+      "M2_multiple_independent_origins": [
+        "shared arbitrary specifics on a pair with a documented typed edge",
+        "similarity class tracking vertical edge count rather than functional pressure",
+        "a derivation whose log10 Bayes factor over the no-edge baseline exceeds the declared margin and holds on a held-out pair set"
+      ],
+      "M3_regional_inheritance_then_mixing": [
+        "between-region edges fitting the tree as well as within-region ones, i.e. the reticulation parameter estimates to zero",
+        "no dimension-profile splits on documented horizontal edges, which removes the selective-transmission mechanism M3 depends on",
+        "borrowing edges whose dates do not lie inside both endpoints' ranges under date_handling.ordering_rule"
+      ],
+      "M4_independent_development_then_convergence": [
+        "similarity correlated with documented contact or descent distance once provenance is closed",
+        "shared arbitrary specifics that an attractor cannot generate",
+        "a measured attractor prior that assigns low probability to the observed concordant pairs, i.e. the recurrence is not where the pressures say it should be"
+      ]
+    },
+    "reporting_rule": "the v3 distribution is reported as a distribution (predicted class probabilities with the parameter vector), never as a fitted curve with an r-squared, and the monotone-decay nested case is reported alongside it every time so a reader can see whether the extra shape was needed",
+    "monotone_case_parameters": {
+      "definition": "the nested monotone-decay case holds the expected number of operator events per edge equal to the v3 total (the summed lambda, 0.310 per edge) and collapses the thirteen retentions to one averaged retention, and it ignores restoration, revival and back-borrowing edges entirely. Holding the event count equal is deliberate: the two models then differ only in whether operator identity and reversals are allowed to matter, so a comparison between them tests the claim this file makes rather than an accidental difference in overall rate.",
+      "lambda_total_per_edge": 0.31,
+      "lambda_total_per_edge_check": "sum of the thirteen declared prior_lambda_per_edge values; a reader can add the column of the cost table and get this number",
+      "retention_averaged_value": 0.564,
+      "retention_averaging_rule": "unweighted geometric mean of the thirteen declared retention_rho values, exp(mean(ln rho_o)) = 0.564, as implemented by tools/compare_models.py. Unweighted, not lambda-weighted: a lambda-weighted mean (0.618) would give the decay submodel a gentler curve than any operator in the table actually has, and the point of the nested case is to give the old prediction its best shot, not its softest one.",
+      "retention_averaged_consequence": "with a single averaged retention the decay submodel can only produce s = 0.564^k for integer k, i.e. 1.000, 0.564, 0.318, 0.180, 0.101: no value falls in the `near` band 0.75 <= s < 1.00, so the class probability is exactly zero at every distance. This is the arithmetic behind the zeros in derived_predictions and it is the cheapest falsifier in this file.",
+      "derived_by": "tools/compare_models.py predicted_similarity_distribution(monotone_decay=True)"
+    },
+    "derived_predictions": {
+      "warning": "these are arithmetic consequences of the declared priors at the declared grid, computed by tools/compare_models.py. They are not measurements of anything, and they will change when the priors are re-registered or estimated.",
+      "recompute": "python -c \"import sys; sys.path.insert(0,'tools'); import compare_models as cm; c=cm.load_config(); print(cm.predicted_similarity_distribution(c, n_vertical=4))\"",
+      "vertical_edges_1": {
+        "v3": {
+          "identical": 0.7334,
+          "near": 0.1027,
+          "partial": 0.091,
+          "far": 0.0664,
+          "unrelated": 0.0065
+        },
+        "monotone_decay": {
+          "identical": 0.7335,
+          "near": 0.0,
+          "partial": 0.2274,
+          "far": 0.0352,
+          "unrelated": 0.0039
+        }
+      },
+      "vertical_edges_4": {
+        "v3": {
+          "identical": 0.2894,
+          "near": 0.1621,
+          "partial": 0.2122,
+          "far": 0.2343,
+          "unrelated": 0.1021
+        },
+        "monotone_decay": {
+          "identical": 0.2894,
+          "near": 0.0,
+          "partial": 0.3588,
+          "far": 0.2225,
+          "unrelated": 0.1293
+        }
+      },
+      "vertical_edges_8": {
+        "v3": {
+          "identical": 0.0837,
+          "near": 0.0938,
+          "partial": 0.1791,
+          "far": 0.3058,
+          "unrelated": 0.3376
+        },
+        "monotone_decay": {
+          "identical": 0.0837,
+          "near": 0.0,
+          "partial": 0.2077,
+          "far": 0.2575,
+          "unrelated": 0.451
+        }
+      },
+      "vertical_edges_6_plus_one_restoration": {
+        "v3": {
+          "identical": 0.4512,
+          "near": 0.085,
+          "partial": 0.1363,
+          "far": 0.1896,
+          "unrelated": 0.1379
+        },
+        "monotone_decay": {
+          "identical": 0.1557,
+          "near": 0.0,
+          "partial": 0.2896,
+          "far": 0.2693,
+          "unrelated": 0.2855
+        },
+        "note": "the restoration edge is what makes the far pair look near: predicted identical mass rises from 0.156 to 0.451 while elapsed distance grows, which no monotone curve can do"
+      },
+      "M4_attractor_prior": {
+        "identical": 0.0001,
+        "near": 0.0468,
+        "partial": 0.521,
+        "far": 0.4127,
+        "unrelated": 0.0194,
+        "note": "computed from the published alpha vector by exact convolution; convergence under this prior expects middling agreement and almost never a perfect match, which is the assumption a shared-arbitrary-detail finding would attack"
+      },
+      "sharpest_single_difference": "the monotone-decay case assigns probability 0 to the `near` class at every distance, because one averaged retention cannot land between 1.0 and itself. Dated pairs that sit in `near` concordance therefore falsify the decay submodel and are predicted by v3; that is the cheapest observation that separates them, and it is the one to look for first."
+    }
+  },
+  "operator_cost_matrix": {
+    "purpose": "With thirteen unconstrained operators almost any two states can be connected after the fact: thirteen labels over paths of three applications name 13 + 13^2 + 13^3 = 2,379 distinct labelled paths, which is more combinations than this project has datable expression pairs. The answer is not fewer operators but a priced vocabulary: every operator carries a cost, a rate, a retention, a maximum number of uses per path, and the specific evidence it requires before it may be asserted at all.",
+    "cost_semantics": "cost is a penalised-complexity weight in units, and parsimony of a derivation is the sum of its operator costs plus the unattested-intermediate penalty times the number of intermediate nodes no witness attests. Cost is monotone in evidence burden and in confoundability: an operator is expensive when it needs many independent items to distinguish it from a coincidence, from a translator's habit, or from an independently producible outcome.",
+    "fields_per_operator": {
+      "cost": "penalised-complexity weight in units (analyst-set).",
+      "cost_basis": "why that number and not another.",
+      "prior_lambda_per_edge": "prior probability the operator fires on one dated vertical edge (analyst-set).",
+      "retention_rho": "expected fraction of previously-similar dimension keys still similar after it applies (analyst-set).",
+      "required_evidence": "every item must be present, with locators, before the operator may be asserted. This list is per-operator and is the reviewer's requested answer to 'any two states can be connected post hoc'.",
+      "permitted_edge_types": "which of the two edge types the operator may be placed on; only vertical_inheritance and horizontal_transmission are legal values here, and an operator may not be used to convert a horizontal edge into a descent claim",
+      "permitted_horizontal_subtypes": "when it is a horizontal edge, which transmission subtype must be the one documented: `any` imposes no further restriction, and a list means placement on a subtype outside it is rejected",
+      "attractor_confusable": "true where independent origin or convergence would plausibly produce the same state change; such operators may never carry a derivation alone.",
+      "may_alone_support_a_derivation": "false for attractor-confusable operators regardless of how cheap they are.",
+      "max_applications_per_path": "cap on uses within one claimed derivation.",
+      "notes": "what the operator is, and the specific confounder it must beat."
+    },
+    "operators": {
+      "elevation": {
+        "definition": "a subordinate or junior divine becomes the supreme term while retaining attributes",
+        "cost": 3,
+        "cost_basis": "three items of evidence (earlier subordinate rank, later supremacy, attribute continuity) and it is confoundable with independent henotheistic reorganisation, so it is mid-priced rather than cheap.",
+        "prior_lambda_per_edge": 0.03,
+        "retention_rho": 0.8,
+        "required_evidence": [
+          "earlier attestation of the term in a subordinate rank, with locator",
+          "later attestation of the same term as supreme, with locator",
+          "at least two named attributes carried across, on D3_agency or D4_cosmic_function",
+          "a typed edge between the two expressions",
+          "one independent witness that is not a single translator's rendering"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": "any",
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 1,
+        "notes": "twice on one path is incoherent: the second application has nothing left to elevate."
+      },
+      "demotion": {
+        "definition": "a divine becomes a demon, angel, saint, ancestor or spirit — the being survives, the rank does not",
+        "cost": 3,
+        "cost_basis": "rank change is visible on D2a/D2b, but the same re-ranking is produced by any boundary-crossing religiation, so the price buys the discrimination rather than the observation.",
+        "prior_lambda_per_edge": 0.03,
+        "retention_rho": 0.7,
+        "required_evidence": [
+          "earlier attestation at the higher rank, with locator",
+          "later attestation at the lower rank under a named new category, with locator",
+          "identity argument that the two are the same figure rather than two figures sharing a name",
+          "a typed edge",
+          "one independent witness"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "coercive_religiation",
+          "contact_borrowing"
+        ],
+        "attractor_confusable": false,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 2,
+        "notes": "`coercive_religiation` is the ordinary route; where the edge is coercive the witness dates postdate the route, which is a predicted pattern and not an anomaly."
+      },
+      "absorption": {
+        "definition": "two named terms merge, one name survives and inherits the other's functions",
+        "cost": 4,
+        "cost_basis": "needs both names attested separately *and* a witness with the merged predicate set *and* a later witness with one name only; three dated layers, which is why it is expensive.",
+        "prior_lambda_per_edge": 0.02,
+        "retention_rho": 0.55,
+        "required_evidence": [
+          "separate attestations of both names, each with locator and date range",
+          "a witness in which one name carries predicates proper to the other",
+          "a later witness in which only one name survives",
+          "a typed edge covering all three witnesses",
+          "an onomastic argument that this is a merge and not a doublet for one figure"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": "any",
+        "attractor_confusable": false,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 2,
+        "notes": "the most abused operator in the literature; a synonym pair is not an absorption."
+      },
+      "abstraction": {
+        "definition": "an agent becomes a principle (a personal creator re-described as ground, law or the absolute)",
+        "cost": 5,
+        "cost_basis": "the direction of change must be argued, not assumed, and the same principle-language arises without any antecedent agent, so four independent items are needed on top of both attestations.",
+        "prior_lambda_per_edge": 0.015,
+        "retention_rho": 0.4,
+        "required_evidence": [
+          "agent-state attestation with locator",
+          "principle-state attestation with locator, in an expression typed to the first",
+          "a bridging witness that re-describes the same referent, or an explicit commentarial statement doing it",
+          "a documented transmission path (school, commentary, translated term) that could carry the re-description",
+          "identity of reference argued on D1_ontological_category rather than on shared vocabulary"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "editorial_citation"
+        ],
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 1,
+        "notes": "predicts D1 and D3 moving while D4 is retained; that dimension-profile is the operator's signature and is what a reader can check."
+      },
+      "personification": {
+        "definition": "a principle becomes an agent (order, fate, fortune, the city's good takes a face and a temple)",
+        "cost": 5,
+        "prior_lambda_per_edge": 0.015,
+        "retention_rho": 0.4,
+        "cost_basis": "the mirror-image burden of abstraction, plus a cult-establishment witness, because a named abstraction is not yet an agent.",
+        "required_evidence": [
+          "principle attestation prior in the same tradition, with locator",
+          "agent attestation under the same name or its epithet, with locator",
+          "a cult, iconographic or dedicatory witness that the figure is addressed as an agent",
+          "a typed edge",
+          "date ranges placing the principle first, per date_handling.ordering_rule"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": "any",
+        "attractor_confusable": false,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 1,
+        "notes": "the commonest false positive is a poet's apostrophe read as a cult figure; D7b_speech_act is the gate."
+      },
+      "euhemerisation": {
+        "definition": "the divine is re-explained as a deified human, usually with an invented genealogy or a travel route",
+        "cost": 4,
+        "cost_basis": "a biography is cheap to invent and therefore cheap to fake; the price is set by the number of independent witnesses needed to show the re-explanation was received rather than authored once.",
+        "prior_lambda_per_edge": 0.015,
+        "retention_rho": 0.5,
+        "required_evidence": [
+          "divine-state attestation, with locator",
+          "human-biography attestation naming the same figure, with locator",
+          "the genealogy or travel narrative itself, dated",
+          "a second reception of that narrative by a hand other than its author",
+          "a typed edge"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "editorial_citation",
+          "contact_borrowing"
+        ],
+        "attractor_confusable": false,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 1,
+        "notes": "moves D1_ontological_category to `deified_mortal` and D6_temporal_nature to `born_in_time` together; if only one of them moves, look for a different operator."
+      },
+      "negation_inversion": {
+        "definition": "the successor claim reuses the predecessor's grammar with its polarity flipped; the denial of a god is worded exactly as that god's confession",
+        "cost": 4,
+        "cost_basis": "form-shared and cheap to spot, but the direction of the flip needs a dated pair and the independent witness, and the pattern is confounded with a translator reusing a formula.",
+        "prior_lambda_per_edge": 0.015,
+        "retention_rho": 0.6,
+        "required_evidence": [
+          "both formulae attested with locators in the same language or a documented translation relation",
+          "shared syntactic frame demonstrated on the surface text, not paraphrased",
+          "date ranges ordering the two, per date_handling.ordering_rule",
+          "a typed edge",
+          "one independent witness ruling out one translator's habit"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "translation_mediated_transference",
+          "contact_borrowing"
+        ],
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 1,
+        "notes": "the sharpest illustration of the twelve-key split: high similarity on D7b_speech_act and D7c_discourse_genre, an explicit flip on D7d_epistemic_commitment and D2b_reality_of_others, and a different `doctrinal_endorsement` value on each side. Under the old single D7 an inverted confession and a confession were the same state."
+      },
+      "functional_transfer": {
+        "definition": "attributes migrate to a new holder without the holder's ontology changing (storm-power to creator, law-giving to a king)",
+        "cost": 4,
+        "cost_basis": "attribute migration is visible as a set difference on D4_cosmic_function, but a shared job between two figures is exactly what independent origins predict, so most of the cost buys the discrimination.",
+        "prior_lambda_per_edge": 0.025,
+        "retention_rho": 0.65,
+        "required_evidence": [
+          "the function attested with the earlier holder, with locator",
+          "the same function attested with the later holder, with locator",
+          "the function expression shown to be the same predicate rather than a paraphrase",
+          "a typed edge",
+          "one independent witness"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": "any",
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": false,
+        "max_applications_per_path": 2,
+        "notes": "may not carry a derivation alone: functional concordance is M4's home ground."
+      },
+      "scope_narrowing": {
+        "definition": "a cosmic term is re-applied to a people, city, cult or household",
+        "cost": 2,
+        "cost_basis": "the cheapest operator, because two attestations of scale usually suffice — and priced low precisely to expose that its cheapness is not discrimination. It has the lowest evidential force of the thirteen.",
+        "prior_lambda_per_edge": 0.04,
+        "retention_rho": 0.75,
+        "required_evidence": [
+          "cosmic-scale attestation with locator",
+          "bounded-scale attestation with locator",
+          "the same term, not a translation of it, or an original-language check",
+          "a typed edge"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": "any",
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": false,
+        "max_applications_per_path": 2,
+        "notes": "moves D5_universe_relationship to `scale_not_claimed` and D4 toward `guarding_localised`. Independent origin predicts the same move under localisation pressure, which is why `may_alone_support_a_derivation` is false while the cost is low."
+      },
+      "scope_expansion": {
+        "definition": "a local term is re-applied to the whole cosmos, often by absorbing rivals",
+        "cost": 2,
+        "cost_basis": "same reasoning as scope_narrowing: cheap to see, cheap because it is cheap to have arisen on its own.",
+        "prior_lambda_per_edge": 0.04,
+        "retention_rho": 0.75,
+        "required_evidence": [
+          "local attestation with locator",
+          "cosmic attestation with locator",
+          "the same term or an original-language identity argument",
+          "a typed edge"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": "any",
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": false,
+        "max_applications_per_path": 2,
+        "notes": "when accompanied by rivals' names disappearing, the claim is absorption, not scope_expansion, and absorption's evidence list applies instead."
+      },
+      "differentiation": {
+        "definition": "one term splits into two or more with divided functions, often after a textual tradition grows commentarial",
+        "cost": 4,
+        "cost_basis": "requires a witness with the undivided term, witnesses with each divided term, and a commentarial or lexico-theological layer doing the dividing — three layers plus an argument that the split is not a doublet.",
+        "prior_lambda_per_edge": 0.02,
+        "retention_rho": 0.45,
+        "required_evidence": [
+          "undivided-term attestation with locator and date range",
+          "attestation of each resulting term with locator and date range",
+          "a dividing layer (commentary, scholion, gloss, systematising treatise) that is itself dated",
+          "a typed edge",
+          "an argument that the resulting terms are not independent figures with coincidentally similar names"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "editorial_citation"
+        ],
+        "attractor_confusable": false,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 2,
+        "notes": "predicts one D4 set splitting across records while D1 is retained; that signature is checkable and is the reason it is not merely a symmetry of absorption run backwards."
+      },
+      "nominalisation": {
+        "definition": "a verb or title hardens into a proper name, or a name hardens into a title, which is how translations silently create or destroy monotheism",
+        "cost": 3,
+        "cost_basis": "two dated layers are enough in the original language, so the operator is mid-priced; the burden is that it must not be argued from English at all.",
+        "prior_lambda_per_edge": 0.03,
+        "retention_rho": 0.8,
+        "required_evidence": [
+          "title or verb usage attested in the source language with locator",
+          "proper-name usage attested in the source language with locator",
+          "morphological or syntactic argument from the source language, not from the English rendering",
+          "a typed edge",
+          "the translation decision recorded in `edition_or_translation_date` terms"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "translation_mediated_transference"
+        ],
+        "attractor_confusable": true,
+        "may_alone_support_a_derivation": false,
+        "max_applications_per_path": 2,
+        "requires_original_language_evidence": true,
+        "notes": "the only operator with a mandatory original-language requirement, because it is the one an English-only corpus cannot see; asserting it from English is the §7.3 error."
+      },
+      "silencing": {
+        "definition": "a term is removed by an editor, redactor or censor; absence in a recension is an event, not a datum",
+        "cost": 5,
+        "cost_basis": "the most expensive, because it asserts a cause for an absence: two recensions of one composition, the term present in one and absent in the other, plus a documented editorial motive or censoring regime.",
+        "prior_lambda_per_edge": 0.015,
+        "retention_rho": 0.3,
+        "required_evidence": [
+          "two witnesses of the same composition or passage, each with locator",
+          "the term present in one and absent in the other, with the passages aligned",
+          "an editorial, redactional or censoring layer with its own date range",
+          "a stated motive or regime evidence, or an explicit scribal notice",
+          "a typed edge from the earlier witness"
+        ],
+        "permitted_edge_types": [
+          "vertical_inheritance",
+          "horizontal_transmission"
+        ],
+        "permitted_horizontal_subtypes": [
+          "editorial_citation"
+        ],
+        "attractor_confusable": false,
+        "may_alone_support_a_derivation": true,
+        "max_applications_per_path": 1,
+        "notes": "silencing may only be asserted where the passage is attested on both sides. It never supports an absence claim about a tradition, and a derivation may not use silencing to explain a state that is simply missing from an incomplete corpus; that move converts an instrument gap into a historical event, which is the error the method document's §8.1 forbids."
+      }
+    },
+    "operator_count_check": 13,
+    "operator_count_note": "the thirteen operators of config/divinity_ontology.json > transformation_operators, unchanged in identity, priced here",
+    "prior_lambda_sum_per_edge": 0.31,
+    "prior_lambda_sum_note": "the declared prior is that transformation is the minority event on an inheritance edge: about a quarter of edges change state (1 - exp(-0.31) = 0.267). That is the opposite of the free licence the reviewer objected to, and its value is an analyst judgement recorded here so that it can be argued with. Estimated rates will replace it once dated attestation exists, and the sensitivity band reported will be [0.1, 0.6] on the mean edge event rate until then. The sum is recomputed from the thirteen per-operator rates in the cost table above, so this figure and that table cannot disagree; the tool recomputes it on every run."
+  },
+  "path_constraints": {
+    "purpose": "a cap on how far a derivation may reach, and a ban on unattested steps being the majority of a path.",
+    "max_operator_applications_per_derivation": 3,
+    "max_operator_applications_per_derivation_basis": "analyst-set. At 13 priced operators a length-4 path already names over 30,000 labelled routes, more than this project can adjudicate; 3 is the largest cap that leaves the shortest-path claim falsifiable by a reader with the table.",
+    "max_unattested_intermediate_nodes": 1,
+    "max_unattested_intermediate_nodes_basis": "an intermediate state no witness attests is a postulate, not a datum. One is tolerable (it is what a gap in the record means); two or more is a fiction with a cost attached.",
+    "max_operator_applications_per_pair_for_a_reported_derivation": 2,
+    "reported_derivation_note": "a derivation of length 3 may be computed and published as a candidate, but may be *reported as preferred* only if the third application's intermediate state is attested with a locator.",
+    "unattested_intermediate_penalty_cost": 2,
+    "unattested_intermediate_penalty_note": "added to parsimony per unattested node, so an unattested step is never free.",
+    "on_violation": "the derivation is returned with status `rejected_derivation`, the violated constraint named, and no model score and no ranking emitted.",
+    "no_default_path": "if no admissible path within these constraints exists, the pair is `undecidable_route`. `undecidable_route` is not evidence for independent origin; it is the instrument failing to see."
+  },
+  "preregistration": {
+    "purpose": "the reviewer's demand is a mechanism, not a promise. What is fixed before the run is hashed, and the run refuses if the hash is absent or does not match.",
+    "mechanism": {
+      "operator_cost_table_sha256": "f972152e42a3dd060b5096d2ed9533fa295c821cf40012cf17d851eca64c64ea",
+      "hash_scope": {
+        "operator_fields": [
+          "cost",
+          "retention_rho",
+          "prior_lambda_per_edge",
+          "required_evidence",
+          "permitted_edge_types",
+          "permitted_horizontal_subtypes",
+          "attractor_confusable",
+          "may_alone_support_a_derivation",
+          "max_applications_per_path"
+        ],
+        "path_constraints_fields": [
+          "max_operator_applications_per_derivation",
+          "max_unattested_intermediate_nodes",
+          "max_operator_applications_per_pair_for_a_reported_derivation",
+          "unattested_intermediate_penalty_cost"
+        ]
+      },
+      "canonicalisation": "SHA-256 over the UTF-8 bytes of json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=True) for the payload selected by hash_scope, with operator names included. Implemented in tools/compare_models.py so any reader can recompute it.",
+      "registered_at": "2026-11-01",
+      "registration_file": "config/model_comparison_v3.json",
+      "must_exist_before_run": true
+    },
+    "what_must_be_preregistered": [
+      "the operator cost table, the rates and retentions, and the path constraints (by hash)",
+      "the dimension blocks in dimension_similarity_rules, before any pair is scored",
+      "the independent-origin margin, and the power simulation's declared parameters, which are what set the minimum-pair count: the artifact publishes declared_parameters_sha256 so a floor cannot be arrived at by editing the grid after a run",
+      "the candidate pair list, with the record ids, before the similarity classes are computed for it",
+      "for each operator asserted, the date it was proposed and the pair it was proposed for, in the operator proposal ledger"
+    ],
+    "operator_proposal_ledger": {
+      "required_per_assertion": [
+        "operator",
+        "pair_id",
+        "proposed_at",
+        "observed_at",
+        "proposed_before_observation",
+        "proposal_note_sha256"
+      ],
+      "rule": "proposed_at must be strictly earlier than observed_at for the pair it explains. An assertion with proposed_at >= observed_at, or with the pair recorded in `seen_pairs` before `proposed_at`, is a post-hoc assertion.",
+      "where": "the ledger is a separate file from this config so that appending to it cannot change the hashed table; the tool refuses to run if the ledger path is configured and the file is missing."
+    },
+    "late_operator_policy": {
+      "status_assigned": "post_hoc_exploratory",
+      "effects": [
+        "the assertion is excluded from every reported derivation and from every model likelihood",
+        "it is recorded in full, with the pair that prompted it, and is never silently dropped",
+        "it may become reportable only by being tested on a pair that has not yet been observed, named in the ledger before that pair's similarity is computed",
+        "the count of post-hoc assertions is published next to the result, because a model comparison whose exploratory count is hidden is not a comparison"
+      ]
+    },
+    "table_mutation_rule": "any change to a hashed field invalidates the hash. Re-registration requires a new `registered_at`, a new hash, a versioned copy of the old table, and every derivation claimed under the old table re-run under both, with both reported. Editing the table in place and re-running is not permitted: it is the post-hoc move this section exists to block.",
+    "consequence_on_mismatch": "status `not_preregistered`, no scores, no ranking, and the computed hash published so the mismatch is locatable."
+  },
+  "four_way_decision_rule": {
+    "why_this_block_exists": "The reviewer's item 4. The rule before this one scored M1 and M3 against M2 treated as a null, and reported M4 beside the result. That is a two-stage test wearing a four-model name: M2 was never allowed to lose, and M4 was never allowed to win. Both halves are still here, but they are now named as two stages and stage 1 puts all four models on one footing.",
+    "competitors": ["M1_single_ancestral_concept_then_transformation", "M2_multiple_independent_origins", "M3_regional_inheritance_then_cultural_mixing", "M4_independent_development_then_convergence"],
+    "competitor_keys": ["M1", "M2", "M3", "M4"],
+    "nested_case_key": "M1_decay",
+    "nested_case_reported_not_competing": "M1_decay. It is the same family as M1 with one shape imposed, so letting it compete would double-count a model and reward the extra parameter; it is published beside the ranking so a reader can see whether the transformation model earned its freedom.",
+    "equal_footing_rule": "every competitor is scored by the same pair_log_likelihood on the same pair set, with no model designated as the denominator. The ranking is by summed log likelihood, and the decisive quantity is the leader's margin over the runner-up, not its margin over a preferred null.",
+    "stage_1_symmetric_competition": {
+      "metric": "log10 Bayes factor of the leading model over the runner-up in the published ranking",
+      "margin_log10_bayes_factor": 2.0,
+      "margin_is_shared_with_stage_2": "one margin, declared once, applied to both questions. Two margins would be two tunable knobs.",
+      "must_hold_on": ["the whole pair set", "the cluster holdout of independent_cluster_holdout"],
+      "outcomes": {
+        "decisive": "one model leads the runner-up by at least the margin on the whole set and on the cluster holdout",
+        "no_decisive_winner": "the margin is not met on either. This is a published result, not a failure to produce one: the full ranking, both margins, the whole-set and holdout scores, the effective sample size and the reason are emitted together.",
+        "insufficient_pairs": "the pair count or the effective independent sample size is below power_simulation.derived_minimum_pairs or derived_minimum_effective_samples",
+        "cluster_keys_missing": "a pair without its work, witness and lineage labels cannot be split leakage-safely, so the whole set is refused rather than split by pair"
+      },
+      "no_decisive_winner_is_expected": "with a priced thirteen-operator vocabulary and a 100:1 margin, most real pair sets should land here. A layer that usually names a winner is a layer whose margin has been softened."
+    },
+    "stage_2_inheritance_licence": {
+      "keeps": "independent_origin_baseline_and_margin, unchanged in substance",
+      "relationship": "stage 2 is a second question with a different object. Stage 1 asks which of the four the data prefer; stage 2 asks whether an inheritance-bearing model has earned the word 'inherited' against the no-edge null. A model can win stage 1 and fail stage 2, and the reporting rule then names the winner of stage 1 without licence language.",
+      "why_not_merged_into_stage_1": "collapsing them would recreate the asymmetry this block exists to remove: a single rule of the form 'inheritance beats null' silently makes M2 the reference and M4 decorative."
+    },
+    "reporting_rule": "both stages are published on every run, each with its own status. Neither is a historical conclusion, and no combination of the two is: see prohibitions and historical_conclusion."
+  },
+  "independent_cluster_holdout": {
+    "replaces": "the held-out clause formerly written inside independent_origin_baseline_and_margin as 'a held-out pair subset containing at least half the pairs, chosen before scoring by the published seed'. That split was by pair, and a pair split is not a holdout: two pairs sharing a work can fall on opposite sides, so the held-out margin is partly earned by the same work's wording, translator and manuscript that produced the operators being tested.",
+    "unit": "cluster",
+    "cluster_fields": {
+      "work_a": "work",
+      "work_b": "work",
+      "witness_a": "witness",
+      "witness_b": "witness"
+    },
+    "optional_cluster_fields": {
+      "declared_lineage": "lineage"
+    },
+    "optional_cluster_fields_note": "a lineage label from config/source_dependence.json's work families is a cluster too, because two works in one declared family are one witness wearing two titles. It is optional only because a pair may legitimately declare none; declaring `undeclared` is not the same as declaring a family.",
+    "assignment": "clusters are sorted by label, shuffled once on the published seed, and marked held-out in that order until at least test_cluster_fraction of the pairs touch a held-out cluster. Nothing is chosen after scoring: the split depends on the labels alone.",
+    "test_cluster_fraction": 0.5,
+    "pair_rule": "a pair is in the held-out fold if and only if it touches at least one held-out cluster. A pair whose clusters are all discovery clusters is in the discovery fold.",
+    "leakage_invariant": "Two checks, both run and published by split_by_cluster. (1) No pair appears in both folds. (2) No held-out cluster label appears among the discovery fold's pairs -- under the pair rule that is what makes the split a holdout at all. A third claim, that no cluster label appears on both sides at all, cannot be satisfied by any edge-level cluster split on a connected pair graph: a pair joining a discovery work to a held-out one is in the test fold and still shares its discovery-side wording with the discovery fold. So that quantity is measured and published as discovery_clusters_spanning_folds instead of asserted, and the fold whose pairs touch nothing but held-out clusters is published beside it as isolated_test.",
+    "seed": 20261031,
+    "seed_note": "the same published seed the layer already used, so the split is reproducible and cannot be picked after the result is seen. Changing it is changing the test.",
+    "on_missing_cluster_labels": "refuse: status cluster_keys_missing, with the offending pair ids. A pair that cannot say which work it sits in cannot be held out safely, and splitting it by pair would be the leakage this block replaces."
+  },
+  "power_simulation": {
+    "question": "how many dated, route-typed pairs does the decision rule need before naming a winner tells a reader anything?",
+    "why_a_simulation_and_not_a_formula": "the rule's outcome depends on four likelihoods, a discretised similarity grid, a 100:1 margin, a cluster holdout and an effective-sample gate. No closed form covers that combination, and the alternative was the sentence this block replaces: an analyst's number, asserted.",
+    "target_correct_model_probability": 0.8,
+    "generative_assumption": "the true model is one of the four and its declared parameters in this file are right. The simulation measures the decision rule's power under that assumption. It does not measure whether any of the four is true, and it cannot: a rule can be perfectly powered and still be fed a world none of the four describes.",
+    "grid": {
+      "from": 20,
+      "to": 400,
+      "step": 20
+    },
+    "grid_provenance": "Declared as 10 to 200 step 10 first. A run on that grid reached the 0.8 target for M2, M3 and M4 but not for M1, whose power topped out at 0.73 at the ceiling, so the correct output of that grid was `not_derivable_on_declared_grid` and it is reported in results/model_power_simulation.json as the reason the ceiling moved. Extending a grid ceiling can only raise the derived floor or leave it alone -- it never manufactures a smaller one -- which is why this extension is conservative rather than a second attempt at the same question. Shortening or re-centring it after a result would be the post-hoc move this field exists to expose.",
+    "replications_per_cell": 200,
+    "seed": 20261031,
+    "synthetic_background_distribution": {
+      "identical": 0.02,
+      "near": 0.08,
+      "partial": 0.2,
+      "far": 0.35,
+      "unrelated": 0.35
+    },
+    "synthetic_background_note": "M2's likelihood reads an empirical background that does not exist yet, so the simulation supplies a declared one. This is an analyst-set parameter and is registered as such in analyst_set_parameters_register; the derived minimum is only as good as it, which is why the sensitivity row is published next to the answer.",
+    "edge_count_models": {
+      "M1": {"n_vertical": 2, "n_horizontal": 0, "n_contact_borrowing": 1, "n_restoration": 0},
+      "M3": {"n_vertical": 1, "n_horizontal": 2, "n_contact_borrowing": 0, "n_restoration": 1},
+      "note": "the typed-edge multiset a pair is generated with is declared per model rather than drawn, so the simulation is reproducible and a reader can rerun it by hand on one cell",
+      "M2_and_M4_note": "M2 and M4 are absent from this table because they admit no edges, so a pair they generate reaches the scorer with every count at zero. Their likelihoods then read the declared background and attractor distributions, while M1 and M3 collapse to a point mass at `identical`. That is a property of the instrument, and it makes the M2 and M4 cells easy for reasons a reader should see: the artifact publishes the binding cell, which is an edge-bearing comparison."
+    },
+    "cluster_structure": {
+      "works": 65,
+      "basis": "the corpus's own work count, so pairs share endpoints at the rate this project could actually produce",
+      "witnesses_per_work": 1,
+      "witnesses_per_work_note": "one witness per work is what the corpus is, and it is the weakest case for the gate: with a single witness the witness cluster adds no dependence beyond the work cluster. The sensitivity row reports what happens at 3."
+    },
+    "derived_minimum_pairs": "read from results/model_power_simulation.json. Nothing in this file states the number, so the file cannot be edited into agreement with a run.",
+    "derived_minimum_effective_samples": "read from the same artifact. Rule: the 5th percentile (sorted, index ceil(0.05 * replications) - 1) of the Kish effective pair count over the replications of the binding cell, so a real pair set whose works are more shared than the simulated corpus is refused rather than passed.",
+    "binding_cell": "the hardest of the four generating models to separate, which is the one that sets the floor; the artifact names it and the other three are published beside it",
+    "publishes": "results/model_power_simulation.json",
+    "regenerate_with": "python tools/compare_models.py --power"
+  },
+  "independent_origin_baseline_and_margin": {
+    "purpose": "a derivation is not preferred because it is possible. It is preferred only if it beats the no-edge, no-operator independent-origin likelihood by a declared margin.",
+    "baseline": "M2 (multiple independent origins) evaluated with the operator machinery switched off: typed edges contribute nothing, similarity is drawn from the background distribution over `no_known_route` pairs, and cost is irrelevant. M4 is a second baseline, reported separately, because convergence can mimic inheritance more closely than pure independent origin can and a margin against M2 alone is too easy.",
+    "margin_metric": "log10 Bayes factor of the inheritance-bearing model over the baseline, summed over the pair set",
+    "inheritance_bearing_models": ["M1", "M3"],
+    "inheritance_bearing_models_note": "only an inheritance-bearing model can be reported as preferred by beating the independent-origin baseline. M2 is that baseline and M4 is a candidate explanation of a different kind, so M4's Bayes factor against M2 is published but can never make convergence count as a demonstrated derivation.",
+    "margin_declared_in": "four_way_decision_rule.stage_1_symmetric_competition.margin_log10_bayes_factor. This block no longer carries a number of its own: two declarations of 'the margin' are two knobs, and the tool reads one value through declared_margin() for both stages.",
+    "margin_rationale": "analyst-set, and deliberately severe: 100:1. The vocabulary prices thirteen operators and a length-3 cap still names thousands of routes, so a derivation will nearly always fit *something*. A margin this size says the fit has to be far better than the no-route null before a reader is told the word 'inherited'. It is not a measurement and it is not adjustable after a run.",
+    "margin_holds_out_rule": "the margin must be met on the whole set and on the cluster holdout defined by independent_cluster_holdout -- whole works, witnesses and declared lineages held out, not pairs -- as well as on the whole set; meeting it only on the pairs that generated the operators is not meeting it. The isolated fold whose pairs touch nothing but held-out clusters is published beside it.",
+    "held_out_split_seed_lives_in": "independent_cluster_holdout.seed. This block no longer carries a seed of its own, because the pair-level split that seed described is the thing the cluster split replaces; a parameter the tool does not read would be a second, unused knob.",
+    "additional_conditions_for_reporting_preferred": [
+      "at least power_simulation.derived_minimum_pairs dated, route-typed pairs, with n_eff at least power_simulation.derived_minimum_effective_samples, and all four operator conditions satisfied on every edge used",
+      "the derivation's total cost must be no greater than the cheapest admissible alternative path for the same pair set, published side by side",
+      "no edge in the derivation may be `edge_type_ambiguous`, unless both typings are scored and the margin met under both",
+      "`nominalisation`, `functional_transfer`, `scope_narrowing`, `scope_expansion` may not constitute the whole of a derivation (see may_alone_support_a_derivation)",
+      "the monotone-decay nested case is reported alongside, so the reader can see whether the transformation model earned its extra shape"
+    ],
+    "on_failure": "status `not_preferred_over_independent_origin`, with both log-likelihoods and the achieved log10 Bayes factor published. That is a result, and it is the outcome this layer expects for most pairs today."
+  },
+  "date_handling": {
+    "purpose": "dates are the one quantity every condition (b), every ordering, and the replaced distance prediction depend on, and they are the quantity this project holds least.",
+    "fields_per_expression": {
+      "date_earliest": "earliest year the expression could have been composed, proleptic Gregorian, BCE negative. A year, not a free-text century string.",
+      "date_latest": "latest year the expression could have been composed, same convention; date_latest >= date_earliest always.",
+      "dating_basis": "the kind of warrant held. One of: critical_edition | manuscript_witness | version_or_recension_comparison | internal_criterion | parallel_transmission | archaeological_context | colophon_or_subscription | translation_of_record | specialist_consensus_unverified | undated",
+      "date_confidence": "the analyst's stated confidence in the range, one of: high | medium | low | none. Not derived from the width alone.",
+      "survival_or_composition": "`composition`, `witness_survival` or `edition_or_translation`, naming which of the three the range describes",
+      "reference": "the edition or study the range comes from, citable"
+    },
+    "survival_is_not_composition": {
+      "rule": "an earlier SURVIVING witness is not evidence of earlier COMPOSITION. A manuscript's date bounds the wording from above (terminus ante quem for that text) and says nothing about when the concept was held; the KJV's 1611 and a Dead Sea fragment's mid-first-millennium BCE are witnesses to different things and one is not the earlier concept.",
+      "consequence": "priority claims are computed from the composition range only. A pair whose ordering depends on survival dates is returned as `ordering_undecidable_survival_only` and no direction may be asserted.",
+      "for_oral_and_collected_material": "a recording or printing date is a witness to the printed wording and never a composition range; works whose only date is a recording date are inadmissible to ordering at all. This is the state of the collector-recorded material in results/attestation_scaffold.csv, and it is recorded there rather than assumed here.",
+      "rationale": "collapsing survival into composition is the mechanism that let an undated attestation count be read as chronology; the three-way field split in the coding record exists for this, and this section makes it a precondition of the comparison rather than a formatting preference."
+    },
+    "ordering_rule": {
+      "statement": "for two expressions A and B, the probability P(A compositionally precedes B) is computed from the two ranges under a uniform density over each range's years, and the ordering may be used to orient an edge only when P(A precedes B) >= threshold or P(B precedes A) >= threshold.",
+      "threshold": 0.95,
+      "threshold_basis": "analyst-set. Below it, ranges overlap enough that the direction is an assumption; since the direction is what turns a similarity pair into a derivation, the threshold is set where a reader would accept being told which way the influence ran.",
+      "implementation": "tools/compare_models.py computes it by exact enumeration of year pairs, so the number is a consequence of the ranges and not a judgement.",
+      "on_failure": "`ordering_undecidable`; the pair contributes to similarity statistics and to no model likelihood, because a model that transforms states along an edge requires the edge to have a direction."
+    },
+    "range_discipline": [
+      "a single-year date written without a range is treated as a range of width 0 and must carry `dating_basis: critical_edition` or the run downgrades it to `date_range_unstated`",
+      "ranges from different bases may be compared but the weaker basis governs the shared threshold, and the pair is tagged with it",
+      "`translation_of_record` and `colophon_or_subscription` support witness and edition ordering only, never composition",
+      "no field of a date object may be filled by the instrument; every value needs a `reference`, and today this project holds none it can cite"
+    ]
+  },
+  "operator_discipline": {
+    "ambiguity_resolved": "config/divinity_ontology.json > transformation_operators.discipline ends 'Two of these four being unmet yields undecidable, not a transformation claim.' That phrasing is ambiguous: read as a threshold it would license a claim once three of four conditions were met, and read as a warning it says nothing about the case where exactly two fail. The decision recorded here is that the four conditions are jointly mandatory.",
+    "decision": {
+      "mode": "conjunction",
+      "all_four_mandatory": true,
+      "threshold_interpretation_rejected": true,
+      "statement": "an operator may be asserted if and only if condition a AND condition b AND condition c AND condition d are satisfied. Any unmet condition yields `undecidable`. The number of satisfied conditions is published for transparency and confers nothing at any count below four.",
+      "rationale": "each condition blocks a distinct failure mode, and the failure modes are not interchangeable: locators (a) block unverifiable claims, ordering (b) blocks reverse causation, a typed route (c) blocks coincidence, an independent witness (d) blocks a translator's habit. Meeting three of four and asserting anyway keeps whichever hole was left, which is exactly the hole the argument needs."
+    },
+    "conditions": {
+      "a": {
+        "name": "both_states_attested_with_locators",
+        "requires": [
+          "work",
+          "passage",
+          "section",
+          "character span",
+          "surface text"
+        ],
+        "note": "for each of the two states, and for every intermediate node that is claimed to be attested"
+      },
+      "b": {
+        "name": "earlier_expression_not_later",
+        "requires": [
+          "date_earliest",
+          "date_latest",
+          "dating_basis",
+          "survival_or_composition",
+          "reference",
+          "ordering_rule threshold met"
+        ],
+        "note": "evaluated on composition ranges, never on survival dates, per date_handling.survival_is_not_composition"
+      },
+      "c": {
+        "name": "route_documented_with_edge_type",
+        "requires": [
+          "edge_type in {vertical_inheritance, horizontal_transmission}",
+          "subtype",
+          "evidence for the subtype's requirements",
+          "direction argument for horizontal edges"
+        ],
+        "note": "descent and contact are different requirements; a contact route does not satisfy a vertical edge and a lineage claim does not satisfy a horizontal one"
+      },
+      "d": {
+        "name": "independent_witness",
+        "requires": [
+          "at least one counts_as_independent_attestation witness outside the translator or edition being explained"
+        ],
+        "note": "resolved against config/source_dependence.json at record level; an anthology reprint of the passage it frames is not a second witness"
+      }
+    },
+    "waivers": "none. No condition may be waived by cost, by plausibility, or by the number of the others that are met.",
+    "enforcement": "tools/compare_models.py checks each condition separately and reports all four outcomes; a derivation with any unmet condition is returned as `rejected_derivation` with the unmet conditions named, and emits no score."
+  },
+  "model_likelihoods": {
+    "M1_single_ancestral_concept_then_transformation": {
+      "edge_admission": "vertical_inheritance from one root; horizontal only as contact_borrowing after the root is fixed",
+      "similarity_source": "Poisson-operator mixture with the per-operator lambdas and retentions of operator_cost_matrix, applied over the vertical edge count",
+      "parameters_free": [
+        "root state",
+        "tree topology"
+      ],
+      "parsimony_term": "sum of operator costs over the tree plus the unattested-intermediate penalty"
+    },
+    "M2_multiple_independent_origins": {
+      "edge_admission": "none",
+      "similarity_source": "background distribution over pairs with historical_transmission = no_known_route",
+      "parameters_free": [
+        "root state per lineage"
+      ],
+      "parsimony_term": "the number of independent origins required equals the number of lineages, which is why M2 is expensive in a different currency and must be scored as a likelihood, not as a tree length"
+    },
+    "M3_regional_inheritance_then_cultural_mixing": {
+      "edge_admission": "vertical within declared regions, horizontal between them, each with its own rate",
+      "similarity_source": "two-rate mixture; dimension-profile splits on horizontal edges are predicted rather than tolerated",
+      "parameters_free": [
+        "region assignment",
+        "root per region",
+        "transfer rates"
+      ],
+      "parsimony_term": "network length, not tree length; a reticulate network must be scored as a network or the comparison silently favours M1"
+    },
+    "M4_independent_development_then_convergence": {
+      "edge_admission": "none",
+      "similarity_source": "declared attractor prior over the dimension blocks",
+      "attractor_prior_alpha": {
+        "alpha_vector": {
+          "arbitrary_or_expressive": 0.4,
+          "functional_or_pressure_prone": 2.5,
+          "structural": 1.0
+        },
+        "block_concordance_propensity_rule": "q(block) = alpha(block) / (alpha(block) + 1), so each block's concentration maps to the probability that a dimension key in it agrees across two independently originated expressions. Declared here, not fitted.",
+        "block_concordance_propensity": {
+          "arbitrary_or_expressive": 0.2857,
+          "functional_or_pressure_prone": 0.7143,
+          "structural": 0.5
+        },
+        "class_distribution_derivation": "M4's distribution over similarity classes is the exact Poisson-binomial of the twelve keys' concordances, each drawn independently at its block's propensity, converted to a class by the count of agreeing keys. It is computed by tools/compare_models.py from the alpha vector, so M4 is a stated model with a number attached rather than a gesture at convergence. On a set-valued key any overlap counts as concordant, which is a declared approximation.",
+        "basis": "analyst-set concentration, published so that M4 is not a free parameter: shared jobs are common under independent origin (2.5), shared meter and shared genre are not (0.4), and the middle structural questions are left near flat (1.0).",
+        "falsification_hook": "if the measured concordance profile is flat across the three blocks, this alpha vector is wrong and M4's likelihood moves with it; that is a checkable cost of declaring the prior in advance"
+      },
+      "parameters_free": [
+        "attractor vector",
+        "pressure variables"
+      ],
+      "parsimony_term": "not defined; M4 is compared on likelihood alone, and any parsimony claim from M4 is a category error"
+    },
+    "comparison_is_by": "which predicts the observed distribution of dated, route-typed states best, per model_likelihoods and the margin in independent_origin_baseline_and_margin. Not by prior plausibility, not by tree length alone, and not by which story is easier to tell.",
+    "status_of_all_four": "live. None is testable with the inputs this project holds, and this file does not change that."
+  },
+  "testability": {
+    "required_dated_fields": [
+      "date_earliest",
+      "date_latest",
+      "dating_basis"
+    ],
+    "required_per_expression": [
+      "composition",
+      "witness"
+    ],
+    "additional_required_inputs": [
+      "typed edge set with subtypes",
+      "presence triple per record",
+      "all twelve dimension keys or an explicit undecidable on each",
+      "operator proposal ledger with proposed_at and observed_at",
+      "preregistered cost-table hash matching the table",
+      "preregistered pair list"
+    ],
+    "current_state": "not testable. results/attestation_scaffold.csv records 65 works with composition_date_claim `requires_specialist_input` on every one and 0 works usable for priority claims, and no dated, route-typed pair set exists.",
+    "refusal_status": "not_yet_testable",
+    "refusal_must_include": [
+      "the missing input names",
+      "the field each would be filled in",
+      "the gate in TRACK_B_METHOD_v2.md > 9.3 that closes it"
+    ],
+    "refusal_is_a_result": "the refusal is written as a published result with its own status field, not a silent exit and not a zero, because a missing number reported as nothing is how an absent measurement becomes an absent conclusion."
+  },
+  "derivation_record_schema": {
+    "purpose": "the shape of a candidate derivation tools/compare_models.py will accept, so that the input format is not invented per run.",
+    "fields": {
+      "derivation_id": "string",
+      "claim": "string, one sentence, phrased as a hypothesis",
+      "nodes": [
+        {
+          "node_id": "string",
+          "expression_id": "string",
+          "attested": "boolean",
+          "locator": "object",
+          "dates": {
+            "composition": "date object",
+            "witness": "date object"
+          },
+          "dimension_values": "object keyed by the twelve dimension keys",
+          "presence": "object with the three presence fields"
+        }
+      ],
+      "edges": [
+        {
+          "from": "node_id",
+          "to": "node_id",
+          "edge_type": "vertical_inheritance | horizontal_transmission",
+          "subtype": "one of the subtype names of that edge type",
+          "route_evidence": "array",
+          "descent_evidence": "array",
+          "independent_witness": "array"
+        }
+      ],
+      "operators": [
+        {
+          "operator": "one of the thirteen",
+          "applies_to": [
+            "node_id",
+            "node_id"
+          ],
+          "evidence": "object naming each required_evidence item and its locator",
+          "conditions": {
+            "a": "boolean",
+            "b": "boolean",
+            "c": "boolean",
+            "d": "boolean"
+          },
+          "proposal": {
+            "proposed_at": "date",
+            "observed_at": "date",
+            "proposed_before_observation": "boolean",
+            "proposal_note_sha256": "hex"
+          }
+        }
+      ]
+    },
+    "no_such_record_today": "the project holds no file of this shape, and none is fabricated here to make the tool produce numbers."
+  },
+  "analyst_set_parameters_register": [
+    {
+      "parameter": "operator costs 2 to 5",
+      "basis": "monotone in the number of evidence items and in confoundability; analyst judgement, not measured",
+      "may_be_changed": "only by re-registration"
+    },
+    {
+      "parameter": "prior_lambda_per_edge per operator",
+      "basis": "set so that transformation is the minority event on an edge (the thirteen rates sum to 0.31 per edge, so 1 - exp(-0.31) about 0.27 of edges change state); analyst judgement about how conservative transmission is",
+      "may_be_changed": "by re-registration, and replaced by estimation once dated pairs exist"
+    },
+    {
+      "parameter": "retention_rho per operator",
+      "basis": "which dimension keys the operator is defined to move; derived from the operator definitions, not from data",
+      "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "max_operator_applications_per_derivation = 3",
+      "basis": "keeps the labelled path space small enough for a reader to check the shortest path",
+      "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "max_unattested_intermediate_nodes = 1",
+      "basis": "one gap is a record limit; two is a postulate chain",
+      "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "margin_log10_bayes_factor = 2.0",
+      "basis": "100:1, deliberately severe because a priced thirteen-operator vocabulary fits almost anything",
+      "may_be_changed": "never after a run; a changed margin is a different test"
+    },
+    {
+      "parameter": "ordering_rule threshold = 0.95",
+      "basis": "the direction is what turns a pair into a derivation",
+      "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "minimum_comparable_keys = 6",
+      "basis": "half the twelve keys, so a minority of dimensions cannot carry a score",
+      "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "minimum_pairs = 20",
+      "basis": "SUPERSEDED. An analyst's judgement about when a log-likelihood difference stops being dominated by single pairs. It is now the grid floor the power simulation starts from and the fallback the tool names when no simulation is published; the gate in force is power_simulation.derived_minimum_pairs.",
+      "may_be_changed": "by re-registration, and it no longer gates a run on its own"
+    },
+    {
+      "parameter": "test_cluster_fraction = 0.5",
+      "basis": "the held-out fold has to be at least half the pairs for its margin to mean anything; an analyst-set share, declared before any split",
+      "may_be_changed": "by re-registration"
+    },
+    {
+      "parameter": "power_simulation.synthetic_background_distribution",
+      "basis": "M2's likelihood reads an empirical background over no_known_route pairs that does not exist yet, so the simulation supplies a declared one. The derived floor is only as good as this guess, which is why the flat-background sensitivity row is published beside it.",
+      "may_be_changed": "by re-registration, and replaced by the observed distribution once dated route-typed pairs exist"
+    },
+    {
+      "parameter": "power_simulation.target_correct_model_probability = 0.8, grid 20 to 400 step 20, replications_per_cell = 200, cluster_structure 65 works by 1 witness",
+      "basis": "0.8 is the conventional resolution target rather than a measurement; the ceiling is 20x the superseded floor of 20 and the 65 works are the corpus's own work count, so pairs share endpoints at the rate this project could produce. The ceiling was extended once, for the reason recorded in power_simulation.grid_provenance.",
+      "may_be_changed": "by re-registration; a floor that lands on the grid ceiling is published as not_derivable_on_declared_grid rather than rounded"
+    }
+  ],
+  "prohibitions": [
+    "no output of this layer may assert that a concept was inherited, borrowed, restored or independently invented",
+    "no similarity, cost, likelihood or margin may be reported while a required dated input is missing; the refusal is the output",
+    "no operator may be asserted on a threshold reading of the four conditions",
+    "no descent edge may be argued from conceptual similarity",
+    "no survival or recording date may orient an edge",
+    "no absence may be explained by silencing unless the passage is attested on both sides of a documented editorial layer",
+    "no number in this file may be quoted as a measurement of anything",
+    "no post-hoc operator may be dropped from the record; it is published as exploratory or not reported at all"
+  ]
+}

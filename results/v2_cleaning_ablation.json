@@ -1,0 +1,25 @@
+{
+  "schema_version": "2.0",
+  "run_at_utc": "2026-11-01T09:20:10.008058+00:00",
+  "elapsed_seconds": 161.332,
+  "interpretation": "Descriptive same-corpus ablation. The unfiltered and cleaned models are fitted separately, so count differences also include vocabulary and IDF changes.",
+  "input_passages": 34281,
+  "candidate_pairs": 29048,
+  "pairs_involving_rule_excluded_passages": 2227,
+  "pairs_involving_short_passages": 16703,
+  "pairs_between_eligible_passages": 10689,
+  "known_dependent_pairs": 18948,
+  "cleaned_candidate_pairs": 9428,
+  "candidate_count_reduction_from_unfiltered": 0.6754337648030846,
+  "configuration": {
+    "neighbors_per_passage": 6,
+    "minimum_retained_score": 0.15,
+    "vectorizer": "same TF-IDF settings as the v2 cleaned run"
+  },
+  "reproducibility": {
+    "acquisition_manifest_sha256": "e102e7fe34df1a01b938bc8307396c725d31acbfb4e10ff7418e328342df08af",
+    "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4",
+    "source_dependence_sha256": "dc1cd84bd41bc8406f4cc7d27aabc80bf065879f01e06a66fa1c2e7047af174b",
+    "analysis_code_sha256": "9488b050be471a348423d8196dec68e51c27311d3525b541780f02fdbdf7d29e"
+  }
+}

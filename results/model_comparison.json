@@ -1,0 +1,36 @@
+{
+  "seed": 20261031,
+  "interpretation": "Model diagnostics only. Bigrams capture local wording, not narrative event order.",
+  "models": {
+    "unigram": {
+      "vocabulary_size": 48599,
+      "shuffled_mean": 0.9939917922019958,
+      "shuffled_median": 1.0,
+      "random_p99": 0.09998579323291779,
+      "known_overlap_scores": {
+        "sacred_books_east:p000138|dhammapada_muller:p000026": 0.8982124328613281,
+        "sacred_books_east:p000245|quran_sale:p000419": 0.6749646663665771
+      }
+    },
+    "unigram_bigram": {
+      "vocabulary_size": 120000,
+      "shuffled_mean": 0.6853929162025452,
+      "shuffled_median": 0.6701149344444275,
+      "random_p99": 0.05260119587182999,
+      "known_overlap_scores": {
+        "sacred_books_east:p000138|dhammapada_muller:p000026": 0.911121129989624,
+        "sacred_books_east:p000245|quran_sale:p000419": 0.5908789038658142
+      }
+    },
+    "bigram_only": {
+      "vocabulary_size": 120000,
+      "shuffled_mean": 0.08961670100688934,
+      "shuffled_median": 0.07441739737987518,
+      "random_p99": 0.02023821324110031,
+      "known_overlap_scores": {
+        "sacred_books_east:p000138|dhammapada_muller:p000026": 0.965444028377533,
+        "sacred_books_east:p000245|quran_sale:p000419": 0.4778476059436798
+      }
+    }
+  }
+}

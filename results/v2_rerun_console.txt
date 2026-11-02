@@ -1,0 +1,21 @@
+Scored 128/23385 passages
+Scored 2688/23385 passages
+Scored 5248/23385 passages
+Scored 7808/23385 passages
+Scored 10368/23385 passages
+Scored 12928/23385 passages
+Scored 15488/23385 passages
+Scored 18048/23385 passages
+Scored 20608/23385 passages
+Scored 23168/23385 passages
+{
+  "works": 65,
+  "eligible_passages": 23385,
+  "candidate_pairs": 9428,
+  "known_dependent_pairs": 8677,
+  "discovery_pairs": 751,
+  "random_p99": 0.04160824045538902,
+  "length_matched_p99": 0.042579639703035355,
+  "word_shuffled_mean": 0.7125014066696167,
+  "sentence_shuffled_mean": 0.9858146905899048
+}

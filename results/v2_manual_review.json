@@ -1,0 +1,83 @@
+{
+  "schema_version": "2.0",
+  "review_scope": "Preliminary source-context review of leading v2 discovery pairs. Classifications guide dependence filtering; they are not a labeled ground-truth sample or historical relationship proof.",
+  "reviews": [
+    {
+      "left": "myths_legends_china:s0045:p007",
+      "right": "strange_stories_chinese:s0009:p038",
+      "score": 0.954403,
+      "classification": "secondary_retelling_of_identified_tales",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "Extended shared fox-tale wording and event sequence; the secondary work reproduces material from Strange Stories from a Chinese Studio."
+    },
+    {
+      "left": "mabinogion:s0018:p000",
+      "right": "celtic_myths:s0049:p000",
+      "score": 0.560456,
+      "classification": "secondary_retelling",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "The Celtic synthesis retells the Taliesin material in the Mabinogion."
+    },
+    {
+      "left": "philippine_folk_tales:s0005:p008",
+      "right": "tinguian_traditions:s0019:p004",
+      "score": 0.393025,
+      "classification": "shared_collector_textual_material",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "Both passages contain the same Tinguian alligator/crocodile fruit narrative with close wording."
+    },
+    {
+      "left": "myths_mexico_peru:s0000:p000",
+      "right": "myths_north_american:s0000:p000",
+      "score": 0.499431,
+      "classification": "title_page_artifact",
+      "action": "retain_as_cleaning_failure",
+      "evidence": "Similarity comes from Lewis Spence title pages and publisher apparatus, not narrative content."
+    },
+    {
+      "left": "cherokee_myths:s0258:p003",
+      "right": "creek_migration:s0034:p003",
+      "score": 0.516576,
+      "classification": "formulaic_or_linguistic_material_not_aligned_narrative",
+      "action": "do_not_interpret_as_story_parallel",
+      "evidence": "A repeated deer-hunting song is compared with Hitchiti dialect material; the excerpts do not establish a shared event sequence."
+    },
+    {
+      "left": "kjv_bible:s0000:p001",
+      "right": "chaldean_genesis:s0106:p000",
+      "score": 0.456617,
+      "classification": "direct_biblical_quotation",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "The Chaldean commentary explicitly introduces and quotes Genesis wording."
+    },
+    {
+      "left": "myths_north_american:s0013:p022",
+      "right": "cherokee_myths:s0115:p001",
+      "score": 0.434186,
+      "classification": "secondary_retelling",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "Both passages recount the animal councils responding to human hunting; the secondary work is not independent corroboration."
+    },
+    {
+      "left": "myths_north_american:s0013:p018",
+      "right": "iroquois_myths:s0016:p007",
+      "score": 0.422472,
+      "classification": "secondary_retelling",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "Both passages contain the skeleton, tobacco pouch, pipe, flint, and mice sequence."
+    },
+    {
+      "left": "japanese_fairy_tales:s0007:p038",
+      "right": "myths_legends_japan:s0069:p008",
+      "score": 0.405562,
+      "classification": "shared_tale_retelling",
+      "action": "exclude_from_independent_discovery",
+      "evidence": "Both passages retell the jelly-fish and monkey-liver narrative."
+    }
+  ],
+  "remaining_limitations": [
+    "Title-page and front-matter detection remains incomplete.",
+    "Unreviewed pairs labeled not_known_dependent may still share sources.",
+    "Passage alignment and motif tags do not establish complete narrative identity or historical transmission."
+  ]
+}

@@ -1,0 +1,3920 @@
+{
+  "annotation_set_version": "pilot-1",
+  "created_at_utc": "2026-11-01T15:05:00+00:00",
+  "purpose": "Executable narrative-similarity pilot. Each version is read from an identified passage in the v2 corpus and each event carries the passage id and a verbatim quote supporting it. Annotations are analyst-written from the translated source and are review_state=source_verified (transcription bound), not independently_annotated (second coder pending).",
+  "review_state_definitions": {
+    "transcribed": "Annotation content taken directly from the cited passage.",
+    "source_verified": "Cited passage id and quote were machine-checked against corpus offsets by tools/validate_annotations.py.",
+    "independently_annotated": "A second coder produced the same coding without seeing this file. NOT YET DONE for any version in this pilot."
+  },
+  "coding_manual": {
+    "predicate_vocabulary_note": "Closed vocabulary. A predicate is an action or change of state that the cited text explicitly narrates or explicitly alludes to. Interpretive summaries are not predicates.",
+    "predicate_families": {
+      "judgment_decision": [
+        "divine_regret_announces_destruction",
+        "divine_judgment_resolved",
+        "divine_council_concludes_destruction"
+      ],
+      "warning_instruction": [
+        "hidden_divine_warning_delivered",
+        "survivor_instructs_after_deluge"
+      ],
+      "journey_departure": [
+        "revenge_journey_undertaken",
+        "guest_requests_dangerous_task",
+        "vessel_rowed_past_warning"
+      ],
+      "vessel_preparation": [
+        "vessel_constructed_on_divine_command",
+        "survivors_and_germ_placed_on_vessel"
+      ],
+      "deluge_onset": [
+        "waters_sent_over_world",
+        "waters_cover_world_and_heavens"
+      ],
+      "destruction_of_peers": [
+        "non_survivors_annihilated",
+        "affliction_following_destruction"
+      ],
+      "vessel_grounding": [
+        "vessel_driven_to_peak",
+        "vessel_secured_to_peak"
+      ],
+      "probing_waters": [
+        "bird_sent_to_test_waters"
+      ],
+      "recession": [
+        "waters_abate",
+        "earth_dries"
+      ],
+      "release_repopulation": [
+        "survivors_leave_vessel"
+      ],
+      "cult_response": [
+        "offering_presented_after_survival"
+      ],
+      "covenant": [
+        "divine_promise_of_non_repetition"
+      ],
+      "commission": [
+        "champion_commissioned_by_council",
+        "champion_granted_authority"
+      ],
+      "arming": [
+        "champion_equips_with_weapons",
+        "champion_mounts_storm",
+        "bait_prepared_by_violence"
+      ],
+      "confrontation": [
+        "adversary_invokes_verbal_power",
+        "combat_terrifies_followers",
+        "adversary_takes_bait"
+      ],
+      "binding": [
+        "adversary_snared_or_arrested",
+        "followers_captured_and_punished"
+      ],
+      "wounding": [
+        "wind_forced_into_adversary",
+        "adversary_pierced_with_weapon",
+        "adversary_struck_by_storm_weapon",
+        "adversary_dragged_upward",
+        "venom_expelled",
+        "adversary_smites_champion",
+        "weapon_fragments_from_impact"
+      ],
+      "killing": [
+        "adversary_split_apart",
+        "adversary_head_destroyed",
+        "adversary_hurled_down",
+        "giant_killed_afterwards"
+      ],
+      "spoliation": [
+        "regalia_transferred_to_victor",
+        "blood_scattered_to_wind"
+      ],
+      "cosmic_disturbance": [
+        "earth_sea_and_underworld_shaken",
+        "heat_and_storm_engulf_landscape",
+        "primordial_body_exists_before_world"
+      ],
+      "primordial_origin": [
+        "primordial_being_formed"
+      ],
+      "craft_creation": [
+        "creator_shapes_chaos_with_tools",
+        "creator_grows_during_labour",
+        "numbered_period_of_labour",
+        "cosmic_luminaries_arranged"
+      ],
+      "anthropocosmy": [
+        "world_fashioned_from_body_parts",
+        "creator_dies_and_body_becomes_world"
+      ],
+      "knowledge_transfer": [
+        "vessel_boils_prescribed_term",
+        "assistants_charge_keeping",
+        "timing_by_astrology",
+        "knowledge_drops_acquired",
+        "pursuit_and_transformation",
+        "poet_performs_at_court",
+        "patron_test_failed",
+        "accuser_confounded"
+      ],
+      "household_setup": [
+        "family_established_at_named_place",
+        "children_born_including_ugly_son",
+        "motive_to_compensate_by_knowledge"
+      ]
+    },
+    "role_vocabulary": [
+      "agent",
+      "patient",
+      "adversary",
+      "beneficiary",
+      "instrument",
+      "helper",
+      "witness",
+      "recipient",
+      "survivor",
+      "authority",
+      "place",
+      "product"
+    ],
+    "gap_penalty_preregistered": 1.0,
+    "alignment_note": "Needleman-Wunsch over event sequences in narrated order. Mismatch cost c(a,b) = 1 - event similarity, where event similarity is the weighted mean of predicate (0.50), participant-role matching (0.30) and outcome overlap (0.20) over whichever of those parts are measurable on both sides; an unmeasurable part drops out of the average instead of contributing zero, so that missing coding is never read as narrative difference. Costs are in [0,1]; gaps cost the preregistered penalty. S_sequence = 1 - D_mn / max(m,n).",
+    "protocol_revisions": [
+      {
+        "date_utc": "2026-11-01",
+        "change": "Comparison-class checklists added, so a motif counts as an adjudicated absence only when the coder looked for it; cross-class motif comparisons return NA.",
+        "reason": "First run left 68 of 91 pairs without a motif score because per-version motif lists were sparse and non-overlapping, conflating 'not compared' with 'not present'.",
+        "affects": "S_motif only; alignment weights untouched."
+      },
+      {
+        "date_utc": "2026-11-01",
+        "change": "Needleman-Wunsch traceback bug fixed: the two gap directions were swapped relative to the dynamic-program option order, so the emitted alignment was not a valid monotone path and mislabelled which events were matched. A replay assertion now recomputes the DP cost from the emitted path and rejects any mislabelling.",
+        "reason": "Found by the unit test suite, not by the scores: S_sequence itself was correct because it reads the cost matrix, so the defect was invisible in every number published before it.",
+        "affects": "aligned_event_pairs, alignment_gaps, aligned_event_ids. No score changes."
+      },
+      {
+        "date_utc": "2026-11-01",
+        "change": "Event similarity renormalises over measurable parts rather than scoring an uncoded outcome as maximal difference.",
+        "reason": "An event with no coded outcome could not exceed 0.8 against a copy of itself, so annotation completeness was leaking into the score as narrative dissimilarity.",
+        "affects": "S_sequence and every event-level comparison; the 0.50/0.30/0.20 weights are unchanged and none were refitted."
+      }
+    ],
+    "protocol_revision_note": "The scoring weights below were fixed before the first pair score was computed and have not been changed. The revisions above change what is measured, not how much each part counts, and each is recorded with its date and reason so the first run's numbers are not silently overwritten.",
+    "motif_weight_note": "Diagnosticity weights are preregistered analyst judgements, capped at 1.0, with common motifs weighted low. They are NOT fitted to any outcome. Sensitivity analysis varies them; leave-one-region-out re-derives them empirically.",
+    "unknown_vs_absent_note": "A motif not annotated is 'unassessed' when the cited attestation is partial; the engine emits NA rather than treating absence as evidence of difference.",
+    "alignment_weights": {
+      "event_similarity_parts": {
+        "predicate": 0.5,
+        "participant": 0.3,
+        "outcome": 0.2
+      },
+      "predicate_credit": {
+        "exact": 1.0,
+        "same_family": 0.5,
+        "different_family": 0.0
+      },
+      "participant_pair_credit": {
+        "same_role_same_referent": 1.0,
+        "same_role_same_referent_kind": 0.5,
+        "same_role_different_referent_kind": 0.25,
+        "different_role": 0.0
+      },
+      "gap_penalty": 1.0,
+      "motif_weight_cap": 1.0,
+      "permutations": 200,
+      "seed": 20261031,
+      "note": "Preregistered on 1 November 2026 before any pair score was computed. None of these values were fitted to an outcome. The sensitivity sweep varies gap_penalty and predicate_credit.same_family and reports how much the ranking moves."
+    },
+    "referent_aliases": {
+      "god": "yhwh",
+      "the lord": "yhwh",
+      "god yhwh": "yhwh",
+      "caridwen": "ceridwen",
+      "ceridwen": "ceridwen",
+      "midgard-serpent": "midgard serpent",
+      "horned fish": "manus fish",
+      "fish": "manus fish",
+      "fish as brahma": "manus fish",
+      "the gods": "assembly of gods",
+      "gods": "assembly of gods",
+      "the makers": "maker gods",
+      "hurakan the heart of heaven": "hurakan",
+      "seven rishis": "seven rishis",
+      "noah's household": "noah household",
+      "the eleven allies": "tiamat allies",
+      "tiamat's host": "tiamat allies",
+      "hymer": "hymer",
+      "himinbrjot the ox": "ox himinbrjot"
+    },
+    "referent_note": "referent is a coder assertion of narrative identity, not a string match on the translation's wording. Two participants count as the same only if the coder says so; matching on role and referent_kind alone  earns partial credit, so Thor and Indra are not equated for being storm deities.",
+    "comparison_class_checklists": {
+      "flood_survival": [
+        "FLOOD_DESTRUCTION",
+        "DIVINE_WARNING_TO_RIGHTEOUS",
+        "VESSEL_PRESERVATION",
+        "SURVIVAL_ON_MOUNTAIN_PEAK",
+        "BIRD_PROBE_WATERS",
+        "PROMISE_NO_MORE_DESTRUCTION",
+        "GERM_OR_SEED_PRESERVATION",
+        "SEVEN_SAGES_PRESERVED",
+        "HORNED_FISH_TOWS_VESSEL",
+        "RESIN_RAIN_FALLS",
+        "BIRDS_MAIM_SURVIVORS"
+      ],
+      "storm_and_monster_combat": [
+        "SERPENT_OR_DRAGON_ADVERSARY",
+        "STORM_WEAPON",
+        "MANY_HEADS",
+        "VENOM",
+        "MUTUAL_DEATH",
+        "WEAPON_FRAGMENTS_AETIOLOGY",
+        "NET_OR_SNARE",
+        "INCANTATION_DEFEATED",
+        "TABLET_OF_DESTINIES",
+        "OX_HEAD_BAIT",
+        "FISHING_LINE_AND_HOOK",
+        "Serpent_encircles_world",
+        "EARTH_TREMbles_AT_COMBAT",
+        "HURL_TO_NETHER_PLACE",
+        "BODY_DIVISION_CREATION",
+        "BLOOD_SCATTERED_TO_WIND"
+      ],
+      "cosmogony_from_body": [
+        "WORLD_FROM_GIANT_BODY",
+        "BODY_DIVISION_CREATION",
+        "CREATOR_DIES_FOR_WORLD",
+        "CRAFT_TOOL_CREATION",
+        "EGG_OR_SHELL_ORIGIN",
+        "LUMINARY_ARRANGEMENT",
+        "NUMBERED_PERIOD_OF_LABOUR",
+        "BLOOD_SCATTERED_TO_WIND"
+      ],
+      "wisdom_transfer": [
+        "CAULDRON_OF_INSPIRATION",
+        "YEAR_AND_A_DAY",
+        "THREE_DROPS_OF_GRACE",
+        "BLIND_FIRE_TENDER",
+        "UGLY_CHILD_SEEKING_WISDOM"
+      ]
+    },
+    "comparison_class_note": "Motif comparison is only defined inside a comparison class, because a motif can only be scored as absent when the coder actually looked for it. Each class carries a fixed checklist, so every version in that class adjudicates the same motifs and two versions in different classes return NA rather than a spuriously low score."
+  },
+  "motif_registry": {
+    "FLOOD_DESTRUCTION": {
+      "label": "a great flood destroys the world",
+      "weight": 0.35,
+      "rationale": "widespread and generic; low diagnosticity"
+    },
+    "DIVINE_WARNING_TO_RIGHTEOUS": {
+      "label": "a divine agent warns a chosen survivor in advance",
+      "weight": 0.8,
+      "rationale": "specific narrative function"
+    },
+    "VESSEL_PRESERVATION": {
+      "label": "survivors preserved in a constructed vessel",
+      "weight": 0.9,
+      "rationale": "instrumentally specific"
+    },
+    "SURVIVAL_ON_MOUNTAIN_PEAK": {
+      "label": "vessel comes to rest on a mountain peak",
+      "weight": 0.85,
+      "rationale": "recurrent but discriminating"
+    },
+    "BIRD_PROBE_WATERS": {
+      "label": "a bird is sent out to test whether waters have abated",
+      "weight": 0.95,
+      "rationale": "rare, highly specific detail"
+    },
+    "PROMISE_NO_MORE_DESTRUCTION": {
+      "label": "divine undertaking not to repeat the destruction",
+      "weight": 1.0,
+      "rationale": "specific closing aetiology"
+    },
+    "GERM_OR_SEED_PRESERVATION": {
+      "label": "seeds or the germ of life preserved for renewal",
+      "weight": 0.9,
+      "rationale": "distinctive survival content"
+    },
+    "HORNED_FISH_TOWS_VESSEL": {
+      "label": "a horned fish tows or guides the vessel",
+      "weight": 1.0,
+      "rationale": "unique to the Manu recension"
+    },
+    "SEVEN_SAGES_PRESERVED": {
+      "label": "seven sages preserved with the survivor",
+      "weight": 0.9,
+      "rationale": "distinctive crew composition"
+    },
+    "RESIN_RAIN_FALLS": {
+      "label": "thick resin falls from heaven on the destroyed",
+      "weight": 1.0,
+      "rationale": "unusual specific damage"
+    },
+    "BIRDS_MAIM_SURVIVORS": {
+      "label": "birds tear out the eyes of the doomed",
+      "weight": 1.0,
+      "rationale": "unusual specific damage"
+    },
+    "SERPENT_OR_DRAGON_ADVERSARY": {
+      "label": "the adversary is a serpent or dragon",
+      "weight": 0.5,
+      "rationale": "common label; weak on its own"
+    },
+    "STORM_WEAPON": {
+      "label": "the victor uses a storm or thunder weapon",
+      "weight": 0.7,
+      "rationale": "moderately diagnostic of a combat type"
+    },
+    "MANY_HEADS": {
+      "label": "the adversary has many heads",
+      "weight": 0.7,
+      "rationale": "specific but attested in several traditions"
+    },
+    "VENOM": {
+      "label": "venom is expelled at the victor",
+      "weight": 0.85,
+      "rationale": "specific harm mechanism"
+    },
+    "MUTUAL_DEATH": {
+      "label": "victor and adversary both die",
+      "weight": 0.9,
+      "rationale": "strongly constrains the sequence"
+    },
+    "WEAPON_FRAGMENTS_AETIOLOGY": {
+      "label": "weapon fragments explain a present-day reverence",
+      "weight": 1.0,
+      "rationale": "rare aetiological motif"
+    },
+    "BODY_DIVISION_CREATION": {
+      "label": "the cosmos is made from the divided body of an adversary",
+      "weight": 0.9,
+      "rationale": "distinctive cosmogonic move"
+    },
+    "BLOOD_SCATTERED_TO_WIND": {
+      "label": "the slain body's blood is scattered by a wind",
+      "weight": 0.95,
+      "rationale": "very specific directional detail"
+    },
+    "NET_OR_SNARE": {
+      "label": "a net or snare arrests the adversary",
+      "weight": 0.9,
+      "rationale": "specific instrument"
+    },
+    "INCANTATION_DEFEATED": {
+      "label": "the adversary's words of power fail",
+      "weight": 0.9,
+      "rationale": "specific counter-magic step"
+    },
+    "TABLET_OF_DESTINIES": {
+      "label": "a token of sovereignty is taken and worn by the victor",
+      "weight": 1.0,
+      "rationale": "unique Mesopotamian regalia"
+    },
+    "OX_HEAD_BAIT": {
+      "label": "an ox head is used as bait for the serpent",
+      "weight": 1.0,
+      "rationale": "unique Norse detail"
+    },
+    "FISHING_LINE_AND_HOOK": {
+      "label": "the serpent is drawn up on a line and hook from a boat",
+      "weight": 0.95,
+      "rationale": "distinctive mode of combat"
+    },
+    "Serpent_encircles_world": {
+      "label": "the serpent is coiled around or under the world",
+      "weight": 0.8,
+      "rationale": "cosmographic placement"
+    },
+    "EARTH_TREMbles_AT_COMBAT": {
+      "label": "earth, sea and underworld shake during the fight",
+      "weight": 0.5,
+      "rationale": "common epic intensifier"
+    },
+    "HURL_TO_NETHER_PLACE": {
+      "label": "the defeated adversary is cast into an underworld pit",
+      "weight": 0.75,
+      "rationale": "specific outcome"
+    },
+    "WORLD_FROM_GIANT_BODY": {
+      "label": "earth, sky and sea made from a giant's flesh, skull and blood",
+      "weight": 0.9,
+      "rationale": "distinctive anthropocosmy"
+    },
+    "CREATOR_DIES_FOR_WORLD": {
+      "label": "the creator dies so that the finished world persists",
+      "weight": 0.95,
+      "rationale": "rare in cosmogony"
+    },
+    "CRAFT_TOOL_CREATION": {
+      "label": "creation by hammering or chiselling chaotic matter",
+      "weight": 0.9,
+      "rationale": "artisanal cosmogony"
+    },
+    "EGG_OR_SHELL_ORIGIN": {
+      "label": "the creator or matter emerges as from an eggshell",
+      "weight": 0.85,
+      "rationale": "specific image"
+    },
+    "LUMINARY_ARRANGEMENT": {
+      "label": "sun, moon and stars deliberately arranged",
+      "weight": 0.6,
+      "rationale": "frequent in cosmogonies"
+    },
+    "NUMBERED_PERIOD_OF_LABOUR": {
+      "label": "the work lasts a stated number of years or days",
+      "weight": 0.75,
+      "rationale": "specific quantification"
+    },
+    "CAULDRON_OF_INSPIRATION": {
+      "label": "a cauldron boiled to produce wisdom",
+      "weight": 0.95,
+      "rationale": "distinctive Celtic instrument"
+    },
+    "YEAR_AND_A_DAY": {
+      "label": "the operation lasts a year and a day",
+      "weight": 0.9,
+      "rationale": "specific quantification"
+    },
+    "THREE_DROPS_OF_GRACE": {
+      "label": "three blessed drops of inspiration obtained",
+      "weight": 1.0,
+      "rationale": "unique transfer detail"
+    },
+    "BLIND_FIRE_TENDER": {
+      "label": "a blind man tends the fire under the vessel",
+      "weight": 0.95,
+      "rationale": "unique assistant specification"
+    },
+    "UGLY_CHILD_SEEKING_WISDOM": {
+      "label": "an ill-favoured child is given wisdom to compensate",
+      "weight": 0.9,
+      "rationale": "specific motive"
+    }
+  },
+  "versions": [
+    {
+      "version_id": "noah_kjv",
+      "label": "Noah and the flood, Genesis 6-9 as translated in the King James Version",
+      "work_id": "kjv_bible",
+      "tradition": "Jewish and Christian",
+      "region": "West Asia and Europe",
+      "source_language": "Hebrew text, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "passages": [
+        "kjv_bible:s0000:p009",
+        "kjv_bible:s0000:p010",
+        "kjv_bible:s0000:p011",
+        "kjv_bible:s0000:p012"
+      ],
+      "events": [
+        {
+          "event_id": "noah_e1",
+          "order": 1,
+          "predicate": "divine_regret_announces_destruction",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "God",
+              "referent_kind": "deity",
+              "referent": "yhwh"
+            },
+            {
+              "role": "patient",
+              "term": "humanity",
+              "referent_kind": "collective",
+              "referent": "humanity"
+            }
+          ],
+          "outcome": "decision to unmake creation",
+          "evidence_passage": "kjv_bible:s0000:p009",
+          "quote": "it repenteth me that I have made them"
+        },
+        {
+          "event_id": "noah_e2",
+          "order": 2,
+          "predicate": "hidden_divine_warning_delivered",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "God",
+              "referent_kind": "deity",
+              "referent": "yhwh"
+            },
+            {
+              "role": "recipient",
+              "term": "Noah",
+              "referent_kind": "human",
+              "referent": "noah"
+            },
+            {
+              "role": "beneficiary",
+              "term": "Noah's household",
+              "referent_kind": "collective",
+              "referent": "noah household"
+            }
+          ],
+          "outcome": "survivor instructed",
+          "evidence_passage": "kjv_bible:s0000:p010",
+          "quote": "Thus did Noah; according to all that God commanded him, so did he"
+        },
+        {
+          "event_id": "noah_e3",
+          "order": 3,
+          "predicate": "vessel_constructed_on_divine_command",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Noah",
+              "referent_kind": "human",
+              "referent": "noah"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            }
+          ],
+          "outcome": "vessel ready",
+          "evidence_passage": "kjv_bible:s0000:p009",
+          "quote": "Make thee an ark"
+        },
+        {
+          "event_id": "noah_e4",
+          "order": 4,
+          "predicate": "survivors_and_germ_placed_on_vessel",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Noah",
+              "referent_kind": "human",
+              "referent": "noah"
+            },
+            {
+              "role": "patient",
+              "term": "animals",
+              "referent_kind": "collective",
+              "referent": "animals"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            }
+          ],
+          "outcome": "life preserved aboard",
+          "evidence_passage": "kjv_bible:s0000:p011",
+          "quote": "and Noah only remained alive, and they that were with him in the ark"
+        },
+        {
+          "event_id": "noah_e5",
+          "order": 5,
+          "predicate": "waters_sent_over_world",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "God",
+              "referent_kind": "deity",
+              "referent": "yhwh"
+            },
+            {
+              "role": "instrument",
+              "term": "flood waters",
+              "referent_kind": "force",
+              "referent": "flood waters"
+            },
+            {
+              "role": "patient",
+              "term": "earth",
+              "referent_kind": "place",
+              "referent": "earth"
+            }
+          ],
+          "outcome": "waters prevail 150 days",
+          "evidence_passage": "kjv_bible:s0000:p011",
+          "quote": "And the waters prevailed upon the earth an hundred and fifty days"
+        },
+        {
+          "event_id": "noah_e6",
+          "order": 6,
+          "predicate": "non_survivors_annihilated",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "humanity",
+              "referent_kind": "collective",
+              "referent": "humanity"
+            },
+            {
+              "role": "instrument",
+              "term": "flood waters",
+              "referent_kind": "force",
+              "referent": "flood waters"
+            }
+          ],
+          "outcome": "destroyed from the earth",
+          "evidence_passage": "kjv_bible:s0000:p011",
+          "quote": "they were destroyed from the earth"
+        },
+        {
+          "event_id": "noah_e7",
+          "order": 7,
+          "predicate": "bird_sent_to_test_waters",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Noah",
+              "referent_kind": "human",
+              "referent": "noah"
+            },
+            {
+              "role": "instrument",
+              "term": "dove",
+              "referent_kind": "animal",
+              "referent": "dove"
+            },
+            {
+              "role": "recipient",
+              "term": "Noah",
+              "referent_kind": "human",
+              "referent": "noah"
+            }
+          ],
+          "outcome": "olive leaf brings news of abatement",
+          "evidence_passage": "kjv_bible:s0000:p012",
+          "quote": "And the dove came in to him in the evening; and, lo, in her mouth was an olive leaf pluckt off"
+        },
+        {
+          "event_id": "noah_e8",
+          "order": 8,
+          "predicate": "earth_dries",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "earth",
+              "referent_kind": "place",
+              "referent": "earth"
+            }
+          ],
+          "outcome": "ground dry",
+          "evidence_passage": "kjv_bible:s0000:p012",
+          "quote": "the waters were dried up from off the earth"
+        },
+        {
+          "event_id": "noah_e9",
+          "order": 9,
+          "predicate": "survivors_leave_vessel",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "God",
+              "referent_kind": "deity",
+              "referent": "yhwh"
+            },
+            {
+              "role": "patient",
+              "term": "Noah's household",
+              "referent_kind": "collective",
+              "referent": "noah household"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            }
+          ],
+          "outcome": "repopulation authorised",
+          "evidence_passage": "kjv_bible:s0000:p012",
+          "quote": "Go forth of the ark, thou, and thy wife, and thy sons"
+        },
+        {
+          "event_id": "noah_e10",
+          "order": 10,
+          "predicate": "offering_presented_after_survival",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Noah",
+              "referent_kind": "human",
+              "referent": "noah"
+            },
+            {
+              "role": "recipient",
+              "term": "God",
+              "referent_kind": "deity",
+              "referent": "yhwh"
+            },
+            {
+              "role": "instrument",
+              "term": "altar",
+              "referent_kind": "object",
+              "referent": "altar"
+            }
+          ],
+          "outcome": "sweet savour accepted",
+          "evidence_passage": "kjv_bible:s0000:p012",
+          "quote": "Noah builded an altar unto the LORD"
+        },
+        {
+          "event_id": "noah_e11",
+          "order": 11,
+          "predicate": "divine_promise_of_non_repetition",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "God",
+              "referent_kind": "deity",
+              "referent": "yhwh"
+            },
+            {
+              "role": "beneficiary",
+              "term": "humanity",
+              "referent_kind": "collective",
+              "referent": "humanity"
+            }
+          ],
+          "outcome": "curse withheld",
+          "evidence_passage": "kjv_bible:s0000:p012",
+          "quote": "I will not again curse the ground any more for man's sake"
+        }
+      ],
+      "causal_links": [
+        [
+          "noah_e1",
+          "noah_e2"
+        ],
+        [
+          "noah_e2",
+          "noah_e3"
+        ],
+        [
+          "noah_e3",
+          "noah_e4"
+        ],
+        [
+          "noah_e4",
+          "noah_e5"
+        ],
+        [
+          "noah_e5",
+          "noah_e6"
+        ],
+        [
+          "noah_e6",
+          "noah_e7"
+        ],
+        [
+          "noah_e7",
+          "noah_e8"
+        ],
+        [
+          "noah_e8",
+          "noah_e9"
+        ],
+        [
+          "noah_e9",
+          "noah_e10"
+        ],
+        [
+          "noah_e10",
+          "noah_e11"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "FLOOD_DESTRUCTION",
+          "count": 1,
+          "evidence_passage": "kjv_bible:s0000:p011"
+        },
+        {
+          "motif_id": "DIVINE_WARNING_TO_RIGHTEOUS",
+          "count": 1,
+          "evidence_passage": "kjv_bible:s0000:p010"
+        },
+        {
+          "motif_id": "VESSEL_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "kjv_bible:s0000:p011"
+        },
+        {
+          "motif_id": "BIRD_PROBE_WATERS",
+          "count": 2,
+          "evidence_passage": "kjv_bible:s0000:p012"
+        },
+        {
+          "motif_id": "SURVIVAL_ON_MOUNTAIN_PEAK",
+          "count": 0,
+          "evidence_passage": null,
+          "note": "ark rests on Ararat in Genesis 8:4, outside the four cited windows; recorded as absent rather than unassessed because the attestation is complete"
+        },
+        {
+          "motif_id": "PROMISE_NO_MORE_DESTRUCTION",
+          "count": 1,
+          "evidence_passage": "kjv_bible:s0000:p012"
+        },
+        {
+          "motif_id": "GERM_OR_SEED_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "kjv_bible:s0000:p012",
+          "note": "animals and kinds rather than seeds"
+        }
+      ],
+      "symbols": [
+        "ark",
+        "dove",
+        "olive leaf",
+        "altar",
+        "waters",
+        "household"
+      ],
+      "comparison_class": "flood_survival"
+    },
+    {
+      "version_id": "gilgamesh_flood_tablet_fragment",
+      "label": "Gilgamesh flood tablet, as summarised in the Chaldean Genesis account of the recovered columns",
+      "work_id": "chaldean_genesis",
+      "tradition": "Mesopotamian",
+      "region": "West Asia",
+      "source_language": "Akkadian tablets, English discussion",
+      "review_state": "source_verified",
+      "attestation_completeness": "partial",
+      "attestation_note": "The cited window is a scholar's description of a damaged tablet: 'about half being lost'. Events absent here are unassessed, not absent.",
+      "passages": [
+        "chaldean_genesis:s0046:p001"
+      ],
+      "events": [
+        {
+          "event_id": "gil_e1",
+          "order": 1,
+          "predicate": "vessel_driven_to_peak",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "ship",
+              "referent_kind": "object",
+              "referent": "ship"
+            },
+            {
+              "role": "place",
+              "term": "mountain of Nizir",
+              "referent_kind": "place",
+              "referent": "mountain of nizir"
+            }
+          ],
+          "outcome": "vessel grounded",
+          "evidence_passage": "chaldean_genesis:s0046:p001",
+          "quote": "\"the ship\" had rested on the mountain of Nizir"
+        },
+        {
+          "event_id": "gil_e2",
+          "order": 2,
+          "predicate": "bird_sent_to_test_waters",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "flood survivor",
+              "referent_kind": "human",
+              "referent": "flood survivor"
+            },
+            {
+              "role": "instrument",
+              "term": "dove",
+              "referent_kind": "animal",
+              "referent": "dove"
+            }
+          ],
+          "outcome": "no resting place found",
+          "evidence_passage": "chaldean_genesis:s0046:p001",
+          "quote": "an account of the sending forth of a dove, and its finding no resting-place and returning"
+        },
+        {
+          "event_id": "gil_e3",
+          "order": 3,
+          "predicate": "waters_abate",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "waters",
+              "referent_kind": "force",
+              "referent": "waters"
+            }
+          ],
+          "outcome": "abatement inferred from the probing",
+          "evidence_passage": "chaldean_genesis:s0046:p001",
+          "quote": "finding no resting-place and returning"
+        }
+      ],
+      "causal_links": [
+        [
+          "gil_e1",
+          "gil_e2"
+        ],
+        [
+          "gil_e2",
+          "gil_e3"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "VESSEL_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "chaldean_genesis:s0046:p001"
+        },
+        {
+          "motif_id": "SURVIVAL_ON_MOUNTAIN_PEAK",
+          "count": 1,
+          "evidence_passage": "chaldean_genesis:s0046:p001"
+        },
+        {
+          "motif_id": "BIRD_PROBE_WATERS",
+          "count": 1,
+          "evidence_passage": "chaldean_genesis:s0046:p001"
+        },
+        {
+          "motif_id": "FLOOD_DESTRUCTION",
+          "count": 1,
+          "evidence_passage": "chaldean_genesis:s0046:p001",
+          "note": "implied by the tablet's subject; direct wording is in adjacent windows"
+        }
+      ],
+      "symbols": [
+        "ship",
+        "mountain",
+        "dove",
+        "waters"
+      ],
+      "comparison_class": "flood_survival"
+    },
+    {
+      "version_id": "manu_fish_mahabharata",
+      "label": "Manu saved by the growing fish, Mahabharata Vana Parva (Kisari Mohan Ganguli)",
+      "work_id": "mahabharata_v1",
+      "tradition": "Hindu",
+      "region": "South Asia",
+      "source_language": "Sanskrit, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "passages": [
+        "mahabharata_v1:s0541:p000",
+        "mahabharata_v1:s0541:p001",
+        "mahabharata_v1:s0541:p002"
+      ],
+      "events": [
+        {
+          "event_id": "man_e1",
+          "order": 1,
+          "predicate": "hidden_divine_warning_delivered",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "fish",
+              "referent_kind": "deity_in_animal_form",
+              "referent": "manus fish"
+            },
+            {
+              "role": "recipient",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            }
+          ],
+          "outcome": "survivor instructed",
+          "evidence_passage": "mahabharata_v1:s0541:p001",
+          "quote": "thou shall act according to my instructions, for, without my assistance, thou canst not save thyself from that fearful flood"
+        },
+        {
+          "event_id": "man_e2",
+          "order": 2,
+          "predicate": "divine_judgment_resolved",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "fish",
+              "referent_kind": "deity_in_animal_form",
+              "referent": "manus fish"
+            },
+            {
+              "role": "patient",
+              "term": "all creation",
+              "referent_kind": "collective",
+              "referent": "all creation"
+            }
+          ],
+          "outcome": "dissolution declared ripe",
+          "evidence_passage": "mahabharata_v1:s0541:p001",
+          "quote": "The dissolution of all this mobile and immobile world is nigh at hand"
+        },
+        {
+          "event_id": "man_e3",
+          "order": 3,
+          "predicate": "vessel_constructed_on_divine_command",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            },
+            {
+              "role": "instrument",
+              "term": "long rope",
+              "referent_kind": "object",
+              "referent": "long rope"
+            }
+          ],
+          "outcome": "vessel with rope ready",
+          "evidence_passage": "mahabharata_v1:s0541:p001",
+          "quote": "Thou shall build a strong massive ark and have it furnished with a long rope"
+        },
+        {
+          "event_id": "man_e4",
+          "order": 4,
+          "predicate": "survivors_and_germ_placed_on_vessel",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            },
+            {
+              "role": "patient",
+              "term": "seven Rishis",
+              "referent_kind": "collective",
+              "referent": "seven rishis"
+            },
+            {
+              "role": "patient",
+              "term": "seeds of all beings",
+              "referent_kind": "collective",
+              "referent": "seeds of all beings"
+            }
+          ],
+          "outcome": "crew and germ aboard",
+          "evidence_passage": "mahabharata_v1:s0541:p001",
+          "quote": "with the seven Rishis and take with thee all the different seeds"
+        },
+        {
+          "event_id": "man_e5",
+          "order": 5,
+          "predicate": "waters_cover_world_and_heavens",
+          "participants": [
+            {
+              "role": "instrument",
+              "term": "waters",
+              "referent_kind": "force",
+              "referent": "waters"
+            },
+            {
+              "role": "patient",
+              "term": "heaven and firmament",
+              "referent_kind": "place",
+              "referent": "heaven and firmament"
+            }
+          ],
+          "outcome": "no land or direction visible",
+          "evidence_passage": "mahabharata_v1:s0541:p002",
+          "quote": "the waters covered the heaven and the firmament also"
+        },
+        {
+          "event_id": "man_e6",
+          "order": 6,
+          "predicate": "non_survivors_annihilated",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "all creation",
+              "referent_kind": "collective",
+              "referent": "all creation"
+            }
+          ],
+          "outcome": "only Manu, the Rishis and the fish remain visible",
+          "evidence_passage": "mahabharata_v1:s0541:p002",
+          "quote": "none but Manu, the seven Rishis and the fish could be seen"
+        },
+        {
+          "event_id": "man_e7",
+          "order": 7,
+          "predicate": "vessel_driven_to_peak",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "horned fish",
+              "referent_kind": "deity_in_animal_form",
+              "referent": "manus fish"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            },
+            {
+              "role": "place",
+              "term": "highest peak of the Himavat",
+              "referent_kind": "place",
+              "referent": "highest peak of the himavat"
+            }
+          ],
+          "outcome": "vessel towed to the mountain",
+          "evidence_passage": "mahabharata_v1:s0541:p002",
+          "quote": "it towed the vessel towards the highest peak of the Himavat"
+        },
+        {
+          "event_id": "man_e8",
+          "order": 8,
+          "predicate": "vessel_secured_to_peak",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            },
+            {
+              "role": "helper",
+              "term": "seven Rishis",
+              "referent_kind": "collective",
+              "referent": "seven rishis"
+            },
+            {
+              "role": "place",
+              "term": "peak of the Himavat",
+              "referent_kind": "place",
+              "referent": "peak of the himavat"
+            }
+          ],
+          "outcome": "place named Naubandhana",
+          "evidence_passage": "mahabharata_v1:s0541:p002",
+          "quote": "they immediately tied the boat on that peak of the mountain"
+        },
+        {
+          "event_id": "man_e9",
+          "order": 9,
+          "predicate": "survivor_instructs_after_deluge",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "fish as Brahma",
+              "referent_kind": "deity",
+              "referent": "manus fish"
+            },
+            {
+              "role": "recipient",
+              "term": "seven Rishis",
+              "referent_kind": "collective",
+              "referent": "seven rishis"
+            }
+          ],
+          "outcome": "divine identity disclosed",
+          "evidence_passage": "mahabharata_v1:s0541:p002",
+          "quote": "I am Brahma, the Lord of all creatures; there is none greater than myself"
+        }
+      ],
+      "causal_links": [
+        [
+          "man_e1",
+          "man_e3"
+        ],
+        [
+          "man_e2",
+          "man_e5"
+        ],
+        [
+          "man_e3",
+          "man_e4"
+        ],
+        [
+          "man_e4",
+          "man_e5"
+        ],
+        [
+          "man_e5",
+          "man_e6"
+        ],
+        [
+          "man_e6",
+          "man_e7"
+        ],
+        [
+          "man_e7",
+          "man_e8"
+        ],
+        [
+          "man_e8",
+          "man_e9"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "FLOOD_DESTRUCTION",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p002"
+        },
+        {
+          "motif_id": "DIVINE_WARNING_TO_RIGHTEOUS",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p001"
+        },
+        {
+          "motif_id": "VESSEL_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p001"
+        },
+        {
+          "motif_id": "GERM_OR_SEED_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p001"
+        },
+        {
+          "motif_id": "SEVEN_SAGES_PRESERVED",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p001"
+        },
+        {
+          "motif_id": "HORNED_FISH_TOWS_VESSEL",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p002"
+        },
+        {
+          "motif_id": "SURVIVAL_ON_MOUNTAIN_PEAK",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0541:p002"
+        },
+        {
+          "motif_id": "BIRD_PROBE_WATERS",
+          "count": 0,
+          "evidence_passage": null
+        },
+        {
+          "motif_id": "PROMISE_NO_MORE_DESTRUCTION",
+          "count": 0,
+          "evidence_passage": null
+        }
+      ],
+      "symbols": [
+        "fish",
+        "horn",
+        "rope",
+        "ark",
+        "mountain peak",
+        "waters",
+        "seeds"
+      ],
+      "comparison_class": "flood_survival"
+    },
+    {
+      "version_id": "manu_fish_doublet",
+      "label": "The same Manu flood narrative in the second Ganguli Mahabharata edition on disk",
+      "work_id": "mahabharata_12333",
+      "tradition": "Hindu",
+      "region": "South Asia",
+      "source_language": "Sanskrit, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "attestation_note": "Dependent witness: the same Ganguli translation of the same book in a different Project Gutenberg edition file. Coded to the same depth as manu_fish_mahabharata on purpose, so a high sequence score here measures textual dependence and not comparative narrative structure.",
+      "independent_witness": false,
+      "passages": [
+        "mahabharata_12333:s0044:p001",
+        "mahabharata_12333:s0044:p002"
+      ],
+      "events": [
+        {
+          "event_id": "dbt_e1",
+          "order": 1,
+          "predicate": "hidden_divine_warning_delivered",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "fish",
+              "referent_kind": "deity_in_animal_form",
+              "referent": "manus fish"
+            },
+            {
+              "role": "recipient",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            }
+          ],
+          "outcome": "survivor instructed",
+          "evidence_passage": "mahabharata_12333:s0044:p001",
+          "quote": "thou shall act according to my instructions, for, without my assistance, thou canst not save thyself from that fearful flood"
+        },
+        {
+          "event_id": "dbt_e2",
+          "order": 2,
+          "predicate": "divine_judgment_resolved",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "fish",
+              "referent_kind": "deity_in_animal_form",
+              "referent": "manus fish"
+            },
+            {
+              "role": "patient",
+              "term": "all creation",
+              "referent_kind": "collective",
+              "referent": "all creation"
+            }
+          ],
+          "outcome": "dissolution declared ripe",
+          "evidence_passage": "mahabharata_12333:s0044:p001",
+          "quote": "The dissolution of all this mobile and immobile world is nigh at hand"
+        },
+        {
+          "event_id": "dbt_e3",
+          "order": 3,
+          "predicate": "vessel_constructed_on_divine_command",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            },
+            {
+              "role": "instrument",
+              "term": "long rope",
+              "referent_kind": "object",
+              "referent": "long rope"
+            }
+          ],
+          "outcome": "vessel with rope ready",
+          "evidence_passage": "mahabharata_12333:s0044:p001",
+          "quote": "Thou shall build a strong massive ark and have it furnished with a long rope"
+        },
+        {
+          "event_id": "dbt_e4",
+          "order": 4,
+          "predicate": "survivors_and_germ_placed_on_vessel",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            },
+            {
+              "role": "patient",
+              "term": "seven Rishis",
+              "referent_kind": "collective",
+              "referent": "seven rishis"
+            },
+            {
+              "role": "patient",
+              "term": "seeds of all beings",
+              "referent_kind": "collective",
+              "referent": "seeds of all beings"
+            }
+          ],
+          "outcome": "crew and germ aboard",
+          "evidence_passage": "mahabharata_12333:s0044:p001",
+          "quote": "with the seven Rishis and take with thee all the different seeds"
+        },
+        {
+          "event_id": "dbt_e5",
+          "order": 5,
+          "predicate": "waters_cover_world_and_heavens",
+          "participants": [
+            {
+              "role": "instrument",
+              "term": "waters",
+              "referent_kind": "force",
+              "referent": "waters"
+            },
+            {
+              "role": "patient",
+              "term": "heaven and firmament",
+              "referent_kind": "place",
+              "referent": "heaven and firmament"
+            }
+          ],
+          "outcome": "no land or direction visible",
+          "evidence_passage": "mahabharata_12333:s0044:p002",
+          "quote": "the waters covered the heaven and the firmament also"
+        },
+        {
+          "event_id": "dbt_e6",
+          "order": 6,
+          "predicate": "non_survivors_annihilated",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "all creation",
+              "referent_kind": "collective",
+              "referent": "all creation"
+            }
+          ],
+          "outcome": "only Manu, the Rishis and the fish remain visible",
+          "evidence_passage": "mahabharata_12333:s0044:p002",
+          "quote": "none but Manu, the seven Rishis and the fish could be seen"
+        },
+        {
+          "event_id": "dbt_e7",
+          "order": 7,
+          "predicate": "vessel_driven_to_peak",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "horned fish",
+              "referent_kind": "deity_in_animal_form",
+              "referent": "manus fish"
+            },
+            {
+              "role": "instrument",
+              "term": "ark",
+              "referent_kind": "object",
+              "referent": "ark"
+            },
+            {
+              "role": "place",
+              "term": "highest peak of the Himavat",
+              "referent_kind": "place",
+              "referent": "highest peak of the himavat"
+            }
+          ],
+          "outcome": "vessel towed to the mountain",
+          "evidence_passage": "mahabharata_12333:s0044:p002",
+          "quote": "it towed the vessel towards the highest peak of the Himavat"
+        },
+        {
+          "event_id": "dbt_e8",
+          "order": 8,
+          "predicate": "vessel_secured_to_peak",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Manu",
+              "referent_kind": "human",
+              "referent": "manu"
+            },
+            {
+              "role": "helper",
+              "term": "seven Rishis",
+              "referent_kind": "collective",
+              "referent": "seven rishis"
+            },
+            {
+              "role": "place",
+              "term": "peak of the Himavat",
+              "referent_kind": "place",
+              "referent": "peak of the himavat"
+            }
+          ],
+          "outcome": "place named Naubandhana",
+          "evidence_passage": "mahabharata_12333:s0044:p002",
+          "quote": "they immediately tied the boat on that peak of the mountain"
+        },
+        {
+          "event_id": "dbt_e9",
+          "order": 9,
+          "predicate": "survivor_instructs_after_deluge",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "fish as Brahma",
+              "referent_kind": "deity",
+              "referent": "manus fish"
+            },
+            {
+              "role": "recipient",
+              "term": "seven Rishis",
+              "referent_kind": "collective",
+              "referent": "seven rishis"
+            }
+          ],
+          "outcome": "divine identity disclosed",
+          "evidence_passage": "mahabharata_12333:s0044:p002",
+          "quote": "I am Brahma, the Lord of all creatures; there is none greater than myself"
+        }
+      ],
+      "causal_links": [
+        [
+          "dbt_e1",
+          "dbt_e3"
+        ],
+        [
+          "dbt_e2",
+          "dbt_e5"
+        ],
+        [
+          "dbt_e3",
+          "dbt_e4"
+        ],
+        [
+          "dbt_e4",
+          "dbt_e5"
+        ],
+        [
+          "dbt_e5",
+          "dbt_e6"
+        ],
+        [
+          "dbt_e6",
+          "dbt_e7"
+        ],
+        [
+          "dbt_e7",
+          "dbt_e8"
+        ],
+        [
+          "dbt_e8",
+          "dbt_e9"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "FLOOD_DESTRUCTION",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p002"
+        },
+        {
+          "motif_id": "DIVINE_WARNING_TO_RIGHTEOUS",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p001"
+        },
+        {
+          "motif_id": "VESSEL_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p001"
+        },
+        {
+          "motif_id": "GERM_OR_SEED_PRESERVATION",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p001"
+        },
+        {
+          "motif_id": "SEVEN_SAGES_PRESERVED",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p001"
+        },
+        {
+          "motif_id": "HORNED_FISH_TOWS_VESSEL",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p002"
+        },
+        {
+          "motif_id": "SURVIVAL_ON_MOUNTAIN_PEAK",
+          "count": 1,
+          "evidence_passage": "mahabharata_12333:s0044:p002"
+        }
+      ],
+      "symbols": [
+        "fish",
+        "horn",
+        "rope",
+        "ark",
+        "mountain peak",
+        "waters",
+        "seeds"
+      ],
+      "comparison_class": "flood_survival"
+    },
+    {
+      "version_id": "popol_vuh_wooden_people",
+      "label": "Destruction of the wooden people by water, Popol Vuh",
+      "work_id": "popol_vuh",
+      "tradition": "K'iche' Maya",
+      "region": "Central America",
+      "source_language": "K'iche', English translation",
+      "review_state": "transcribed",
+      "attestation_completeness": "full",
+      "passages": [
+        "popol_vuh:s0001:p002"
+      ],
+      "events": [
+        {
+          "event_id": "pop_e1",
+          "order": 1,
+          "predicate": "divine_council_concludes_destruction",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the makers",
+              "referent_kind": "deity",
+              "referent": "maker gods"
+            },
+            {
+              "role": "patient",
+              "term": "wooden people",
+              "referent_kind": "collective",
+              "referent": "wooden people"
+            }
+          ],
+          "outcome": "destruction resolved for lack of reverence",
+          "evidence_passage": "popol_vuh:s0001:p002",
+          "quote": "their lack of reverence, resolved to destroy them"
+        },
+        {
+          "event_id": "pop_e2",
+          "order": 2,
+          "predicate": "waters_sent_over_world",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Hurakan the Heart of Heaven",
+              "referent_kind": "deity",
+              "referent": "hurakan"
+            },
+            {
+              "role": "instrument",
+              "term": "waters",
+              "referent_kind": "force",
+              "referent": "waters"
+            },
+            {
+              "role": "patient",
+              "term": "wooden people",
+              "referent_kind": "collective",
+              "referent": "wooden people"
+            }
+          ],
+          "outcome": "waters swollen",
+          "evidence_passage": "popol_vuh:s0001:p002",
+          "quote": "by the will of Hurakan, the Heart of Heaven, the waters were swollen"
+        },
+        {
+          "event_id": "pop_e3",
+          "order": 3,
+          "predicate": "non_survivors_annihilated",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "wooden people",
+              "referent_kind": "collective",
+              "referent": "wooden people"
+            },
+            {
+              "role": "instrument",
+              "term": "flood",
+              "referent_kind": "force",
+              "referent": "flood"
+            }
+          ],
+          "outcome": "drowned",
+          "evidence_passage": "popol_vuh:s0001:p002",
+          "quote": "a great flood came upon the mannikins of wood. They were drowned"
+        },
+        {
+          "event_id": "pop_e4",
+          "order": 4,
+          "predicate": "affliction_following_destruction",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "resin from heaven",
+              "referent_kind": "substance",
+              "referent": "resin from heaven"
+            },
+            {
+              "role": "patient",
+              "term": "wooden people",
+              "referent_kind": "collective",
+              "referent": "wooden people"
+            }
+          ],
+          "outcome": "further damage after drowning",
+          "evidence_passage": "popol_vuh:s0001:p002",
+          "quote": "and a thick resin fell from heaven"
+        },
+        {
+          "event_id": "pop_e5",
+          "order": 5,
+          "predicate": "affliction_following_destruction",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Xecotcovach bird",
+              "referent_kind": "animal",
+              "referent": "xecotcovach bird"
+            },
+            {
+              "role": "patient",
+              "term": "wooden people",
+              "referent_kind": "collective",
+              "referent": "wooden people"
+            }
+          ],
+          "outcome": "eyes torn out",
+          "evidence_passage": "popol_vuh:s0001:p002",
+          "quote": "The bird Xecotcovach tore out their eyes"
+        }
+      ],
+      "causal_links": [
+        [
+          "pop_e1",
+          "pop_e2"
+        ],
+        [
+          "pop_e2",
+          "pop_e3"
+        ],
+        [
+          "pop_e3",
+          "pop_e4"
+        ],
+        [
+          "pop_e4",
+          "pop_e5"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "FLOOD_DESTRUCTION",
+          "count": 1,
+          "evidence_passage": "popol_vuh:s0001:p002"
+        },
+        {
+          "motif_id": "RESIN_RAIN_FALLS",
+          "count": 1,
+          "evidence_passage": "popol_vuh:s0001:p002"
+        },
+        {
+          "motif_id": "BIRDS_MAIM_SURVIVORS",
+          "count": 1,
+          "evidence_passage": "popol_vuh:s0001:p002"
+        },
+        {
+          "motif_id": "DIVINE_WARNING_TO_RIGHTEOUS",
+          "count": 0,
+          "evidence_passage": null
+        },
+        {
+          "motif_id": "VESSEL_PRESERVATION",
+          "count": 0,
+          "evidence_passage": null
+        },
+        {
+          "motif_id": "SURVIVAL_ON_MOUNTAIN_PEAK",
+          "count": 0,
+          "evidence_passage": null
+        }
+      ],
+      "symbols": [
+        "water",
+        "resin",
+        "bird",
+        "wood",
+        "Heart of Heaven"
+      ],
+      "attestation_note": "The whole K'iche' narrative in this Project Gutenberg edition is retold inside a section whose heading is PREFACE, which the v2 cleaner excludes from similarity analysis. The events are quoted accurately, but the witness is an editorial retelling rather than the mythic body, so this version is not source_verified and its comparisons must be read as provisional. Recorded as a cleaning-recall case study in TEST_REPORT.md.",
+      "comparison_class": "flood_survival"
+    },
+    {
+      "version_id": "marduk_tiamat",
+      "label": "Marduk equips himself, snares and splits Tiamat, Enuma Elish as translated in The Babylonian Story of Creation",
+      "work_id": "babylonian_creation",
+      "tradition": "Mesopotamian",
+      "region": "West Asia",
+      "source_language": "Akkadian, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "passages": [
+        "babylonian_creation:s0006:p000",
+        "babylonian_creation:s0006:p001"
+      ],
+      "events": [
+        {
+          "event_id": "mar_e1",
+          "order": 1,
+          "predicate": "champion_granted_authority",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the gods",
+              "referent_kind": "collective",
+              "referent": "assembly of gods"
+            },
+            {
+              "role": "recipient",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "sceptre throne and pala",
+              "referent_kind": "regalia",
+              "referent": "sceptre throne and pala"
+            }
+          ],
+          "outcome": "kingship invested",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "the gods saluted him as their king, and gave him the insignia of royalty"
+        },
+        {
+          "event_id": "mar_e2",
+          "order": 2,
+          "predicate": "champion_commissioned_by_council",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the gods",
+              "referent_kind": "collective",
+              "referent": "assembly of gods"
+            },
+            {
+              "role": "recipient",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "patient",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            }
+          ],
+          "outcome": "command to kill and scatter",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "commanded him to go and hack the body of Tiamat in pieces, and to scatter her blood to the winds"
+        },
+        {
+          "event_id": "mar_e3",
+          "order": 3,
+          "predicate": "champion_equips_with_weapons",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "bow spear club net lightning thunderbolt winds",
+              "referent_kind": "weapons",
+              "referent": "bow spear club net lightning thunderbolt winds"
+            }
+          ],
+          "outcome": "armed and winds stationed to prevent escape",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "He took a bow, a spear, and a club; he filled his body full of fire and set the lightning before him"
+        },
+        {
+          "event_id": "mar_e4",
+          "order": 4,
+          "predicate": "champion_mounts_storm",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "the Storm drawn by four horses",
+              "referent_kind": "vehicle",
+              "referent": "the storm drawn by four horses"
+            }
+          ],
+          "outcome": "march against the adversary",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "mounting upon the Storm, which was drawn by four horses, he went out to meet and defeat Tiamat"
+        },
+        {
+          "event_id": "mar_e5",
+          "order": 5,
+          "predicate": "combat_terrifies_followers",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "patient",
+              "term": "Kingu",
+              "referent_kind": "monster",
+              "referent": "kingu"
+            },
+            {
+              "role": "witness",
+              "term": "Tiamat's host",
+              "referent_kind": "collective",
+              "referent": "tiamat allies"
+            }
+          ],
+          "outcome": "followers lose control and helplessness",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "Kingu from the \"middle of Tiamat\" saw Marduk arrayed in his terrible panoply of war, he was terrified"
+        },
+        {
+          "event_id": "mar_e6",
+          "order": 6,
+          "predicate": "adversary_invokes_verbal_power",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            },
+            {
+              "role": "patient",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            }
+          ],
+          "outcome": "incantation fails",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "attempted to overthrow him by reciting an incantation, thinking that her words of power would destroy his strength"
+        },
+        {
+          "event_id": "mar_e7",
+          "order": 7,
+          "predicate": "adversary_snared_or_arrested",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "net",
+              "referent_kind": "weapon",
+              "referent": "net"
+            },
+            {
+              "role": "patient",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            }
+          ],
+          "outcome": "adversary caught",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "at once cast his net over her"
+        },
+        {
+          "event_id": "mar_e8",
+          "order": 8,
+          "predicate": "wind_forced_into_adversary",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "gale of foul wind",
+              "referent_kind": "weapon",
+              "referent": "gale of foul wind"
+            },
+            {
+              "role": "patient",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            }
+          ],
+          "outcome": "body distended",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "he made a gale of foul wind to blow on her face, and entering through her mouth it filled her body"
+        },
+        {
+          "event_id": "mar_e9",
+          "order": 9,
+          "predicate": "adversary_pierced_with_weapon",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "spear",
+              "referent_kind": "weapon",
+              "referent": "spear"
+            },
+            {
+              "role": "patient",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            }
+          ],
+          "outcome": "Tiamat split asunder, womb falls out",
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "quote": "he drove his spear into her"
+        },
+        {
+          "event_id": "mar_e10",
+          "order": 10,
+          "predicate": "adversary_split_apart",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            }
+          ],
+          "outcome": "corpse available for use",
+          "evidence_passage": "babylonian_creation:s0006:p001",
+          "quote": "and Tiamat split asunder, and her womb fell out from it"
+        },
+        {
+          "event_id": "mar_e11",
+          "order": 11,
+          "predicate": "followers_captured_and_punished",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "patient",
+              "term": "the Eleven allies",
+              "referent_kind": "collective",
+              "referent": "tiamat allies"
+            },
+            {
+              "role": "instrument",
+              "term": "net",
+              "referent_kind": "weapon",
+              "referent": "net"
+            }
+          ],
+          "outcome": "allies trampled",
+          "evidence_passage": "babylonian_creation:s0006:p001",
+          "quote": "Marduk caught all the Eleven allies of Tiamat in his net, and he trampled upon them"
+        },
+        {
+          "event_id": "mar_e12",
+          "order": 12,
+          "predicate": "regalia_transferred_to_victor",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "patient",
+              "term": "Kingu",
+              "referent_kind": "monster",
+              "referent": "kingu"
+            },
+            {
+              "role": "instrument",
+              "term": "tablet of destinies",
+              "referent_kind": "regalia",
+              "referent": "tablet of destinies"
+            }
+          ],
+          "outcome": "sovereignty sealed on Marduk's breast",
+          "evidence_passage": "babylonian_creation:s0006:p001",
+          "quote": "Marduk then took the TABLET OF DESTINIES from Kingu's breast, and sealed it with his seal"
+        },
+        {
+          "event_id": "mar_e13",
+          "order": 13,
+          "predicate": "adversary_head_destroyed",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "patient",
+              "term": "Tiamat",
+              "referent_kind": "monster",
+              "referent": "tiamat"
+            },
+            {
+              "role": "instrument",
+              "term": "club",
+              "referent_kind": "weapon",
+              "referent": "club"
+            }
+          ],
+          "outcome": "skull smashed",
+          "evidence_passage": "babylonian_creation:s0006:p001",
+          "quote": "he smashed her skull with his club"
+        },
+        {
+          "event_id": "mar_e14",
+          "order": 14,
+          "predicate": "blood_scattered_to_wind",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Marduk",
+              "referent_kind": "deity",
+              "referent": "marduk"
+            },
+            {
+              "role": "instrument",
+              "term": "north wind",
+              "referent_kind": "force",
+              "referent": "north wind"
+            },
+            {
+              "role": "patient",
+              "term": "Tiamat's blood",
+              "referent_kind": "substance",
+              "referent": "tiamat's blood"
+            }
+          ],
+          "outcome": "command to scatter blood fulfilled; gifts received",
+          "evidence_passage": "babylonian_creation:s0006:p001",
+          "quote": "scattered her blood to the north wind"
+        }
+      ],
+      "causal_links": [
+        [
+          "mar_e1",
+          "mar_e2"
+        ],
+        [
+          "mar_e2",
+          "mar_e3"
+        ],
+        [
+          "mar_e3",
+          "mar_e4"
+        ],
+        [
+          "mar_e4",
+          "mar_e5"
+        ],
+        [
+          "mar_e5",
+          "mar_e6"
+        ],
+        [
+          "mar_e6",
+          "mar_e7"
+        ],
+        [
+          "mar_e7",
+          "mar_e8"
+        ],
+        [
+          "mar_e8",
+          "mar_e9"
+        ],
+        [
+          "mar_e9",
+          "mar_e10"
+        ],
+        [
+          "mar_e10",
+          "mar_e11"
+        ],
+        [
+          "mar_e11",
+          "mar_e12"
+        ],
+        [
+          "mar_e12",
+          "mar_e13"
+        ],
+        [
+          "mar_e13",
+          "mar_e14"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "SERPENT_OR_DRAGON_ADVERSARY",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0007:p000",
+          "note": "the same work's plate caption describes Tiamat 'represented in the form of a huge serpent'"
+        },
+        {
+          "motif_id": "STORM_WEAPON",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0006:p000"
+        },
+        {
+          "motif_id": "NET_OR_SNARE",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0006:p000"
+        },
+        {
+          "motif_id": "INCANTATION_DEFEATED",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0006:p000"
+        },
+        {
+          "motif_id": "BODY_DIVISION_CREATION",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0006:p000",
+          "note": "the command is to hack the body in pieces; the cosmogonic use of the halves is narrated in adjacent windows"
+        },
+        {
+          "motif_id": "BLOOD_SCATTERED_TO_WIND",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0006:p001"
+        },
+        {
+          "motif_id": "TABLET_OF_DESTINIES",
+          "count": 1,
+          "evidence_passage": "babylonian_creation:s0006:p001"
+        }
+      ],
+      "symbols": [
+        "net",
+        "storm",
+        "four winds",
+        "spear",
+        "club",
+        "tablet",
+        "serpent",
+        "blood",
+        "skull"
+      ],
+      "comparison_class": "storm_and_monster_combat"
+    },
+    {
+      "version_id": "zeus_typhoeus",
+      "label": "Zeus fights Typhoeus, Hesiod Theogony",
+      "work_id": "hesiod_homerica",
+      "tradition": "Greek",
+      "region": "Europe",
+      "source_language": "Greek, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "passages": [
+        "hesiod_homerica:s0045:p027",
+        "hesiod_homerica:s0045:p028"
+      ],
+      "events": [
+        {
+          "event_id": "zeu_e1",
+          "order": 1,
+          "predicate": "primordial_being_formed",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Earth",
+              "referent_kind": "deity",
+              "referent": "earth"
+            },
+            {
+              "role": "agent",
+              "term": "Tartarus",
+              "referent_kind": "place",
+              "referent": "tartarus"
+            },
+            {
+              "role": "patient",
+              "term": "Typhoeus",
+              "referent_kind": "monster",
+              "referent": "typhoeus"
+            }
+          ],
+          "outcome": "adversary generated after the Titans",
+          "evidence_passage": "hesiod_homerica:s0045:p027",
+          "quote": "when Zeus had driven the Titans from heaven, huge Earth bare her youngest child Typhoeus of the love of Tartarus"
+        },
+        {
+          "event_id": "zeu_e2",
+          "order": 2,
+          "predicate": "earth_sea_and_underworld_shaken",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Typhoeus",
+              "referent_kind": "monster",
+              "referent": "typhoeus"
+            },
+            {
+              "role": "patient",
+              "term": "earth sea heaven and Hades",
+              "referent_kind": "place",
+              "referent": "earth sea heaven and hades"
+            }
+          ],
+          "outcome": "cosmic clamour; near-victory of the monster",
+          "evidence_passage": "hesiod_homerica:s0045:p028",
+          "quote": "and he would have come to reign over mortals and immortals, had not the father of men and gods been quick to perceive it"
+        },
+        {
+          "event_id": "zeu_e3",
+          "order": 3,
+          "predicate": "champion_equips_with_weapons",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Zeus",
+              "referent_kind": "deity",
+              "referent": "zeus"
+            },
+            {
+              "role": "instrument",
+              "term": "thunder lightning and lurid thunderbolt",
+              "referent_kind": "weapons",
+              "referent": "thunder lightning and lurid thunderbolt"
+            }
+          ],
+          "outcome": "arms seized",
+          "evidence_passage": "hesiod_homerica:s0045:p028",
+          "quote": "when Zeus had raised up his might and seized his arms, thunder and lightning and lurid thunderbolt"
+        },
+        {
+          "event_id": "zeu_e4",
+          "order": 4,
+          "predicate": "adversary_struck_by_storm_weapon",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Zeus",
+              "referent_kind": "deity",
+              "referent": "zeus"
+            },
+            {
+              "role": "patient",
+              "term": "Typhoeus",
+              "referent_kind": "monster",
+              "referent": "typhoeus"
+            },
+            {
+              "role": "instrument",
+              "term": "thunderbolt",
+              "referent_kind": "weapon",
+              "referent": "thunderbolt"
+            }
+          ],
+          "outcome": "all heads burned",
+          "evidence_passage": "hesiod_homerica:s0045:p028",
+          "quote": "he leaped from Olympus and struck him, and burned all the marvellous heads of the monster about him"
+        },
+        {
+          "event_id": "zeu_e5",
+          "order": 5,
+          "predicate": "adversary_hurled_down",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Zeus",
+              "referent_kind": "deity",
+              "referent": "zeus"
+            },
+            {
+              "role": "patient",
+              "term": "Typhoeus",
+              "referent_kind": "monster",
+              "referent": "typhoeus"
+            },
+            {
+              "role": "place",
+              "term": "earth",
+              "referent_kind": "place",
+              "referent": "earth"
+            }
+          ],
+          "outcome": "maimed wreck, earth groans",
+          "evidence_passage": "hesiod_homerica:s0045:p028",
+          "quote": "when Zeus had conquered him and lashed him with strokes, Typhoeus was hurled down, a maimed wreck"
+        },
+        {
+          "event_id": "zeu_e6",
+          "order": 6,
+          "predicate": "heat_and_storm_engulf_landscape",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Typhoeus",
+              "referent_kind": "monster",
+              "referent": "typhoeus"
+            },
+            {
+              "role": "patient",
+              "term": "earth and mountains",
+              "referent_kind": "place",
+              "referent": "earth and mountains"
+            }
+          ],
+          "outcome": "land scorched and melted",
+          "evidence_passage": "hesiod_homerica:s0045:p028",
+          "quote": "A great part of huge earth was scorched by the terrible vapour and melted as tin melts"
+        }
+      ],
+      "causal_links": [
+        [
+          "zeu_e1",
+          "zeu_e2"
+        ],
+        [
+          "zeu_e2",
+          "zeu_e3"
+        ],
+        [
+          "zeu_e3",
+          "zeu_e4"
+        ],
+        [
+          "zeu_e4",
+          "zeu_e5"
+        ],
+        [
+          "zeu_e5",
+          "zeu_e6"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "SERPENT_OR_DRAGON_ADVERSARY",
+          "count": 1,
+          "evidence_passage": "hesiod_homerica:s0045:p027",
+          "note": "Typhoeus is a monster with dragon attributes; heads are attested in the cited window"
+        },
+        {
+          "motif_id": "MANY_HEADS",
+          "count": 1,
+          "evidence_passage": "hesiod_homerica:s0045:p028"
+        },
+        {
+          "motif_id": "STORM_WEAPON",
+          "count": 1,
+          "evidence_passage": "hesiod_homerica:s0045:p028"
+        },
+        {
+          "motif_id": "EARTH_TREMbles_AT_COMBAT",
+          "count": 1,
+          "evidence_passage": "hesiod_homerica:s0045:p028"
+        },
+        {
+          "motif_id": "HURL_TO_NETHER_PLACE",
+          "count": 1,
+          "evidence_passage": "hesiod_homerica:s0045:p028",
+          "note": "hurled down to the earth; the Tartarus destination is stated in the next window of the same section"
+        },
+        {
+          "motif_id": "BODY_DIVISION_CREATION",
+          "count": 0,
+          "evidence_passage": null
+        }
+      ],
+      "symbols": [
+        "thunderbolt",
+        "fire",
+        "storm winds",
+        "heads",
+        "mountains",
+        "sea",
+        "Tartarus"
+      ],
+      "comparison_class": "storm_and_monster_combat"
+    },
+    {
+      "version_id": "thor_fishing",
+      "label": "Thor fishes for the Midgard-serpent with Hymer, Gylfaginning",
+      "work_id": "younger_edda",
+      "tradition": "Norse",
+      "region": "Europe",
+      "source_language": "Old Norse, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "passages": [
+        "younger_edda:s0086:p000",
+        "younger_edda:s0086:p001"
+      ],
+      "events": [
+        {
+          "event_id": "tho_e1",
+          "order": 1,
+          "predicate": "revenge_journey_undertaken",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "place",
+              "term": "out of Midgard",
+              "referent_kind": "place",
+              "referent": "out of midgard"
+            }
+          ],
+          "outcome": "journey begun without chariot, goats or companions",
+          "evidence_passage": "younger_edda:s0086:p000",
+          "quote": "he took neither chariot, nor goats nor any companions with him"
+        },
+        {
+          "event_id": "tho_e2",
+          "order": 2,
+          "predicate": "guest_requests_dangerous_task",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "witness",
+              "term": "Hymer",
+              "referent_kind": "giant",
+              "referent": "hymer"
+            }
+          ],
+          "outcome": "giant mocks the small companion",
+          "evidence_passage": "younger_edda:s0086:p000",
+          "quote": "Hymer answered that he would get but little help from Thor, as he was so small and young"
+        },
+        {
+          "event_id": "tho_e3",
+          "order": 3,
+          "predicate": "bait_prepared_by_violence",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "patient",
+              "term": "Himinbrjot the ox",
+              "referent_kind": "animal",
+              "referent": "ox himinbrjot"
+            },
+            {
+              "role": "instrument",
+              "term": "ox head",
+              "referent_kind": "bait",
+              "referent": "ox head"
+            }
+          ],
+          "outcome": "largest ox beheaded for bait",
+          "evidence_passage": "younger_edda:s0086:p000",
+          "quote": "He took the largest ox, which was called Himinbrjot, twisted his head off and brought it down to the sea-strand"
+        },
+        {
+          "event_id": "tho_e4",
+          "order": 4,
+          "predicate": "vessel_rowed_past_warning",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "helper",
+              "term": "Hymer",
+              "referent_kind": "giant",
+              "referent": "hymer"
+            },
+            {
+              "role": "instrument",
+              "term": "boat",
+              "referent_kind": "vehicle",
+              "referent": "boat"
+            }
+          ],
+          "outcome": "rows beyond the giant's fishing ground despite the serpent warning",
+          "evidence_passage": "younger_edda:s0086:p000",
+          "quote": "it was dangerous to stay there, for the Midgard-serpent. Thor said he wished to row a while longer"
+        },
+        {
+          "event_id": "tho_e5",
+          "order": 5,
+          "predicate": "champion_equips_with_weapons",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "instrument",
+              "term": "strong line and hook",
+              "referent_kind": "weapons",
+              "referent": "strong line and hook"
+            }
+          ],
+          "outcome": "tackle made ready and cast overboard",
+          "evidence_passage": "younger_edda:s0086:p001",
+          "quote": "got ready a very strong line, and the hook was neither less nor weaker"
+        },
+        {
+          "event_id": "tho_e6",
+          "order": 6,
+          "predicate": "adversary_takes_bait",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Midgard-serpent",
+              "referent_kind": "monster",
+              "referent": "midgard serpent"
+            },
+            {
+              "role": "instrument",
+              "term": "ox head bait",
+              "referent_kind": "bait",
+              "referent": "ox head bait"
+            },
+            {
+              "role": "patient",
+              "term": "Midgard-serpent",
+              "referent_kind": "monster",
+              "referent": "midgard serpent"
+            }
+          ],
+          "outcome": "hook enters the palate",
+          "evidence_passage": "younger_edda:s0086:p001",
+          "quote": "The Midgard-serpent took the ox-head into his mouth, whereby the hook entered his palate"
+        },
+        {
+          "event_id": "tho_e7",
+          "order": 7,
+          "predicate": "adversary_dragged_upward",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "patient",
+              "term": "Midgard-serpent",
+              "referent_kind": "monster",
+              "referent": "midgard serpent"
+            },
+            {
+              "role": "place",
+              "term": "gunwale",
+              "referent_kind": "place",
+              "referent": "gunwale"
+            }
+          ],
+          "outcome": "feet through the boat's bottom, serpent at the gunwale",
+          "evidence_passage": "younger_edda:s0086:p001",
+          "quote": "He pulled the serpent up to the gunwale"
+        },
+        {
+          "event_id": "tho_e8",
+          "order": 8,
+          "predicate": "venom_expelled",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Midgard-serpent",
+              "referent_kind": "monster",
+              "referent": "midgard serpent"
+            },
+            {
+              "role": "patient",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            }
+          ],
+          "outcome": "venom spouted, water flows into the boat",
+          "evidence_passage": "younger_edda:s0086:p001",
+          "quote": "and the latter stared at him and spouted venom"
+        }
+      ],
+      "causal_links": [
+        [
+          "tho_e1",
+          "tho_e2"
+        ],
+        [
+          "tho_e2",
+          "tho_e3"
+        ],
+        [
+          "tho_e3",
+          "tho_e5"
+        ],
+        [
+          "tho_e4",
+          "tho_e6"
+        ],
+        [
+          "tho_e5",
+          "tho_e6"
+        ],
+        [
+          "tho_e6",
+          "tho_e7"
+        ],
+        [
+          "tho_e7",
+          "tho_e8"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "SERPENT_OR_DRAGON_ADVERSARY",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0086:p000"
+        },
+        {
+          "motif_id": "OX_HEAD_BAIT",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0086:p000"
+        },
+        {
+          "motif_id": "FISHING_LINE_AND_HOOK",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0086:p001"
+        },
+        {
+          "motif_id": "VENOM",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0086:p001"
+        },
+        {
+          "motif_id": "Serpent_encircles_world",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0086:p000",
+          "note": "named the Midgard-serpent, i.e. coiled about the world"
+        },
+        {
+          "motif_id": "STORM_WEAPON",
+          "count": 0,
+          "evidence_passage": null,
+          "note": "no hammer blow in this window; the hammer is restrained"
+        }
+      ],
+      "symbols": [
+        "ox head",
+        "line",
+        "hook",
+        "boat",
+        "gunwale",
+        "venom",
+        "sea",
+        "giant"
+      ],
+      "comparison_class": "storm_and_monster_combat"
+    },
+    {
+      "version_id": "thor_ragnarok_brief",
+      "label": "Thor and the Midgard-serpent at Ragnarok, as reported among the conflicting asas' accounts in Gylfaginning",
+      "work_id": "younger_edda",
+      "tradition": "Norse",
+      "region": "Europe",
+      "source_language": "Old Norse, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "partial",
+      "attestation_note": "The cited window is itself a meta-assertion about disagreement between sources ('the asas could not make up their minds'). Short attestation; absence of events is unassessed.",
+      "passages": [
+        "younger_edda:s0104:p000"
+      ],
+      "events": [
+        {
+          "event_id": "rag_e1",
+          "order": 1,
+          "predicate": "adversary_smites_champion",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Midgard serpent",
+              "referent_kind": "monster",
+              "referent": "midgard serpent"
+            },
+            {
+              "role": "patient",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            }
+          ],
+          "outcome": "Thor struck dead",
+          "evidence_passage": "younger_edda:s0104:p000",
+          "quote": "the Midgard serpent came suddenly upon Thor and blew venom onto him, and thus struck him dead"
+        },
+        {
+          "event_id": "rag_e2",
+          "order": 2,
+          "predicate": "venom_expelled",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Midgard serpent",
+              "referent_kind": "monster",
+              "referent": "midgard serpent"
+            },
+            {
+              "role": "patient",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            }
+          ],
+          "outcome": "venom as the means",
+          "evidence_passage": "younger_edda:s0104:p000",
+          "quote": "blew venom onto him"
+        },
+        {
+          "event_id": "rag_e3",
+          "order": 3,
+          "predicate": "giant_killed_afterwards",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Thor",
+              "referent_kind": "deity",
+              "referent": "thor"
+            },
+            {
+              "role": "patient",
+              "term": "Hymer",
+              "referent_kind": "giant",
+              "referent": "hymer"
+            }
+          ],
+          "outcome": "the giant slain when the serpent was missed",
+          "evidence_passage": "younger_edda:s0104:p000",
+          "quote": "when Oku-Thor missed the serpent, he slew the giant Hymer"
+        }
+      ],
+      "causal_links": [
+        [
+          "rag_e2",
+          "rag_e1"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "SERPENT_OR_DRAGON_ADVERSARY",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0104:p000"
+        },
+        {
+          "motif_id": "VENOM",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0104:p000"
+        },
+        {
+          "motif_id": "MUTUAL_DEATH",
+          "count": 1,
+          "evidence_passage": "younger_edda:s0104:p000",
+          "note": "the serpent also dies at the same meeting in the fuller account; here only Thor's death is stated, so mutual death is asserted from the cited line plus the champion's death"
+        }
+      ],
+      "symbols": [
+        "venom",
+        "serpent",
+        "doom of the gods"
+      ],
+      "comparison_class": "storm_and_monster_combat"
+    },
+    {
+      "version_id": "indra_vritra_allusive",
+      "label": "Indra's thunderbolt against Vritra, referred to in the Mahabharata's account of the bolt's fragments",
+      "work_id": "mahabharata_v1",
+      "tradition": "Hindu",
+      "region": "South Asia",
+      "source_language": "Sanskrit, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "partial",
+      "attestation_note": "This window alludes to the combat in order to explain why the bolt's fragments are worshipped; the full fight sequence (Indra drinking Soma, Vritra hidden in the waters, the begetting of the bolt by Tvashtri) is NOT attested here. All scores for this version must be read with attestation_completeness=partial.",
+      "passages": [
+        "mahabharata_v1:s0194:p003"
+      ],
+      "events": [
+        {
+          "event_id": "ind_e1",
+          "order": 1,
+          "predicate": "champion_equips_with_weapons",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Indra",
+              "referent_kind": "deity",
+              "referent": "indra"
+            },
+            {
+              "role": "instrument",
+              "term": "thunderbolt",
+              "referent_kind": "weapon",
+              "referent": "thunderbolt"
+            }
+          ],
+          "outcome": "weapon destined to slay Vritra",
+          "evidence_passage": "mahabharata_v1:s0194:p003",
+          "quote": "slay (the Asura) Vritra with it"
+        },
+        {
+          "event_id": "ind_e2",
+          "order": 2,
+          "predicate": "adversary_struck_by_storm_weapon",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Indra",
+              "referent_kind": "deity",
+              "referent": "indra"
+            },
+            {
+              "role": "patient",
+              "term": "Vritra",
+              "referent_kind": "asura",
+              "referent": "vritra"
+            },
+            {
+              "role": "instrument",
+              "term": "thunderbolt",
+              "referent_kind": "weapon",
+              "referent": "thunderbolt"
+            }
+          ],
+          "outcome": "bolt hurled at the head",
+          "evidence_passage": "mahabharata_v1:s0194:p003",
+          "quote": "But hurled at Vritra's head it broke in a thousand pieces"
+        },
+        {
+          "event_id": "ind_e3",
+          "order": 3,
+          "predicate": "weapon_fragments_from_impact",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "thunderbolt fragments",
+              "referent_kind": "substance",
+              "referent": "thunderbolt fragments"
+            },
+            {
+              "role": "witness",
+              "term": "the celestials",
+              "referent_kind": "collective",
+              "referent": "the celestials"
+            }
+          ],
+          "outcome": "fragments worshipped; glory explained",
+          "evidence_passage": "mahabharata_v1:s0194:p003",
+          "quote": "The celestials worship with reverence those fragments of the thunderbolt"
+        }
+      ],
+      "causal_links": [
+        [
+          "ind_e1",
+          "ind_e2"
+        ],
+        [
+          "ind_e2",
+          "ind_e3"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "STORM_WEAPON",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0194:p003"
+        },
+        {
+          "motif_id": "WEAPON_FRAGMENTS_AETIOLOGY",
+          "count": 1,
+          "evidence_passage": "mahabharata_v1:s0194:p003"
+        },
+        {
+          "motif_id": "SERPENT_OR_DRAGON_ADVERSARY",
+          "count": 0,
+          "evidence_passage": null,
+          "note": "Vritra is an Asura who obstructs waters; the serpent identification is not stated in this window, so it is unassessed rather than absent"
+        },
+        {
+          "motif_id": "MANY_HEADS",
+          "count": 0,
+          "evidence_passage": null
+        }
+      ],
+      "symbols": [
+        "thunderbolt",
+        "fragments",
+        "asura"
+      ],
+      "comparison_class": "storm_and_monster_combat"
+    },
+    {
+      "version_id": "ymir_body",
+      "label": "The world made from Ymir's body, Vafthruthnismol stanzas 21-22 with Bellows's notes",
+      "work_id": "poetic_edda_bellows",
+      "tradition": "Norse",
+      "region": "Europe",
+      "source_language": "Old Norse, English translation with notes",
+      "review_state": "source_verified",
+      "attestation_completeness": "partial",
+      "attestation_note": "The verse states the cosmogonic result, not the killing. Bellows's note at poetic_edda_bellows:s0368:p000 attests that the gods slew Ymir to make the world and that his blood drowned all the giants but Bergelmir. The killing event is coded to the note, which is secondary literature about the source; that status is recorded so it cannot be mistaken for attestation.",
+      "passages": [
+        "poetic_edda_bellows:s0352:p001",
+        "poetic_edda_bellows:s0368:p000",
+        "poetic_edda_bellows:s0422:p000",
+        "poetic_edda_bellows:s0009:p000"
+      ],
+      "events": [
+        {
+          "event_id": "ymir_e1",
+          "order": 1,
+          "predicate": "primordial_body_exists_before_world",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "Ymir",
+              "referent_kind": "giant",
+              "referent": "ymir"
+            }
+          ],
+          "outcome": "a world-free age in which Ymir lived",
+          "evidence_passage": "poetic_edda_bellows:s0009:p000",
+          "quote": "Of old was the age | when Ymir lived; Sea nor cool waves | nor sand there were"
+        },
+        {
+          "event_id": "ymir_e2",
+          "order": 2,
+          "predicate": "adversary_head_destroyed",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the gods",
+              "referent_kind": "collective",
+              "referent": "assembly of gods"
+            },
+            {
+              "role": "patient",
+              "term": "Ymir",
+              "referent_kind": "giant",
+              "referent": "ymir"
+            }
+          ],
+          "outcome": "killed so the world can be made",
+          "evidence_passage": "poetic_edda_bellows:s0368:p000",
+          "quote": "when the gods slew Ymir in order to make the world out of his body",
+          "evidence_kind": "translator_note_about_source"
+        },
+        {
+          "event_id": "ymir_e3",
+          "order": 3,
+          "predicate": "world_fashioned_from_body_parts",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the gods",
+              "referent_kind": "collective",
+              "referent": "assembly of gods"
+            },
+            {
+              "role": "patient",
+              "term": "Ymir's flesh",
+              "referent_kind": "substance",
+              "referent": "ymir's flesh"
+            },
+            {
+              "role": "product",
+              "term": "earth",
+              "referent_kind": "place",
+              "referent": "earth"
+            }
+          ],
+          "outcome": "earth from flesh",
+          "evidence_passage": "poetic_edda_bellows:s0352:p001",
+          "quote": "Out of Ymir's flesh | was fashioned the earth, And the mountains were made of his bones"
+        },
+        {
+          "event_id": "ymir_e4",
+          "order": 4,
+          "predicate": "world_fashioned_from_body_parts",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the gods",
+              "referent_kind": "collective",
+              "referent": "assembly of gods"
+            },
+            {
+              "role": "patient",
+              "term": "Ymir's skull",
+              "referent_kind": "substance",
+              "referent": "ymir's skull"
+            },
+            {
+              "role": "product",
+              "term": "sky",
+              "referent_kind": "place",
+              "referent": "sky"
+            }
+          ],
+          "outcome": "sky from skull",
+          "evidence_passage": "poetic_edda_bellows:s0352:p001",
+          "quote": "The sky from the frost-cold | giant's skull"
+        },
+        {
+          "event_id": "ymir_e5",
+          "order": 5,
+          "predicate": "world_fashioned_from_body_parts",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "the gods",
+              "referent_kind": "collective",
+              "referent": "assembly of gods"
+            },
+            {
+              "role": "patient",
+              "term": "Ymir's blood",
+              "referent_kind": "substance",
+              "referent": "ymir's blood"
+            },
+            {
+              "role": "product",
+              "term": "ocean",
+              "referent_kind": "place",
+              "referent": "ocean"
+            }
+          ],
+          "outcome": "sea from blood",
+          "evidence_passage": "poetic_edda_bellows:s0422:p000",
+          "quote": "Out of Ymir's flesh | was fashioned the earth, And the ocean out of his blood"
+        }
+      ],
+      "causal_links": [
+        [
+          "ymir_e2",
+          "ymir_e3"
+        ],
+        [
+          "ymir_e3",
+          "ymir_e4"
+        ],
+        [
+          "ymir_e4",
+          "ymir_e5"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "WORLD_FROM_GIANT_BODY",
+          "count": 3,
+          "evidence_passage": "poetic_edda_bellows:s0352:p001"
+        },
+        {
+          "motif_id": "BODY_DIVISION_CREATION",
+          "count": 1,
+          "evidence_passage": "poetic_edda_bellows:s0368:p000"
+        },
+        {
+          "motif_id": "BLOOD_SCATTERED_TO_WIND",
+          "count": 0,
+          "evidence_passage": null
+        }
+      ],
+      "symbols": [
+        "flesh",
+        "bones",
+        "skull",
+        "blood",
+        "earth",
+        "sky",
+        "ocean",
+        "frost"
+      ],
+      "comparison_class": "cosmogony_from_body"
+    },
+    {
+      "version_id": "pangu_body",
+      "label": "P'an Ku chisels the universe and his body becomes the world",
+      "work_id": "myths_legends_china",
+      "tradition": "Chinese",
+      "region": "East Asia",
+      "source_language": "Chinese sources, English compilation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "attestation_note": "The cited window presents this as 'the most conspicuous figure in Chinese cosmogony' and names competing readings of the name; the compiler is summarising, so this witness is a secondary compilation rather than a primary translation.",
+      "passages": [
+        "myths_legends_china:s0018:p000"
+      ],
+      "events": [
+        {
+          "event_id": "pan_e1",
+          "order": 1,
+          "predicate": "primordial_being_formed",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "yin and yang",
+              "referent_kind": "force",
+              "referent": "yin and yang"
+            },
+            {
+              "role": "patient",
+              "term": "P'an Ku",
+              "referent_kind": "creator",
+              "referent": "p'an ku"
+            }
+          ],
+          "outcome": "the original dual powers produce the fashioner",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "having in some incomprehensible way produced him, set him the task of giving form to Chaos"
+        },
+        {
+          "event_id": "pan_e2",
+          "order": 2,
+          "predicate": "creator_shapes_chaos_with_tools",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "P'an Ku",
+              "referent_kind": "creator",
+              "referent": "p'an ku"
+            },
+            {
+              "role": "instrument",
+              "term": "hammer and chisel",
+              "referent_kind": "tools",
+              "referent": "hammer and chisel"
+            },
+            {
+              "role": "patient",
+              "term": "Chaos",
+              "referent_kind": "matter",
+              "referent": "chaos"
+            }
+          ],
+          "outcome": "universe chiselled out of chaos",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "He it was who chiselled the universe out of Chaos"
+        },
+        {
+          "event_id": "pan_e3",
+          "order": 3,
+          "predicate": "cosmic_luminaries_arranged",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "P'an Ku",
+              "referent_kind": "creator",
+              "referent": "p'an ku"
+            },
+            {
+              "role": "product",
+              "term": "sun moon stars heavens earth",
+              "referent_kind": "place",
+              "referent": "sun moon stars heavens earth"
+            }
+          ],
+          "outcome": "heaven and earth formed",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "he formed the sun, moon, and stars, the heavens and the earth"
+        },
+        {
+          "event_id": "pan_e4",
+          "order": 4,
+          "predicate": "creator_grows_during_labour",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "P'an Ku",
+              "referent_kind": "creator",
+              "referent": "p'an ku"
+            }
+          ],
+          "outcome": "stature increases six feet daily",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "himself increasing in stature day by day, being daily six feet taller than the day before"
+        },
+        {
+          "event_id": "pan_e5",
+          "order": 5,
+          "predicate": "numbered_period_of_labour",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "P'an Ku",
+              "referent_kind": "creator",
+              "referent": "p'an ku"
+            }
+          ],
+          "outcome": "task lasts eighteen thousand years",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "His task occupied eighteen thousand years"
+        },
+        {
+          "event_id": "pan_e6",
+          "order": 6,
+          "predicate": "creator_dies_and_body_becomes_world",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "P'an Ku",
+              "referent_kind": "creator",
+              "referent": "p'an ku"
+            }
+          ],
+          "outcome": "death so that his works might live",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "until, his labours ended, he died that his works might live"
+        },
+        {
+          "event_id": "pan_e7",
+          "order": 7,
+          "predicate": "world_fashioned_from_body_parts",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "P'an Ku's body parts",
+              "referent_kind": "substance",
+              "referent": "p'an ku's body parts"
+            },
+            {
+              "role": "product",
+              "term": "mountains wind clouds thunder quarters rivers soil constellations trees metals",
+              "referent_kind": "place",
+              "referent": "mountains wind clouds thunder quarters rivers soil constellations trees metals"
+            }
+          ],
+          "outcome": "each part assigned a cosmic function",
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "quote": "His head became the mountains, his breath the wind and clouds, his voice the thunder, his limbs the four quarters of the earth, his blood the rivers"
+        }
+      ],
+      "causal_links": [
+        [
+          "pan_e1",
+          "pan_e2"
+        ],
+        [
+          "pan_e2",
+          "pan_e3"
+        ],
+        [
+          "pan_e3",
+          "pan_e4"
+        ],
+        [
+          "pan_e4",
+          "pan_e6"
+        ],
+        [
+          "pan_e5",
+          "pan_e6"
+        ],
+        [
+          "pan_e6",
+          "pan_e7"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "CRAFT_TOOL_CREATION",
+          "count": 1,
+          "evidence_passage": "myths_legends_china:s0018:p000"
+        },
+        {
+          "motif_id": "WORLD_FROM_GIANT_BODY",
+          "count": 1,
+          "evidence_passage": "myths_legends_china:s0018:p000"
+        },
+        {
+          "motif_id": "CREATOR_DIES_FOR_WORLD",
+          "count": 1,
+          "evidence_passage": "myths_legends_china:s0018:p000"
+        },
+        {
+          "motif_id": "EGG_OR_SHELL_ORIGIN",
+          "count": 1,
+          "evidence_passage": "myths_legends_china:s0018:p000",
+          "note": "'P'an' given as 'the shell of an egg', hatched from Chaos"
+        },
+        {
+          "motif_id": "NUMBERED_PERIOD_OF_LABOUR",
+          "count": 1,
+          "evidence_passage": "myths_legends_china:s0018:p000"
+        },
+        {
+          "motif_id": "LUMINARY_ARRANGEMENT",
+          "count": 1,
+          "evidence_passage": "myths_legends_china:s0018:p000"
+        }
+      ],
+      "symbols": [
+        "hammer",
+        "chisel",
+        "egg shell",
+        "yin and yang",
+        "sun",
+        "moon",
+        "head",
+        "breath",
+        "voice",
+        "blood",
+        "bones"
+      ],
+      "comparison_class": "cosmogony_from_body"
+    },
+    {
+      "version_id": "taliesin_mabinogion",
+      "label": "Ceridwen's cauldron and Gwion Bach, Mabinogion (Lady Charlotte Guest)",
+      "work_id": "mabinogion",
+      "tradition": "Welsh",
+      "region": "Europe",
+      "source_language": "Welsh, English translation",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "passages": [
+        "mabinogion:s0018:p000"
+      ],
+      "events": [
+        {
+          "event_id": "tal_e1",
+          "order": 1,
+          "predicate": "family_established_at_named_place",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "Tegid Voel",
+              "referent_kind": "human",
+              "referent": "tegid voel"
+            },
+            {
+              "role": "patient",
+              "term": "Caridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "place",
+              "term": "the lake Tegid in Penllyn",
+              "referent_kind": "place",
+              "referent": "the lake tegid in penllyn"
+            }
+          ],
+          "outcome": "household located in the lake",
+          "evidence_passage": "mabinogion:s0018:p000",
+          "quote": "there lived in Penllyn a man of gentle lineage, named Tegid Voel, and his dwelling was in the midst of the lake Tegid"
+        },
+        {
+          "event_id": "tal_e2",
+          "order": 2,
+          "predicate": "children_born_including_ugly_son",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "Avagddu",
+              "referent_kind": "human",
+              "referent": "avagddu"
+            },
+            {
+              "role": "beneficiary",
+              "term": "Morvran and Creirwy",
+              "referent_kind": "human",
+              "referent": "morvran and creirwy"
+            }
+          ],
+          "outcome": "an ill-favoured brother among beautiful children",
+          "evidence_passage": "mabinogion:s0018:p000",
+          "quote": "they had a brother, the most ill-favoured man in the world, Avagddu"
+        },
+        {
+          "event_id": "tal_e3",
+          "order": 3,
+          "predicate": "motive_to_compensate_by_knowledge",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Caridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "beneficiary",
+              "term": "Avagddu",
+              "referent_kind": "human",
+              "referent": "avagddu"
+            }
+          ],
+          "outcome": "honour to be bought with wisdom",
+          "evidence_passage": "mabinogion:s0018:p000",
+          "quote": "unless he had some exalted merits or knowledge"
+        },
+        {
+          "event_id": "tal_e4",
+          "order": 4,
+          "predicate": "vessel_boils_prescribed_term",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Caridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "instrument",
+              "term": "cauldron of Inspiration and Science",
+              "referent_kind": "vessel",
+              "referent": "cauldron of inspiration and science"
+            }
+          ],
+          "outcome": "must boil a year and a day for three blessed drops",
+          "evidence_passage": "mabinogion:s0018:p000",
+          "quote": "which from the beginning of its boiling might not cease to boil for a year and a day, until three blessed drops were obtained"
+        },
+        {
+          "event_id": "tal_e5",
+          "order": 5,
+          "predicate": "assistants_charge_keeping",
+          "participants": [
+            {
+              "role": "helper",
+              "term": "Gwion Bach",
+              "referent_kind": "human",
+              "referent": "gwion bach"
+            },
+            {
+              "role": "helper",
+              "term": "Morda the blind man",
+              "referent_kind": "human",
+              "referent": "morda the blind man"
+            },
+            {
+              "role": "recipient",
+              "term": "Caridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            }
+          ],
+          "outcome": "stirrer and fire-tender charged not to let it cease",
+          "evidence_passage": "mabinogion:s0018:p000",
+          "quote": "she put Gwion Bach ... to stir the cauldron, and a blind man named Morda to kindle the fire beneath it"
+        },
+        {
+          "event_id": "tal_e6",
+          "order": 6,
+          "predicate": "timing_by_astrology",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Caridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "instrument",
+              "term": "books of the astronomers",
+              "referent_kind": "knowledge",
+              "referent": "books of the astronomers"
+            }
+          ],
+          "outcome": "charm-bearing herbs gathered in planetary hours",
+          "evidence_passage": "mabinogion:s0018:p000",
+          "quote": "according to the books of the astronomers, and in planetary hours, gathered every day of all charm-bearing herbs"
+        }
+      ],
+      "causal_links": [
+        [
+          "tal_e2",
+          "tal_e3"
+        ],
+        [
+          "tal_e3",
+          "tal_e4"
+        ],
+        [
+          "tal_e4",
+          "tal_e5"
+        ],
+        [
+          "tal_e5",
+          "tal_e6"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "CAULDRON_OF_INSPIRATION",
+          "count": 1,
+          "evidence_passage": "mabinogion:s0018:p000"
+        },
+        {
+          "motif_id": "YEAR_AND_A_DAY",
+          "count": 1,
+          "evidence_passage": "mabinogion:s0018:p000"
+        },
+        {
+          "motif_id": "THREE_DROPS_OF_GRACE",
+          "count": 1,
+          "evidence_passage": "mabinogion:s0018:p000"
+        },
+        {
+          "motif_id": "BLIND_FIRE_TENDER",
+          "count": 1,
+          "evidence_passage": "mabinogion:s0018:p000"
+        },
+        {
+          "motif_id": "UGLY_CHILD_SEEKING_WISDOM",
+          "count": 1,
+          "evidence_passage": "mabinogion:s0018:p000"
+        }
+      ],
+      "symbols": [
+        "cauldron",
+        "lake",
+        "herbs",
+        "fire",
+        "stars and planetary hours"
+      ],
+      "comparison_class": "wisdom_transfer"
+    },
+    {
+      "version_id": "taliesin_celtic_myths",
+      "label": "The same Taliesin origin story retold in Myths and Legends of the Celtic Race",
+      "work_id": "celtic_myths",
+      "tradition": "Multiple Celtic",
+      "region": "Europe",
+      "source_language": "English secondary compilation of Welsh material",
+      "review_state": "source_verified",
+      "attestation_completeness": "full",
+      "attestation_note": "Dependent witness: a secondary retelling of the same Welsh material, with numbered cross-references to the primary text. Included as a positive control for source-dependence detection.",
+      "independent_witness": false,
+      "passages": [
+        "celtic_myths:s0049:p000"
+      ],
+      "events": [
+        {
+          "event_id": "cel_e1",
+          "order": 1,
+          "predicate": "family_established_at_named_place",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "Tegid Voel",
+              "referent_kind": "human",
+              "referent": "tegid voel"
+            },
+            {
+              "role": "patient",
+              "term": "Ceridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "place",
+              "term": "Penllyn",
+              "referent_kind": "place",
+              "referent": "penllyn"
+            }
+          ],
+          "outcome": "named household placed in Arthur's time",
+          "evidence_passage": "celtic_myths:s0049:p000",
+          "quote": "a man named Tegid Voel of Penllyn, whose wife was named Ceridwen"
+        },
+        {
+          "event_id": "cel_e2",
+          "order": 2,
+          "predicate": "children_born_including_ugly_son",
+          "participants": [
+            {
+              "role": "patient",
+              "term": "Avagddu",
+              "referent_kind": "human",
+              "referent": "avagddu"
+            }
+          ],
+          "outcome": "the most ill-favoured man in the world",
+          "evidence_passage": "celtic_myths:s0049:p000",
+          "quote": "They have a son named Avagddu, who was the most ill-favoured man in the world"
+        },
+        {
+          "event_id": "cel_e3",
+          "order": 3,
+          "predicate": "motive_to_compensate_by_knowledge",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Ceridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "beneficiary",
+              "term": "Avagddu",
+              "referent_kind": "human",
+              "referent": "avagddu"
+            }
+          ],
+          "outcome": "to make him a sage to compensate for ugliness",
+          "evidence_passage": "celtic_myths:s0049:p000",
+          "quote": "To compensate for his lack of beauty, his mother resolved to make him a sage"
+        },
+        {
+          "event_id": "cel_e4",
+          "order": 4,
+          "predicate": "vessel_boils_prescribed_term",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Ceridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "instrument",
+              "term": "cauldron of inspiration and science",
+              "referent_kind": "vessel",
+              "referent": "cauldron of inspiration and science"
+            }
+          ],
+          "outcome": "the great Celtic source of magical influence used",
+          "evidence_passage": "celtic_myths:s0049:p000",
+          "quote": "she had recourse to the great Celtic source of magical influence"
+        },
+        {
+          "event_id": "cel_e5",
+          "order": 5,
+          "predicate": "timing_by_astrology",
+          "participants": [
+            {
+              "role": "agent",
+              "term": "Ceridwen",
+              "referent_kind": "human",
+              "referent": "ceridwen"
+            },
+            {
+              "role": "instrument",
+              "term": "the art of the books of Feryllt",
+              "referent_kind": "knowledge",
+              "referent": "the art of the books of feryllt"
+            }
+          ],
+          "outcome": "procedure justified by a learned authority",
+          "evidence_passage": "celtic_myths:s0049:p000",
+          "quote": "according to the art of the books of Feryllt"
+        }
+      ],
+      "causal_links": [
+        [
+          "cel_e2",
+          "cel_e3"
+        ],
+        [
+          "cel_e3",
+          "cel_e4"
+        ],
+        [
+          "cel_e4",
+          "cel_e5"
+        ]
+      ],
+      "motifs": [
+        {
+          "motif_id": "CAULDRON_OF_INSPIRATION",
+          "count": 1,
+          "evidence_passage": "celtic_myths:s0049:p000"
+        },
+        {
+          "motif_id": "UGLY_CHILD_SEEKING_WISDOM",
+          "count": 1,
+          "evidence_passage": "celtic_myths:s0049:p000"
+        },
+        {
+          "motif_id": "YEAR_AND_A_DAY",
+          "count": 0,
+          "evidence_passage": null,
+          "note": "stated later in the same section; not in the cited window"
+        },
+        {
+          "motif_id": "THREE_DROPS_OF_GRACE",
+          "count": 0,
+          "evidence_passage": null
+        },
+        {
+          "motif_id": "BLIND_FIRE_TENDER",
+          "count": 0,
+          "evidence_passage": null
+        }
+      ],
+      "symbols": [
+        "cauldron",
+        "lake",
+        "beauty",
+        "sagehood"
+      ],
+      "comparison_class": "wisdom_transfer"
+    }
+  ],
+  "expected_relation_annotations": {
+    "note": "Analyst expectations recorded BEFORE running the components, so the outputs can be checked against them rather than fitted to them.",
+    "same_narrative_dependent_witnesses": [
+      [
+        "manu_fish_mahabharata",
+        "manu_fish_doublet"
+      ],
+      [
+        "taliesin_mabinogion",
+        "taliesin_celtic_myths"
+      ]
+    ],
+    "same_tradition_different_episode": [
+      [
+        "thor_fishing",
+        "thor_ragnarok_brief"
+      ]
+    ],
+    "same_class_different_tradition_to_test": [
+      [
+        "marduk_tiamat",
+        "zeus_typhoeus"
+      ],
+      [
+        "marduk_tiamat",
+        "thor_fishing"
+      ],
+      [
+        "zeus_typhoeus",
+        "thor_fishing"
+      ],
+      [
+        "noah_kjv",
+        "manu_fish_mahabharata"
+      ],
+      [
+        "noah_kjv",
+        "gilgamesh_flood_tablet_fragment"
+      ],
+      [
+        "manu_fish_mahabharata",
+        "popol_vuh_wooden_people"
+      ],
+      [
+        "ymir_body",
+        "pangu_body"
+      ],
+      [
+        "ymir_body",
+        "marduk_tiamat"
+      ],
+      [
+        "indra_vritra_allusive",
+        "thor_fishing"
+      ],
+      [
+        "indra_vritra_allusive",
+        "marduk_tiamat"
+      ]
+    ],
+    "predicted_unrelated_negative": [
+      [
+        "pangu_body",
+        "thor_fishing"
+      ],
+      [
+        "popol_vuh_wooden_people",
+        "taliesin_mabinogion"
+      ],
+      [
+        "indra_vritra_allusive",
+        "noah_kjv"
+      ],
+      [
+        "pangu_body",
+        "noah_kjv"
+      ],
+      [
+        "thor_ragnarok_brief",
+        "popol_vuh_wooden_people"
+      ],
+      [
+        "ymir_body",
+        "popol_vuh_wooden_people"
+      ]
+    ]
+  }
+}

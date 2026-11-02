@@ -1,0 +1,66 @@
+work_id,gutenberg_id,tradition,region,source_role,original_language,overlap_group,cautions
+kjv_bible,10,Jewish and Christian,West Asia and Europe,scripture,Hebrew Aramaic Greek,,English translation; books require individual dating
+quran_sale,2800,Islam,West Asia,scripture,Arabic,quran_sale,George Sale translation; historical terminology requires review
+book_of_mormon,17,Latter-day Saint,North America,scripture,English,,Modern composition claims and historical claims require separate treatment
+book_of_enoch,77815,Jewish and Christian,East Africa and West Asia,scripture,Ge'ez Aramaic Hebrew,,Translation and textual history require specialist review
+legends_of_the_jews_v1,1493,Jewish,West Asia and Europe,modern_compilation,Hebrew Aramaic,,Modern compilation; not equivalent to ancient primary sources
+bhagavad_gita_arnold,2388,Hindu,South Asia,epic_excerpt,Sanskrit,,Poetic English translation embedded in Mahabharata tradition
+mahabharata_v1,15474,Hindu,South Asia,epic,Sanskrit,,Volume one only; multiple recensions and layers
+ramayana_griffith,24869,Hindu,South Asia,epic,Sanskrit,,English verse translation; multiple recensions
+upanishads_mead,3283,Hindu,South Asia,philosophical_scripture,Sanskrit,,Selected translation; not a complete canon
+dhammapada_muller,2017,Buddhist,South Asia,scripture,Pali,dhammapada,Verse text included as a non-narrative-heavy control
+jataka_v1,51880,Buddhist,South Asia,birth_stories,Pali,,Translation and framing narrative require source review
+sacred_books_east,12894,Multiple,South Asia and West Asia,anthology,Sanskrit Avestan Pali Arabic,sbe_anthology,Deliberate overlap control; editorial commentary mixed with translations
+younger_edda,18947,Norse,Europe,mythological_handbook,Old Norse,snorri,Medieval authorship and euhemerizing frames require review
+poetic_edda_bellows,73533,Norse,Europe,poetic_collection,Old Norse,,Poems have different dates and manuscript histories
+volsunga_saga,1152,Norse,Europe,legendary_saga,Old Norse,,Literary compilation with related poetic material
+beowulf,16328,Germanic,Europe,epic,Old English,,Heroic narrative control; dating is debated
+kalevala,5186,Finnic,Europe,modern_epic,Karelian Finnish,,Nineteenth-century compilation from oral materials
+mabinogion,5160,Welsh,Europe,medieval_prose,Middle Welsh,,Tales have distinct manuscript and composition histories
+hesiod_homerica,348,Greek,Europe,poetic_collection,Ancient Greek,,Includes multiple works and authors; segment before interpretation
+iliad,6130,Greek,Europe,epic,Ancient Greek,,Heroic narrative control
+odyssey,1727,Greek,Europe,epic,Ancient Greek,,Heroic narrative control
+babylonian_creation,9914,Mesopotamian,West Asia,translation_and_commentary,Akkadian Sumerian,,Early twentieth-century decipherment and commentary require updating
+chaldean_genesis,60559,Mesopotamian,West Asia,translation_and_commentary,Akkadian,,Historical work; comparisons are not independent primary evidence
+popol_vuh,56550,K'iche' Maya,Central America,historical_translation,K'iche',,Early-modern recording and colonial transmission require review
+myths_mexico_peru,53080,Multiple Mesoamerican and Andean,Central and South America,secondary_retelling,Multiple,,Secondary early twentieth-century synthesis; verify every narrative
+north_american_oral_legends,21620,Multiple Indigenous North American,North America,historical_ethnography,Multiple,,Nineteenth-century collector context and community review required
+myths_north_american,42390,Multiple Indigenous North American,North America,secondary_retelling,Multiple,,Secondary synthesis; not direct community-authorized attestation
+maui_legends,32601,Polynesian,Oceania,historical_ethnography,Multiple Polynesian languages,,Collector context and island-specific variants require review
+euahlayi_tribe,3819,Euahlayi,Oceania,historical_ethnography,Euahlayi English,,Colonial ethnography; cultural protocols and community authority apply
+bantu_folklore,67597,Multiple Bantu communities,Sub-Saharan Africa,historical_ethnography,Multiple,,Collector terminology and broad Bantu grouping require critical review
+celtic_myths,34081,Multiple Celtic,Europe,secondary_retelling,Multiple,,Secondary synthesis; verify against primary texts
+chinese_folklore,76198,Chinese,East Asia,historical_ethnography,Chinese,,Historical comparative framework requires critical review
+arabian_nights,128,Multiple West and South Asian,West Asia and South Asia,literary_collection,Arabic Persian Sanskrit,,Narrative control with complex compilation history
+mahabharata_v2,15475,Hindu,South Asia,epic,Sanskrit,,Volume two; multiple recensions and layers
+mahabharata_v3,15476,Hindu,South Asia,epic,Sanskrit,,Volume three; multiple recensions and layers
+mahabharata_v4,15477,Hindu,South Asia,epic,Sanskrit,,Volume four; multiple recensions and layers
+mahabharata_7864,7864,Hindu,South Asia,epic,Sanskrit,,Additional Ganguli translation volume; identify internal parvan before analysis
+mahabharata_11894,11894,Hindu,South Asia,epic,Sanskrit,,Additional Ganguli translation volume; identify internal parvan before analysis
+mahabharata_12058,12058,Hindu,South Asia,epic,Sanskrit,,Additional Ganguli translation volume; identify internal parvan before analysis
+mahabharata_12333,12333,Hindu,South Asia,epic,Sanskrit,,Additional Ganguli translation volume; identify internal parvan before analysis
+mahabharata_7965,7965,Hindu,South Asia,epic,Sanskrit,,Additional Ganguli translation volume; identify internal parvan before analysis
+vishnu_purana,66208,Hindu,South Asia,purana,Sanskrit,,English prose translation; manuscript and sectarian history require review
+south_african_folk_tales,38339,Multiple Southern African,Sub-Saharan Africa,historical_ethnography,Multiple,,Colonial collection context and community-specific provenance require review
+zulu_customs_folklore,46501,Zulu,Sub-Saharan Africa,historical_ethnography,isiZulu English,,Historical ethnography; community authority and collector framing require review
+west_african_folk_tales,66923,Multiple West African,Sub-Saharan Africa,historical_ethnography,Multiple,,Collector context and community-specific provenance require review
+where_animals_talk,58900,Multiple West African,Sub-Saharan Africa,historical_ethnography,Multiple,,Historical collection; terminology and transmission context require review
+cunnie_rabbit,48828,Multiple Sierra Leonean,Sub-Saharan Africa,historical_ethnography,Multiple,,Colonial collection context and community-specific provenance require review
+maori_port_hills,73766,Māori,Oceania,historical_ethnography,Māori English,,Colonial collection context and iwi-specific authority require review
+australian_legendary_tales,3833,Multiple Aboriginal Australian,Oceania,historical_ethnography,Multiple,,Colonial ethnography; cultural protocols and community authority apply
+myths_legends_china,15250,Chinese,East Asia,secondary_retelling,Chinese,,Secondary synthesis; verify narratives against identified primary sources
+strange_stories_chinese,43629,Chinese,East Asia,literary_collection,Classical Chinese,,English translation; literary tales are not uniform religious testimony
+chinese_fairy_book,29939,Chinese,East Asia,historical_collection,Chinese,,Historical collection; editorial adaptation and source provenance require review
+chinese_wonder_book,18674,Chinese,East Asia,secondary_retelling,Chinese,,Adapted tales; verify against identified sources before historical claims
+japanese_fairy_tales,4018,Japanese,East Asia,literary_collection,Japanese,,English collection; tale-specific sources and adaptation require review
+myths_legends_japan,45723,Japanese,East Asia,secondary_retelling,Japanese,,Secondary synthesis; verify narratives against identified primary sources
+filipino_popular_tales,8299,Multiple Philippine,Southeast Asia,historical_ethnography,Multiple,,Collector framing and community-specific variants require review
+philippine_folk_tales,12814,Multiple Philippine,Southeast Asia,historical_ethnography,Multiple,,Collector framing and community-specific variants require review
+tinguian_traditions,12545,Tinguian,Southeast Asia,historical_ethnography,Multiple,,Historical ethnography; community authority and collector framing require review
+cherokee_myths,45634,Cherokee,North America,historical_ethnography,Cherokee English,,Historical ethnography; community authority and collector framing require review
+iroquois_stories,22096,Haudenosaunee,North America,secondary_retelling,Multiple,,Adapted for children; not direct community-authorized attestation
+iroquois_myths,46140,Haudenosaunee,North America,historical_ethnography,Multiple,,Historical ethnography; nation-specific provenance and authority require review
+navaho_legends,60165,Diné (Navajo),North America,historical_ethnography,Diné Bizaad English,,Historical ethnography; cultural protocols and community authority apply
+creek_migration,49031,Mvskoke (Creek),North America,historical_ethnography,Mvskoke English,,Historical record; community authority and transmission context require review
+jain_sect,11897,Jain,South Asia,secondary_scholarship,Sanskrit Prakrit,,Historical scholarship; not a substitute for Jain primary narratives
+pistis_sophia,76266,Gnostic Christian,West Asia and Europe,scripture,Coptic,,English translation; dating and textual history require specialist review

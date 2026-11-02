@@ -1,0 +1,1807 @@
+% One Origin, a Thousand Stories? -- typeset edition, version 1.3
+%
+% BUILD
+%   pdflatex main.tex          (run twice for cross-references)
+% Requires only packages in a normal TeX distribution: geometry, inputenc,
+% fontenc, lmodern, amsmath, amssymb, booktabs, longtable, array, enumitem,
+% microtype, natbib, hyperref.  No external .bib file is needed; the reference
+% list is embedded.
+%
+% HONESTY NOTE
+%   Every number in this file is read from a published artifact in the
+%   repository. Nothing is human-verified: no coder has opened the annotation
+%   packet, so there is no kappa, no precision and no recall anywhere in this
+%   paper, and the inheritance layer of the graph is empty by design.
+%   The packet now carries 1,500 weighted no-record probe rows, which makes
+%   detector recall estimable; it does not make it estimated, and this paper
+%   reports no recall figure for the detector either.
+%   The model-comparison layer's published verdict is not_yet_testable.
+%   The suite in ../tests enforces the artifact claims. This file's own structure is
+%   enforced by ../tools/validate_tex.py and its typesetting by
+%   ../tests/test_tex_typesetting.py, which compiles the source and fails on any
+%   overfull box; both skip nothing silently -- the second skips only where no LaTeX
+%   engine exists, and says so.
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{natbib}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=black!60,pdftitle={One Origin, a Thousand Stories?},pdfauthor={Comparative narrative and divinity-concept research project}}
+
+\setlist{itemsep=2pt,topsep=3pt}
+\renewcommand{\arraystretch}{1.15}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+% Typewriter text does not hyphenate, so an artifact name such as
+% \texttt{results/ontology\_passage\_pairs.jsonl.gz} is one unbreakable box: in a
+% fixed-width table column it overflows into the neighbour. A breakpoint after
+% every underscore makes the name wrap inside its own column.
+\DeclareRobustCommand{\_}{\textunderscore\allowbreak}
+\newcommand{\dimkey}[1]{\texttt{\small #1}}
+\newcommand{\field}[1]{\texttt{\small #1}}
+\newcommand{\nocr}{no inter-coder reliability estimate exists}
+
+\title{\textbf{One Origin, a Thousand Stories?}\\[4pt]
+\large A falsifiable comparative framework for investigating the ancestry\\
+and transmission of human narratives and divine concepts\\[10pt]
+\normalsize Research paper --- version 1.3 (typeset edition)\\
+1 November 2026}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent
+Recurring narratives across cultures raise the possibility of shared ancestry,
+but similarity alone cannot distinguish common descent from borrowing or
+independent invention. This paper presents a source-first framework for
+investigating narrative relationships without presuming a universal origin, and
+reports what three independent computational instruments --- a lexical
+retriever, a structural comparison engine, and a divine-concept state coder ---
+do and do not show when that framework is applied. Attested versions are
+decomposed into source-bound events, participants, motifs and outcomes;
+descriptive similarity is separated from linguistic and historical evidence; and
+proposed relationships are tested against dependent witnesses, generic motifs,
+alternative codings and competing models.
+
+A cleaned 65-work English-translation corpus (23{,}385 eligible passages,
+8.73 million words) was used as a retrieval instrument. Of 9{,}428 cross-work
+candidate pairs, 8{,}677 (92.0\%) join two works already linked by a configured
+source-dependence rule. A second engine compares coded narrative structure: 14
+versions in four comparison classes, 94 events carrying 218 participant role
+assertions, 76 causal links and 38 preregistered motifs, scored as five separate
+components across 91 version pairs rather than a blended percentage. Known
+dependent witnesses rank above every predicted-unrelated pair (minimum 0.632
+against maximum 0.045), and re-coding every participant name leaves all 91 pair
+scores unchanged. Two results cut against the expectations of this research
+tradition: the sequence score is almost insensitive to event order (mean drop
+0.0186 under permutation, below a preregistered 0.02 floor, for arithmetic
+reasons identified rather than tuned away), and structural and lexical
+similarity correlate only weakly and without established significance (Spearman
+\(\rho = 0.264\); a quadratic-assignment permutation test on version labels
+gives two-tailed \(p = 0.065\), so the textbook \(p = 0.019\) rested on an
+independence the data do not have). The paper therefore abandons the composite
+similarity score, emits no ancestry estimate, and treats independent invention
+and unresolved relationships as substantive outcomes.
+
+A third instrument tests the precondition of this project's own motive claim ---
+that ``god'' names one concept worldwide, so that its recurrence would indicate
+one invention. Its first version, a vocabulary census of ten analyst-authored
+divine-concept grammars, reported that no grammar was attested in all 65 works
+and read that as showing the motive claim has no stable referent. \emph{That
+inference is withdrawn here and is not a result of this paper}: the census
+measured one generation's English translation vocabulary, and non-detection in
+such a corpus is predicted equally by every competing model of inheritance, so
+it discriminates between none of them. The census's companion finding did not
+survive an audit either (Section~\ref{sec:audit}). The rebuilt instrument codes
+divine-concept \emph{states} instead of term vocabularies: twelve dimensions
+declared analytically distinct rather than measured orthogonal, applied proposition by proposition,
+emitting 47{,}641
+candidate records over 36{,}775 propositions in 34{,}584 utterance windows, and
+answering three questions per record separately --- whether the concept is
+represented, whether the voice the text itself endorses affirms it, and whether
+it was historically transmitted. \field{historical\_transmission} is
+\texttt{not\_yet\_assessable} in all 47{,}641 records; nine dimension values are
+published as undetectable by this instrument rather than absent; the passage-pair
+candidate set is enumerated exactly by an inverted index---22{,}940{,}506 cross-work
+pairs sharing a coded state, where the approximate blocking this layer first shipped
+recovered a measured 2.35\% of them---and a missing edge is never read as a missing
+relationship; and a blinded 6{,}199-proposition annotation packet ---
+4{,}699 flagged candidates plus 1{,}500 weighted no-record probes, so that recall
+as well as precision is eventually estimable --- is
+ready for two independent coders, has never been opened, and therefore
+corresponds to no reliability figure anywhere in this paper. The frame ships as
+a methodology with four competing historical models, priced operator derivations
+and licence conditions on reporting them; the model-comparison layer's own
+output is \texttt{not\_yet\_testable}. The further claim that no such being
+exists remains outside the reach of any textual method, in either direction.
+Global comparison is defensible as candidate discovery and falsification;
+reconstruction must be restricted to elements supported by explicit historical
+models, and 282 unit tests plus 7 parameterised subtests and the result
+validators enforce those boundaries.
+
+\medskip
+\noindent\textbf{Keywords.} comparative mythology; narrative transmission;
+common descent; independent invention; historical linguistics; phylogenetics;
+provenance; source dependence; falsification; reproducible computational method.
+\end{abstract}
+
+\section{Introduction}
+
+Recurring stories and motifs are conspicuous across human cultures. Storm beings
+confront serpentine adversaries; floods destroy or renew human communities;
+primordial bodies become parts of the cosmos; heroes descend among the dead.
+Such resemblances invite a historical question: did particular narratives
+descend from shared ancestors, travel between communities, or arise
+independently under similar constraints?
+
+The question is legitimate, but its most ambitious answers are often
+methodologically weak. A collection of similarities cannot distinguish
+inheritance from borrowing, and neither can it distinguish either from
+convergence. Broad labels such as ``flood myth'', ``dying god'' or
+``dragon-slayer'' can conceal differences in agents, actions, sequence, function
+and outcome. The problem is therefore not simply to discover parallels. It is to
+determine which parallels require a historical explanation, which explanations
+are compatible with the evidence, and where reconstruction must stop.
+
+This paper proposes and applies a source-first comparative framework. Its
+primary objects are attested narrative versions, not religions treated as
+unified systems. It separates descriptive resemblance from historical
+relationship, composition from attestation, and reconstruction from conjecture.
+It also treats independent invention and unresolved relationship as substantive
+outcomes rather than failed comparisons.
+
+The analysis addresses four questions:
+\begin{enumerate}[label=\arabic*.]
+  \item Can narrative similarities be coded without erasing culturally specific
+        meanings?
+  \item Do shared structures provide evidence of common descent or transmission
+        once generic motifs and dependent sources are controlled?
+  \item Can competing historical models be tested against contradictory evidence
+        and appropriate null cases?
+  \item What elements, if any, can be reconstructed without inventing an
+        ancestral story?
+\end{enumerate}
+For each specified element or event alignment, the study compares inheritance,
+convergence, contact and mixed-history models using preregistered differential
+predictions. Whether those elements form one or multiple families is assessed
+separately. A universal-origin model is neither assumed nor tested by this pilot;
+it would require its own scope, predictions and evidence.
+
+\section{Concepts and competing explanations}
+
+A \textbf{motif} is a recurring element, whereas a \textbf{narrative} is an
+ordered and causally connected sequence involving participants and events. A
+\textbf{tradition} is a historically situated body of transmitted material
+associated with communities, languages and institutions. A \textbf{religion} may
+include narratives but also practices, ethics, institutions and theological
+claims. Similarity between narratives therefore does not establish equivalence
+between religions.
+
+A \textbf{narrative version} denotes the particular sequence attested in an
+identified passage, performance, inscription or iconographic context. This
+distinction matters because a figure may appear in several stories that cannot
+legitimately be combined into one synthetic ``myth''. Likewise, a late record
+directly attests the story at its recording date, but its earlier history
+requires separate evidence.
+
+Four process hypotheses are evaluated for each specified element or alignment:
+\begin{itemize}
+  \item \textbf{H1, common descent:} shared material was inherited from an
+        ancestral narrative tradition.
+  \item \textbf{H2, independent invention:} similar features emerged
+        independently through recurring experiences, cognitive dispositions,
+        ecological conditions or narrative constraints.
+  \item \textbf{H3, transmission:} material was borrowed directly or indirectly
+        between historically connected communities.
+  \item \textbf{H4, mixed history:} inheritance, borrowing, innovation and loss
+        operated together.
+\end{itemize}
+A separate structural question asks whether the versions form one or multiple
+families. These possibilities may apply to different elements of the same
+narrative. A borrowed episode can be integrated into an inherited cosmology; a
+widespread motif can receive an independently invented sequence. Models that make
+identical predictions for the surviving evidence remain unresolved.
+
+\section{Materials and methods}
+
+\subsection{Source and dating protocol}
+
+Primary witnesses, critical editions, original-language texts and transparent
+scholarly translations take priority. Peer-reviewed historical, linguistic,
+archaeological and anthropological research supplies context and competing
+interpretations. Modern retellings and general websites are discovery aids, not
+evidence for historical claims.
+
+Every material observation requires an exact passage, tablet, hymn, chapter,
+line or section locator. Original wording and consequential translation choices
+must be inspected where accessible. For oral and Indigenous material, recording
+context, collector, community authorisation and restrictions form part of the
+evidence.
+
+Four dates are distinguished: composition of an expression, production of a
+surviving witness, recording of a performance, and inferred age of the narrative.
+These dates may differ substantially. A late manuscript can preserve an early
+composition; a late ethnographic record can preserve older oral material without
+thereby proving great antiquity. Section~\ref{sec:coder} adds the consequence
+that the divinity instrument draws from that distinction: an \emph{earlier
+surviving witness} is not necessarily an earlier composition, so dates enter the
+design as ranges with a stated basis, not as points.
+
+\subsection{Narrative decomposition}
+
+Each version is represented at three levels:
+\begin{enumerate}
+  \item \textbf{Attested description:} source wording, participants, actions,
+        order, context and outcome.
+  \item \textbf{Comparative coding:} versioned motif, role, symbol and event
+        categories with explicit definitions.
+  \item \textbf{Historical interpretation:} proposed relationships,
+        transformations and reconstructions linked to supporting and
+        contradicting evidence.
+\end{enumerate}
+Source-native descriptions are retained alongside comparative codes. Thompson's
+motif index and the ATU tale-type system aid discovery where applicable, but
+neither supplies a complete global ontology \citep{thompson1955,uther2004}.
+Character identity is separated from narrative role, so shared storm
+associations do not make two figures identical. Alternative segmentations and
+disputed codings remain available for sensitivity analysis.
+
+\subsection{Similarity without ancestry by fiat}
+
+Descriptive similarity is calculated independently of linguistic and transmission
+evidence, and it is reported as separate components rather than blended. The
+index originally specified for this framework was
+\begin{equation}
+  S_{\mathrm{desc}} = 100\bigl(0.40\,S_{\mathrm{structure}}
+    + 0.25\,S_{\mathrm{motif}} + 0.20\,S_{\mathrm{role}}
+    + 0.15\,S_{\mathrm{symbol}}\bigr),
+  \label{eq:composite}
+\end{equation}
+where each component is normalised between zero and one. That composite is
+\textbf{not used} in the implemented protocol (Section~\ref{sec:structural}).
+Averaging components measured on different assessed domains would require a
+missing component to be imputed or silently renormalised, and it would destroy
+the pattern that matters: a pair can share most of its adjudicated motifs while
+aligning almost no events, or the reverse. The component weights were
+research-design choices subject to sensitivity analysis, not validated historical
+constants, and that analysis confirms the ordering is bound to alignment
+parameters rather than to the weights.
+
+These scores answer only ``How similar are these coded versions?'' They do not
+answer ``How probable is common ancestry?'' Linguistic relationship,
+chronological feasibility, documented contact, verbal correspondence, shared
+errors, distribution and contradictory evidence are assessed separately.
+Numerical historical probabilities are admissible only under a calibrated model.
+
+\subsection{Controls and falsification}
+
+A global comparison is vulnerable to selection bias because investigators can
+find some shared motif among almost any sufficiently large pair of corpora. The
+framework therefore uses positive controls with independently supported
+relationships, negative and matched controls, and narrative categories not used
+to design the target comparison.
+
+Null models must preserve motif prevalence, co-occurrence, genre, period, corpus
+size, language-family clustering and dependent witnesses. Unconstrained random
+pairings would exaggerate significance. Confirmatory tests are preregistered,
+report effect sizes and uncertainty, and correct for multiple comparisons.
+Results are retested under alternative translations, annotations, weights and
+exclusion of late or dependent sources.
+
+Phylogenetic studies of folktales demonstrate both the analytical potential and
+the model dependence of historical inference from narrative distributions
+\citep{tehrani2013,dasilva2016}. Their methods do not license transferring their
+conclusions to unrelated narratives without new evidence.
+
+A proposed historical relationship is weakened when its distinctive shared
+sequence reduces to a generic motif, when its chronology is incompatible, when
+apparent independent witnesses are textually dependent, or when a preregistered
+contact or convergence model fits held-out evidence better. Repeated failure of
+a single-origin model across independent panels would limit or reject that model
+without pretending to prove that no remote historical connection ever existed.
+
+\subsection{Reconstruction rule}
+
+Support for a historical relationship does not by itself identify ancestral
+features. Ancestral states require an explicit genealogy or network and a model
+of transformation, loss and borrowing. Shared elements are not assembled into
+fluent new prose. \textbf{Attested} describes evidence in surviving witnesses;
+proposed ancestral elements are labelled \textbf{comparatively reconstructed},
+\textbf{conjectural} or \textbf{unrecoverable}. Competing models and unexplained
+elements are reported together.
+
+\section{Pilot design}
+
+The pilot uses three panels to prevent the analytical vocabulary from being
+tailored to one desired relationship. Panel A examines six combat narratives or
+proposed narrative groupings: Indra--Vritra, the Hittite Storm God--Illuyanka,
+Zeus--Typhon, Marduk--Tiamat, Thor--Jormungand, and Perun--Veles. They are
+candidates for comparison, not presumed descendants of one story. Panel B
+compares selected flood, destruction and renewal narratives from Mesopotamian,
+Hebrew and geographically distant traditions. Panel C compares creation through
+bodily division in the Purusha, Ymir and Pangu materials.
+
+The panels test different evidentiary problems. Panel A asks whether an apparent
+``storm god versus serpent'' category survives event-level comparison. Panel B
+separates regional transmission questions from the global distribution of flood
+stories and from the problem of late recording. Panel C tests whether a broad
+shared theme also contains a specific shared sequence and body-to-cosmos mapping.
+
+No version is merged with another episode involving the same figure. In
+particular, Thor's fishing encounter and his final conflict with Jormungand are
+distinct attestations. Nor is a modern scholarly reconstruction treated as
+equivalent to a surviving narrative: this distinction is essential for
+Perun--Veles.
+
+\section{Pilot analysis and computational results}
+
+\subsection{Combat with a serpentine or primordial adversary}
+
+The first panel does not support treating its six candidates as interchangeable
+versions of one story. The most consequential distinction is between a shared
+combat motif and a shared event sequence (Table~\ref{tab:combat}). Textual anchors
+follow the editions and translations cited below
+\citep{jamison2014,hoffner1998,west1966,lambert2013,george2003,larrington2014,faulkes1987};
+none of them is treated here as evidence for a historical relationship.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Attested combat versions and the structural facts that limit event
+alignment.}
+\label{tab:combat}
+\begin{tabular}{L{3.0cm} L{3.0cm} L{3.6cm} L{4.4cm}}
+\toprule
+Attested version & Primary textual anchor & Attested structure & Differences limiting alignment \\
+\midrule
+Indra--Vritra & \emph{Rigveda} 1.32 & Indra strikes Vritra with the vajra; obstructed waters are released. & The water-release outcome cannot be transferred automatically to other combat stories. \\
+Illuyanka, first version & Hittite myth, CTH 321 & Initial defeat, recovery through intermediaries, later killing. & Initial defeat and recovery complicate alignment with a one-sided victory. \\
+Illuyanka, second version & Hittite myth, CTH 321 & Inaras and Hupasiyas assist the Storm God; feast and binding precede the killing. & The intermediary, feast and binding sequence is distinct. \\
+Zeus--Typhon & Hesiod, \emph{Theogony} 820--868 & Zeus confronts the many-headed Typhon with thunder, overcomes him, casts him into Tartarus. & Genealogy, setting and outcome differ; blocked-water release is absent. \\
+Marduk--Tiamat & \emph{Enuma Elish}, Tablets IV--V & Marduk defeats Tiamat and her coalition, then divides her body in creating cosmic order. & Tiamat is not merely a serpent; corpse division is the decisive outcome. \\
+Thor's fishing encounter & \emph{Hymiskvida} 21--25; \emph{Gylfaginning} 48 & Thor draws Jormungand up on a fishing line during the encounter with Hymir. & This episode must not be merged with Ragnarok. \\
+Thor's final battle & \emph{Gylfaginning} 51 & Thor kills the serpent but dies from its poison after nine steps. & Mutual destruction is neither water release nor creation from the opponent's body. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Perun--Veles is excluded from Table~\ref{tab:combat} because no directly
+attested pagan narrative equivalent to these texts is supplied. Its proposed
+combat belongs in a separate reconstruction case; using the reconstruction as
+another independent witness would be circular.
+
+One narrower candidate alignment for future investigation would include an
+obstructing adversary, divine weapon, ordered combat and water release. This
+pilot neither establishes that it is the strongest alignment nor demonstrates
+that it was inherited. Removing or changing the last event changes the historical
+question, but descriptive difference alone does not disprove common descent: a
+model must specify which features it expects to remain conserved.
+
+This does not eliminate historical relationships among the Eurasian materials.
+Comparative Indo-European research provides a disciplined precedent for
+investigating inherited poetic and mythological material, while its
+reconstructions remain incomplete and debated \citep{watkins1995,west2007}.
+Anatolian and Near Eastern contacts make borrowing and mixed histories serious
+alternatives. A narrative family must be defined by shared innovations under an
+explicit model, not by a modern category that combines different outcomes.
+
+\subsection{Flood, destruction and renewal}
+
+The Mesopotamian flood account in \emph{Gilgamesh} XI and Genesis 6--9 contain
+much more specific correspondences than the bare occurrence of a catastrophic
+flood: a chosen survivor, construction of a vessel, preservation of life,
+grounding and bird dispatch form part of the comparison. Their historical
+relationship must nevertheless be investigated through particular texts,
+languages, chronologies and regional transmission, not through the general
+category ``flood myth''.
+
+A distant flood episode does not automatically add another independent descendant
+of the same story. The flood in the \emph{Popol Vuh}, for example, belongs to a
+sequence of unsuccessful creations and the destruction of the wooden people. Its
+agents, victims, purpose and outcome differ from the survival narratives above.
+The early-modern recording and transmission history of the \emph{Popol Vuh} also
+form part of the evidence; its narrative cannot be assigned an unsupported
+primordial date merely because it records Indigenous tradition.
+
+The methodological result is that ``flood'' is too coarse to serve as the
+principal historical unit. Ordered event combinations and their cultural
+functions provide a stronger comparison, while ecological plausibility and later
+religious contact remain live alternative explanations.
+
+\subsection{Creation through bodily division}
+
+\emph{Rigveda} 10.90 presents Purusha in a sacrificial account whose divisions
+generate cosmic and social categories. In \emph{Gylfaginning}, Ymir is killed and
+his flesh, blood, bones and skull furnish materials for the created world. The
+Pangu tradition likewise associates a primordial body with cosmic transformation,
+but its textual history and narrative sequence must be established from early
+attestations rather than modern summaries.
+
+The shared proposition ``the world derives from a primordial body'' is
+significant as a recurring motif. It is not yet a shared ancestral narrative. A
+defensible comparison must ask who acts, whether sacrifice or killing occurs,
+which body parts map to which cosmic elements, in what order, and what social or
+theological work the account performs. Different answers can reduce an apparently
+exact parallel to a broad conceptual resemblance.
+
+\subsection{Scope of the pilot results}
+
+This illustrative source-critical pilot identifies descriptive heterogeneity in
+selected cases and motivates event-level testing. It does not estimate how often
+motif groupings fail, discriminate among historical models, or test universal
+origin.
+
+The same panels were later coded and scored, so the qualitative claims above
+became measurements rather than assertions (Section~\ref{sec:structural}).
+Indra--Vritra against Typhon returns \(S_{\mathrm{sequence}} = 0.221\), Thor's
+fishing episode against Indra--Vritra 0.156, and Ymir against Pangu 0.154 ---
+none of them the high figure a ``same story'' category would predict. The motif
+component is thinner still and must be read with its domain: 0.412 for
+Indra--Vritra--Typhon over two adjudicated motifs, 0.000 for Thor's fishing
+against Indra--Vritra over two, and 0.250 for Ymir--Pangu over two. A score
+computed over two motifs is arithmetic, not evidence, which is why the validator
+publishes domain size and flags every such pair. The water-release and
+corpse-division distinctions that Sections~5.1 and 5.3 raise by inspection are
+therefore exactly what the instrument fails to find shared, and the agreement
+between the reading and the measurement is a consistency check rather than an
+independent confirmation: the same analyst produced both.
+
+Accordingly, no global similarity percentage or ancestral story is reported.
+Independent event-level annotation, control scoring and source-critical
+investigation remain necessary before historical conclusions. A reconstruction
+that cannot survive those steps should be abandoned, not made more imaginative.
+
+\subsection{Computational baseline experiment}
+
+A reproducible baseline was run on 42 English-language works and translations
+comprising 7{,}549{,}234 words. Hindu material included 13 works and 3{,}846{,}519
+words, making the snapshot intentionally useful for pipeline testing but
+imbalanced as a global sample. Fixed 350-word passages were compared using
+TF-IDF with unigrams and bigrams. The run retained 9{,}648 cross-work candidate
+pairs; 18{,}963 random cross-work pairs had mean similarity 0.0141 and a 99th
+percentile of 0.0512. All source hashes and 21{,}580 passage offsets were
+validated, and repeated runs produced byte-identical result files.
+
+Known-overlap controls were recovered: a Dhammapada passage shared between two
+Project Gutenberg sources scored 0.9119, while a Qur'an anthology overlap scored
+0.6022. Manual inspection also identified direct Bible--Book of Mormon
+dependence and repeated Mahabharata material. These results support use of the
+method for detecting textual reuse.
+
+The false matches are more important for model criticism. The strongest inspected
+Hindu--Biblical pair, scoring 0.5254, occurred because editorial commentary in
+the Ramayana volume directly quoted 1 Samuel. A Ramayana--Poetic Edda pair
+consisted of index pages. A Popol Vuh--secondary synthesis pair could not be
+treated as independent corroboration. Such cases demonstrate the need for
+apparatus filtering and a source-dependence graph before comparative
+interpretation.
+
+The baseline also failed as a measure of narrative order. Original passages
+compared with word-shuffled versions of themselves retained mean similarity
+0.6740 in the main run. A unigram-only diagnostic scored 0.9940, while a
+bigram-only model scored 0.0896; the latter is sensitive to local wording but
+still does not encode event structure. Consequently, the experiment validates
+provenance and candidate retrieval, not historical or structural inference.
+
+\subsection{Relevance formulation and graph semantics}
+
+The candidate-retrieval score is explicit. For term \(t\) in passage \(d\), the
+implementation uses sublinear term frequency and smoothed inverse document
+frequency,
+\begin{equation}
+  tf(t,d) = 1 + \ln \mathrm{count}(t,d), \qquad
+  \mathrm{idf}(t) = \ln \frac{1+N}{1+\mathrm{df}(t)} + 1 .
+\end{equation}
+After English stop-word removal, unigram and bigram extraction, feature capping
+and \(L_2\) normalisation, lexical relevance is the cosine
+\begin{equation}
+  R_{\mathrm{lex}}(p,q) = \frac{v_p \cdot v_q}{\lVert v_p\rVert\,\lVert v_q\rVert}.
+\end{equation}
+A passage pair enters the candidate set at \(R_{\mathrm{lex}} \ge 0.15\), with at
+most six cross-work neighbours retained per passage. For a work-level review
+ranking, the strongest eligible passage pair is used:
+\begin{equation}
+  R_{\mathrm{work}}(A,B) = \max_{p \in A,\, q \in B} R_{\mathrm{lex}}(p,q).
+\end{equation}
+This maximum is a triage heuristic, not a work-level historical score. Longer
+works provide more opportunities for a high maximum, and repeated candidates
+within one work pair are not independent observations. Random and length-matched
+controls estimate how unusual scores are under limited sampling models; they do
+not estimate the probability of transmission or ancestry.
+
+The relevance graph is therefore read as \field{RETRIEVED\_AS\_CANDIDATE}, not as
+a resemblance verdict: an edge records only that two works produced at least one
+passage pair above the retrieval threshold under one fixed vector-space model.
+Known translation, anthology, compilation and retelling relationships are marked
+and separated from the discovery ranking. An unmarked pair means ``not covered by
+the current dependence rules'', not ``proved independent''. No
+\field{DESCENDS\_FROM} or \field{BORROWS\_FROM} edge is inferred from cosine
+similarity.
+
+Graph output is split into five layers so that premises, measurements and claims
+cannot be confused: documented source dependence between works; lexical retrieval
+candidates; structural comparison of annotated narrative versions
+(\field{COMPARED\_WITH}); adjudicated historical relationships, which this build
+leaves empty; and historical context attributes such as dating, language and
+access cautions. Every edge carries its own \field{edge\_kind}, and a validator
+rejects a graph in which a retrieval edge has been relabelled as a resemblance,
+in which a comparison has been published as a verdict, or in which an
+adjudicated relation appears without adjudication. \field{RESEMBLES} is
+deliberately reserved: the builder records a promotion criterion ---
+independently attested rather than merely unmarked witnesses, a shared comparison
+class, every nonzero component sitting on an assessed domain, and survival under
+the parameter sweeps --- and no pair in this build satisfies it, so the published
+graph contains zero \field{RESEMBLES} edges.
+
+Equation~\eqref{eq:composite} is \textbf{not computed}. Its components are now
+computed separately (Section~\ref{sec:structural}), and that is precisely why the
+composite is abandoned: the components disagree, sometimes violently, and
+averaging them would decide the argument in advance instead of reporting it.
+Historical confidence remains a separate ordinal evidence assessment, never a
+transformation of a similarity formula.
+
+\subsection{Cleaned global corpus and dependence filtering}
+
+The 42-work baseline was replaced by a cleaned, broader snapshot: 65 works across
+14 region labels and 20 source roles, 9{,}568{,}271 source words, of which
+8{,}731{,}101 words in 23{,}385 eligible passages entered retrieval. Front matter,
+footnotes, appendices, editorial apparatus and passages below the minimum length
+were excluded before indexing rather than filtered afterwards.
+
+Retrieval produced 9{,}428 cross-work candidate pairs. \textbf{8{,}677 of them
+(92.0\%) join two works already linked by a configured source-dependence rule},
+leaving 751 pairs not known dependent. That ratio is the most consequential
+number in the lexical experiment: at this corpus size, near-verbatim English
+wording is overwhelmingly an artifact of reuse, repetition and shared editions,
+not a signal waiting to be interpreted. Random cross-work pairs (\(n = 20{,}000\))
+had mean similarity 0.0121 and 99th percentile 0.0416; length-matched pairs (mean
+absolute word-count difference 11.8) reached 0.0126 and 0.0426. Known-overlap
+positive controls behaved as expected, scoring 0.6000 (Qur'an text shared between
+two anthology volumes) and 0.6166 (Dhammapada text repeated in \emph{Sacred Books
+of the East}).
+
+A same-corpus ablation quantifies what the cleaning step removes. Without
+apparatus and length exclusion the identical passage set yields 29{,}048 candidate
+pairs, against 9{,}428 in the published cleaned run, a 67.5\% reduction; because
+each configuration refits its own vectorizer, part of that reduction is
+vocabulary, IDF and neighbour-cap behaviour rather than exclusion, and holding
+the unfiltered fit fixed leaves 10{,}689 pairs between eligible passages. The two
+runs are not nested, so the decomposition is reported as approximate. Cleaning
+also has a measured cost: seven of the 95 quoted evidence fragments in the
+annotation set --- the Popol Vuh wooden-people events and two Ymir body events ---
+fall on passages the cleaning rules exclude. The narratives are in the corpus,
+but retrieval cannot reach the windows the coder actually cited, so cleaning must
+be described as reducing candidates sharply while its narrative recall remains
+unvalidated. Order diagnostics are unchanged in kind from the baseline:
+word-shuffled self-comparison retains 0.7125 mean similarity and
+sentence-shuffled self-comparison retains 0.9858, while a bigram-only model falls
+to 0.1071 under word shuffling. Exploratory keyword counts make the same point
+about motif frequency: serpent references appear in 2{,}296 passages and
+storm/lightning in 2{,}033, but creation-from-body in only 16 and water-release in
+4. Distributional inference is impossible for the rare tags at this corpus size.
+
+The 9{,}428 passage pairs aggregate to 201 work pairs, 152 of which are not known
+dependent. The lexical graph exposes 60 work nodes and 149 edges: the top 100
+not-known-dependent work pairs plus all 49 configured-dependence controls, so the
+picture is a sampled triage list rather than a complete similarity map.
+
+What the strongest surviving candidates actually are matters more than their
+count. The highest-ranked pair not known dependent, at 0.5166, joins
+\emph{Myths of the Cherokee} and \emph{Creek Migration Legends}; manual inspection
+found a repeated deer-hunting song opposite Hitchiti dialect material, not a
+shared event sequence. Second-ranked at 0.4994 are two Lewis Spence title pages.
+Third at 0.4874 pairs two Australian ethnographic works. Ninth, at 0.3123, rests
+on a \emph{single} passage pair between an Iroquois collection and a South
+African folklore volume --- an artifact of the maximum in
+\(R_{\mathrm{work}}(A,B)\), which rewards long works and treats one incidental
+coincidence as a work-level claim. The candidate set also contains same-tradition
+pairs that no dependence rule covers, such as the \emph{Poetic Edda} and
+\emph{Volsunga saga} (122 passage pairs, 0.3886), where similarity is real and
+historically uninteresting. After 92\% of raw candidates were removed as known
+reuse, what remained was still dominated by apparatus, formulaic material,
+collector overlap and single-pair noise. That is the empirical case for treating
+lexical retrieval as candidate generation only.
+
+Every raw file hash, every byte-exact clean slice, all 34{,}281 passage offsets
+and word counts, all dependence labels and all graph endpoints and orientations
+are re-verified by \texttt{tools/validate\_results\_v2.py}, which also refuses to
+certify a graph built from stale inputs. Re-running the retrieval reproduced the
+9{,}428-pair candidate file byte-for-byte, so the published ranking is a property
+of the configuration rather than of one execution.
+
+\subsection{Structural comparison of annotated narrative versions}
+\label{sec:structural}
+
+The lexical pipeline can retrieve and filter, but it cannot say whether two
+narratives are structurally alike. That required a second engine operating on
+coded events rather than on words. A pilot annotation set was built for exactly
+this purpose: 14 narrative versions in four comparison classes (flood survival,
+storm-and-monster combat, cosmogony from a body, wisdom transfer), 94 events
+carrying 218 participant role assertions, 76 causal links, 38 preregistered
+motifs asserted 78 times, and 87 symbol assertions, with every event bound to a
+passage offset and each of 95 quoted fragments machine-verified against the
+corpus text it cites. Four versions rest on fragmentary attestations and are
+marked partial.
+
+Similarity is decomposed rather than blended. An event pair receives
+\begin{equation}
+  e(a,b) = \frac{0.50\,p(a,b) + 0.30\,r(a,b) + 0.20\,o(a,b)}
+               {\text{weights of measurable parts}},
+\end{equation}
+where \(p\) credits predicate identity (1.0 exact, 0.5 same predicate family, 0
+otherwise), \(r\) is a maximum-weight bipartite matching over participants scored
+on the coder's asserted referent identity, normalised by the larger participant
+set, and \(o\) is lexical overlap of coded outcomes. A part that cannot be
+measured on both sides drops out of the average instead of contributing a zero, so
+that incomplete coding is not read as narrative difference. Event sequences are
+then aligned by Needleman--Wunsch with mismatch cost \(1-e(a,b)\) and the
+preregistered gap \(g = 1.0\), giving
+\begin{equation}
+  S_{\mathrm{sequence}} = 1 - \frac{D_{mn}}{\max(m,n)} .
+\end{equation}
+Motif comparison is a weighted Jaccard restricted to the assessed domain: both
+versions must have adjudicated the motif. Cross-class pairs return \field{NA},
+not a low score. Causal, role and symbol components are computed the same way,
+and the symbol component reports which of its matched terms were already counted
+as motifs so that double counting is visible rather than silent.
+
+Table~\ref{tab:structural} states the results exactly, because they cut against
+the expectation that a good structural model ``finds'' famous parallels.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Component scores for selected version pairs. The motif column carries
+its assessed domain size in parentheses.}
+\label{tab:structural}
+\begin{tabular}{L{3.3cm} L{2.6cm} c c c c}
+\toprule
+Version pair & Class relation & \(S_{\mathrm{seq}}\) & \(S_{\mathrm{motif}}\) (dom.) & \(S_{\mathrm{causal}}\) & \(S_{\mathrm{role}}\) \\
+\midrule
+Manu fish (Mahabharata 3 / 12 doublet) & same narrative, dependent & 1.000 & 1.000 (11) & 1.00 & 1.00 \\
+Taliesin (Mabinogion / \emph{Celtic Myths}) & same narrative, dependent & 0.632 & 0.394 (5) & 0.75 & 0.64 \\
+Noah (KJV) / Manu fish & flood, different traditions & 0.243 & 0.343 (11) & 0.29 & 0.33 \\
+Typhon / Indra--Vritra & combat, different traditions & 0.221 & 0.412 (2) & 0.17 & 0.18 \\
+Ymir / Pangu & cosmogony from a body & 0.154 & 0.250 (2) & 0.12 & 0.25 \\
+Noah / Gilgamesh flood tablet & flood, Mesopotamian--Hebrew & 0.095 & 0.550 (4) & 0.09 & 0.07 \\
+Thor fishing / Indra--Vritra & combat, different traditions & 0.156 & 0.000 (2) & 0.12 & 0.11 \\
+Predicted-unrelated negatives (6 pairs) & cross-class & 0.019--0.045 & \field{NA} & \(\le 0.06\) & \(\le 0.22\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Four findings follow.
+
+\textbf{Dependent witnesses separate cleanly from unrelated pairs.} Both
+known-reuse pairs outrank every predicted-unrelated pair on
+\(S_{\mathrm{sequence}}\) (minimum 0.632 against maximum 0.045), and the
+Mahabharata internal doublet anchors the scale at 1.000 across all five
+components. The Taliesin pair is more informative than a perfect control: the
+abridged \emph{Celtic Myths} rendering drops three drops of grace, the year and a
+day and the blind fire-tender, and the motif domain falls from 11 to 5 while the
+event skeleton still aligns at 0.632. The engine measures what the retelling
+actually kept.
+
+\textbf{Translation vocabulary does not enter the score.} Re-coding every
+participant name with a random alias changes \(S_{\mathrm{sequence}}\) by 0.0 on
+all 91 pairs, because matching reads the asserted referent, not the translator's
+word. This is a property no lexical model has: the same rename destroys TF-IDF
+similarity. It also means the engine will not equate Thor with Indra merely
+because both are storm gods; they are different asserted referents, and only role
+and kind structure is shared.
+
+\textbf{Event order, as preregistered, barely contributes.} Permuting one
+sequence lowers \(S_{\mathrm{sequence}}\) by only 0.0186 on average, below the
+0.02 floor fixed in advance, and just 5 of 91 pairs exceed \(p \le 0.05\) against
+a 200-draw permutation null. The cause is arithmetic rather than a property of
+myth: with mismatch cost \(1-e \in [0,1]\) and \(g = 1.0\), aligning is never more
+expensive than gapping both events, so 91 of 91 pairs match every event of the
+shorter sequence and the alignment behaves like a maximum-weight order-preserving
+matching. Measured directly against the crossing relaxation, order costs 0.0131
+on average and 0.101 at most, and 77 of 91 pairs pay something for it. The honest
+conclusion is that \(S_{\mathrm{sequence}}\) is an \emph{event-matching} score,
+not a plot-order score. Restoring order sensitivity would mean lowering the gap,
+which imports a free parameter, moves the ranking (mean absolute rank shift
+0.23--0.29 across the gap sweep) and changes what the measure means. The result is
+reported instead of tuned, and the motif component is exactly invariant under the
+same permutations, as the decomposition requires.
+
+\textbf{Structure and wording carry different information.} Across the 78 pairs
+with both measures, Spearman \(\rho = 0.264\) between
+\(S_{\mathrm{sequence}}\) and the lexical cosine, which is a maximum over the
+passage windows the annotation actually cites for the two versions rather than a
+whole-work maximum, reported as an exploratory association rather than a
+significant one. The textbook \(p = 0.019\) assumed 78 independent pair
+observations, which they are not: the 91 pairs share 14 versions, so every
+version contributes 13 correlated scores. A quadratic-assignment permutation test
+that holds the pair structure fixed and resamples only the version labels
+(200 draws, seed recorded in the output) gives two-tailed \(p = 0.065\). The
+direction of the association is what this pilot can support; its magnitude is not
+established, and no significance claim attaches to it. Noah--Manu scores 0.243
+structurally against 0.0358 lexically; Noah--Gilgamesh scores 0.550 on
+adjudicated motifs over a domain of 4 against 0.095 on events; and Noah--Popol
+Vuh produces a structural comparison at all only because the annotation, not the
+retriever, brought them together. A ranking built on either measure alone would
+misrepresent the other.
+
+Robustness checks are correspondingly modest. Rank movement is reported as mean
+absolute rank displacement divided by the full ranking range, so 0 is the
+published order and 1 is its exact reversal, with Kendall \(\tau\) alongside.
+Judgement weights barely move anything: the same-family predicate credit sweep
+gives shifts of 0.001--0.011 (\(\tau \ge 0.975\)) and the corpus-derived
+leave-one-region-out weights at most 0.017. The motif weight cap sweep moves at
+most 0.013 (\(\tau \ge 0.973\)). The gap penalty is another matter: 0.291 at
+\(g = 0.5\) (\(\tau = 0.106\)), 0.262 at 0.75, 0.231 at 1.25 and 0.284 at 1.5,
+against 0.001 at the preregistered \(g = 1.0\). The ordering is therefore
+parameter-bound on the alignment settings, not on the analyst's weights --- the
+more worrying kind of dependence, because the alignment is where the measure's
+meaning is decided. A thin-domain audit flags 3 pairs whose motif score rests on
+a single adjudicated motif and 8 on two or fewer; those are reported as computed
+but should not be read as agreement. The engine emits no composite and no
+historical claim, and 37 structural-engine tests enforce that.
+
+The limits of this pilot are as important as its results. All 14 versions were
+coded by a single analyst, so \nocr, and the predicate families, motif
+definitions and coding decisions were authored by the same person who applied
+them. Quote verification proves that a fragment occurs in the cited passage; it
+does not prove the coding is correct. Four classes and 14 versions cannot support
+any distributional claim about world narrative, and the corpus they draw on is
+English translation. The engine is a working instrument for measuring descriptive
+resemblance between coded narratives, and a test of which assumptions a
+structural claim can rest on. It is not, and does not claim to be, an ancestry
+estimator.
+
+\section{The divine-concept question}
+
+\subsection{The motive claim, stated so that it can fail}
+\label{sec:motive}
+
+This project was commissioned with a stronger hope than the analyses above test:
+that ``God'' is one invented concept --- a single fiction that spread, rather
+than a response to anything real --- and that its apparent worldwide recurrence is
+the evidence of its invention. That sentence contains three propositions with
+three different epistemic statuses, and separating them is the condition of
+testing them rather than a refusal to test them.
+
+\textbf{Proposition A: divine narratives descend from a limited number of
+ancestral formulations.} This is a historical claim and is testable with the
+instruments in this paper. Its falsifiers are the ones the protocol
+preregisters: a shared \emph{specific} complex (arbitrary, non-functional detail,
+not merely a shared theme) distributed along a dated contact chain; phylogenetic
+signal that survives a regional-null comparison; and the absence of the same
+complex from the earliest strata of families that had no contact route. Its
+disconfirmers are equally concrete: independent attestation in lineages with no
+plausible route, distribution patterns better predicted by convergence, and
+shared features that turn out to be artifacts of the translators' English rather
+than of the source texts.
+
+\textbf{Proposition B: the concept itself, not only its narratives, has a single
+origin.} This requires evidence that similarity scoring cannot supply: dated
+first attestations of each divine-concept state, the transmission of
+\emph{doctrinal} vocabulary rather than plot, and an account of how a concept
+survives translation between languages whose grammatical subject positions
+differ. It is a legitimate research question for philology and the history of
+religion; this project's apparatus is not yet addressed to it.
+
+\textbf{Proposition C: no such beings exist.} No textual comparison can
+establish this or its negation. An idea's origin tells you nothing about its
+truth: arguing from ``this concept was narrated by humans'' to ``therefore it
+refers to nothing'' is a genetic fallacy, and the reverse inference is no better.
+A project designed to prove C would necessarily read the same evidence as
+confirming when it favours the preferred conclusion, which is precisely the
+unfalsifiability condemned above. C is therefore excluded from this project's
+scope by declaration, not by dismissal.
+
+Proposition B has a precondition that nobody in this research tradition appears
+to have tested computationally, and this project tested it: that the word
+\emph{god} picks out one thing across the traditions being compared.
+
+\subsection{The vocabulary census and the withdrawal of its inference}
+
+The first probe, \texttt{tools/divinity\_terms.py}, matched ten
+analyst-authored divine-concept grammars --- personal creator of world,
+supreme-being attributes, plural or council deities, celestial bureaucracy,
+impersonal ground, deified human or ancestor, spirit immanent in things, saving
+descent, explicit non-theism or scepticism, and exclusivist monotheism --- against
+the 8.73 million eligible words of the same 65-work corpus, recording every match
+with its passage and character span. The descriptive distribution stands and is
+reported here: no grammar is attested in all 65 works. The broadest is
+divinity-as-plurality (4{,}120 term hits, 50 works, 13 of 14 regional labels),
+followed by the personal creator (728 hits, 41 works) and supreme-being attributes
+(802 hits, 35 works); the impersonal absolute appears in 26 works, the
+deified-human grammar in 14, and heaven-as-bureaucracy in 3 works with 4 hits.
+Individual works carry between one and eight grammars.
+
+\textbf{What that distribution does not establish.} It establishes that the
+English vocabulary of these translations is unevenly distributed across several
+distinguishable concepts. It does not establish that ``the concept of God'' has no
+stable referent, and it does not weaken an inheritance hypothesis, for two
+reasons the earlier draft did not face. First, the test chosen --- must one
+grammar occur in \emph{every} work? --- is a universality test, and universality
+is not what historical inheritance predicts. Inheritance predicts descent with
+modification, and the modifications are themselves named: abstraction turns a
+personal creator into an impersonal ground, demotion turns a god into a demon or
+an ancestor, nominalisation turns a title into a proper name, silencing removes a
+term in a recension. A hypothesis that expects transformation expects the surface
+forms to diverge, so demanding that they not diverge refutes a straw version of
+it. Second, and more fundamentally, every instrument here detects an English
+surface pattern in one translation. Non-detection licenses exactly one report ---
+``not detected in these sources'' --- and all four competing models (single origin
+with transformation, multiple independent origins, regional inheritance with
+mixing, independent development with convergence) predict that same
+non-detection pattern. An observation that all models predict cannot rank any of
+them. The census is therefore a description of translators' vocabulary, not
+evidence about ancestry, and the earlier sentence drawing a negative conclusion
+about common origin from it is withdrawn.
+
+\subsection{The exclusivist-monotheism audit, match by match}
+\label{sec:audit}
+
+The one grammar that most closely resembles the motive claim's content --- the
+doctrine that divinity is literally one, expressed as ``no god but \dots'',
+``beside me there is no God'', ``the Lord our God is one'' --- was reported as
+documented in 46 passages drawn from four works (the King James Bible, the
+Qur'an, the Book of Mormon and a nineteenth-century anthology of eastern
+scripture). That result has been audited match by match in
+\texttt{results/exclusivist\_monotheism\_audit.json}, which publishes for each
+match its passage, its span as actually printed, the part heading and section it
+falls under, the composition it belongs to, the dependence rule that covers it,
+the sentence it was judged from, and the stated reason for its verdict. It does
+not survive at the weight the earlier paragraph gave it (Table~\ref{tab:audit}).
+
+\begin{table}[t]
+\centering
+\small
+\caption{The exclusivist-monotheism census before and after the match-level
+audit.}
+\label{tab:audit}
+\begin{tabular}{L{4.6cm} c L{6.4cm}}
+\toprule
+Quantity & Published by v1 & After the audit \\
+\midrule
+Matches, raw text & 46 & 46 --- reproduced exactly by the audit's own matcher \\
+Matches, whitespace-normalised & --- & 51 (\(+5\): Isaiah 44:6, Mark 12:29, four Qur'an confessions) \\
+Works attested & 4 & 2 \\
+Traditions attested & 4 & 2 \\
+Confessional matches in works not marked dependent & 46 & 34 \\
+Anthology hits adding an additional witness & 9 & 0 --- all inside \emph{Selections from the Koran} (8 reprint, 1 Carlyle essay) \\
+Oneness formula classes the family carries & 7 patterns & 16 further classes, 79 occurrences, all uncaught \\
+Confession form in a non-divine mouth & 0 & 5 hits over 3 verses (Isaiah 47:8, 47:10, Zephaniah 2:15) \\
+Confession uttered by a denier the text refuses & counted as doctrine & 1 --- Pharaoh drowning, Qur'an sura 10 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All nine hits in the anthology volume resolve, from that volume's own printed
+contents page and part headings, inside \emph{Selections from the Koran}: eight
+sit in its reprinted Qur'an translation --- a rendering of the same composition
+this corpus already counts, so they add no independent witness --- and the ninth
+is the watchman's cry ``There is no God but God'' as Thomas Carlyle reports it, in
+the essay the volume prints under his own byline, which is evidence that the
+formula circulated rather than the confession itself.
+\texttt{config/source\_dependence.json} already carried the rule
+\texttt{quran\_sale} \(\leftrightarrow\) \texttt{sacred\_books\_east} \(=\)
+\texttt{anthology\_reuse}, so the census counted one source twice and reported it
+as two independent traditions; the \emph{Multiple} tradition label it attached to
+the anthology is an artifact of an anthology sitting beside the work it reprints.
+
+The audit had to correct provenance in the other direction too: the file this
+corpus calls \texttt{quran\_sale} prints ``TRANSLATED FROM THE ARABIC BY THE REV.
+J. M. RODWELL'' on its title page, so the work id, the acquisition manifest's
+caution string and the dependence rule's rationale all name the wrong translator.
+The anthology excerpt and this file are two different English renderings of one
+Arabic composition, which is why their verbatim overlap is nil and why
+independence had to be tested rather than read off a label.
+
+Two further hits are substring collisions that state nothing about divine
+oneness: 1 Corinthians 6.17, ``he that is joined unto the Lord is one spirit'',
+and 1 Nephi 10.19, ``the course of the Lord is one eternal round'', both produced
+by the pattern \texttt{the lord is one}; the second is the Book of Mormon's only
+match, so that work ceases to be attested here at all. Three more are
+prohibitions on acknowledging or worshipping other gods, whose wording
+grammatically presupposes the gods they forbid, so they cannot witness to an
+existence claim even where they are scripture the text endorses.
+
+The count also under-reports its own formula class. Because the raw Gutenberg
+files hard-wrap lines --- Isaiah 44:6 is stored with a break between ``no'' and
+``God'' --- the single-space patterns missed it, and normalising whitespace raises
+the total from 46 to 51. A probe of 16 further oneness formula strings that the
+family never carried (``there is none else'', ``none else beside'', ``there is but
+one god'', ``one without a second'' among them) finds 79 occurrences, none of them
+caught by the published patterns. Those are deliberately \emph{not} folded into
+the family, because widening a regex without match-level adjudication reproduces
+the error that made the count untrustworthy; they are the measured size of the
+recall gap, and 51 is a floor. Finally, the identical first-person formula occurs
+in a non-divine mouth: Isaiah 47.8 and 47.10 put ``I am, and none else beside
+me'' in the mouth of Babylon, and Zephaniah 2.15 puts ``I am, and there is none
+beside me'' in the mouth of the rejoicing city, both of which the text is
+condemning --- the same words carrying the opposite fact, indistinguishable to a
+term matcher, and all five of those formula hits lie inside the 79 occurrences the
+family misses. The audited residue is 2 traditions rather than 4, and the sentence
+the match set supports is: \textbf{34 matches classified as confessional across two
+works not marked dependent under the currently configured source-dependence rules.
+Independence has not been established because dependence closure remains
+incomplete.} That sentence is generated from the partition by
+\texttt{tools/audit\_exclusivist\_matches.py}, not typed, and Table~\ref{tab:disposition}
+is the partition itself.
+
+\begin{table}[t]
+\centering
+\small
+\caption{All 51 audited matches in exactly one disposition. The rows are emitted
+by rule order and then re-derived by predicate in the same run
+(\texttt{disposition\_check}), so a match counted twice, a match dropped, or a
+verdict with no rule fails the build instead of shipping. Only the first row may
+bear on how widely the doctrine is witnessed, and it bears on it as a candidate.}
+\label{tab:disposition}
+\begin{tabular}{L{4.5cm} r L{3.3cm} L{5.6cm}}
+\toprule
+Disposition & \(n\) & Works & What the row is evidence of \\
+\midrule
+\texttt{confessional\_in\_a\_work\_not\_marked\_dependent} & 34 & kjv\_bible 4, quran\_sale 30 & candidate evidence for the family's distribution; not an established independent attestation \\
+\texttt{confessional\_in\_a\_work\_marked\_dependent} & 8 & sacred\_books\_east 8 & the formula is printed, not an additional witness: the wording reprints a source already in the corpus \\
+\texttt{monolatrous\_prohibition\_presupposing\_other\_gods} & 3 & kjv\_bible 1, quran\_sale 2 & a regulation of worship, not the sole-existence claim the family names \\
+\texttt{conditional\_or\_hypothetical} & 2 & quran\_sale 2 & neither the confession nor its denial is asserted \\
+\texttt{reported\_speech\_of\_denial} & 1 & quran\_sale 1 & the shape of the doctrine, from a speaker the text refuses \\
+\texttt{divine\_formula\_in\_non\_divine\_mouth} & 0 & --- & no match inside the family; the 5 non-divine-mouth formula hits lie in the 79 missed occurrences \\
+\texttt{editorial\_description\_of\_formula} & 1 & sacred\_books\_east 1 & the formula circulated in English prose, not the confession itself \\
+\texttt{non\_doctrinal\_substring\_collision} & 2 & book\_of\_mormon 1, kjv\_bible 1 & a precision failure of the instrument \\
+\texttt{unresolved\_needs\_second\_coder} & 0 & --- & reserved for the reliability pass; a clean single pass is itself a reason to re-code \\
+\midrule
+Total & 51 & & \(34+8=42\) confessional; 9 not confessions of sole divinity \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The 34 is the largest set any independence sentence may be about, and it is still
+labelled \emph{not marked dependent} rather than \emph{independent}.
+\texttt{config/source\_dependence.json} lists pair rules one at a time; there is no
+closure over the corpus, still less over the external sources each work reprints, and
+the Sale--Rodwell pair is the proof: the artifact's
+\texttt{verbatim\_overlap\_with\_declared\_source} is false for it, because two
+renderings of one composition need not share a wording, so a rule whose text does not
+recur detects a source-level dependence it cannot localise, and two works can be
+independent printings of one non-corpus source while no rule mentions either. The
+record field keeps its v1 name \texttt{counts\_as\_independent\_attestation} only so
+the schema stays stable; the artifact publishes what it means, under
+\texttt{verdict\_counts.matches\_by\_dependence\_marking}.
+
+What remains after the audit is still real and still worth stating: exclusivist
+oneness is unevenly distributed across this corpus, concentrated in Abrahamic
+textual families, and absent from most works in it. But it is now a
+\emph{descriptive} observation about a partly-audited vocabulary census, not a
+demonstration that the doctrine is confined to one family, and not a refutation of
+anything. Texts that deny or suspend gods are also present --- 116 machine matches
+in 20 works across ten tradition labels, published with locators and marked
+\field{unreviewed\_machine\_match} --- though their reading requires care, since a
+conditional in the \emph{Iliad}, the doxographic ``atheists'' of the Mahabharata,
+and Isaiah's ``beside me there is no God'' are three different speech acts.
+Forty-one monotheistic-formula matches were excluded from that family by a
+published rule and are printed rather than discarded, because a regex that cannot
+tell confession from denial must not be allowed to silently choose.
+
+\subsection{The rebuilt state coder: scale, coverage and refusal}
+\label{sec:coder}
+
+The replacement for the census is an instrument that codes divine-concept
+\emph{states}, and every one of its design decisions came from an external audit
+of the first version rather than from a result it produced. Seven properties
+matter for reading any number it publishes.
+
+\textbf{The unit is a proposition, not a passage.} Each utterance window is split
+at coordinating and subordinating connectors; fragments under three words merge
+into the preceding proposition; a match straddling a boundary widens its
+proposition instead of being attributed to the wrong half. The run emits 47{,}641
+records over 36{,}775 propositions in 34{,}584 windows within the same 23{,}385
+eligible passages. Ninety-seven propositions are flagged as probable run-ons.
+Where the machine would have to choose between two values on a single-valued
+dimension it now publishes the conflict and demotes the record rather than
+resolving it by silent precedence: 2 conflicts on acknowledged population, 3 on
+speaker attribution. The segmentation is a machine approximation with four
+documented failure modes, one of them that Hebrew and Old Norse narrative joins
+clauses with no connector at all; a coder who re-segments a proposition produces
+a measurement of the segmentation, not an error to be corrected in the record.
+
+\textbf{The composite dimensions were split} (Table~\ref{tab:dims}). Plurality
+became three questions, because one sentence can acknowledge other gods, treat
+them as real and forbid worshipping them, and a single ``polytheism'' score erased
+exactly that distinction. Human interpretation became four, because a hymn can
+carry doctrine, a conditional can carry reported speech, and an opponent can make
+a theological argument.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The twelve dimensions, their cardinality, the number of declared values
+and the question each answers. Every dimension carries an \field{undecidable}
+residual value, so a gap reads as the instrument's limit rather than as evidence
+of absence.}
+\label{tab:dims}
+\begin{tabular}{L{4.9cm} c r L{6.6cm}}
+\toprule
+Dimension & Card. & \(n\) values & Question \\
+\midrule
+\dimkey{D1\_ontological\_category} & set & 8 & What kind of thing is divinity taken to be, in this proposition? \\
+\dimkey{D2a\_acknowledged\_population} & single & 7 & How many divine beings does this proposition acknowledge? \\
+\dimkey{D2b\_reality\_of\_others} & single & 5 & What status do other divine beings have, relative to the one in question? \\
+\dimkey{D2c\_worship\_exclusivity} & single & 5 & Is devotion or rite restricted to this divinity? \\
+\dimkey{D3\_agency} & set & 8 & What agency is predicated --- personhood, will, manner of acting, delegation? \\
+\dimkey{D4\_cosmic\_function} & set & 12 & What work is the divinity credited with? \\
+\dimkey{D5\_universe\_relationship} & set & 8 & What is the relation between divinity and the world? \\
+\dimkey{D6\_temporal\_nature} & set & 8 & What is the divinity's relation to time, to beginning and to end? \\
+\dimkey{D7a\_speaker\_attribution} & single & 7 & Who is the utterer this text prints in this proposition? \\
+\dimkey{D7b\_speech\_act} & single & 10 & What act is performed in this proposition? \\
+\dimkey{D7c\_discourse\_genre} & single & 9 & What kind of discourse carries this proposition? \\
+\dimkey{D7d\_epistemic\_commitment} & single & 6 & Does the framing text commit to the proposition, attribute it, reject it, or hold it open? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The frame is therefore twelve dimensions carrying 93 declared values, and the
+inventory that \texttt{tools/build\_ontology\_graph.py} publishes in
+\texttt{results/ontology\_graph.json} decomposes that 93 twice, each time with no
+remainder: 53 values have an English surface pattern and 40 have none, and
+separately 50 produced at least one record in this corpus while 43 produced none and
+so have no column in the passage matrix. 9 are labelled
+\field{not\_yet\_instrumented}, and these rows nest rather than partition --- 7 of
+the 9 do carry a pattern and sit inside the 53, because they state an absence
+(\field{non\_agential}, \field{outside\_time}) and a surface pattern cannot
+establish that something is not being said, while the other 2 have no pattern at all.
+The single remainder that is a real set is the 38 values with neither a pattern nor a
+flag, and all 38 are assigned by the rules rather than matched by a detector --- the
+D7a--d interpretation values and each dimension's \field{undecidable} residual --- so
+their patternlessness is a category error waiting to be made, not an instrument gap.
+Writing \(93 - 53 - 9 = 31\) produces a number that counts nothing.
+
+\textbf{Three questions stay separate} (Table~\ref{tab:states}).
+\field{conceptual\_presence}, \field{doctrinal\_endorsement} and
+\field{historical\_transmission} are three fields, not one state. The 54 matches
+the previous version refused outright --- conditionals, questions, an opponent's
+reported speech, a claimant's boast --- are retained as conceptual evidence whose
+endorsement is withheld rather than deleted.
+\field{counts\_as\_affirmative\_doctrine} is the only field admissible for a
+doctrinal tally, and it is machine-classified, not human-verified.
+\field{historical\_transmission} is \texttt{not\_yet\_assessable} in all 47{,}641
+records, because \field{date\_earliest}, \field{date\_latest} and
+\field{dating\_basis} are unset in every one.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The three questions, answered separately on all 47{,}641 records.}
+\label{tab:states}
+\begin{tabular}{L{5.4cm} r L{6.4cm}}
+\toprule
+Question & \(n\) & Note \\
+\midrule
+\multicolumn{3}{l}{\emph{Conceptual presence}}\\
+represented in passage & 47{,}262 & the term and frame were found \\
+undecidable from available sources & 379 & value declared not yet instrumented \\
+\midrule
+\multicolumn{3}{l}{\emph{Doctrinal endorsement}}\\
+endorsed by the text & 22{,}818 & the only admissible doctrinal tally \\
+attributed, not endorsed & 9{,}211 & reported speech, boast, opponent \\
+undecidable & 8{,}171 & frame gives no commitment signal \\
+not applicable (non-assertive) & 4{,}697 & conditionals, questions, lists \\
+suspended or held open & 1{,}575 & apophatic, aporetic, held open \\
+rejected in text & 1{,}169 & the text refutes the proposition \\
+\midrule
+\multicolumn{3}{l}{\emph{Historical transmission}}\\
+not yet assessable & 47{,}641 & dated witnesses and routes do not exist \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Scale is published as matrices, with a floor on interpretation.} The
+passage-by-value matrix holds 23{,}385 rows against 50 value columns,
+1{,}169{,}250 cells; the work-by-dimension table holds 780 cells and carries the
+candidate count and the affirmative-doctrine count as separate columns, so a
+doctrinal tally can never exceed the candidates it is drawn from. A dark cell is
+not an absence in a tradition: it is either no candidate in this one English
+translation or a value the instrument cannot see, and those are different
+failures.
+
+\textbf{Candidate generation was an approximation, and is now exact}
+(Table~\ref{tab:graph}). The first release of this layer blocked candidate pairs
+with MinHash banding, wrote every pair the banding produced, and reported that as
+completeness because nothing was discarded \emph{after} generation. A validator
+measured the blocking step and found it recovered 2.35\% of the pairs it claimed to
+enumerate---so the published pair set was a small sample of the relation it
+described. The layer now ships the thing the sketch was approximating: an exact
+inverted index over live \field{dimension=value} states, joined posting-list by
+posting-list, work-pair by work-pair. The relation \emph{shares at least one live
+coded state with} is therefore enumerated rather than sampled, its counts are
+published whole, and the index itself ships as
+\texttt{results/ontology\_passage\_index.json.gz} so a reader holding that one file
+can regenerate every pair without this code.
+
+\begin{table}[t]
+\centering
+\small
+\caption{State-graph scale, and the measured cost of the approximate blocking step
+this layer replaced.}
+\label{tab:graph}
+\begin{tabular}{L{6.4cm} r}
+\toprule
+Quantity & Value \\
+\midrule
+Passages carrying live candidate states & 14{,}036 \\
+Indexed states, total postings & 44, 30{,}070 \\
+Naive passage-pair space & 98{,}497{,}630 \\
+\textbf{Cross-work pairs sharing a live state, enumerated exactly} & \textbf{22{,}940{,}506} \((23.3\%)\) \\
+The same enumeration counted per shared state & 31{,}851{,}655 \\
+Work pairs connected & 2{,}078 of 2{,}080 \\
+Edges displayed in the published file & 41{,}238 (top 20 per work pair) \\
+Configured source-dependence edges (layer 1) & 60 \\
+Inheritance and transformation edges (layer 4) & 0, \texttt{unpopulated\_by\_design} \\
+\midrule
+\multicolumn{2}{l}{\emph{Superseded MinHash banding, measured against the enumeration above}}\\
+Candidates produced, bucket cap 400 / none & 538{,}529 / 4{,}741{,}752 \\
+\textbf{Corpus-wide recall} & \textbf{0.023475} (0.206698 without the cap) \\
+Lost to the bucket cap / to banding itself & 4{,}203{,}223 / 18{,}198{,}754 \\
+Deterministic subset: passages / pairs compared & 1{,}632 of 14{,}036 / 1{,}330{,}896 \\
+Subset strata (work \(\times\) live-state band) & 238, 60 kept whole \\
+Exactly-sharing pairs in the subset / recovered & 413{,}552 / 9{,}600 \\
+Subset recall, and if the cap were removed & 0.023214, 0.139385 \\
+Candidates sharing no live state, both runs & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two numbers describe the same method and must not be conflated: 0.023475 is
+corpus-wide, and 0.023214 is what earlier drafts of this work quoted, measured on a
+deterministic stratified subset of 1{,}632 passages. They agree closely, which is
+what makes the subset figure worth citing at all; the validator now publishes both
+with their populations named. Both runs are also checked for precision rather than
+assumed clean---every candidate of each run re-shared a live state, so banding's only
+defect was coverage. Banding is retained here as a measured before/after, not as a
+live code path: the validator imports the builder's own
+\texttt{minhash\_signatures} and \texttt{band\_candidates}, so it measures the
+method that was shipped rather than a reimplementation of it.
+
+\textbf{The enumeration is exact for one relation and silent about everything else.}
+What the index joins is states this instrument wrote down. 40 of the frame's 93
+declared values carry no English surface pattern and 9 are labelled
+\field{not\_yet\_instrumented}, so a pair absent from the enumeration either really
+shares no coded state or shares a state the detector cannot see, and the artifact
+cannot tell which from inside. The edge file is additionally a declared display
+slice---the top 20 pairs of each connected work pair by shared-state count---so its
+size is a property of the reader's screen, not of the relation. \textbf{A missing
+edge is therefore never a missing relationship or a missing state}, and that rule is
+what the exact index buys: it converts ``we did not look at that pair'' into ``that
+pair shares nothing we can see,'' which is a weaker claim but a checkable one. Layer
+4 remains empty because dates are not data yet.
+
+\textbf{The interpretation dimensions are drawn on their own denominator.}
+D7a--d are decided from the shape of an utterance window before any divine term is
+read, so a percentage on them is not comparable to a candidate count on a concept
+dimension. The figure set gives the four of them separate panels, a separate
+denominator of the 47{,}641 term-carrying records and their own legend, with a
+caption saying so, plus a second heat map that uses only affirmative-doctrine
+counts. The earlier chart had substituted a count of windows-read-as-doctrine into
+a heat map of matched candidates, which is the error this design exists to avoid
+repeating.
+
+\textbf{The frame is multilingual-ready, not multilingual.} Its dimensions,
+values, operator vocabulary and evidence requirements are stated independently of
+English, and every record carries an \field{expression\_language} field set to
+\texttt{en}; but all detectors in this run are English translation-text patterns,
+and no source-language detector is operational. Describing it as a
+language-independent instrument would claim the property the audit said it lacks.
+
+\textbf{No number here licenses a historical claim, and that is its point.} The
+instrument says how many propositions carry which coded state in one generation of
+English translations, which of those the text itself endorses, which values it
+cannot see, and what fraction of the pairs it could have compared it actually did.
+
+\subsection{The annotation packet: built, blinded, unused}
+
+A blinded packet of 6{,}199 propositions is ready for coding: 4{,}699 that the
+detector flagged and 1{,}500 that it flagged as nothing. Table~\ref{tab:packet}
+states its design and its single binding constraint. The second group is the
+change that matters for what can be claimed. A sample drawn only from hits can
+measure precision and cannot measure recall, because a sample of hits contains no
+misses; and \texttt{not\_yet\_instrumented} is a declared gap on a named value, not
+an estimate of what the detector walked past. So the packet now draws two disjoint
+simple random samples from the propositions that produced no record at all, and
+every probe row carries its stratum's exact inclusion probability and weight.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Annotation packet v3.1. The binding constraint is a second coder, not more
+data.}
+\label{tab:packet}
+\begin{tabular}{L{6.0cm} L{6.4cm}}
+\toprule
+Property & Value \\
+\midrule
+Unit of analysis & one proposition about an identified divine referent, with its utterance window carried as context \\
+Propositions in packet & 6{,}199 \\
+\quad of which machine-flagged & 4{,}699 (these carry precision) \\
+\quad of which no-record probes & 1{,}500 (these carry recall) \\
+Judgments per coder & 74{,}388 \\
+Enforced strata & dimension value (48, target 60), work (65, target 35), D7b speech act (8, target 45), no-record cue-negative (900), no-record cue-positive (600) \\
+Rare strata taken as whole-population census & 11 \\
+Detector's proposition universe & 1{,}028{,}478 segments in 23{,}385 eligible passages \\
+\quad hit by the machine & 36{,}775 (3.57\%) \\
+\quad no record, cue-negative & 944{,}451; \(\pi = 0.000952934562\), \(w = 1049.39\) \\
+\quad no record, cue-positive & 47{,}252; \(\pi = 0.012697875222\), \(w = 78.7533\) \\
+Cue list status & 111 English cues verified against this corpus, \texttt{not\_a\_detector: true}: a cue decides where to look, never what to record \\
+Dimensions coded & 12 (5 set-valued, 7 single-valued) \\
+Random seed & 20261101, published \\
+Worst-case 95\% margin on a value-stratum precision & \(\pm 0.124\) at \(n = 60\) \\
+Blinding & a probe row and a detection row are indistinguishable in the coder view --- same columns, same locator format, no stratum marker --- so neither kind is coded to a different standard; the coder view carries no machine value, no dimension name and no expected answer; row order randomised so rare-value oversampling is invisible; answer key is a separate file joined only after both codings exist \\
+Known blinding leak & the locator names the work, so a coder with domain knowledge can guess the subject; full blinding would withhold the source, which would make the coding worse rather than better \\
+Record states & \texttt{coder\_id} null, \texttt{second\_coder\_id} null, \texttt{agreement\_status} \texttt{not\_reviewed} \\
+Status & \texttt{pending\_two\_independent\_codings} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The scorer exists, computes Cohen's \(\kappa\) for single-valued dimensions and
+mean Jaccard for set-valued ones, joins the answer key only after both sheets are
+supplied, and refuses to run on one coder or on the same sheet supplied twice. It
+now also refuses a key whose probe rows carry no weight, and it keeps the two
+estimands in separate blocks: per-value precision is computed on machine-flagged
+rows only, and detector recall is a Horvitz--Thompson estimate,
+\(\text{detected}_v / (\text{detected}_v + \sum w)\), where the miss sum runs over
+probe rows \emph{both} coders independently read as carrying a divine claim, and
+\(\text{detected}_v\) is counted over the whole corpus rather than over the packet.
+A stratum that finds no miss reports a one-sided exact binomial bound on its miss
+share instead of a recall of one. No human has coded the packet. Consequently no
+reliability artifact exists in this repository, and this paper reports no
+\(\kappa\), no precision and no recall for the coder-facing instrument. Machine
+classifications in Table~\ref{tab:states} are therefore candidates, not gold
+standard.
+
+\section{The four competing models and the licence conditions on preferring one}
+\label{sec:models}
+
+The working hypothesis is \emph{inheritance with transformation}: concepts are
+transmitted and then modified, so the descendant state need not resemble the
+ancestor. This is not unfalsifiable, because it does not predict arbitrary
+outcomes --- it predicts states reachable by named operators along typed, dated
+routes. Four models are specified, and each is a likelihood rather than a mood.
+Table~\ref{tab:models} states their admissions, because a model that admits
+everything explains nothing.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The four models, the edges each may use, what each predicts that the
+others do not, and what would make it less likely. M2 and M4 are baselines for
+the licence question, which is stage 2 of the rule: only an inheritance-bearing
+model (M1, M3) may be reported as preferred, and only by the margin specified
+below. Stage 1, which asks which model describes a pair set, scores all four on
+the same footing and can end with no decisive winner.}
+\label{tab:models}
+\begin{tabular}{L{1.1cm} L{4.2cm} L{4.3cm} L{3.6cm}}
+\toprule
+Model & Claims & Predicts that others do not & What would make it less likely \\
+\midrule
+M1 & one ancestral concept, then transformation; one root state diversified in descent & arbitrary non-functional detail travelling with the dated \emph{descent} chain; an operator-signature profile that matches which operators ran, not merely how far & two or more roots surviving in the earliest dated stratum of one lineage; concordance confined to the functional block while the expressive block is free; similarity uncorrelated with typed vertical edge count \\
+M2 & multiple independent origins; similarity limited or none & deep-lineage states sharing nothing but functional pressure & shared arbitrary specifics on a pair with a documented typed edge; similarity tracking edge count rather than pressure \\
+M3 & several regional roots, reticulate later contact & strong within-region signal, weak or conflicting between-region signal; dimension-profile splits on transfer edges; the same state reached by different operator paths & a tree that fits every region; the reticulation parameter estimating to zero; transfer edges showing no selective transmission \\
+M4 & independent development, then convergent elaboration & state recurrence uncorrelated with contact distance; recurrence concentrated in the functional-or-pressure-prone block & similarity correlated with contact or descent distance once provenance is closed; shared arbitrary detail an attractor cannot generate \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Two edge types, and the confession that the first version conflated
+them.} Descent through a cultural or population lineage (vertical inheritance) and
+movement by contact (horizontal transmission: borrowing, back-borrowing,
+deliberate restoration, revival, translation-mediated transference, coercive
+religiation, editorial citation) are different claims with different evidence. The
+conflation was real, not hypothetical: the first version of this layer carried no
+edge type at all and computed a distance gradient over an undifferentiated
+relation, so a short-distance contact pair could score like a long-distance
+descent pair, and M1's parsimony was inflated by exactly the amount the borrowing
+edges contribute --- which is the thing M3 exists to compete with. So
+\field{edge\_type} is now mandatory and exclusive; \texttt{descent\_or\_contact}
+is an illegal value; an edge with a documented contact route that could carry the
+state alone is reported \field{edge\_type\_ambiguous} and scored under both
+typings or not at all. And a descent claim may not be argued from the similarity
+it is supposed to explain: the tool refuses descent evidence whose declared basis
+is \texttt{conceptual\_similarity}, because an edge inferred from its own
+explanandum makes the hypothesis unfalsifiable by construction.
+
+\textbf{The prediction is a distribution, not a decay curve.} The earlier
+prediction that dissimilarity increases monotonically with dated distance from the
+root is withdrawn because it is the wrong shape: inherited concepts are
+transformed, rediscovered in an archive, borrowed back by the lineage that
+exported them, and deliberately restored by reform movements that prefer the older
+state. What replaces it is a distribution over similarity class given the pair's
+date ranges, its typed edge multiset and its contact status. Each operator \(o\)
+fires on each dated edge as a thinned Poisson process with its declared rate
+\(\lambda_o\), and each firing multiplies retained similarity by its declared
+retention \(\rho_o\), so
+\begin{equation}
+  \mathbb{E}[\ln s] = \sum_o k_o \ln \rho_o ,
+\end{equation}
+where the \emph{identity} of the operators sets the rate of change, not the
+elapsed years. Horizontal edges carry a declared rate factor of 1.2, and a
+restoration, revival or back-borrowing edge resets similarity toward the archived
+witness with probability 0.35, capped at 0.8. All of these are analyst-set priors
+recorded with their reasons; none is a measurement, and the mean edge event rate
+is reported with a sensitivity band of \([0.1, 0.6]\) until data can estimate it.
+
+The old monotone prediction is retained as a \textbf{nested special case} ---
+equal rates across operators, one averaged retention (the unweighted geometric
+mean of the thirteen, 0.564, at the same total rate of 0.310 events per edge),
+reversals switched off --- which is what makes it falsifiable rather than
+decorative. The sharpest consequence is that a model with one averaged retention
+cannot put any probability on the ``near'' class (\(0.75 \le s < 1.0\)), because a
+single factor jumps from 1 straight to \(\rho\). Dated pairs that sit in ``near''
+concordance therefore refute the decay submodel outright and are predicted by the
+operator-structured one. That is the cheapest observation that discriminates, and
+it is the first thing to look for once dates exist.
+
+\textbf{Similarity is a defined quantity.} Exact match on the single-valued keys,
+Jaccard on the set-valued ones, mean over comparable keys, \field{undecidable}
+keys skipped and published as skipped, and no score below six comparable keys. No
+value is defaulted, because a defaulted 0.0 would read as evidence for M2 and a
+defaulted 1.0 as evidence for M1.
+
+\textbf{The twelve keys are two kinds of thing, and are not averaged into one
+number without saying so.} D1--D6 say what a proposition claims is the case;
+D7a--D7d say what kind of speech it is. In a corpus of English translations the
+second block is heavily a property of the translator's prose and of genre
+convention, so a pair of catechisms can reach a high overall mean while
+disagreeing on every conceptual key, and a creation narrative beside a creation
+hymn can reach a low one while agreeing on D1, D3, D4 and D6. One mean hides
+both cases in the same number, so the scorer publishes, beside the mean, a mean
+for each reading block and a \emph{pattern} naming which block moved
+(Table~\ref{tab:reading-blocks}). The high/low cut is \(0.5\), the \field{partial}
+boundary already declared in the same rule set and reused rather than newly
+chosen, so it is the same number the probability grid uses and not a second
+threshold tuned for this table. Because the mean is taken over \emph{keys}, the
+blocks carry unequal weight by their size: eight of the twelve keys are
+conceptual, so a pair disagreeing on all four discourse keys scores \(0.666667\)
+while a pair disagreeing on all eight conceptual keys scores \(0.333333\). That
+is a consequence of the declared key list, not a finding, and the pattern column
+exists so that a reader sees which block moved instead of inferring it from the
+mixture.
+
+\begin{table}[t]
+\centering
+\small
+\caption{The five declared reading-block patterns, taken from
+\texttt{config/model\_comparison\_v3.json}. Each names which block of the pair's
+twelve keys agreed; none is a descent warrant, because every one of them is
+consistent with more than one of the four models. Two pairs can carry the same
+mean and the same similarity class and still be opposite patterns, which is what
+publishing the mean alone would have destroyed.}
+\label{tab:reading-blocks}
+\begin{tabular}{L{4.6cm} L{3.1cm} L{5.7cm}}
+\toprule
+Pattern & Block shape & What it does \emph{not} license \\
+\midrule
+\texttt{shared\_state\_and\_shared\_speech\_situation} & both \(\geq 0.5\) & an inheritance claim: equally what borrowing, one genre, or two translations of one composition produce \\
+\texttt{shared\_conceptual\_state\_differently\_spoken} & conceptual high, discourse low & descent: it is also two genres quoting one another \\
+\texttt{shared\_genre\_without\_a\_shared\_state} & conceptual low, discourse high & any doctrinal agreement --- common in a run, it says the instrument is measuring English prose styles \\
+\texttt{neither\_block\_shares} & both \(< 0.5\) & an absence claim: 40 of the 93 declared values carry no English detector, so divergence and invisibility read alike \\
+\texttt{indeterminate\_missing\_block} & one block has no comparable key & anything at all: reported as missing, never as \(0.0\) or \(1.0\) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{A priced vocabulary and a path limit.} Thirteen unconstrained operators is
+not a constraint: at paths of up to three applications the table names
+\(13 + 13^2 + 13^3 = 2{,}379\) labelled routes, more combinations than this project
+has datable expression pairs, so almost any two states can be connected after the
+fact. The answer is to price the vocabulary (Table~\ref{tab:operators}). Every
+operator carries a cost, a rate, a retention, a cap on reuses, and the specific
+evidence items it requires; parsimony of a candidate derivation is the sum of its
+operator costs plus 2 per intermediate node that no witness attests.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{The operator cost matrix. ``Alone'' marks operators that may
+\emph{not} constitute a derivation on their own because independent origin
+predicts the same moves.}
+\label{tab:operators}
+\begin{tabular}{L{2.7cm} c c c c L{6.0cm}}
+\toprule
+Operator & cost & \(\lambda\) & \(\rho\) & alone & Evidence that must exist before it may be asserted \\
+\midrule
+elevation & 3 & .030 & .80 & yes & earlier subordinate rank; later supremacy; \(\ge 2\) attributes carried across; a typed edge; one independent witness \\
+demotion & 3 & .030 & .70 & yes & higher and lower rank attestations; identity argument that it is the same figure; typed edge; independent witness \\
+absorption & 4 & .020 & .55 & yes & both names attested separately; a witness where one carries the other's predicates; a later witness with one name; onomastic argument \\
+abstraction & 5 & .015 & .40 & yes & agent attestation; principle attestation; a bridging re-description; a documented transmission path; identity of reference argued on D1, not vocabulary \\
+personification & 5 & .015 & .40 & yes & principle prior in the same tradition; agent under the same name; a cult or dedicatory witness that it is addressed; ordering met \\
+euhemerisation & 4 & .015 & .50 & yes & divine attestation; human-biography attestation; the genealogy or travel narrative dated; a second hand receiving it \\
+negation inversion & 4 & .015 & .60 & yes & both formulae with locators; the shared syntactic frame shown on the surface text; ordering met; typed edge; independent witness \\
+functional transfer & 4 & .025 & .65 & \textbf{no} & function with the earlier holder; the same predicate with the later holder, not a paraphrase; typed edge; independent witness \\
+scope narrowing & 2 & .040 & .75 & \textbf{no} & cosmic and bounded attestations; term identity or an original-language check; typed edge \\
+scope expansion & 2 & .040 & .75 & \textbf{no} & local and cosmic attestations; term identity argument; typed edge \\
+differentiation & 4 & .020 & .45 & yes & undivided term; each resulting term; a dated dividing layer; an argument that these are not doublets \\
+nominalisation & 3 & .030 & .80 & \textbf{no} & title-use and name-use \emph{in the source language}; an English rendering is inadmissible \\
+silencing & 5 & .015 & .30 & yes & two witnesses of one passage; term present in one and absent in the other with the passages aligned; a dated editorial or censoring layer; a stated motive \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three consequences are enforced rather than exhorted. (i) A claimed derivation may
+invoke at most \textbf{three} operator applications, at most \textbf{two} if it is
+to be reported as preferred without an attested intermediate, and at most
+\textbf{one} intermediate node may be unattested. (ii)
+\texttt{scope\_narrowing}, \texttt{scope\_expansion}, \texttt{functional\_transfer}
+and \texttt{nominalisation} are marked attractor-confusable and may not
+constitute a derivation on their own, however cheap they are: independent origin
+predicts the same moves, so their cheapness is visibility, not discrimination.
+(iii) \texttt{silencing} may be asserted only where the passage is attested on both
+sides; it may never be used to explain a state that is simply missing from an
+incomplete corpus, because that converts an instrument gap into a historical event.
+
+\textbf{Dates are ranges, and survival is not composition.} Each expression
+carries \field{date\_earliest}, \field{date\_latest} and \field{dating\_basis}. An
+earlier surviving witness is not necessarily the earlier composition, and the
+scaffold makes that concrete for this corpus: of its 65 works, 22 carry an edition
+or translation date, 43 require specialist input, and \textbf{0 are usable for a
+priority claim}. A translation or printing date constrains when the English
+wording existed, not when the concept was held; conflating the two is what let the
+first version's undated counts read as chronology.
+
+\textbf{The decision rule is two stages, and its evidence floors are simulated.} A derivation is not preferred
+because it is possible. Stage 1 asks which of the four models describes a pair set: all four score the
+identical pairs with the identical likelihood function, and the decisive quantity is the leader's
+\(\log_{10}\) Bayes factor over the \emph{runner-up}, at a declared 2.0 (100:1). Over the runner-up rather than
+over M2, because a rule written as ``inheritance beats the null'' makes M2 the denominator, M4 decorative and
+the choice between M1 and M3 untested --- the asymmetry the first version of this rule had.
+\texttt{no\_decisive\_winner} is a declared outcome and a published result, not a run that failed to produce
+one. Stage 2 keeps the licence question the margin was originally written to answer: an inheritance-bearing
+model over the no-edge, no-operator baseline at the same single declared margin, with M4 reported separately
+because convergence can mimic inheritance more closely than pure independent origin can. Both stages are
+emitted on every run and neither implies the other; the layer's own fixture is the demonstration, two
+inheritance-bearing models predicting one profile, so stage 1 separates them by exactly 0.0 while stage 2 puts
+both 226.99 log units over M2. The severity is deliberate: a priced thirteen-operator vocabulary will fit
+almost anything. Evidence counts are no longer asserted either. \texttt{--power} simulates each model as the
+truth on the declared grid and derives the smallest pair count at which stage 1 names the generating model
+decisively in 0.8 of replications \emph{for every one of the four} --- 220 pairs here, M1 the binding truth ---
+and takes the 5th-percentile Kish effective count of that binding cell (29.051621) as a second floor, so
+dependence inside a pair list is counted rather than assumed. The holdout folds by work, witness and lineage
+\emph{cluster}, never by pair index, the margin must hold on the held-out clusters as well as on the whole
+set, and the split publishes its own leakage checks rather than asking to be trusted. The earlier ``at least 20
+dated route-typed pairs on a held-out half'' was an analyst's number with no derivation behind it; the tool
+names it as superseded and refuses to fall back to it. The operator table's hash is recorded when it is
+written, so a derivation's price cannot be edited after the result is known.
+
+\textbf{Current status.} The layer runs and reports
+\texttt{status: ``not\_yet\_testable''}, with two missing inputs: no candidate
+derivation record, and no dated attestation --- 0 of 65 works carries a filled
+composition range usable for a priority claim. Its published
+\texttt{historical\_conclusion} is ``none asserted'', and the refusal also prints the
+gates it would enforce --- 220 pairs and 29.051621 effective independent samples, both
+read from the simulation artifact --- so the record of the layer's current state
+includes the size of the test it is waiting for. That output is the result of
+this section: the four models are specified finely enough to be beaten, and none
+has yet been.
+
+\section{The limits of global reconstruction}
+
+Comparative reconstruction is strongest where languages, textual histories and
+historically documented relationships provide independent constraints. It becomes
+weaker as comparisons move beyond those constraints. A shared name or formula
+within a demonstrably related language family has a different evidentiary status
+from a broad functional parallel between unrelated traditions. Likewise, a
+uniquely shared sequence has more diagnostic value than a common theme, but only
+if the alignment is not manufactured by flexible coding.
+
+Three limits follow. First, the survival of evidence is uneven: literate and
+archaeologically visible traditions are overrepresented, while many oral
+traditions are known through relatively recent records. Second, narrative elements
+do not behave as independent data points. Stories are copied, translated,
+performed, revised and combined; a simple tree may therefore be less appropriate
+than a network or hybrid model. Third, some historical processes are
+observationally equivalent in surviving evidence: a shared feature may be
+compatible with both inheritance and an undocumented contact event, and current
+data may not distinguish them.
+
+Independent invention must also be treated carefully. It is not proved merely
+because researchers have failed to find a route of transmission. It becomes better
+supported when the features in question recur under comparable conditions, lack
+specific shared innovations, and have distributions incompatible with the proposed
+historical route. Conversely, the absence of a known route does not make
+convergence certain.
+
+The global single-origin hypothesis is especially vulnerable to unfalsifiability if
+every difference is classified as loss and every similarity as inheritance. A
+defensible model must specify in advance which observations would favour multiple
+families, transmission or convergence instead. If it can explain every outcome
+equally well, it has no comparative predictive power.
+
+Witzel's globally comparative reconstruction is an important ambitious precedent,
+but its proposed large-scale groupings must be evaluated as contested historical
+hypotheses rather than accepted as a reference phylogeny \citep{witzel2012}.
+
+These limits do not make global comparison useless. They change its function.
+Broad comparison can identify candidates, estimate motif distributions and reveal
+recurring narrative solutions. Source-intensive regional investigation can then
+test historical explanations. The strongest claims are likely to concern particular
+families and episodes rather than an original narrative system for all humanity.
+
+\section{Research implications}
+
+A productive global project should proceed from evidence-rich regional studies
+toward broader comparison, not from a universal genealogy toward confirming
+examples. Computational retrieval can manage scale, but it cannot replace textual
+criticism, historical linguistics or regional expertise. Graphs can display
+disputed relationships, but the evidential status of every relationship must
+remain visible.
+
+Future work should therefore prioritise three outputs: a passage-linked corpus of
+versions, independent annotations with reliability measures, and preregistered
+comparisons with controls. Reconstruction attempts should be limited to families
+whose relationships survive source criticism and alternative models. Negative
+results and unresolved cases must remain in the published corpus to prevent a
+file-drawer composed entirely of striking parallels.
+
+For living traditions, scholarly access is not the only requirement. Community
+authority, consent, restrictions and appropriate representation must shape
+collection and publication. These obligations are also methodological: removing a
+narrative from its performative and social context can destroy the evidence needed
+to interpret it.
+
+Four gates stand between the present instruments and any historical conclusion.
+First, a second coder must independently annotate the same material: the
+structural pilot's predicate families, motif definitions and comparison classes
+were authored by the person who applied them, and the state coder's blinded
+6{,}199-proposition packet exists, is scored by a tool that refuses one coder and
+refuses a key whose probe rows carry no sampling weight, and
+has never been opened. Every D7 assignment, every affirmative-doctrine count and
+every speech-act split in this paper is therefore single-analyst and
+machine-classified. Second, adjudicated historical edges must be produced one at a
+time by source criticism --- the adjudication layer of both exported graphs is
+deliberately empty, and only a claim with dated witnesses, a stated route typed as
+descent or contact, and reviewed counterevidence may enter it. Third, retrieval
+must extend beyond English translation: the detector sets for Sanskrit, Pali,
+Hebrew, Greek, Arabic, Akkadian and Chinese are the work that turns a
+multilingual-ready frame into a multilingual one. Fourth, the corpus must be
+balanced by independent narrative lineages rather than by work count; sixteen
+South Asian works against one Polynesian collection is a sampling design, not a
+distribution.
+
+\section{Conclusion}
+
+Narrative motifs demonstrably recur, but recurrence is not one historical
+phenomenon. Common descent, borrowing, convergence and mixed development can all
+produce resemblances, and different elements of a story may have different
+histories. The source-critical pilot illustrates the descriptive differences
+concealed by a broad category such as ``storm god and serpent'', and the
+instrumented stages that follow show what happens when those categories are
+operationalised rather than asserted.
+
+Three instruments returned results that constrain the project's own hopes.
+Lexically, 92.0\% of candidate pairs in a 65-work corpus join works already known
+to depend on one another, so a similarity ranking built before source criticism
+mostly ranks the history of printing and translation; excluding editorial
+apparatus and undersized passages removes roughly two-thirds of the candidate set,
+although the same validation that certifies the reduction shows seven annotated
+evidence passages falling on excluded windows, so cleaning's narrative recall is
+itself an open question. Structurally, an event-alignment engine that is invariant
+to translator vocabulary and that separates its five components reproduces the
+expected ordering for dependent witnesses, but declines to reproduce the expected
+ordering for famous parallels: Noah--Gilgamesh scores 0.095 on events while
+scoring 0.550 on adjudicated motifs, and the sequence measure is nearly blind to
+event order for reasons of gap cost rather than reasons of myth. Conceptually, the
+instrument built to test whether ``god'' names one thing worldwide first answered
+its own question badly --- a universality test over English translation vocabulary,
+reported as though it bore on ancestry --- and the corrected version answers
+nothing at all yet, because its inheritance layer is empty by design, its
+annotation packet has never been opened, and its model-comparison layer prints
+\texttt{not\_yet\_testable}.
+
+The present evidence justifies continued investigation of particular narrative
+families. It does not justify a claim that all mythologies descend from one
+original system, and on current data it does not even license a distributional
+claim, since every structural result rests on single-analyst coding of 14 versions
+drawn from English translations. The scientifically valuable objective is
+therefore not to complete a universal tree at any cost, but to establish which
+relationships are supported, which are contradicted, and which are beyond
+recovery. An unresolved comparison is a valid result; an invented ancestor is not.
+
+The project was begun in the hope that these recurrences would show the concept of
+a god to be one inherited fiction, and the honest report is what the instruments
+did with that hope. Decomposed into its three propositions, only the first is
+addressed by anything built here: that divine narratives share ancestry is a
+question the lexical and structural instruments can at least fail to answer
+cleanly; that the concept itself has one origin requires dated first attestations
+and evidence that doctrinal vocabulary, not plot, travelled, which this apparatus
+does not yet carry; and that no such being exists is not a claim any textual method
+can reach, treating an idea's human origin as its refutation being a fallacy that
+runs in both directions. Testing the precondition of the middle proposition ---
+that ``god'' names one thing worldwide --- the first divinity instrument reported
+ten concept grammars in the same 65 works with no grammar present in all of them,
+and reported the doctrine of strict oneness as documented in 46 passages across
+four works and four traditions. Neither report survives in the form it was given.
+The distribution is true of translators' vocabulary and nothing more, and the
+inference drawn from it --- that no stable concept exists for an inheritance
+hypothesis to explain --- is withdrawn; the oneness count, audited match by match,
+is 51 matches rather than 46 once the hard line-wraps are collapsed, its
+\emph{Sacred Books of the East} hits sit inside a reprint of a Qur'an translation
+this corpus already counts, two are substring collisions, three are prohibitions
+whose grammar presupposes the gods they forbid, and what survives is 34 confessional
+matches in two works not marked dependent under the configured rules, across 2
+traditions --- a count that describes the instrument's own dependence list and does
+not establish independence, because that list is not closed. An observation
+that all four competing models predict equally cannot rank any of them, so this
+corpus yields no negative verdict about common ancestry --- and, for the same
+reason, no positive one. The hoped-for conclusion is not disproved; it is
+untested. What the rebuild replaces it with is a machine capable of failing to
+give an answer on purpose and of saying so: twelve analytically distinct dimensions read
+proposition by proposition, three separate questions per record, nine values
+declared undetectable, a candidate pair set enumerated exactly rather than sketched
+and measured, instead of asserted as complete, a priced operator vocabulary with a path limit and a preregistration
+hash, and a comparison layer whose current verdict is \texttt{not\_yet\_testable}
+with the two missing inputs listed. What survives is the harder and more useful
+programme: dated attestation, original-language evidence, independent coding, and
+a claim-by-claim history of which divine ideas travelled, which converged, and
+which we cannot tell.
+
+\section{Data availability}
+\label{sec:data}
+
+Every number reported above is produced by code in this repository from files
+whose SHA-256 hashes are recorded in the run summaries, and every stage is
+re-verifiable without network access. The repository root is the project
+directory; artifacts are grouped by the section that uses them.
+
+\begin{longtable}{L{5.3cm} L{9.6cm}}
+\toprule
+\textbf{Artifact} & \textbf{Contents} \\
+\midrule
+\endhead
+\multicolumn{2}{l}{\emph{Corpus and provenance}}\\
+\texttt{corpus/raw/}, \texttt{corpus/acquisition\_manifest.json}, \texttt{tools/acquire\_corpus.py} & acquired texts, source URLs, licence notices, byte counts, hashes; the fetcher re-downloads and re-hashes every file from the manifest \\
+\texttt{corpus/derived/passages\_v2.jsonl} & 34{,}281 passages with raw and clean offsets, word counts and cleaning eligibility \\
+\texttt{config/source\_dependence.json} & 15 work-pair dependence rules and 1 work family \\
+\texttt{results/attestation\_scaffold.csv}, \texttt{attestation\_scaffold\_summary.json}, \texttt{tools/build\_attestation\_scaffold.py} & dating scaffold for all 65 works: 22 with an edition or translation date, 43 needing specialist input, 0 usable for a priority claim, with per-work reasons; the summary states why every usable flag is \field{no} and which model score that blocks \\
+\midrule
+\multicolumn{2}{l}{\emph{Lexical retrieval (Section 5.7)}}\\
+\texttt{config/motif\_lexicon.json} & 8 exploratory keyword categories (retrieval aid, not annotation) \\
+\texttt{results/v2\_run\_summary.json} & corpus counts, vectorizer configuration, random and length-matched nulls, order diagnostics, positive controls, hashes \\
+\texttt{results/v2\_candidate\_pairs.jsonl}, \texttt{v2\_work\_relevance.csv}, \texttt{v2\_unfiltered\_candidate\_pairs.jsonl} & 9{,}428 passage candidates, 201 aggregated work pairs, and the unfiltered ablation run \\
+\texttt{results/v2\_cleaning\_ablation.json} & unfiltered-versus-cleaned candidate counts \\
+\texttt{results/model\_comparison.json} & the legacy TF-IDF vectorizer diagnostic --- shuffled and random-null similarity distributions for unigram, unigram-plus-bigram and bigram-only models at a published seed. It keeps this name from the pre-v3 build, where \texttt{tools/compare\_models.py --legacy-lexical} was the only writer; the v3 comparison layer publishes elsewhere, and no claim in Section 7 rests on this file \\
+\texttt{results/v2\_manual\_review.json} & source-context review of nine leading pairs \\
+\texttt{results/v2\_relevance\_graph.json} & five-layer lexical graph and per-edge \field{edge\_kind} labels \\
+\midrule
+\multicolumn{2}{l}{\emph{Structural comparison (Section 5.8)}}\\
+\texttt{config/annotated\_versions.json} & 14 coded versions, coding manual, comparison-class checklists, 38-motif registry, preregistered weights, protocol revisions \\
+\texttt{results/narrative\_component\_pairs.jsonl}, \texttt{narrative\_validation.json}, \texttt{narrative\_run\_summary.json}, \texttt{narrative\_lexical\_baseline.json} & 91 component vectors, controls, permutation and sensitivity results, engine version and hashes \\
+\midrule
+\multicolumn{2}{l}{\emph{Divinity census and its audit (Section 6.1--6.3)}}\\
+\texttt{tools/divinity\_terms.py}, \texttt{results/divinity\_terms.json} & the \textbf{superseded} first pass: ten analyst-authored grammars, every match with locator and character span, the published exclusion rules and the excluded matches themselves. Retained as the audit trail for a withdrawn inference; no claim here rests on it. \\
+\texttt{tools/audit\_exclusivist\_matches.py}, \texttt{results/exclusivist\_monotheism\_audit.json}, \texttt{.csv} & match-by-match audit: printed span, part heading and section, composition, covering dependence rule, judged sentence, verdict reason; the mutually exclusive disposition table over all 51 matches and the check that re-derives it; the whitespace recall control and the 16-class missed-formula probe \\
+\midrule
+\multicolumn{2}{l}{\emph{State coder v3 (Section 6.4)}}\\
+\texttt{config/divinity\_ontology.json} & 12 dimensions and their 93 declared values with coverage state, the three assertion fields, the proposition-level record contract, the 13-operator transformation vocabulary and its discipline, the four competing models, the frame's prohibitions and its \texttt{multilingual\_status} \\
+\texttt{config/ontology\_english\_rules.json}, \texttt{tools/migrate\_rules\_to\_v3.py} & English detectors for all 12 dimensions, speech-act markers, matching conventions, migration record from the seven-dimension build; the migration script rewrites both configuration files together and reassigns the existing English patterns to the new dimensions by named rule, so the correspondence between the superseded detector and this one is auditable rather than implicit \\
+\texttt{config/divinity\_lexicon.json} & divine-term lexicon with per-entry provenance; unverified entries generate candidates and never count as attestations \\
+\texttt{tools/divinity\_ontology.py}, \texttt{tools/deterministic\_gzip.py} & the coder: windowing, whitespace-normalised offsets, proposition segmentation, single-valued conflict detection, endorsement logic; and the shared gzip writer that pins \field{mtime} to zero and stores no filename, because the header's creation time made the published artifacts differ between runs while every count stayed equal \\
+\texttt{results/ontology\_attestations.jsonl.gz} & 47{,}641 records with locator, surface text, proposition and window spans, referent candidates, all four D7 fields, three assertion answers, null date and coder fields \\
+\texttt{results/ontology\_run\_summary.json} & state and endorsement tallies, per-dimension coverage, the 9 values labelled \field{not\_yet\_instrumented}, segmentation failure modes, reading rules, hashes \\
+\texttt{results/ontology\_passage\_matrix.csv.gz} & 23{,}385 rows \(\times\) 50 value columns \(=\) 1{,}169{,}250 cells \\
+\texttt{results/ontology\_work\_states.csv}, \texttt{ontology\_workpair\_dimensions.csv} & 780 work-by-dimension cells with candidate and affirmative-doctrine counts separate; work-pair states with the independence flag \\
+\texttt{tools/build\_ontology\_graph.py}, \texttt{results/ontology\_graph.json}, \texttt{ontology\_passage\_index.json.gz}, \texttt{ontology\_passage\_pairs.jsonl.gz} & five-layer state graph. Candidate generation is an exact inverted index over 14{,}036 live-state passages, 44 features and 30{,}070 postings: 22{,}940{,}506 distinct cross-work pairs share at least one live coded state (31{,}851{,}655 counting each shared feature), spanning 2{,}078 of the 2{,}080 work pairs. The index is shipped so that the relation regenerates byte-identically without this machine; the edge file is a labelled display slice of 41{,}238 rows under a published cap of 20 per work pair, never a sample of the relation. The graph also carries the one coverage inventory the paper quotes, and layer 4 is empty by design \\
+\texttt{tools/validate\_graph\_recall.py}, \texttt{results/graph\_recall\_validation.json} & the superseded MinHash banding measured against the exact relation twice over: corpus-wide, 538{,}529 of 22{,}940{,}506 pairs recovered (recall 0.023475; 0.206698 with the bucket cap removed; 4{,}203{,}223 lost to the cap and 18{,}198{,}754 to banding), and on a deterministic 1{,}632-passage stratified subset, 9{,}600 of 413{,}552 (recall 0.023214). Precision is 1.0 in both runs, so banding's only defect was coverage \\
+\texttt{tools/render\_track\_b\_state.py}, \texttt{results/track\_b\_state.html} & self-contained figure set: concept dimensions on candidate counts, D7a--d on their own denominator with their own legend, a separate affirmative-doctrine heat map, coverage panel \\
+\midrule
+\multicolumn{2}{l}{\emph{Annotation (built, unused)}}\\
+\texttt{tools/prepare\_annotation\_packet.py}, \texttt{results/annotation\_packet\_coder\_view.csv}, \texttt{annotation\_packet\_key.jsonl}, \texttt{annotation\_codebook.csv}, \texttt{annotation\_sampling\_plan.json} & 6{,}199 blinded propositions --- 4{,}699 machine-flagged candidates over 48 value strata with 11 censuses, 65 works, 8 speech acts, plus 1{,}500 no-record probe rows in two disjoint strata with their exact \(\pi\) and \(w = 1/\pi\) published per row; seed 20261101, separate answer key, published codebook and sizing rationale \\
+\texttt{config/recall\_probe\_cues.json}, \texttt{tools/check\_recall\_cues.py} & the 111 English cues that decide where the probe looks, each counted over the eligible passages by the checker, with the six ambiguous cues retired and their reasons recorded; the file sets \texttt{not\_a\_detector: true} and the packet builder refuses a cue list it has not verified \\
+\texttt{tools/score\_annotation.py} & the \(\kappa\)-and-Jaccard scorer plus the weighted recall estimator: per-value precision on candidate rows, Horvitz--Thompson miss counts on probe rows, a one-sided exact binomial bound where a stratum found none, and \textbf{refusals} --- one coder, the same sheet twice, a key with no probe rows, a probe row with no weight --- and correspondingly, \textbf{no \texttt{results/annotation\_reliability.json} exists}, because no human has coded the packet \\
+\midrule
+\multicolumn{2}{l}{\emph{Models (Section 7)}}\\
+\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome; stage 2 asks the separate licence question, an inheritance-bearing model over the no-edge baseline at the same single declared margin), the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}. \\
+\texttt{tools/compare\_models.py --power}, \texttt{results/model\_power\_simulation.json} & the floors the layer enforces, simulated rather than asserted: each of the four models run as the truth over the declared grid (20--400 pairs by 20, 200 replications, seed 20261031) at a 0.8 target, the pair floor taken as the maximum over the four so that no truth is left unresolved (220 pairs, M1 binding), the effective-sample floor as the 5th percentile Kish count of that binding cell (29.051621), three sensitivity scenarios and a per-row Monte Carlo standard error, with the declared parameters hashed and any overridden run stamped \texttt{SMOKE RUN}. A run that derives no floor refuses every pair set instead of falling back to the superseded analyst number of 20. \\
+\midrule
+\multicolumn{2}{l}{\emph{Method and tests}}\\
+\texttt{TRACK\_B\_METHOD\_v2.md} & the Track B methodology as rebuilt: unit of analysis, the twelve dimensions and why two were split, the three-question state model, audit findings, the four models with their admissions, the operator discipline, the licence conditions on reporting, the acquisition plan \\
+\texttt{tests/}, \texttt{tools/validate\_*.py} & 282 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 91 model-comparison, 29 annotation-recall, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
+\bottomrule
+\end{longtable}
+
+The corpus is English-translation print material selected for retrieval testing; it
+is not a balanced sample of world narrative, and no conclusion here depends on its
+being one.
+
+\section*{Reproducibility statement}
+
+\texttt{python -m pytest tests -q} runs the full suite offline. This file is checked
+by \texttt{tools/validate\_tex.py}, which verifies environment nesting, every row's
+cell count against its column specification, escape hygiene, and that each
+cross-reference and citation key resolves. \texttt{python tools/validate\_tex.py
+--self-test} then injects each defect class into an in-memory copy of this source and
+requires the matching check to fire: all ten do, and the clean copy reports nothing.
+It reports structure, not content. Compilation is a separate check, and here it is a
+measurement rather than a disclaimer: \texttt{tests/test\_tex\_typesetting.py} runs
+\texttt{pdflatex} into a temporary directory, repeating the pass until the reported page
+count repeats and the log stops asking for a rerun, and fails the suite if the engine
+exits non-zero, if its log reports an overfull or underfull box, if a reference or
+citation is still undefined on the final pass, if the length is still moving after four
+passes, or if the page count the prose states is not the page count the engine produced. On this machine (MiKTeX 25.12) the paper sets to 33 pages with none of those
+occurring; the earlier edition of this paragraph said no \LaTeX{} engine was installed,
+which was true of that machine and wrong as a reason not to look. Where no engine is
+installed the test skips and says so, instead of leaving the geometry unverified in
+silence. Each instrument
+publishes the SHA-256 of the corpus slice, the configuration and the code that
+produced it, and a test fails if any of those change after the run. The
+reproducibility field of the state run records
+\texttt{randomness: ``none: sorted iteration, no sampling, no fitted
+parameters''}, and the graph's exact index has none either, since it reads its posting
+lists in sorted order. Randomness survives only as seeded, published draws --- the
+retrieval nulls and the structural engine's 200 permutations at seed 20261031, and the
+blinded packet's samples at seed 20261101 --- plus the superseded MinHash step, whose
+seed, band structure, bucket cap and measured recall are published in
+Table~\ref{tab:graph} but which now produces no published edge. The gzipped artifacts
+are written with \field{mtime} pinned to zero and no stored filename, because the
+header's creation timestamp made two runs differ byte for byte while every count in
+them stayed equal.
+
+\begin{thebibliography}{99}
+\bibitem[D\`{a} Silva and Tehrani(2016)]{dasilva2016}
+D\`{a} Silva, Sara Gra\c{c}a, and Jamshid J. Tehrani. 2016.
+``Comparative Phylogenetic Analyses Uncover the Ancient Roots of Indo-European Folktales.''
+\emph{Royal Society Open Science} 3: 150645.
+
+\bibitem[Faulkes(1987)]{faulkes1987}
+Faulkes, Anthony, trans. 1987. \emph{Edda}. Everyman.
+
+\bibitem[George(2003)]{george2003}
+George, Andrew. 2003. \emph{The Babylonian Gilgamesh Epic: Introduction, Critical Edition and Cuneiform Texts}.
+2 vols. Oxford University Press.
+
+\bibitem[Hoffner(1998)]{hoffner1998}
+Hoffner, Harry A., Jr. 1998. \emph{Hittite Myths}. 2nd ed. Scholars Press.
+
+\bibitem[Jamison and Brereton(2014)]{jamison2014}
+Jamison, Stephanie W., and Joel P. Brereton, trans. 2014.
+\emph{The Rigveda: The Earliest Religious Poetry of India}. 3 vols. Oxford University Press.
+
+\bibitem[Lambert(2013)]{lambert2013}
+Lambert, W. G. 2013. \emph{Babylonian Creation Myths}. Eisenbrauns.
+
+\bibitem[Larrington(2014)]{larrington2014}
+Larrington, Carolyne, trans. 2014. \emph{The Poetic Edda}. Revised ed. Oxford University Press.
+
+\bibitem[Tehrani(2013)]{tehrani2013}
+Tehrani, Jamshid J. 2013. ``The Phylogeny of Little Red Riding Hood.''
+\emph{PLOS ONE} 8 (11): e78871.
+
+\bibitem[Thompson(1955--1958)]{thompson1955}
+Thompson, Stith. 1955--1958. \emph{Motif-Index of Folk-Literature}.
+Revised and enlarged ed. 6 vols. Indiana University Press.
+
+\bibitem[Uther(2004)]{uther2004}
+Uther, Hans-J\"{o}rg. 2004. \emph{The Types of International Folktales: A Classification and Bibliography}.
+3 vols. Academia Scientiarum Fennica.
+
+\bibitem[Watkins(1995)]{watkins1995}
+Watkins, Calvert. 1995. \emph{How to Kill a Dragon: Aspects of Indo-European Poetics}. Oxford University Press.
+
+\bibitem[West(1966)]{west1966}
+West, M. L. 1966. \emph{Hesiod: Theogony}. Clarendon Press.
+
+\bibitem[West(2007)]{west2007}
+West, M. L. 2007. \emph{Indo-European Poetry and Myth}. Oxford University Press.
+
+\bibitem[Witzel(2012)]{witzel2012}
+Witzel, E. J. Michael. 2012. \emph{The Origins of the World's Mythologies}. Oxford University Press.
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,1381 @@
+{
+  "schema_version": "3.0.0",
+  "purpose": "English-detector patterns for the twelve-dimension Track B frame. Patterns were reassigned from the seven-dimension release by named rule (tools/migrate_rules_to_v3.py); one surface string may be evidence on several dimensions, because the dimensions ask different questions.",
+  "matching_conventions": {
+    "normalisation": "collapse all runs of whitespace to one space; keep original offsets in a separate map so locators stay exact",
+    "case": "case-insensitive",
+    "word_boundary": "every pattern is anchored with \\b at both ends",
+    "ambiguity_marker": "rules whose hits need a human to choose between dimension values carry `disambiguation_needed` and are never auto-scored",
+    "coverage_state": "`instrumented` | `partially_instrumented` | `not_yet_instrumented` — a value is only eligible for the `not_attested_in_available_sources` state if it is `instrumented` AND every lexicon entry in the source languages associated with the work was searched"
+  },
+  "speech_act_markers": {
+    "note": "D7 is not detected by a term; it is detected by the shape of the window around the term. These markers run first and their output constrains which values the other dimensions may take. This ordering is deliberate: v1 read the term and inferred the doctrine, which is how a conditional became an atheist confession and Paul's 'one spirit' became monotheism.",
+    "conditional_hypothetical": {
+      "pattern": "\\bif\\b[^.!?]{0,180}\\b(there\\s+be|there\\s+is|there\\s+were|be|are)\\b",
+      "window": "sentence",
+      "constrains": "D7=conditional_hypothetical; the contained negation is NOT an asserted doctrine"
+    },
+    "reported_speech": {
+      "pattern": "\\b(?:say|said|saith|speak|spake|telleth|declare|cry|answer|answering)[^.!?,;]{0,40}\\b(?:that|unto|them|the|to)?\\b",
+      "window": "sentence",
+      "constrains": "D7=reported_speech_of_opponent when the subject is human or an opponent"
+    },
+    "question": {
+      "pattern": "\\?|\\bwhether\\b|\\b(?:is|are|do|does)\\b[^.!?]{0,60}\\bnot\\b",
+      "window": "sentence",
+      "constrains": "D7=doubt_or_inquiry; a question about divinity is not a denial of it"
+    },
+    "vocative_address": {
+      "pattern": "\\b(?:o\\s|thou\\s+art|thy\\s|you\\s+are\\s+(?:god|blessed)|praise|glory\\s+to|magnificent\\s+art)\\b",
+      "window": "sentence",
+      "constrains": "D7=doxology_or_address"
+    },
+    "command_or_prohibition": {
+      "pattern": "\\b(?:thou shalt|you shall|thou shalt not|cursed\\s+be|blessed\\s+are|obey|command(?:ed|ment)?)\\b",
+      "window": "sentence",
+      "constrains": "D7=prescriptive_command"
+    },
+    "non_divine_speaker": {
+      "pattern": "\\b(?:babylon|tyre|pharaoh|king|city|nineveh|satan|serpent|korihor|atheist|idolater)\\b",
+      "window": "paragraph",
+      "constrains": "D7=boast_of_non_divine_claimant when a first-person oneness formula follows"
+    },
+    "editorial_frame": {
+      "pattern": "\\b(?:the\\s+muslims?\\s+(?:say|hold|believe)|it\\s+is\\s+(?:taught|believed|said)\\s+that|the\\s+(?:doctrine|tenets?|religion|system)\\s+(?:of|is)|we\\s+are\\s+told)\\b",
+      "window": "paragraph",
+      "constrains": "D7=editorial_or_ethnographic_description"
+    },
+    "argument_frame": {
+      "pattern": "\\b(?:therefore|wherefore|hence|for\\s+if|since|because|proof|evidence|demonstrat|conclude)\\b",
+      "window": "sentence",
+      "constrains": "D7=philosophical_argument"
+    },
+    "mythic_narration": {
+      "pattern": "\\b(?:in\\s+the\\s+beginning|long\\s+ago|thereupon|then\\s+said|and\\s+he\\s+took|once|from\\s+of\\s+old|of\\s+old)\\b",
+      "window": "paragraph",
+      "constrains": "D7=mythic_narration"
+    },
+    "denial_of_other_gods": {
+      "pattern": "\\b(?:vanity|nothing|no\\s+god(?:s)?\\s+at\\s+all|idols?\\s+are|worthless|lies\\s+they)\\b",
+      "window": "sentence",
+      "constrains": "D7=polemic_denial"
+    }
+  },
+  "dimensions": {
+    "D1_ontological_category": {
+      "cardinality": "set",
+      "question": "What kind of thing is divinity taken to be, in this proposition?",
+      "note": "Set-valued. A text can hold that the ultimate is a personal being AND the ground in which other beings subsist; forcing one label invented a contradiction the tradition did not assert.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "personal_being": {
+          "definition": "a being with mind, will and address, capable of being spoken to",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\b(?:he|hims?elf|thou|you)\\s+(?:said|spake|saw|knew|loved|hated|repented|commanded|went\\s+forth)\\b",
+            "\\bgod\\s+(?:said|commanded|spoke|spake|knew|saw)\\b",
+            "\\blord\\s+(?:said|commanded)\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=personal_agent"
+          ]
+        },
+        "impersonal_order_or_law": {
+          "definition": "an order, law, ground or absolute that is not a being and has no mental states",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bbrahman\\b",
+            "\\bcosmic\\s+order\\b",
+            "\\bdao\\b",
+            "\\bdharmakaya\\b",
+            "\\bein\\s+sof\\b",
+            "\\bimpersonal\\b",
+            "\\bneti\\s+neti\\b",
+            "\\bprinciple\\s+of\\s+all\\s+things\\b",
+            "\\btao\\b",
+            "\\bthe\\s+absolute\\b",
+            "\\bultimate\\s+reality\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=impersonal_principle"
+          ]
+        },
+        "animating_substance_or_power": {
+          "definition": "sacred power as a quantifiable stuff or property that things may contain",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bgreat\\s+spirit\\b",
+            "\\bmana\\b",
+            "\\bmanitou\\b",
+            "\\borende\\b",
+            "\\bsacred\\s+power\\b",
+            "\\bwakan\\b",
+            "\\bwakanda\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=animating_substance"
+          ]
+        },
+        "collective_or_class": {
+          "definition": "'the divine' names a class of beings; no single member is the referent",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\b kami\\b",
+            "\\b(?:the\\s+)?gods\\b",
+            "\\bdevas\\b",
+            "\\bdivine\\s+race\\b",
+            "\\bpantheon\\b",
+            "\\bthe\\s+immortals\\b",
+            "\\byazatas?\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=collective_or_class"
+          ]
+        },
+        "manifestation_or_hypostasis": {
+          "definition": "a visible face of a hidden depth; the addressed figure is not the whole",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bhypostasis\\b",
+            "\\bimage\\s+of\\s+the\\s+invisible\\s+god\\b",
+            "\\bincarnation\\b",
+            "\\bmanifestation\\b",
+            "\\bsefirot\\b",
+            "\\bshekinah\\b",
+            "\\bword\\s+became\\s+flesh\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=manifestation_or_hypostasis"
+          ]
+        },
+        "deified_mortal": {
+          "definition": "divinity as an honour a formerly human person received",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bancestor\\s+worship\\b",
+            "\\bapotheosis\\b",
+            "\\bdeified\\b",
+            "\\beuhemerus\\b",
+            "\\bmade\\s+a\\s+god\\b",
+            "\\bman\\s+became\\s+god\\b",
+            "\\bplaced\\s+among\\s+the\\s+gods\\b",
+            "\\bworshipped\\s+as\\s+a\\s+god\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=deified_mortal"
+          ]
+        },
+        "unknowable_or_conceptless": {
+          "definition": "the ultimate is declared beyond the reach of these predicates",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bagnosia\\b",
+            "\\bcannot\\s+be\\s+comprehended\\b",
+            "\\bineseffable\\b",
+            "\\bneti\\s+neti\\b",
+            "\\bno\\s+thought\\s+reaches\\b",
+            "\\bunknowable\\b",
+            "\\bunsearchable\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=unknowable_or_conceptless"
+          ]
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D2a_acknowledged_population": {
+      "cardinality": "single",
+      "question": "How many divine beings does this proposition acknowledge?",
+      "note": "A counting question only. It carries no claim about worship and none about the reality of the beings counted; both were split out of the old D2.",
+      "coverage_state": "instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "one_only": {
+          "definition": "exactly one divine being is acknowledged in the proposition",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bapart\\s+from\\s+(?:me|him)\\s+there\\s+is\\s+no\\s+god\\b",
+            "\\bbeside\\s+me\\s+there\\s+is\\s+no\\s+god\\b",
+            "\\bi\\s+am\\s+and\\s+none\\s+else\\b",
+            "\\bjealous\\s+god\\b",
+            "\\bno\\s+god\\s+but\\b",
+            "\\bno\\s+god\\s+else\\s+beside\\b",
+            "\\bno\\s+other\\s+gods\\b",
+            "\\bno\\s+other\\s+gods\\s+before\\s+me\\b",
+            "\\bthe\\s+lord\\s+is\\s+one\\b",
+            "\\bthe\\s+lord\\s+our\\s+god\\s+is\\s+one\\b",
+            "\\bthee\\s+there\\s+is\\s+no\\b",
+            "\\bthere\\s+is\\s+no\\s+god\\s+besides\\b",
+            "\\bthere\\s+is\\s+none\\s+else\\b",
+            "\\bthou\\s+shalt\\s+have\\s+no\\s+other\\s+gods\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=sole_existent_others_unreal",
+            "D2_plurality=sole_worshipable_others_acknowledged"
+          ]
+        },
+        "two_polar": {
+          "definition": "two complementary terms, neither reducible to the other",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bahura\\s+mazd\\w+\\s+and\\s+angra\\b",
+            "\\bgood\\s+and\\s+evil\\s+principles\\b",
+            "\\bopposite\\s+principles\\b",
+            "\\bos\\s+and\\s+isis\\b",
+            "\\bprakriti\\b",
+            "\\bpurusha\\b",
+            "\\btwin\\s+spirits\\b",
+            "\\byin\\s+and\\s+yang\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=dyadic_polar"
+          ]
+        },
+        "few_or_several": {
+          "definition": "a small definite number, without ranking",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bgods\\s+many\\b",
+            "\\bmany\\s+gods\\b",
+            "\\bpantheon\\b",
+            "\\bthe\\s+tuatha\\s+de\\b",
+            "\\bthirty[-\\s]three\\s+gods\\b",
+            "\\bwe\\s+are\\s+gods\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=many_co_equal"
+          ]
+        },
+        "many_graded": {
+          "definition": "a plurality with ranks, offices, genealogy or a head",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\barchangel\\b",
+            "\\bassembly\\s+of\\s+the\\s+gods\\b",
+            "\\bcouncil\\s+of\\s+the\\s+gods\\b",
+            "\\bdevas\\s+of\\s+the\\s+(?:thirty[-\\s]three|realm)\\b",
+            "\\bdivine\\s+council\\b",
+            "\\bel\\s+elyon\\b",
+            "\\bfirst\\s+begotten\\b",
+            "\\bgeneration\\s+of\\s+the\\s+gods\\b",
+            "\\bgod\\s+of\\s+gods\\b",
+            "\\bgreater\\s+and\\s+lesser\\b",
+            "\\bhead\\s+of\\s+the\\s+pantheon\\b",
+            "\\bjade\\s+emperor\\b",
+            "\\bking\\s+of\\s+gods\\b",
+            "\\blord\\s+of\\s+hosts\\b",
+            "\\borders\\s+of\\s+angels\\b",
+            "\\branks\\s+of\\s+angels\\b",
+            "\\bsons\\s+of\\s+god\\b",
+            "\\bthe\\s+most\\s+high\\b",
+            "\\btheogony\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=many_ranked",
+            "D2_plurality=supreme_head_with_assembly"
+          ]
+        },
+        "uncountable_or_numeric_scheme": {
+          "definition": "plurality expressed as a doctrinal number or as myriads",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\b33\\s+gods\\b",
+            "\\bennead\\b",
+            "\\bmyriad\\b",
+            "\\bnine\\s+gods\\b",
+            "\\bseven\\s+spirits\\b",
+            "\\bthree\\s+persons\\b",
+            "\\btriad\\b",
+            "\\btrinity\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=numeric_scheme"
+          ]
+        },
+        "none_acknowledged": {
+          "definition": "no divine being is conceded",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bdenial\\s+of\\s+the\\s+gods\\b",
+            "\\bgods\\s+do\\s+not\\s+exist\\b",
+            "\\bno\\s+gods\\s+exist\\b",
+            "\\bthere\\s+is\\s+no\\s+god\\b",
+            "\\bwithout\\s+a\\s+creator\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=none"
+          ]
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D2b_reality_of_others": {
+      "cardinality": "single",
+      "question": "What status do other divine beings have, relative to the one in question?",
+      "note": "The truth-claim about rivals, separated from the counting question and from the worship question. A proposition can acknowledge many beings (D2a) while denying they are real, or acknowledge one while treating the others as real and subordinate.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "others_denied_unreal": {
+          "definition": "other claimed divinities are explicitly not beings: nothing, non-beings, nameless, or the work of human hands",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bapart\\s+from\\s+(?:me|him)\\s+there\\s+is\\s+no\\s+god\\b",
+            "\\bbeside\\s+me\\s+there\\s+is\\s+no\\s+god\\b",
+            "\\bdenial\\s+of\\s+the\\s+gods\\b",
+            "\\bgods\\s+do\\s+not\\s+exist\\b",
+            "\\bi\\s+am\\s+and\\s+none\\s+else\\b",
+            "\\bno\\s+god\\s+but\\b",
+            "\\bno\\s+god\\s+else\\s+beside\\b",
+            "\\bno\\s+gods\\s+exist\\b",
+            "\\bthee\\s+there\\s+is\\s+no\\b",
+            "\\bthere\\s+is\\s+no\\s+god\\b",
+            "\\bthere\\s+is\\s+no\\s+god\\s+besides\\b",
+            "\\bthere\\s+is\\s+none\\s+else\\b",
+            "\\bwithout\\s+a\\s+creator\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=sole_existent_others_unreal",
+            "D2_plurality=none"
+          ]
+        },
+        "others_real_but_subordinate": {
+          "definition": "others exist and are ordered below the one in question",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\barchangel\\b",
+            "\\bassembly\\s+of\\s+the\\s+gods\\b",
+            "\\bcouncil\\s+of\\s+the\\s+gods\\b",
+            "\\bdevas\\s+of\\s+the\\s+(?:thirty[-\\s]three|realm)\\b",
+            "\\bdivine\\s+council\\b",
+            "\\bel\\s+elyon\\b",
+            "\\bfirst\\s+begotten\\b",
+            "\\bgeneration\\s+of\\s+the\\s+gods\\b",
+            "\\bgod\\s+of\\s+gods\\b",
+            "\\bgreater\\s+and\\s+lesser\\b",
+            "\\bhead\\s+of\\s+the\\s+pantheon\\b",
+            "\\bjade\\s+emperor\\b",
+            "\\bjealous\\s+god\\b",
+            "\\bking\\s+of\\s+gods\\b",
+            "\\blord\\s+of\\s+hosts\\b",
+            "\\bno\\s+other\\s+gods\\b",
+            "\\bno\\s+other\\s+gods\\s+before\\s+me\\b",
+            "\\borders\\s+of\\s+angels\\b",
+            "\\branks\\s+of\\s+angels\\b",
+            "\\bsons\\s+of\\s+god\\b",
+            "\\bthe\\s+lord\\s+is\\s+one\\b",
+            "\\bthe\\s+lord\\s+our\\s+god\\s+is\\s+one\\b",
+            "\\bthe\\s+most\\s+high\\b",
+            "\\btheogony\\b",
+            "\\bthou\\s+shalt\\s+have\\s+no\\s+other\\s+gods\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=sole_worshipable_others_acknowledged",
+            "D2_plurality=supreme_head_with_assembly",
+            "D2_plurality=many_ranked"
+          ]
+        },
+        "others_real_and_not_subordinate": {
+          "definition": "others exist and are not ranked under it",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bahura\\s+mazd\\w+\\s+and\\s+angra\\b",
+            "\\bgods\\s+many\\b",
+            "\\bgood\\s+and\\s+evil\\s+principles\\b",
+            "\\bmany\\s+gods\\b",
+            "\\bopposite\\s+principles\\b",
+            "\\bos\\s+and\\s+isis\\b",
+            "\\bpantheon\\b",
+            "\\bprakriti\\b",
+            "\\bpurusha\\b",
+            "\\bthe\\s+tuatha\\s+de\\b",
+            "\\bthirty[-\\s]three\\s+gods\\b",
+            "\\btwin\\s+spirits\\b",
+            "\\bwe\\s+are\\s+gods\\b",
+            "\\byin\\s+and\\s+yang\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=many_co_equal",
+            "D2_plurality=dyadic_polar"
+          ]
+        },
+        "others_not_addressed": {
+          "definition": "the proposition is silent about any other being",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D2c_worship_exclusivity": {
+      "cardinality": "single",
+      "question": "Is devotion or rite restricted to this divinity?",
+      "note": "A normative question. 'Thou shalt have no other gods before me' is evidence here, not in D2b: it commands a practice and says nothing about whether other beings exist. The v1 audit found three worship prohibitions counted as existence claims; this dimension exists so the frame cannot make that mistake again.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "exclusive_devotion_commanded": {
+          "definition": "rite, prayer or allegiance is owed to this divinity alone",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bno\\s+god\\s+but\\b",
+            "\\bno\\s+other\\s+gods\\b",
+            "\\bno\\s+other\\s+gods\\s+before\\s+me\\b",
+            "\\bserve\\s+him\\s+only\\b",
+            "\\bthou\\s+shalt\\s+have\\s+no\\s+other\\s+gods\\b",
+            "\\bworship\\s+(?:the\\s+)?(?:LORD|him)\\s+only\\b"
+          ],
+          "inherited_from": [
+            "D2_plurality=sole_existent_others_unreal",
+            "D2_plurality=sole_worshipable_others_acknowledged"
+          ],
+          "inheritance_filter": {
+            "require": "worship|serve\\b|bow\\b|incense|sacrific|no\\s+other\\s+gods|before\\s+me|god\\s+but\\b|pray",
+            "reason": "D2c asks whether devotion is restricted; an existence formula says nothing about practice and may not be scored as a worship claim",
+            "patterns_dropped_from_inheritance": [
+              "\\bapart\\s+from\\s+(?:me|him)\\s+there\\s+is\\s+no\\s+god\\b",
+              "\\bbeside\\s+me\\s+there\\s+is\\s+no\\s+god\\b",
+              "\\bi\\s+am\\s+and\\s+none\\s+else\\b",
+              "\\bjealous\\s+god\\b",
+              "\\bno\\s+god\\s+else\\s+beside\\b",
+              "\\bthe\\s+lord\\s+is\\s+one\\b",
+              "\\bthe\\s+lord\\s+our\\s+god\\s+is\\s+one\\b",
+              "\\bthee\\s+there\\s+is\\s+no\\b",
+              "\\bthere\\s+is\\s+no\\s+god\\s+besides\\b",
+              "\\bthere\\s+is\\s+none\\s+else\\b"
+            ]
+          },
+          "new_in_v3": [
+            "\\bno\\s+other\\s+gods\\b",
+            "\\bserve\\s+him\\s+only\\b",
+            "\\bthou\\s+shalt\\s+have\\s+no\\s+other\\s+gods\\b",
+            "\\bworship\\s+(?:the\\s+)?(?:LORD|him)\\s+only\\b"
+          ]
+        },
+        "devotion_to_others_permitted": {
+          "definition": "the text treats devotion to other beings as legitimate, including when it is describing a practice it disapproves of in another voice",
+          "coverage": "instrumented",
+          "disambiguation_needed": true,
+          "patterns": [
+            "\\bburn\\s+incense\\s+to\\b",
+            "\\bmake\\s+mention\\s+of\\s+other\\s+gods\\b",
+            "\\bsacrific\\w*\\s+to\\s+the\\s+gods\\b",
+            "\\bworship\\w*\\s+(?:the\\s+)?(?:idols?|images?|baalim)\\b"
+          ],
+          "inherited_from": [],
+          "new_in_v3": [
+            "\\bburn\\s+incense\\s+to\\b",
+            "\\bmake\\s+mention\\s+of\\s+other\\s+gods\\b",
+            "\\bsacrific\\w*\\s+to\\s+the\\s+gods\\b",
+            "\\bworship\\w*\\s+(?:the\\s+)?(?:idols?|images?|baalim)\\b"
+          ]
+        },
+        "devotion_mediated_by_hierarchy": {
+          "definition": "access runs through subordinate beings, angels, saints or offices",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\b(?:intercess|mediat)\\w+\\b",
+            "\\bangel\\s+of\\s+the\\s+(?:LORD|Lord)\\b",
+            "\\bthrough\\s+(?:his|the)\\s+(?:son|angels|ministers|priests)\\b"
+          ],
+          "inherited_from": [],
+          "new_in_v3": [
+            "\\b(?:intercess|mediat)\\w+\\b",
+            "\\bangel\\s+of\\s+the\\s+(?:LORD|Lord)\\b",
+            "\\bthrough\\s+(?:his|the)\\s+(?:son|angels|ministers|priests)\\b"
+          ]
+        },
+        "no_devotional_language": {
+          "definition": "the proposition makes no claim about practice at all",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D3_agency": {
+      "cardinality": "set",
+      "question": "What agency is predicated — personhood, will, manner of acting, delegation?",
+      "note": "Set-valued. Deliberating will, delegated execution and reciprocal dependency coexist in ordinary religious texts; the old single label made them compete.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "personalhood_mind_and_will": {
+          "definition": "the divine is spoken of as having mind, will and the capacity to be addressed",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\b(?:he|hims?elf|thou|you)\\s+(?:said|spake|saw|knew|loved|hated|repented|commanded|went\\s+forth)\\b",
+            "\\bgod\\s+(?:said|commanded|spoke|spake|knew|saw)\\b",
+            "\\blord\\s+(?:said|commanded)\\b"
+          ],
+          "inherited_from": [
+            "D1_divine_ontology=personal_agent"
+          ]
+        },
+        "deliberating_will": {
+          "definition": "decides, counsels, debates, commands, repents",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcounsel\\s+of\\s+the\\s+most\\s+high\\b",
+            "\\bgod\\s+(?:said|decreed|resolved|purposed|repented|regretted)\\b",
+            "\\bhims?elf\\s+deliberated\\b",
+            "\\blet\\s+us\\s+make\\b",
+            "\\bswore\\s+by\\s+hims?elf\\b",
+            "\\bthe\\s+gods\\s+took\\s+counsel\\b"
+          ],
+          "inherited_from": [
+            "D3_agency=deliberating_will"
+          ]
+        },
+        "effortless_self_evolution": {
+          "definition": "produces without deliberation or labour: emanation, self-differentiation",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bemanat\\w+\\b",
+            "\\bfrom\\s+him\\s+all\\s+things\\s+breathe\\b",
+            "\\bjust\\s+as\\s+fire\\s+gives\\s+heat\\b",
+            "\\bself[-\\s]existent\\b",
+            "\\bspontaneously\\b",
+            "\\bundesigned\\b",
+            "\\bwithout\\s+effort\\b"
+          ],
+          "inherited_from": [
+            "D3_agency=effortless_self_evolution"
+          ]
+        },
+        "law_without_will": {
+          "definition": "cosmos runs by an impersonal regularity that is itself sacred",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcosmic\\s+law\\b",
+            "\\bdao\\s+does\\s+nothing\\b",
+            "\\bheaven\\s+does\\s+not\\s+ speak\\b",
+            "\\bimpersonal\\s+law\\b",
+            "\\bnature\\s+does\\s+not\\s+hurry\\b",
+            "\\border\\s+of\\s+the\\s+world\\b",
+            "\\brta\\b"
+          ],
+          "inherited_from": [
+            "D3_agency=law_without_will"
+          ]
+        },
+        "delegated_execution": {
+          "definition": "authorship is nominal; subordinates, angels, fate-figures or offices do the work",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bangel\\s+of\\s+the\\s+lord\\b",
+            "\\barchangel\\b",
+            "\\bby\\s+his\\s+word\\b",
+            "\\bcelestial\\s+bureaucracy\\b",
+            "\\bffcers\\s+of\\s+heaven\\b",
+            "\\bministering\\s+spirits\\b",
+            "\\bseraph\\b",
+            "\\bspirits\\s+who\\s+execute\\b",
+            "\\bthe\\s+lords\\s+of\\s+yima\\b"
+          ],
+          "inherited_from": [
+            "D3_agency=delegated_execution"
+          ]
+        },
+        "reciprocal_dependency": {
+          "definition": "the divine needs human rite, sacrifice or prayer to remain effective",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bfeed\\s+the\\s+gods\\b",
+            "\\bhuman\\s+prayer\\s+sustains\\b",
+            "\\bif\\s+the\\s+rites\\s+cease\\b",
+            "\\bsacrifice\\s+feed\\w*\\s+the\\s+gods\\b",
+            "\\bthe\\s+gods\\s+depend\\b",
+            "\\bthe\\s+gods\\s+needed\\b",
+            "\\bwithout\\s+sacrifice\\b"
+          ],
+          "inherited_from": [
+            "D3_agency=reciprocal_dependency"
+          ]
+        },
+        "non_agential": {
+          "definition": "the divine is contemplative, immobile, does nothing",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcontemplation\\s+of\\s+itself\\b",
+            "\\bdoes\\s+nothing\\b",
+            "\\bneither\\s+acts\\s+nor\\s+wills\\b",
+            "\\bthe\\s+stillness\\b",
+            "\\bunmoved\\b"
+          ],
+          "inherited_from": [
+            "D3_agency=non_agential"
+          ]
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D4_cosmic_function": {
+      "cardinality": "set",
+      "question": "What work is the divinity credited with?",
+      "note": "Set-valued, unchanged from the previous release; the values and their detectors are inherited verbatim.",
+      "coverage_state": "instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "creating_ex_nihilo_or_by_word": {
+          "definition": "bringing world into being, often by utterance or command",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bby\\s+the\\s+word\\s+of\\s+god\\b",
+            "\\bcalled\\s+it\\s+into\\s+being\\b",
+            "\\bcreated\\s+the\\s+(?:heaven|world|earth|all\\s+things)\\b",
+            "\\bcreator\\b",
+            "\\bfiat\\b",
+            "\\bfirst\\s+cause\\b",
+            "\\bmaker\\s+of\\s+(?:heaven|earth|all|the\\s+world)\\b",
+            "\\bsaid\\s+let\\s+there\\s+be\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=creating_ex_nihilo_or_by_word"
+          ]
+        },
+        "crafting_from_prior_matter": {
+          "definition": "shaping already-existing material, demiurgic",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcut\\s+the\\s+body\\s+of\\b",
+            "\\bdemiurge\\b",
+            "\\bformed\\s+(?:man|him|the\\s+earth)\\s+(?:of|out\\s+of|from)\\b",
+            "\\bfrom\\s+the\\s+carcass\\b",
+            "\\bout\\s+of\\s+(?:clay|chaos|the\\s+body)\\b",
+            "\\bpotter\\b",
+            "\\bshaped\\s+from\\b",
+            "\\btiamat\\b",
+            "\\bymir\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=crafting_from_prior_matter"
+          ]
+        },
+        "generating_by_procreation": {
+          "definition": "world and gods issued by begetting, birth or union",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bbegat\\w*\\b",
+            "\\bcosmic\\s+marriage\\b",
+            "\\bfirst\\s+born\\b",
+            "\\bgave\\s+birth\\b",
+            "\\bmother\\s+of\\s+the\\s+gods\\b",
+            "\\bsexual\\s+union\\b",
+            "\\bthe\\s+gods\\s+were\\s+born\\b",
+            "\\bunion\\s+of\\s+(?:heaven\\s+and\\s+earth|earth\\s+and\\s+sky)\\b",
+            "\\bwas\\s+born\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=generating_by_procreation"
+          ]
+        },
+        "sustaining_order": {
+          "definition": "maintaining the cosmos against collapse",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bby\\s+whom\\s+all\\s+things\\s+consist\\b",
+            "\\bgoverns?\\s+the\\s+world\\b",
+            "\\bholds?\\s+up\\b",
+            "\\bkeeps?\\s+the\\s+seasons\\b",
+            "\\bmaintains?\\s+the\\s+order\\b",
+            "\\bsustains?\\b",
+            "\\bupholds?\\s+(?:all\\s+things|the\\s+world)\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=sustaining_order"
+          ]
+        },
+        "judging_moral_order": {
+          "definition": "requiring, weighing, punishing, vindicating",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bday\\s+of\\s+(?:judgment|resurrection|wrath)\\b",
+            "\\bjudge\\w*\\b",
+            "\\bmoral\\s+order\\b",
+            "\\bpunish\\w*\\b",
+            "\\breward\\w*\\b",
+            "\\bthe\\s+most\\s+high\\s+judge\\b",
+            "\\bvindicate\\w*\\b",
+            "\\bwages?\\s+of\\s+(?:righteousness|sin)\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=judging_moral_order"
+          ]
+        },
+        "dissolving_or_reabsorbing": {
+          "definition": "ending or drawing the world back into itself",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\ball\\s+things\\s+return\\b",
+            "\\bdissolution\\b",
+            "\\bend\\s+of\\s+the\\s+world\\b",
+            "\\bfimbulvetr\\b",
+            "\\bgotter\\b",
+            "\\bpralaya\\b",
+            "\\bragnarok\\b",
+            "\\breabsorb\\w*\\b",
+            "\\bthe\\s+world\\s+passes\\s+away\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=dissolving_or_reabsorbing"
+          ]
+        },
+        "revealing_teaching_lawgiving": {
+          "definition": "communicating knowledge or statute to humans",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcommandments?\\b",
+            "\\bdescended\\s+a\\s+book\\b",
+            "\\bgave\\s+the\\s+law\\b",
+            "\\bprophecy\\b",
+            "\\bprophet\\b",
+            "\\brevealed\\b",
+            "\\btablets?\\b",
+            "\\btaught\\s+them\\b",
+            "\\bthe\\s+words\\s+of\\s+wisdom\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=revealing_teaching_lawgiving"
+          ]
+        },
+        "rescuing_healing_restoring": {
+          "definition": "soteriological action toward humans in a damaged condition",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bavatar\\b",
+            "\\bcame\\s+down\\b",
+            "\\bdeliver\\w*\\b",
+            "\\bgod\\s+became\\s+man\\b",
+            "\\bhealing\\b",
+            "\\bliberation\\b",
+            "\\bmoksha\\b",
+            "\\bredeemer\\b",
+            "\\brestores?\\b",
+            "\\bsalvation\\b",
+            "\\bsavior\\b",
+            "\\bsaviour\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=rescuing_healing_restoring"
+          ]
+        },
+        "fertilisingWeather_agricultural": {
+          "definition": "storm, dew, grain, fertility: the divine as livelihood guarantee",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bbaal\\b",
+            "\\bdew\\b",
+            "\\bfertility\\b",
+            "\\bgives\\s+the\\s+rain\\b",
+            "\\bgrain\\b",
+            "\\bharvest\\b",
+            "\\bind\\ra\\b",
+            "\\brand\\s+upon\\b",
+            "\\bstorm\\s+god\\b",
+            "\\bthe\\s+waters\\s+give\\b",
+            "\\bthunder\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=fertilisingWeather_agricultural"
+          ]
+        },
+        "guarding_localised": {
+          "definition": "defence of a place, people, house or cult site",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bgod\\s+of\\s+the\\s+city\\b",
+            "\\bguardian\\s+(?:god|spirit|deity)\\b",
+            "\\bhousehold\\s+gods\\b",
+            "\\blares\\b",
+            "\\bour\\s+god\\b",
+            "\\bpatron\\s+(?:god|saint)\\b",
+            "\\bpenates\\b",
+            "\\bterritory\\s+of\\s+the\\s+god\\b",
+            "\\btutelar\\w+\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=guarding_localised"
+          ]
+        },
+        "no_function_attributed": {
+          "definition": "invoked but credited with no cosmic or human work",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bbeyond\\s+all\\s+action\\b",
+            "\\bhas\\s+no\\s+need\\b",
+            "\\bindependent\\s+of\\s+all\\b"
+          ],
+          "inherited_from": [
+            "D4_cosmic_function=no_function_attributed"
+          ]
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D5_universe_relationship": {
+      "cardinality": "set",
+      "question": "What is the relation between divinity and the world?",
+      "note": "Set-valued, and the composite value 'other_and_indwelling' is gone: transcendence and immanence are two labels that may both apply, which is what the texts actually say.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "wholly_other": {
+          "definition": "the divine and the world are distinct kinds; the world does not contain or constitute it",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bdwells\\s+above\\b",
+            "\\bhigh\\s+and\\s+lifted\\s+up\\b",
+            "\\bstand[s]?\\s+outside\\b",
+            "\\bthe\\s+creator\\s+separated\\b",
+            "\\bthe\\s+heavens\\s+are\\s+his\\s+footstool\\b",
+            "\\btranscendent\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=wholly_other"
+          ]
+        },
+        "indwelling_in_world": {
+          "definition": "the divine is present within the world or within its worshipers",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bdwells?\\s+in\\b",
+            "\\bfill[s]?\\s+all\\s+in\\s+all\\b",
+            "\\bgod\\s+with\\s+us\\b",
+            "\\bhis\\s+spirit\\s+in\\b",
+            "\\bimmanent\\b",
+            "\\bin\\s+him\\s+we\\s+live\\s+and\\s+move\\b",
+            "\\bthe\\s+lord\\s+is\\s+near\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=other_and_indwelling"
+          ]
+        },
+        "identical_with_world": {
+          "definition": "the cosmos itself, or its totality, is the divine",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\ball\\s+is\\s+god\\b",
+            "\\bevery\\s+thing\\s+is\\s+sacred\\b",
+            "\\bpanthei\\w+\\b",
+            "\\bspinoza\\b",
+            "\\btat\\s+tvam\\s+asi\\b",
+            "\\bthe\\s+all\\b",
+            "\\bthe\\s+world\\s+is\\s+god\\b",
+            "\\bthou\\s+art\\s+that\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=identical_with_world"
+          ]
+        },
+        "world_in_divine_not_exhausting": {
+          "definition": "the world is within the divine but does not exhaust it",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcontained\\s+within\\s+the\\s+divine\\b",
+            "\\bpanenthe\\w+\\b",
+            "\\bthe\\s+world\\s+is\\s+in\\s+god\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=world_in_divine_not_exhausting"
+          ]
+        },
+        "retreated_or_absent": {
+          "definition": "a deity made the world and withdrew, was displaced, or is inaccessible",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bdeus\\s+otiosus\\b",
+            "\\bgods\\s+have\\s+gone\\b",
+            "\\bheaven\\s+is\\s+fars?\\b",
+            "\\bno\\s+longer\\s+answers\\b",
+            "\\bno\\s+longer\\s+walks\\b",
+            "\\bremote\\s+deity\\b",
+            "\\bthe\\s+god\\s+withdrew\\b",
+            "\\bthe\\s+great\\s+spirit\\s+withdraws\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=retreated_or_absent"
+          ]
+        },
+        "world_as_appearance": {
+          "definition": "the cosmos is unreal, degraded or illusory relative to the divine",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bil[l]usion\\b",
+            "\\blike\\s+a\\s+dream\\b",
+            "\\blila\\b",
+            "\\bmaya\\b",
+            "\\bshadow\\b",
+            "\\bthe\\s+world\\s+is\\s+a\\s+play\\b",
+            "\\bthe\\s+world\\s+is\\s+not\\s+real\\b",
+            "\\bunreal\\b",
+            "\\bvanity\\s+of\\s+vanities\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=world_as_appearance"
+          ]
+        },
+        "scale_not_claimed": {
+          "definition": "the divine is bound to places, animals, lineage or cult; no cosmic-scale claim",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bguardian\\s+of\\s+the\\s+spring\\b",
+            "\\blocal\\s+deity\\b",
+            "\\bour\\s+shrine\\b",
+            "\\bthe\\s+god\\s+of\\s+this\\s+hill\\b",
+            "\\bthe\\s+spirit\\s+of\\s+this\\s+river\\b",
+            "\\bthis\\s+place\\s+is\\s+sacred\\b"
+          ],
+          "inherited_from": [
+            "D5_universe_relationship=scale_not_claimed"
+          ]
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D6_temporal_nature": {
+      "cardinality": "set",
+      "question": "What is the divinity's relation to time, to beginning and to end?",
+      "note": "Set-valued. Eternal existence, cyclic recurrence and an eschatological function are three properties, not three mutually exclusive answers to one question.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "term patterns",
+      "values": {
+        "uncreated_eternal": {
+          "definition": "no beginning; exists necessarily or from ever",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\balpha\\s+and\\s+omega\\b",
+            "\\before\\s+abo\\w+\\b",
+            "\\beternal\\s+god\\b",
+            "\\bfrom\\s+everlasting\\b",
+            "\\bself[-\\s]existent\\b",
+            "\\bthe\\s+same\\s+yesterday\\s+today\\b",
+            "\\bthou\\s+wast\\b",
+            "\\bwithout\\s+beginning\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=uncreated_eternal"
+          ]
+        },
+        "born_in_time": {
+          "definition": "has a genealogy, a birth, a youngest generation",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bcame\\s+into\\s+being\\b",
+            "\\bfirst\\s+begotten\\b",
+            "\\bgenealogy\\s+of\\s+the\\s+gods\\b",
+            "\\bthe\\s+gods\\s+fear\\b",
+            "\\bthe\\s+gods\\s+were\\s+not\\b",
+            "\\bthere\\s+was\\s+a\\s+time\\s+when\\b",
+            "\\bwas\\s+born\\b",
+            "\\byoungest\\s+god\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=born_in_time"
+          ]
+        },
+        "cyclically_recurrent": {
+          "definition": "divine acts or ages return on a measurable cycle",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bages\\s+of\\s+the\\s+world\\b",
+            "\\bcycle\\b",
+            "\\beternal\\s+return\\b",
+            "\\bfour\\s+ages\\b",
+            "\\bgolden\\s+age\\b",
+            "\\bkalpa\\b",
+            "\\bmanvantara\\b",
+            "\\breturn\\s+of\\s+all\\s+things\\b",
+            "\\bsa\\s+cycle\\b",
+            "\\bthe\\s+wheel\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=cyclically_recurrent"
+          ]
+        },
+        "linear_once": {
+          "definition": "one creation and one consummation; history does not repeat",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bnew\\s+heaven\\s+and\\s+a\\s+new\\s+earth\\b",
+            "\\bonce\\s+for\\s+all\\b",
+            "\\bone\\s+time\\s+and\\s+for\\s+all\\b",
+            "\\bthe\\s+end\\s+is\\s+at\\b",
+            "\\bthe\\s+fullness\\s+of\\s+times\\b",
+            "\\bthe\\s+last\\s+days\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=linear_once"
+          ]
+        },
+        "eschatologically_future": {
+          "definition": "the decisive divine reality is still to arrive",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bhe\\s+shall\\s+return\\b",
+            "\\bkalki\\b",
+            "\\bkingdom\\s+to\\s+come\\b",
+            "\\bsaoshyant\\b",
+            "\\bshall\\s+come\\b",
+            "\\bthe\\s+day\\s+is\\s+at\\s+hand\\b",
+            "\\bthe\\s+messiah\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=eschatologically_future"
+          ]
+        },
+        "from_lost_past": {
+          "definition": "the divine walked with humans and has departed",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bbanished\\b",
+            "\\bfaded\\b",
+            "\\bno\\s+longer\\s+seen\\b",
+            "\\bonly\\s+their\\s+names\\s+remain\\b",
+            "\\bthe\\s+age\\s+when\\b",
+            "\\bthe\\s+gods\\s+departed\\b",
+            "\\bthe\\s+last\\s+of\\s+the\\s+gods\\b",
+            "\\bthey\\s+went\\s+away\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=from_lost_past"
+          ]
+        },
+        "outside_time": {
+          "definition": "atemporal: 'beginning' does not apply",
+          "coverage": "not_yet_instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\batemporal\\b",
+            "\\bethere\\s+is\\s+no\\s+time\\b",
+            "\\bnor\\s+before\\s+nor\\s+after\\b",
+            "\\boutside\\s+time\\b",
+            "\\bthe\\s+eternal\\s+now\\b",
+            "\\btime\\s+has\\s+no\\s+power\\b"
+          ],
+          "inherited_from": [
+            "D6_temporal_nature=outside_time"
+          ]
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D7a_speaker_attribution": {
+      "cardinality": "single",
+      "question": "Who is the utterer this text prints in this proposition?",
+      "note": "Attribution only. The previous release mixed the speaker with the act, the genre and the text's stance.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "clause and window shape (speech_act_markers), evaluated before the term dimensions",
+      "values": {
+        "divine_self_speech": {
+          "definition": "the divine speaks in the first person within the proposition",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bI\\s+(?:am|was)\\s+(?:god|God)\\b",
+            "\\bI\\s+am\\s+the\\s+LORD\\b",
+            "\\bI\\s+myself\\b",
+            "\\bsaith\\s+the\\s+LORD\\b",
+            "\\bthe\\s+LORD\\s+said\\b",
+            "\\bthus\\s+saith\\s+the\\s+LORD\\b"
+          ],
+          "inherited_from": [],
+          "new_in_v3": [
+            "\\bI\\s+(?:am|was)\\s+(?:god|God)\\b",
+            "\\bI\\s+am\\s+the\\s+LORD\\b",
+            "\\bI\\s+myself\\b",
+            "\\bsaith\\s+the\\s+LORD\\b",
+            "\\bthe\\s+LORD\\s+said\\b",
+            "\\bthus\\s+saith\\s+the\\s+LORD\\b"
+          ]
+        },
+        "praying_or_praising_human_voice": {
+          "definition": "a human addresses the divine",
+          "coverage": "instrumented",
+          "disambiguation_needed": false,
+          "patterns": [
+            "\\bO\\s+(?:god|God|Lord)\\b",
+            "\\bhear\\s+(?:me|thou)\\b",
+            "\\bmy\\s+god\\b",
+            "\\bwe\\s+(?:praise|thank|beseech|call\\s+upon)\\b"
+          ],
+          "inherited_from": [],
+          "new_in_v3": [
+            "\\bO\\s+(?:god|God|Lord)\\b",
+            "\\bhear\\s+(?:me|thou)\\b",
+            "\\bmy\\s+god\\b",
+            "\\bwe\\s+(?:praise|thank|beseech|call\\s+upon)\\b"
+          ]
+        },
+        "narrator_or_scribe": {
+          "definition": "the framing voice of the text reports",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "character_within_narrative": {
+          "definition": "a figure in the story speaks; the text is not speaking",
+          "coverage": "instrumented",
+          "disambiguation_needed": true
+        },
+        "opponent_or_denier": {
+          "definition": "a claimant the text sets itself against speaks",
+          "coverage": "instrumented",
+          "disambiguation_needed": true
+        },
+        "editorial_or_ethnographic_frame": {
+          "definition": "a compiler, collector or missionary reports what others hold",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D7b_speech_act": {
+      "cardinality": "single",
+      "question": "What act is performed in this proposition?",
+      "note": "The illocutionary question, alone: asserting, addressing, commanding, questioning, conditioning, reporting, denying, boasting, or negating apophatically.",
+      "coverage_state": "instrumented",
+      "assigned_by": "clause and window shape (speech_act_markers), evaluated before the term dimensions",
+      "values": {
+        "assert": {
+          "definition": "presented as being so",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "address_or_praise": {
+          "definition": "spoken to the divine rather than about it",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "command": {
+          "definition": "statute or prohibition; its force is 'you shall'",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "question": {
+          "definition": "interrogative; it seeks rather than concludes",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "condition": {
+          "definition": "holds only inside an 'if'",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "report": {
+          "definition": "someone's words or a narrative event are relayed",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "deny": {
+          "definition": "a negation is performed as the act",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "boast": {
+          "definition": "a claimant exalts themselves; the text may or may not agree",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "negate_apophatically": {
+          "definition": "denial performed as worship: no attribute reaches it",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D7c_discourse_genre": {
+      "cardinality": "single",
+      "question": "What kind of discourse carries this proposition?",
+      "note": "Genre is not a speech act: a hymn contains address and doctrine, a prophetic oracle contains command and assertion, a commentary contains report and argument.",
+      "coverage_state": "partially_instrumented",
+      "assigned_by": "clause and window shape (speech_act_markers), evaluated before the term dimensions",
+      "values": {
+        "confessional_formula": {
+          "definition": "a fixed creed or shorthand of belief",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "hymn_or_prayer": {
+          "definition": "praise, petition or lament",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "mythic_narrative": {
+          "definition": "told as event",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "legal_statute": {
+          "definition": "regulation of practice",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "philosophical_argument": {
+          "definition": "inferred from premises",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "prophetic_oracle": {
+          "definition": "declared as message, often with a messenger formula",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "commentary_or_description": {
+          "definition": "an outsider or editor describing a belief",
+          "coverage": "partially_instrumented",
+          "disambiguation_needed": false
+        },
+        "doubt_or_inquiry": {
+          "definition": "questioning that seeks",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    },
+    "D7d_epistemic_commitment": {
+      "cardinality": "single",
+      "question": "Does the framing text commit to the proposition, attribute it, reject it, or hold it open?",
+      "note": "Commitment is neither speaker nor act. An opponent may assert; a narrator may report; whether the text means the proposition to be so is answered by the frame around the clause. This is the question the previous release silently merged into speech act, and the reason a conditional could be read as an atheist confession.",
+      "coverage_state": "instrumented",
+      "assigned_by": "clause and window shape (speech_act_markers), evaluated before the term dimensions",
+      "values": {
+        "endorsed_by_text": {
+          "definition": "the framing voice presents the proposition as so",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "attributed_not_endorsed": {
+          "definition": "the text relays the proposition without committing to it",
+          "coverage": "instrumented",
+          "disambiguation_needed": true
+        },
+        "rejected_in_text": {
+          "definition": "the framing voice sets the proposition against what it holds to be true",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "suspended_or_held_open": {
+          "definition": "question or condition: the text leaves it open",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "not_applicable_non_assertive": {
+          "definition": "the proposition is address, praise or command, so 'does the text assert it' has no application",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        },
+        "undecidable": {
+          "definition": "the proposition does not commit; a reader could not say which value it carries",
+          "coverage": "instrumented",
+          "disambiguation_needed": false
+        }
+      }
+    }
+  },
+  "self_declaration": "This rule set is an analyst-authored candidate generator. Every value's `coverage_state` is published so that a missing value cannot be mistaken for a missing concept. `not_yet_instrumented` is not `absent`: the instrument reports three states and the third is the honest majority.",
+  "frame": "twelve analytically distinct dimensions, proposition-level",
+  "distinctness_note": "Set-valued dimensions (D1, D3, D4, D5, D6) may carry several values for one proposition. Single-valued dimensions (D2a, D2b, D2c, D7a, D7b, D7c, D7d) may not: when two of their values fire on one proposition the instrument records a conflict and asks a reader, instead of choosing by precedence.",
+  "distinctness_status": "The dimensions are analytically distinct -- separately definable, separately answered -- which is weaker than orthogonal. Orthogonality is an empirical claim about observations and would require coded data to estimate; the detector patterns themselves correlate, since one English surface string can populate D2a, D2b and D2c together. See `config/divinity_ontology.json` key `distinctness_status`.",
+  "migration_from_seven_dimensions": {
+    "old_D7_human_interpretation": "Not inherited as a dimension. Its twelve labels distributed across four questions: asserted_doctrine -> D7b=assert plus D7d=endorsed_by_text; doxology_or_address -> D7b=address_or_praise plus D7c=hymn_or_prayer; mythic_narration -> D7b=report plus D7c=mythic_narrative; philosophical_argument -> D7c=philosophical_argument; prescriptive_command -> D7b=command plus D7c=legal_statute; conditional_hypothetical -> D7b=condition plus D7d=suspended_or_held_open; reported_speech_of_opponent -> D7a=opponent_or_denier plus D7b=report; polemic_denial -> D7b=deny; editorial_or_ethnographic_description -> D7a=editorial_or_ethnographic_frame plus D7d=attributed_not_endorsed; boast_of_non_divine_claimant -> D7b=boast plus D7d=rejected_in_text; apophatic_negation -> D7b=negate_apophatically; doubt_or_inquiry -> D7b=question plus D7c=doubt_or_inquiry. The old labels were not a mutually exclusive classification, which is why a hymn containing doctrine and a conditional containing a reported statement each had to be forced into one slot.",
+    "old_D2_plurality": "Split three ways. Every pattern in the old value set is now attached to the dimension whose question it actually answers; the sole_existent and sole_worshipable sets appear in all three D2 dimensions because those strings do carry all three claims, and the frame now records that separately instead of choosing one."
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Known source dependence and non-independence exclusions for candidate discovery. These rules do not exhaust all textual relationships.",
+  "work_families": [
+    {
+      "family_id": "mahabharata_textual_family",
+      "work_ids": [
+        "bhagavad_gita_arnold",
+        "mahabharata_v1",
+        "mahabharata_v2",
+        "mahabharata_v3",
+        "mahabharata_v4",
+        "mahabharata_7864",
+        "mahabharata_11894",
+        "mahabharata_12058",
+        "mahabharata_12333",
+        "mahabharata_7965"
+      ],
+      "relationship": "same_epic_or_translation_family",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The Gītā is embedded in the Mahābhārata tradition, and cross-volume matches can reflect repeated wording or internal doublets rather than independent evidence."
+    }
+  ],
+  "pair_rules": [
+    {
+      "left_work": "dhammapada_muller",
+      "right_work": "sacred_books_east",
+      "relationship": "same_translation_reuse",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The anthology reproduces Müller's Dhammapada translation."
+    },
+    {
+      "left_work": "quran_sale",
+      "right_work": "sacred_books_east",
+      "relationship": "anthology_reuse",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The anthology contains material overlapping Sale's Qur'an translation."
+    },
+    {
+      "left_work": "kjv_bible",
+      "right_work": "book_of_mormon",
+      "relationship": "direct_textual_dependence",
+      "exclude_from_independent_analysis": true,
+      "rationale": "Extended King James wording occurs in the Book of Mormon; lexical overlap is not independent evidence."
+    },
+    {
+      "left_work": "kjv_bible",
+      "right_work": "legends_of_the_jews_v1",
+      "relationship": "modern_compilation_from_identified_sources",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The modern compilation draws on Biblical and later Jewish sources and cannot automatically corroborate them independently."
+    },
+    {
+      "left_work": "babylonian_creation",
+      "right_work": "chaldean_genesis",
+      "relationship": "shared_sources_or_modern_reuse_unresolved",
+      "exclude_from_independent_analysis": true,
+      "rationale": "Historical translations and commentary may share ancient sources or modern wording; independence is not established."
+    },
+    {
+      "left_work": "popol_vuh",
+      "right_work": "myths_mexico_peru",
+      "relationship": "secondary_retelling",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The secondary synthesis retells related K'iche' material and is not an independent witness."
+    },
+    {
+      "left_work": "myths_legends_china",
+      "right_work": "strange_stories_chinese",
+      "relationship": "secondary_retelling_of_identified_tales",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The secondary work reproduces or closely adapts tales from Strange Stories from a Chinese Studio."
+    },
+    {
+      "left_work": "mabinogion",
+      "right_work": "celtic_myths",
+      "relationship": "secondary_retelling",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The secondary Celtic synthesis retells Mabinogion narratives and is not an independent witness."
+    },
+    {
+      "left_work": "philippine_folk_tales",
+      "right_work": "tinguian_traditions",
+      "relationship": "shared_collector_textual_material",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The collections contain closely shared Tinguian tale texts and cannot be assumed independent."
+    },
+    {
+      "left_work": "myths_north_american",
+      "right_work": "cherokee_myths",
+      "relationship": "secondary_retelling",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The secondary synthesis retells Cherokee material attested in the ethnographic collection."
+    },
+    {
+      "left_work": "myths_north_american",
+      "right_work": "iroquois_myths",
+      "relationship": "secondary_retelling",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The secondary synthesis retells Haudenosaunee material attested in the ethnographic collection."
+    },
+    {
+      "left_work": "japanese_fairy_tales",
+      "right_work": "myths_legends_japan",
+      "relationship": "shared_tale_retelling",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The collections contain closely related versions of the same Japanese tales."
+    },
+    {
+      "left_work": "kjv_bible",
+      "right_work": "chaldean_genesis",
+      "relationship": "direct_biblical_quotation",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The historical commentary directly quotes the King James Bible."
+    },
+    {
+      "left_work": "kjv_bible",
+      "right_work": "babylonian_creation",
+      "relationship": "direct_biblical_quotation",
+      "exclude_from_independent_analysis": true,
+      "rationale": "The historical translation and commentary directly quotes Biblical passages."
+    },
+    {
+      "left_work": "younger_edda",
+      "right_work": "volsunga_saga",
+      "relationship": "same_tradition_parallel",
+      "exclude_from_independent_analysis": true,
+      "rationale": "Related Norse literary material cannot be assumed to provide independent attestation."
+    }
+  ]
+}

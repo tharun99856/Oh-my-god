@@ -1,0 +1,17 @@
+{
+  "instrument": "attestation scaffold v1",
+  "works": 65,
+  "edition_or_translation_date_filled": 22,
+  "works_needing_specialist_date_input": 43,
+  "works_usable_for_priority_claims_today": 0,
+  "why_every_usable_flag_is_no": [
+    "a priority claim needs a composition or earliest-witness date, and this project holds none that it can cite from a critical edition",
+    "a translation or printing date constrains when the English wording existed, not when the concept was held -- conflating the two is what let v1's undated counts read as chronology",
+    "for the collector-recorded oral traditions the printed date is a recording date; the tradition's antiquity is not datable from this corpus at all, which is a limit on the instrument and not a claim that the concept is recent"
+  ],
+  "consequence_for_track_b": "TRACK_B_METHOD_v2.md section 6 score (v) dated-first-attestation ordering cannot be computed until this file's composition and witness columns are filled by specialists; the scaffold exists so that 'not yet filled' is a recorded state rather than an invisible assumption",
+  "reproducibility": {
+    "manifest_sha256": "e102e7fe34df1a01b938bc8307396c725d31acbfb4e10ff7418e328342df08af",
+    "code_sha256": "d766141cfe4885e960eca1dbc0996c4c532ddda27a95b4735b87f1da587bab6d"
+  }
+}
