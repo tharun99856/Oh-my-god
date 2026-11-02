@@ -7,8 +7,9 @@ window as the unit, and three separate question-fields instead of one refusal st
 Status: **methodology**. This document changes how the question will be asked and answered. It is not a
 report of an answer, and every number in it is an instrument diagnostic, not a historical finding.
 Supersedes `RESEARCH_PROTOCOL.md` §12.4 and the withdrawn conclusion of the paper's divinity section
-([paper/main.tex](paper/main.tex) §6.1–6.3; the earlier markdown edition is preserved at
-[archive/paper_markdown_v1_3/RESEARCH_PAPER.md](archive/paper_markdown_v1_3/RESEARCH_PAPER.md)).
+([paper/main.tex](paper/main.tex) §6.1–6.3). The earlier markdown edition of the paper is not kept in the tree:
+it repeated the same text in a second format that no test read, so the two copies drifted exactly as the second
+reviewer said they would. It remains in this repository's git history.
 Artifacts: [config/divinity_ontology.json](config/divinity_ontology.json) (the frame),
 [config/ontology_english_rules.json](config/ontology_english_rules.json) (candidate detectors and coverage
 states), [config/divinity_lexicon.json](config/divinity_lexicon.json) (lexicon entries and their verification
