@@ -62,12 +62,23 @@ class OntologyInstrumentTests(unittest.TestCase):
         cls.rules = json.loads((ROOT / "config/ontology_english_rules.json").read_text(encoding="utf-8"))
         cls.dimensions = cls.ontology["dimensions"]
         cls.passages = {}
-        for line in (ROOT / "corpus/derived/passages_v2.jsonl").read_text(encoding="utf-8").splitlines():
-            record = json.loads(line)
-            cls.passages[record["passage_id"]] = record
+        # corpus/derived/ is gitignored, so a clean clone has no passage text. The locator checks that need it
+        # skip themselves (see require_corpus) rather than letting 28 artifact checks ride on a file the
+        # repository never claims to ship.
+        passage_path = ROOT / "corpus/derived/passages_v2.jsonl"
+        if passage_path.exists():
+            for line in passage_path.read_text(encoding="utf-8").splitlines():
+                record = json.loads(line)
+                cls.passages[record["passage_id"]] = record
+
+    def require_corpus(self):
+        if not self.passages:
+            self.skipTest("corpus/derived/passages_v2.jsonl is gitignored and absent here; run "
+                          "python tools/build_passages_v2.py to make these locator checks meaningful")
 
     # ------------------------------------------------------------------ spans
     def test_every_record_span_lands_on_the_words_it_reports(self):
+        self.require_corpus()
         for record in self.records:
             passage = self.passages[record["passage_id"]]
             start = record["char_start"] - passage["body_char_start"]
@@ -78,6 +89,7 @@ class OntologyInstrumentTests(unittest.TestCase):
                              f"{record['record_id']} does not point at its own surface text")
 
     def test_every_proposition_span_slices_out_of_the_raw_text_as_published(self):
+        self.require_corpus()
         for record in self.records:
             passage = self.passages[record["passage_id"]]
             start = record["proposition_char_start"] - passage["body_char_start"]
@@ -98,6 +110,7 @@ class OntologyInstrumentTests(unittest.TestCase):
             self.assertLessEqual(record["char_end"], record["proposition_char_end"])
 
     def test_the_window_span_slices_out_of_the_raw_text_as_published(self):
+        self.require_corpus()
         for record in self.records:
             passage = self.passages[record["passage_id"]]
             start = record["window_char_start"] - passage["body_char_start"]
@@ -240,6 +253,52 @@ class OntologyInstrumentTests(unittest.TestCase):
         self.assertEqual(dict(sorted(Counter(r["doctrinal_endorsement"] for r in self.records).items())),
                          self.summary["doctrinal_endorsement_tally"])
 
+    def test_the_run_counts_propositions_as_units_and_says_so_separately_from_records(self):
+        """The paper prints 47,641 records over 36,775 propositions in 34,584 windows, states that the unit key
+        ignores the recorded end, and says 13 units therefore have two spans. Every one of those figures is a
+        count of a different thing, which is how the run-on tally came to be quoted as 97 propositions when 97 is
+        the record count and 59 the number of propositions. Nothing but the record file can settle it, so this
+        settles it."""
+        unit = lambda record: (record["work_id"], record["passage_id"], record["proposition_char_start"])
+        windows = {(r["work_id"], r["passage_id"], r["window_char_start"], r["window_char_end"])
+                   for r in self.records}
+        starts = {unit(r) for r in self.records}
+        spans = {(r["work_id"], r["passage_id"], r["proposition_char_start"], r["proposition_char_end"])
+                 for r in self.records}
+        self.assertEqual(len(self.records), 47641)
+        self.assertEqual(len(windows), 34584)
+        self.assertEqual(len(starts), 36775)
+        self.assertEqual(len(spans), 36788)
+        self.assertLess(len(starts), len(self.records), "records must outnumber propositions or the unit is wrong")
+
+        ends = defaultdict(set)
+        for record in self.records:
+            ends[unit(record)].add(record["proposition_char_end"])
+        disagreeing = {key for key, values in ends.items() if len(values) > 1}
+        self.assertEqual(len(disagreeing), len(spans) - len(starts))
+        self.assertEqual(len(disagreeing), 13)
+        self.assertEqual({key[0] for key in disagreeing}, {"quran_sale", "sacred_books_east"})
+
+        # Twelve are the confession formula, where the exclusivity match widens past the two denial matches; the
+        # thirteenth is the same effect on the temporal-nature dimension, and the paper names both.
+        dimensions = defaultdict(set)
+        for record in self.records:
+            if unit(record) in disagreeing:
+                dimensions[unit(record)].add(record["dimension"])
+        confessional = {key for key, found in dimensions.items()
+                        if found == {"D2a_acknowledged_population", "D2b_reality_of_others",
+                                     "D2c_worship_exclusivity"}}
+        self.assertEqual(len(confessional), 12)
+        other = [key for key in disagreeing if key not in confessional]
+        self.assertEqual(len(other), 1)
+        self.assertEqual(dimensions[other[0]], {"D6_temporal_nature"})
+
+        flagged = {unit(r) for r in self.records if r["proposition_overlong"]}
+        self.assertEqual(len(flagged), self.summary["propositions_flagged_run_on"])
+        self.assertEqual(sum(1 for r in self.records if r["proposition_overlong"]),
+                         self.summary["records_on_flagged_propositions"])
+        self.assertEqual((len(flagged), self.summary["records_on_flagged_propositions"]), (59, 97))
+
     def test_the_three_assertion_states_are_the_only_states(self):
         self.assertEqual(set(Counter(r["assertion_state"] for r in self.records)) - STATES, set())
         for record in self.records:
@@ -275,8 +334,7 @@ class OntologyInstrumentTests(unittest.TestCase):
 
     def test_the_run_is_fresh_against_the_frame_the_rules_and_the_code(self):
         reproducibility = self.summary["reproducibility"]
-        for field, path in (("passages_sha256", "corpus/derived/passages_v2.jsonl"),
-                            ("rules_sha256", "config/ontology_english_rules.json"),
+        for field, path in (("rules_sha256", "config/ontology_english_rules.json"),
                             ("ontology_sha256", "config/divinity_ontology.json"),
                             ("lexicon_sha256", "config/divinity_lexicon.json"),
                             ("code_sha256", "tools/divinity_ontology.py")):
@@ -285,6 +343,13 @@ class OntologyInstrumentTests(unittest.TestCase):
                              f"{field} is stale: {path} changed after the run")
         self.assertEqual(reproducibility["randomness"],
                          "none: sorted iteration, no sampling, no fitted parameters")
+        # The passage file is the one input the repository does not ship, so its freshness is the one
+        # assertion a clean clone cannot make. It is skipped by name, not by dropping it from the loop.
+        self.require_corpus()
+        self.assertEqual(
+            reproducibility["passages_sha256"],
+            hashlib.sha256((ROOT / "corpus/derived/passages_v2.jsonl").read_bytes()).hexdigest(),
+            "passages_sha256 is stale: the corpus changed after the run")
 
     # ------------------------------------------------------------------ graph
     def test_the_graph_enumerates_exactly_and_never_calls_the_slice_exhaustive(self):
@@ -409,13 +474,16 @@ class OntologyInstrumentTests(unittest.TestCase):
             if record["assertion_state"] == "candidate":
                 candidates[record["passage_id"]].add(f"{record['dimension']}={record['value']}")
         for row in rows:
-            passage = self.passages[row[0]]
-            self.assertTrue(passage["eligible_for_similarity"],
-                            f"{row[0]} was excluded by cleaning but is coded as evidence")
             live = {header[position] for position, cell in enumerate(row)
                     if position > 1 and int(cell or 0) > 0}
             self.assertEqual(live, candidates[row[0]],
                              f"{row[0]}: the matrix and the record file disagree about what was found")
+        # Eligibility is a property of the passage record, which the repository does not ship, so this half
+        # of the check is the only part a clean clone has to give up.
+        self.require_corpus()
+        for row in rows:
+            self.assertTrue(self.passages[row[0]]["eligible_for_similarity"],
+                            f"{row[0]} was excluded by cleaning but is coded as evidence")
 
     # ------------------------------------------------------------------ downstream layers
     def test_the_annotation_packet_codes_propositions_not_windows(self):
@@ -495,6 +563,35 @@ class OntologyInstrumentTests(unittest.TestCase):
         for key in ("D7b_speech_act", "D7c_discourse_genre", "D7d_epistemic_commitment"):
             self.assertEqual(sum(int(r["candidate_count"]) for r in rows if r["dimension"] == key), 0,
                              f"{key} is not a matched dimension and must not publish matched-term counts")
+
+
+    def test_the_rendered_state_page_is_the_current_numbers_not_ones_it_used_to_have(self):
+        """A clean-clone check found the shipped figure page still quoting the pre-rebuild probe population
+        (991,703 propositions and an inclusion probability of 0.000952934562) while every artifact behind it said
+        992,144 and 0.000952549286. Nothing referenced the file, so nothing noticed. The renderer is deterministic
+        and reads only tracked artifacts, so the committed page is re-rendered into a temporary directory and
+        compared byte for byte."""
+        import subprocess
+        import tempfile
+
+        page = ROOT / "results/track_b_state.html"
+        if not page.exists():
+            self.skipTest("results/track_b_state.html has not been rendered yet")
+        with tempfile.TemporaryDirectory() as tmp:
+            destination = Path(tmp) / "track_b_state.html"
+            result = subprocess.run([sys.executable, str(ROOT / "tools/render_track_b_state.py"),
+                                     "--out", str(destination)], cwd=str(ROOT),
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr[-600:])
+            self.assertEqual(destination.read_bytes(), page.read_bytes(),
+                             "the shipped figure page is not what the shipped artifacts render; run "
+                             "python tools/render_track_b_state.py")
+        plan = json.loads((ROOT / "results/annotation_sampling_plan.json").read_text(encoding="utf-8"))
+        universe = plan["recall_probe"]["universe"]
+        html = page.read_text(encoding="utf-8")
+        self.assertIn(f"{universe['no_record_in_universe']:,}", html)
+        self.assertIn(str(plan["recall_probe"]["strata"]["no_candidate_uncued"]["inclusion_probability"]), html)
+        self.assertNotIn("991,703", html, "the superseded probe population is back in the rendered page")
 
 
 if __name__ == "__main__":

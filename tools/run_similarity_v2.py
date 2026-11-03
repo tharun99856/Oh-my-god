@@ -143,7 +143,7 @@ def main():
         for motif, terms in lexicon.items()
     }
     motif_hits = []
-    with (ROOT / "results/v2_motif_candidates.jsonl").open("w", encoding="utf-8") as handle:
+    with (ROOT / "results/v2_motif_candidates.jsonl").open("w", encoding="utf-8", newline="\r\n") as handle:
         for passage in passages:
             hits = [motif for motif, patterns in compiled_lexicon.items() if any(pattern.search(passage["text"]) for pattern in patterns)]
             motif_hits.append(hits)
@@ -221,7 +221,7 @@ def main():
     ordered_pairs = sorted(((left, right, score) for (left, right), score in top_pairs.items()), key=lambda item: item[2], reverse=True)
     independent_pairs = []
     dependent_pair_count = 0
-    with (ROOT / "results/v2_candidate_pairs.jsonl").open("w", encoding="utf-8") as all_handle, (ROOT / "results/v2_discovery_pairs.jsonl").open("w", encoding="utf-8") as discovery_handle:
+    with (ROOT / "results/v2_candidate_pairs.jsonl").open("w", encoding="utf-8", newline="\r\n") as all_handle, (ROOT / "results/v2_discovery_pairs.jsonl").open("w", encoding="utf-8", newline="\r\n") as discovery_handle:
         for left, right, score in ordered_pairs:
             left_work = passages[left]["work_id"]
             right_work = passages[right]["work_id"]
@@ -323,7 +323,7 @@ def main():
             "scikit_learn": sklearn.__version__,
         },
     }
-    (ROOT / "results/v2_run_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    (ROOT / "results/v2_run_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8", newline="\r\n")
     print(json.dumps({
         "works": summary["corpus"]["works"],
         "eligible_passages": len(passages),

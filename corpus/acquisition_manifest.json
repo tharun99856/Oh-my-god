@@ -1,8 +1,9 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-11-01T08:45:18.436264+00:00",
+  "generated_at_utc": "2026-11-03T11:54:22.170617+00:00",
   "target_words": 350,
   "min_words": 80,
+  "partial_run": false,
   "works": [
     {
       "work_id": "kjv_bible",

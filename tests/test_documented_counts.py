@@ -54,6 +54,7 @@ SUITE_LABELS = {
     "pilot-kit": "tests/test_pilot_kit.py",
     "typesetting": "tests/test_tex_typesetting.py",
     "documented-counts": "tests/test_documented_counts.py",
+    "documented-hashes": "tests/test_documented_hashes.py",
 }
 
 def _refuse_to_recurse():
@@ -212,6 +213,20 @@ class DocumentedTestCounts(unittest.TestCase):
             self.assertEqual(int(stated.replace(",", "")), total,
                              f"RESEARCH_PROTOCOL.md says {stated} tests; the collector says {total}")
 
+    def test_the_before_and_after_table_quotes_the_measured_total(self):
+        """§12's comparison table repeats the suite size in its own cell, where the two-group patterns above miss it.
+
+        The reviewer's "239 versus 244" finding was two figures for one suite in one document. This cell is the
+        last place in the reports that prints a bare suite total, so it is checked rather than trusted.
+        """
+        total, _per_file, _subtests = measured()
+        text = (ROOT / "TEST_REPORT.md").read_text(encoding="utf-8")
+        stated = re.findall(r"\| (\d+) tests \+ annotation validator", text)
+        self.assertTrue(stated, "the before-and-after table no longer carries the suite total this test exists to check")
+        for value in stated:
+            self.assertEqual(int(value), total,
+                             f"the comparison table says {value} tests; the collector says {total}")
+
     def test_the_layer_specific_counts_cited_in_prose_are_the_files_own(self):
         """Two documents quote this layer's suite size separately, so those figures are checked separately."""
         _total, per_file, _subtests = measured()
@@ -230,6 +245,49 @@ class DocumentedTestCounts(unittest.TestCase):
                     value, expected,
                     f"{name} cites {value} tests for a suite that collects {expected}",
                 )
+
+    def test_a_suite_named_in_prose_carries_its_own_count(self):
+        """Any sentence of the form "N state-coder tests" or "test_divinity_terms.py (N tests)" is checked.
+
+        The breakdown in the data-availability row was covered from the start; the prose that repeats a single
+        suite's size in passing was not, and that is exactly where a stale figure hides. A suite may be called
+        by more than one name -- the paper says "divinity-census" where this document says "divinity-probe" --
+        so aliases are declared rather than guessed.
+        """
+        _total, per_file, _subtests = measured()
+        aliases = {
+            "divinity-census": "tests/test_divinity_terms.py",
+            "divinity-probe": "tests/test_divinity_terms.py",
+            # TEST_REPORT writes this suite in the singular in one sentence and the plural elsewhere; both
+            # spellings name the same file, so neither is allowed to carry a number nobody checks.
+            "documented-count": "tests/test_documented_counts.py",
+        }
+        by_label = dict(SUITE_LABELS)
+        by_label.update(aliases)
+        documents = ("paper/main.tex", "TEST_REPORT.md", "ARCHITECTURE.md", "RESEARCH_PROTOCOL.md",
+                     "TRACK_B_METHOD_v2.md")
+        checked = 0
+        for name in documents:
+            document = (ROOT / name).read_text(encoding="utf-8")
+            for count, label in re.findall(r"(\d{1,4}) ([a-z-]+(?:-[a-z-]+)*) tests?\b", document):
+                path = by_label.get(label)
+                if path is None:
+                    continue
+                checked += 1
+                self.assertEqual(
+                    int(count), per_file[path],
+                    f"{name} cites {count} {label} tests; {path} collects {per_file[path]}",
+                )
+            for path, count in re.findall(r"(tests/[a-z_]+\.py)`? \((\d{1,4}) tests?\)", document):
+                if path in per_file:
+                    checked += 1
+                    self.assertEqual(
+                        int(count), per_file[path],
+                        f"{name} cites {count} tests for {path}, which collects {per_file[path]}",
+                    )
+        self.assertGreaterEqual(checked, 15,
+                                f"only {checked} prose counts were found across {len(documents)} documents; "
+                                "the patterns drifted, so this check has stopped checking anything")
 
     def test_a_quoted_source_line_count_is_the_one_the_validator_prints(self):
         """`TEST_REPORT.md` says the clean copy passes "over N lines", and N moves every time a table row is added."""

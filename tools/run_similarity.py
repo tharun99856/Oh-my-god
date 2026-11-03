@@ -57,7 +57,7 @@ def main():
     for passage in passages:
         hits = [motif for motif, patterns in compiled_lexicon.items() if any(pattern.search(passage["text"]) for pattern in patterns)]
         motif_hits.append(hits)
-    with (ROOT / "results/motif_candidates.jsonl").open("w", encoding="utf-8") as handle:
+    with (ROOT / "results/motif_candidates.jsonl").open("w", encoding="utf-8", newline="\r\n") as handle:
         for passage, hits in zip(passages, motif_hits):
             if hits:
                 handle.write(json.dumps({"passage_id": passage["passage_id"], "work_id": passage["work_id"], "motifs": hits}) + "\n")
@@ -128,7 +128,7 @@ def main():
     }
 
     ordered_pairs = sorted(((left, right, score) for (left, right), score in top_pairs.items()), key=lambda item: item[2], reverse=True)
-    with (ROOT / "results/candidate_pairs.jsonl").open("w", encoding="utf-8") as handle:
+    with (ROOT / "results/candidate_pairs.jsonl").open("w", encoding="utf-8", newline="\r\n") as handle:
         for left, right, score in ordered_pairs:
             handle.write(json.dumps({
                 "left": passages[left]["passage_id"],
@@ -190,7 +190,7 @@ def main():
             "scikit_learn": sklearn.__version__,
         },
     }
-    (ROOT / "results/run_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    (ROOT / "results/run_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8", newline="\r\n")
     print(json.dumps({
         "works": summary["corpus"]["works"],
         "passages": len(passages),

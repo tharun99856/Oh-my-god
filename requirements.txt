@@ -1,3 +1,20 @@
+# Instruments in tools/ (measured on CPython 3.13.6)
 requests>=2.31,<3
 numpy>=2.0,<3
+scipy>=1.13,<2
 scikit-learn>=1.5,<2
+
+# Running the suite: python -m pytest tests -q
+#
+# pytest is a test dependency, not a runtime one, and it is listed because README.md tells a
+# reader to install this file before running anything. tests/test_documented_counts.py reads
+# the suite total and the "N subtests passed" figure out of pytest's own short summary, so an
+# older reporter that never prints that phrase makes the check raise rather than quietly pass.
+# This repository's published counts were measured with pytest 9.1.0.
+pytest>=8,<10
+
+# Optional, and deliberately not installed by this file: a LaTeX engine (pdflatex, xelatex or
+# lualatex). tests/test_tex_typesetting.py skips its whole class when none is present, so the
+# suite passes with or without one -- but without one, nothing here has checked the paper's
+# page geometry, and the typesetting claims in TEST_REPORT.md are then unverified in your
+# environment rather than false.

@@ -1235,6 +1235,34 @@ class M4BlockProfileTests(unittest.TestCase):
         refusal = cm.missing_required_inputs(CONFIG, observations=pairs)
         self.assertTrue(any(item.startswith("block_profile:") for item in refusal), refusal)
 
+    def test_a_refusal_still_scores_the_gate_when_the_pairs_carry_profiles(self):
+        """The block-profile claim needs no derivation record, so a refusal to rank is no reason to drop it."""
+        result = cm.refusal(CONFIG, ["derivation: TEST"], observations=pair_set(MINIMUM_PAIRS, "identical"))
+        gate = result["m4_block_profile_gate"]
+        self.assertEqual(gate["reading"]["pairs"], MINIMUM_PAIRS)
+        self.assertEqual(gate["pair_set"], "supplied with --observations")
+        self.assertTrue(gate["what_this_is"], "a reading inside a refusal has to say what it is not")
+        self.assertIsNone(result["model_scores"], "the gate is not a score and must not look like one")
+
+    def test_a_refusal_about_a_missing_derivation_says_nothing_about_block_profiles(self):
+        result = cm.refusal(CONFIG, ["derivation: TEST"])
+        self.assertNotIn("m4_block_profile_gate", result,
+                         "with no pair set on disk the published verdict must not carry a measurement it did not run")
+
+    def test_the_corpus_gate_reports_one_pair_set_and_not_a_per_pair_complaint(self):
+        """The corpus pairs are a similarity graph, so their missing dates are not 1237 separate missing inputs."""
+        result = cm.run(corpus_pairs=True)
+        self.assertEqual(result["status"], cm.STATUS_NOT_YET_TESTABLE)
+        per_pair = [item for item in result["missing_inputs"] if item.startswith("pair ")]
+        self.assertEqual(per_pair, [], f"{len(per_pair)} per-pair complaints, which is a transcript and not a "
+                                       "missing-input list; the corpus pair set is not offered as dated evidence")
+        self.assertTrue(any(item.startswith("derivation:") for item in result["missing_inputs"]),
+                        result["missing_inputs"])
+        gate = result["m4_block_profile_gate"]["reading"]
+        self.assertEqual(gate["pairs_carrying_a_block_profile"], gate["pairs"])
+        self.assertTrue(gate["chance_similarity_table"]["used"],
+                        "the published chance table was not read, so the corrected scale is missing")
+
 
 class InheritanceLicenceBaselinesTests(unittest.TestCase):
     """The licence has two no-edge nulls to clear, and the harder of them is the one that decides."""

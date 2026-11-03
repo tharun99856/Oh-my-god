@@ -1,4 +1,4 @@
-% One Origin, a Thousand Stories? -- typeset edition, version 1.5
+% One Origin, a Thousand Stories? -- typeset edition, version 1.6
 %
 % BUILD
 %   pdflatex main.tex          (run twice for cross-references)
@@ -52,7 +52,7 @@
 \title{\textbf{One Origin, a Thousand Stories?}\\[4pt]
 \large A falsifiable comparative framework for investigating the ancestry\\
 and transmission of human narratives and divine concepts\\[10pt]
-\normalsize Research paper --- version 1.5 (typeset edition)\\
+\normalsize Research paper --- version 1.6 (typeset edition)\\
 2 November 2026}
 \author{}
 \date{}
@@ -128,17 +128,17 @@ output is \texttt{not\_yet\_testable}. What the instrument \emph{does} say, once
 each dimension is measured against a chance line drawn from this corpus's own
 value frequencies, is a set of findings about the instrument: three of its twelve
 dimensions fire on no work at all, the speaker-attribution dimension clears its
-own base rate by \(+0.009\), the exact-match rule the frame declares has no
+own base rate by \(+0.006\), the exact-match rule the frame declares has no
 defined answer on \(0.567\) of the single-valued cells it is applied to, and the
 one prediction that separates M4 from a second null reverses on raw similarity
 (\(-0.177\)) and ties once each dimension's base rate is subtracted
-(\(-0.020\)) --- so the registered falsification hook is published as
+(\(-0.017\)) --- so the registered falsification hook is published as
 scale-dependent instead of being read as a refutation of the model or of the
 corpus. The further claim that no such being
 exists remains outside the reach of any textual method, in either direction.
 Global comparison is defensible as candidate discovery and falsification;
 reconstruction must be restricted to elements supported by explicit historical
-models, and 372 unit tests plus 7 parameterised subtests and the result
+models, and 455 unit tests plus 7 parameterised subtests and the result
 validators enforce those boundaries.
 
 \medskip
@@ -262,8 +262,10 @@ Each version is represented at three levels:
         contradicting evidence.
 \end{enumerate}
 Source-native descriptions are retained alongside comparative codes. Thompson's
-motif index and the ATU tale-type system aid discovery where applicable, but
-neither supplies a complete global ontology \citep{thompson1955,uther2004}.
+motif index and the ATU tale-type system aid discovery where applicable
+\citep{thompson1955,uther2004}. Neither is an ontology of narrative structure: both index
+and classify recurring elements, neither aligns the ordered event sequences this framework
+compares, and this pilot therefore uses them for discovery only.
 Character identity is separated from narrative role, so shared storm
 associations do not make two figures identical. Alternative segmentations and
 disputed codings remain available for sensitivity analysis.
@@ -310,10 +312,10 @@ report effect sizes and uncertainty, and correct for multiple comparisons.
 Results are retested under alternative translations, annotations, weights and
 exclusion of late or dependent sources.
 
-Phylogenetic studies of folktales demonstrate both the analytical potential and
-the model dependence of historical inference from narrative distributions
-\citep{tehrani2013,dasilva2016}. Their methods do not license transferring their
-conclusions to unrelated narratives without new evidence.
+Phylogenetic studies of folktales show that narrative distributions can be analysed
+with tree methods, and that the tree a study returns depends on which characters are
+coded and which model is fitted \citep{tehrani2013,dasilva2016}. Their methods do not
+license transferring their conclusions to unrelated narratives without new evidence.
 
 A proposed historical relationship is weakened when its distinctive shared
 sequence reduces to a generic motif, when its chronology is incompatible, when
@@ -361,10 +363,21 @@ Perun--Veles.
 
 The first panel does not support treating its six candidates as interchangeable
 versions of one story. The most consequential distinction is between a shared
-combat motif and a shared event sequence (Table~\ref{tab:combat}). Textual anchors
-follow the editions and translations cited below
-\citep{jamison2014,hoffner1998,west1966,lambert2013,george2003,larrington2014,faulkes1987};
-none of them is treated here as evidence for a historical relationship.
+combat motif and a shared event sequence (Table~\ref{tab:combat}). The anchors and the
+attested structures in that table are stated as the scholarly editions in which these
+narratives are standardly read give them
+\citep{jamison2014,hoffner1998,west1966,lambert2013,larrington2014,faulkes1987}; they are
+the source of the description, and none of them is treated here as evidence for a
+historical relationship. They are also not the texts this instrument read. Every machine
+score reported below comes from the public-domain English translations listed in
+Table~\ref{tab:editions}, and the difference is disclosed rather than left to the reader
+because a citation is not a witness: an anchor in an edition nobody consulted here can
+motivate a comparison, and cannot carry one. Two rows of Table~\ref{tab:combat}, the two
+Illuyanka versions, and the \emph{Rigveda} 1.32 anchor name material that has no text in
+this corpus at all, so they contribute no score --- and unlike the reconstruction case
+below, they are quoted from a published translation of a surviving witness rather than
+from a modern reconstruction, which is why they belong in a descriptive table that no
+instrument feeds.
 
 \begin{table}[t]
 \centering
@@ -400,16 +413,18 @@ question, but descriptive difference alone does not disprove common descent: a
 model must specify which features it expects to remain conserved.
 
 This does not eliminate historical relationships among the Eurasian materials.
-Comparative Indo-European research provides a disciplined precedent for
-investigating inherited poetic and mythological material, while its
-reconstructions remain incomplete and debated \citep{watkins1995,west2007}.
+Comparative Indo-European research supplies a disciplined precedent for investigating
+inherited poetic and mythological material, and it is cited here for that method
+\citep{watkins1995,west2007}. No reconstruction drawn from that literature is used as
+evidence anywhere in this paper, because a reconstruction is not a surviving witness ---
+the same ground on which Perun--Veles was excluded above.
 Anatolian and Near Eastern contacts make borrowing and mixed histories serious
 alternatives. A narrative family must be defined by shared innovations under an
 explicit model, not by a modern category that combines different outcomes.
 
 \subsection{Flood, destruction and renewal}
 
-The Mesopotamian flood account in \emph{Gilgamesh} XI and Genesis 6--9 contain
+The Mesopotamian flood account in \emph{Gilgamesh} XI \citep{george2003} and Genesis 6--9 contain
 much more specific correspondences than the bare occurrence of a catastrophic
 flood: a chosen survivor, construction of a vessel, preservation of life,
 grounding and bird dispatch form part of the comparison. Their historical
@@ -476,13 +491,20 @@ that cannot survive those steps should be abandoned, not made more imaginative.
 \subsection{Computational baseline experiment}
 
 A reproducible baseline was run on 42 English-language works and translations
-comprising 7{,}549{,}234 words. Hindu material included 13 works and 3{,}846{,}519
-words, making the snapshot intentionally useful for pipeline testing but
-imbalanced as a global sample. Fixed 350-word passages were compared using
+comprising 7{,}549{,}234 words. Its own run summary records the imbalance that made it
+a pipeline test rather than a global sample: 15 of those 42 works carry the South Asia
+region label and 10 carry Europe, while no other label reaches 4.
+Fixed 350-word passages were compared using
 TF-IDF with unigrams and bigrams. The run retained 9{,}648 cross-work candidate
 pairs; 18{,}963 random cross-work pairs had mean similarity 0.0141 and a 99th
 percentile of 0.0512. All source hashes and 21{,}580 passage offsets were
 validated, and repeated runs produced byte-identical result files.
+Every figure in this paragraph is re-derived by \texttt{tests/test\_pipeline.py} from the
+two artifacts of that run which still ship --- \texttt{results/run\_summary.json} and
+\texttt{results/candidate\_pairs.jsonl}. What does not survive is the derived passage file
+whose SHA-256 that summary records: the later 65-work rebuild wrote over it, so the
+baseline is reported here as a historical result whose inputs are no longer in the tree,
+not as a run a reader can repeat.
 
 Known-overlap controls were recovered: a Dhammapada passage shared between two
 Project Gutenberg sources scored 0.9119, while a Qur'an anthology overlap scored
@@ -491,19 +513,29 @@ dependence and repeated Mahabharata material. These results support use of the
 method for detecting textual reuse.
 
 The false matches are more important for model criticism. The strongest inspected
-Hindu--Biblical pair, scoring 0.5254, occurred because editorial commentary in
-the Ramayana volume directly quoted 1 Samuel. A Ramayana--Poetic Edda pair
-consisted of index pages. A Popol Vuh--secondary synthesis pair could not be
-treated as independent corroboration. Such cases demonstrate the need for
+Hindu--Biblical pair, at \(0.5254\), sets a passage of 1 Samuel 8 against an
+editorial note on page 174 of the \emph{Ramayana} volume, which quotes that chapter
+at length and signs it \textit{I. Samuel, VIII}. The strongest Ramayana--Poetic Edda
+pair, at \(0.2207\), places two index columns side by side. A Popol Vuh--secondary
+synthesis pair at \(0.5483\) reproduces the Xibalba trick of the red-hot stone in
+close wording and so cannot be treated as independent corroboration. Each of these
+three is the maximum of its work-pair class in \texttt{results/candidate\_pairs.jsonl},
+and \texttt{tests/test\_pipeline.py} recomputes all three maxima from that file rather
+than trusting the score quoted here. Such cases demonstrate the need for
 apparatus filtering and a source-dependence graph before comparative
 interpretation.
 
-The baseline also failed as a measure of narrative order. Original passages
-compared with word-shuffled versions of themselves retained mean similarity
-0.6740 in the main run. A unigram-only diagnostic scored 0.9940, while a
-bigram-only model scored 0.0896; the latter is sensitive to local wording but
-still does not encode event structure. Consequently, the experiment validates
-provenance and candidate retrieval, not historical or structural inference.
+The baseline also failed as a measure of narrative order. In the main run, original
+passages compared with word-shuffled versions of themselves retained mean similarity
+\(0.6740\) across the \(256\) sampled passages, which is what an order-blind bag of
+unigrams and bigrams should do. The surviving artifact of that run records this one
+figure and no n-gram split, so the split is taken from the current 65-work snapshot
+instead, where all three configurations are published in
+\texttt{results/v2\_run\_summary.json}: word-shuffled self-comparison retains
+\(0.7125\), sentence-shuffled retains \(0.9858\), and bigrams alone fall to \(0.1071\)
+under word shuffling. Bigrams are sensitive to local wording, and even they do not
+encode event structure. Consequently, the experiment validates provenance and
+candidate retrieval, not historical or structural inference.
 
 \subsection{Relevance formulation and graph semantics}
 
@@ -645,6 +677,57 @@ passage offset and each of 95 quoted fragments machine-verified against the
 corpus text it cites. Four versions rest on fragmentary attestations and are
 marked partial.
 
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{The fourteen coded versions and the English rendering each was coded from.
+The first two columns are read from \texttt{config/annotated\_versions.json} and
+\texttt{corpus/acquisition\_manifest.json}, and \texttt{tests/test\_narrative\_similarity.py}
+re-derives every row of them, so the mapping cannot drift from the coding it describes.
+The third column quotes the \texttt{Translator} line of each e-text's own metadata block;
+the shipped manifest persists only title, language and release date, so that column is
+verifiable at the source page the manifest records rather than by the suite. These
+renderings, not the scholarly editions cited in Sections~5 and 6, are the texts every
+structural score in this section was computed on.}
+\label{tab:editions}
+\begin{tabular}{L{4.5cm} L{4.3cm} L{4.4cm}}
+\toprule
+Coded version & Corpus work (e-text) & Rendering consulted \\
+\midrule
+\texttt{noah\_kjv} & \texttt{kjv\_bible} (10) & authorised English version, unattributed in the manifest \\
+\texttt{gilgamesh\_flood\_tablet\_fragment} & \texttt{chaldean\_genesis} (60559) & George Smith \\
+\texttt{manu\_fish\_mahabharata} & \texttt{mahabharata\_v1} (15474) & Kisari Mohan Ganguli, trans. \\
+\texttt{manu\_fish\_doublet} & \texttt{mahabharata\_12333} (12333) & Kisari Mohan Ganguli, trans. \\
+\texttt{popol\_vuh\_wooden\_people} & \texttt{popol\_vuh} (56550) & Lewis Spence \\
+\texttt{marduk\_tiamat} & \texttt{babylonian\_creation} (9914) & E. A. Wallis Budge \\
+\texttt{zeus\_typhoeus} & \texttt{hesiod\_homerica} (348) & Hugh G. Evelyn-White, trans. \\
+\texttt{thor\_fishing} & \texttt{younger\_edda} (18947) & Rasmus B. Anderson, trans. \\
+\texttt{thor\_ragnarok\_brief} & \texttt{younger\_edda} (18947) & Rasmus B. Anderson, trans. \\
+\texttt{indra\_vritra\_allusive} & \texttt{mahabharata\_v1} (15474) & Kisari Mohan Ganguli, trans. \\
+\texttt{ymir\_body} & \texttt{poetic\_edda\_bellows} (73533) & Henry Adams Bellows, trans. \\
+\texttt{pangu\_body} & \texttt{myths\_legends\_china} (15250) & E. T. C. Werner \\
+\texttt{taliesin\_mabinogion} & \texttt{mabinogion} (5160) & Lady Charlotte Schreiber, trans. \\
+\texttt{taliesin\_celtic\_myths} & \texttt{celtic\_myths} (34081) & T. W. Rolleston \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two consequences are stated here because the earlier draft left them implicit. First, the
+descriptive anchors and the measurements rest on different texts: the coded Zeus--Typhon
+version is Evelyn-White's 1914 Hesiod rather than West's edition, the Thor versions are
+Anderson's \emph{Younger Edda} rather than Faulkes or Larrington, the Ymir version is
+Bellows' \emph{Poetic Edda} rather than the \emph{Gylfaginning} passage Table~\ref{tab:combat}
+quotes, and the flood tablet is Smith's \emph{Chaldean Account of Genesis} rather than
+George's critical edition. Where the corpus holds no rendering at all --- the two
+Illuyanka versions, the \emph{Rigveda} 1.32 hymn --- nothing was coded and no score exists
+for it. Second, the fix is not to cite better editions beside scores computed from worse
+ones: it is to re-read each version in the edition the anchor names, re-code it, and
+re-run. The coding does record which of its own events rest on secondary literature ---
+\texttt{ymir\_body}'s killing event is coded to Bellows' \emph{note} about a lost
+narrative, and its \texttt{attestation\_note} says so --- which is the mechanism a
+re-coding pass needs in order to know which events are exposed when the text is read
+again.
+
 Similarity is decomposed rather than blended. An event pair receives
 \begin{equation}
   e(a,b) = \frac{0.50\,p(a,b) + 0.30\,r(a,b) + 0.20\,o(a,b)}
@@ -760,7 +843,7 @@ more worrying kind of dependence, because the alignment is where the measure's
 meaning is decided. A thin-domain audit flags 3 pairs whose motif score rests on
 a single adjudicated motif and 8 on two or fewer; those are reported as computed
 but should not be read as agreement. The engine emits no composite and no
-historical claim, and 37 structural-engine tests enforce that.
+historical claim, and 43 structural-engine tests enforce that.
 
 The limits of this pilot are as important as its results. All 14 versions were
 coded by a single analyst, so \nocr, and the predicate families, motif
@@ -832,7 +915,8 @@ divinity-as-plurality (4{,}120 term hits, 50 works, 13 of 14 regional labels),
 followed by the personal creator (728 hits, 41 works) and supreme-being attributes
 (802 hits, 35 works); the impersonal absolute appears in 26 works, the
 deified-human grammar in 14, and heaven-as-bureaucracy in 3 works with 4 hits.
-Individual works carry between one and eight grammars.
+Sixty-one of the 65 works carry at least one grammar and four carry none; among the
+sixty-one the count per work runs from one to eight.
 
 \textbf{What that distribution does not establish.} It establishes that the
 English vocabulary of these translations is unevenly distributed across several
@@ -1015,7 +1099,21 @@ at coordinating and subordinating connectors; fragments under three words merge
 into the preceding proposition; a match straddling a boundary widens its
 proposition instead of being attributed to the wrong half. The run emits 47{,}641
 records over 36{,}775 propositions in 34{,}584 windows within the same 23{,}385
-eligible passages. Ninety-seven propositions are flagged as probable run-ons.
+eligible passages. Fifty-nine distinct propositions carry the probable run-on flag, and they
+write \(97\) records, because the flag belongs to a proposition while a proposition records
+one asserted value per row; the run summary publishes both figures under
+\field{propositions\_flagged\_run\_on} and \field{records\_on\_flagged\_propositions}. The unit key
+is \((\text{work},\text{passage},\text{proposition start})\), and on
+\(13\) of those \(36{,}775\) units two matches at the same start widen to different ends,
+so a proposition does not always have one recorded span and the count of distinct
+\((\text{start},\text{end})\) pairs is \(36{,}788\); the \(13\) sit in the two Qur'an
+volumes, and twelve of them are the confession formula, where the denial of other gods ends
+the proposition at \texttt{There is no God} while the exclusivity match widens it to
+\texttt{no God but He, the Compassionate, the Merciful}. The thirteenth is not that formula at
+all: a \dimkey{D6} pair widens \texttt{banished, once} to \texttt{once for all}, which is the
+same mechanism on another dimension. The number the paper quotes is the number of units, not of spans,
+and \texttt{tests/test\_divinity\_ontology.py} re-derives both from the shipped record file so the
+difference cannot be silently absorbed into a rounded count.
 Where the machine would have to choose between two values on a single-valued
 dimension it now publishes the conflict and demotes the record rather than
 resolving it by silent precedence: 2 conflicts on acknowledged population, 3 on
@@ -1225,7 +1323,9 @@ change that matters for what can be claimed. A sample drawn only from hits can
 measure precision and cannot measure recall, because a sample of hits contains no
 misses; and \texttt{not\_yet\_instrumented} is a declared gap on a named value, not
 an estimate of what the detector walked past. So the packet now draws two disjoint
-simple random samples from the propositions that produced no record at all, and
+simple random samples from the propositions the detector asserted nothing about --- the
+complement of its detection set, which includes the \(441\) propositions that carry a
+record it declined to treat as a detection --- and
 every probe row carries its stratum's exact inclusion probability and weight.
 
 \begin{table}[t]
@@ -1247,9 +1347,10 @@ Enforced strata & dimension value (48, target 60), work (65, target 35), D7b spe
 Rare strata taken as whole-population census & 11 \\
 Detector's proposition universe & 1{,}028{,}478 segments in 23{,}385 eligible passages \\
 \quad asserted a candidate (the only detection state) & 36{,}334 (3.53\%) \\
-\quad record but no detection & 441 propositions, 519 records: 379 \texttt{not\_yet\_instrumented}, 140 \texttt{candidate\_requires\_human\_disambiguation} \\
-\quad no record, cue-negative & 944{,}833; \(\pi = 0.000952549286\), \(w = 1049.8144\) \\
-\quad no record, cue-positive & 47{,}311; \(\pi = 0.012682040118\), \(w = 78.8517\) \\
+\quad asserted nothing, and so is probeable & 992{,}144 (96.47\%), exactly the complement of the row above \\
+\quad\quad of which carry a record that is not a detection & 441 propositions, 519 records: 379 \texttt{not\_yet\_instrumented}, 140 \texttt{candidate\_requires\_human\_disambiguation} \\
+\quad\quad cue-negative & 944{,}833; \(\pi = 0.000952549286\), \(w = 1049.8144\) \\
+\quad\quad cue-positive & 47{,}311; \(\pi = 0.012682040118\), \(w = 78.8517\) \\
 Cue list status & 111 English cues verified against this corpus, \texttt{not\_a\_detector: true}: a cue decides where to look, never what to record \\
 Dimensions coded & 12 (5 set-valued, 7 single-valued) \\
 Random seed & 20261101, published \\
@@ -1296,7 +1397,7 @@ A concordance number means nothing until something is subtracted from it. Two wo
 that both print \field{devotion\_mediated\_by\_hierarchy} agree, but only the second
 one is interesting if that value is not simply what this corpus always prints --- and
 here it is, carrying \(0.893\) of the \dimkey{D2c} value tokens and setting that
-dimension's own baseline at \(0.636\). So
+dimension's own baseline at \(0.632\). So
 \texttt{tools/scan\_dimension\_anomalies.py} measures every dimension against a
 baseline computed from the corpus's own value frequencies and publishes
 \texttt{results/dimension\_anomalies.json}. The null is a per-dimension configuration
@@ -1306,7 +1407,12 @@ scored with the statistic the frame declares --- exact match on a single-valued 
 Jaccard on a set-valued one. No permutation control is offered, and none exists to
 offer: the mean over a complete graph is invariant to permuting which work owns which
 set, so a label-shuffled ``control'' would return the observed number and call it a
-null. The draw is seeded (\texttt{seed} \(20261102\), \(200\) repetitions) and, after
+null. Handing each synthetic work another work's \emph{whole} value set is degenerate the
+same way, and there the word is exact rather than rhetorical: measured dimension by
+dimension, the expectation of that resample equals the observed complete-graph mean, so it
+reproduces the data instead of bounding it. The pair set is the one tightening available
+without collapsing, and it is applied: the line under every scored-graph number in
+Table~\ref{tab:chance} is drawn over the same pairs as the mean above it. The draw is seeded (\texttt{seed} \(20261102\), \(200\) repetitions) and, after
 a run-to-run drift of \(10^{-4}\) was traced to iteration order, sorted twice ---
 marginals by value, carriers by work id --- so the artifact is byte-reproducible under
 any \texttt{PYTHONHASHSEED}.
@@ -1321,7 +1427,8 @@ keys, leaving \(1237\) pairs over \(52\) works.
 \small
 \caption{Every dimension the detector fired on, over the \(1237\) pairs the model
 comparison is willing to score, against a chance line drawn from this corpus's own
-marginals \emph{on the same graph and with the same statistic}. The last column is the
+marginals \emph{on the same graph, with the same statistic and over the same pairs}. The
+last column is the
 share of works whose \dimkey{D2a}-type cell holds more than one value, which is where
 the declared exact-match rule has no defined answer. Numbers are emitted by
 \texttt{tools/scan\_dimension\_anomalies.py} and re-checked against the artifact by
@@ -1331,15 +1438,15 @@ the declared exact-match rule has no defined answer. Numbers are emitted by
 \toprule
 Dimension & Statistic & pairs & observed & chance & excess & multi-\(^\dagger\) \\
 \midrule
-\dimkey{D1\_ontological\_category} & jaccard & 1237 & 0.566 & 0.447 & \(+0.119\) & --- \\
-\dimkey{D2a\_acknowledged\_population} & exact\_match & 1019 & 0.048 & 0.029 & \(+0.019\) & \(0.717\) \\
-\dimkey{D2b\_reality\_of\_others} & exact\_match & 703 & 0.196 & 0.168 & \(+0.028\) & \(0.605\) \\
-\dimkey{D2c\_worship\_exclusivity} & exact\_match & 300 & 0.780 & 0.636 & \(+0.144\) & \(0.120\) \\
-\dimkey{D3\_agency} & jaccard & 1237 & 0.541 & 0.389 & \(+0.152\) & --- \\
-\dimkey{D4\_cosmic\_function} & jaccard & 1237 & 0.695 & 0.626 & \(+0.068\) & --- \\
-\dimkey{D5\_universe\_relationship} & jaccard & 1164 & 0.587 & 0.516 & \(+0.071\) & --- \\
-\dimkey{D6\_temporal\_nature} & jaccard & 1237 & 0.512 & 0.456 & \(+0.056\) & --- \\
-\dimkey{D7a\_speaker\_attribution} & exact\_match & 893 & 0.510 & 0.500 & \(+0.009\) & \(0.674\) \\
+\dimkey{D1\_ontological\_category} & jaccard & 1237 & 0.566 & 0.454 & \(+0.111\) & --- \\
+\dimkey{D2a\_acknowledged\_population} & exact\_match & 1019 & 0.048 & 0.027 & \(+0.021\) & \(0.717\) \\
+\dimkey{D2b\_reality\_of\_others} & exact\_match & 703 & 0.196 & 0.167 & \(+0.030\) & \(0.605\) \\
+\dimkey{D2c\_worship\_exclusivity} & exact\_match & 300 & 0.780 & 0.632 & \(+0.148\) & \(0.120\) \\
+\dimkey{D3\_agency} & jaccard & 1237 & 0.541 & 0.395 & \(+0.146\) & --- \\
+\dimkey{D4\_cosmic\_function} & jaccard & 1237 & 0.695 & 0.635 & \(+0.060\) & --- \\
+\dimkey{D5\_universe\_relationship} & jaccard & 1164 & 0.587 & 0.521 & \(+0.066\) & --- \\
+\dimkey{D6\_temporal\_nature} & jaccard & 1237 & 0.512 & 0.464 & \(+0.048\) & --- \\
+\dimkey{D7a\_speaker\_attribution} & exact\_match & 893 & 0.510 & 0.504 & \(+0.006\) & \(0.674\) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1347,7 +1454,7 @@ Dimension & Statistic & pairs & observed & chance & excess & multi-\(^\dagger\) 
 \(\dagger\)~the last column is the fraction of that dimension's carrying works for which
 the frame's own cardinality declaration is contradicted by the data.
 
-\textbf{Six findings, none of which is a claim about the traditions.}
+\textbf{Seven findings, none of which is a claim about the traditions.}
 
 \textbf{(1) The frame is a nine-key instrument on this corpus.} \dimkey{D7b\_speech\_act},
 \dimkey{D7c\_discourse\_genre} and \dimkey{D7d\_epistemic\_commitment} fired on \(0\) of
@@ -1359,7 +1466,7 @@ inside the chance band, so the block is carried by a single dimension.
 
 \textbf{(2) \dimkey{D7a\_speaker\_attribution} does not clear its own base rate.} Observed
 agreement is \(0.510\), which reads like a coin flip; the chance line computed from its
-own marginals is \(0.500\), so the excess is \(+0.009\), and under the stricter endorsement
+own marginals is \(0.504\), so the excess is \(+0.006\), and under the stricter endorsement
 frame --- the same dimension counted only where the text's own voice affirms it --- the
 excess is \(-0.006\), which is not a direction. A dimension this flat cannot support the
 claim that ``who is speaking'' is a separable axis of this corpus, and the D7 panel in
@@ -1371,18 +1478,33 @@ to.} The frame declares \dimkey{D2a}, \dimkey{D2b}, \dimkey{D2c} and \dimkey{D7a
 single-valued, yet \(89\) of the \(157\) works that carry one of those four keys carry
 \(>1\) value, so exact match is undefined on \(0.567\) of the live single-valued cells. The
 comparison layer now treats such a cell as a set and publishes the count of offenders per
-dimension rather than choosing silently between two readings; both readings are in the
-artifact, and on \dimkey{D7a} they differ by more than the whole excess.
+dimension rather than choosing silently between two readings. Both readings are in the
+artifact, and on \dimkey{D7a} they say different things: over the same \(893\) pairs the
+declared exact-match rule reports \(0.510\) against a chance line of \(0.504\), while the set
+reading reports \(0.733\) against \(0.728\). The two disagree by \(0.224\) about how
+concordant this corpus is and by only \(0.0004\) about how much of that is above chance, so
+the choice of statistic moves the level the argument is made about without moving the
+finding --- which is what makes the excess, not the observed mean, the reportable quantity.
 
-\textbf{(4) The pair population you choose changes a verdict.} A work rich enough to be
-scored at all is not a random work, so the scored graph and the carrier graph give different
-means: \dimkey{D4\_cosmic\_function} moves \(0.0988\) between them, which is larger than the
-\(0.05\) this scan uses to call an excess indistinguishable from chance. It gets worse than
-that. Dropping the dimensions inside the chance band from the block means --- an operation
-whose only content is ``the instrument cannot separate these values'' --- leaves the declared
-adjacency \texttt{structural \(>\) arbitrary} a \emph{tie} on the carrier graph and a
-\emph{reversal} on the scored graph. Same corpus, same statistic, same registered
-separability, one arithmetic choice about which pairs to count.
+\textbf{(4) The pair population you choose moves the numbers, so the baseline has to be
+drawn on it too.} A work rich enough to be scored at all is not a random work, so the scored
+graph and the carrier graph give different means: \dimkey{D4\_cosmic\_function} moves
+\(0.0988\) between them, which is larger than the \(0.05\) this scan uses to call an excess
+indistinguishable from chance. A subtraction owes that discipline to both of its terms, so
+the scored graph's chance line is drawn over its own \(1237\) pairs rather than over every
+pair of the \(52\) works those pairs cover, and the artifact publishes both lines next to
+the gap between them. Conditioning moves no chance line by more than \(0.0098\) --- a fifth
+of the band --- and changes \(2\) of the \(18\) band verdicts, both of them
+\dimkey{D6\_temporal\_nature}'s, which crosses from outside the band to inside it.
+
+That crossing is not cosmetic. Dropping the dimensions inside the chance band from the block
+means --- an operation whose only content is ``the instrument cannot separate these values''
+--- turns on whether \dimkey{D6} is dropped, and with the line drawn on the scored pairs it
+is. The declared adjacency \texttt{structural \(>\) arbitrary} is then a \emph{tie} on both
+graphs (\(-0.041\) carrier, \(-0.045\) scored), and no adjacency verdict changes between the
+two graphs at all. Same corpus, same statistic, same registered separability, one arithmetic
+choice about which pairs to count --- and one about which pairs the baseline was counted
+over.
 
 \textbf{(5) The falsification hook that was registered against M4 fires on the raw scale and
 not on the corrected one, so it fires on the instrument.} M4's alpha vector predicts
@@ -1391,8 +1513,8 @@ raw mean similarity gives \(0.636\), \(0.365\), \(0.542\): the middle block is t
 \emph{lowest}, a reversal of \(-0.177\), which is the committed
 \texttt{block\_ordering\_contradicts\_declared\_propensity} verdict, and under the version of
 this test registered before the chance line existed it was the verdict the corpus produced.
-Subtract each dimension's own baseline and the same three block means become \(0.122\),
-\(0.044\), \(0.064\): the reversal is \(-0.020\), which is inside the
+Subtract each dimension's own baseline and the same three block means become \(0.118\),
+\(0.041\), \(0.058\): the reversal is \(-0.017\), which is inside the
 \(0.05\) separability this layer itself declares in \field{minimum\_block\_spread}, whose
 recorded basis already says ``a reversal smaller than it is a tie, not a refutation.'' The
 test now publishes both readings and, because they straddle the disqualification line, issues
@@ -1402,7 +1524,7 @@ strip M4's name, and it does not let M4 be scored as confirmed by a profile that
 whichever scale the analyst happened to subtract.
 
 \textbf{(6) The pairs that look like transmission are the pairs that are the same book.}
-\(547\) of the \(1237\) scored pairs show the pattern M4 predicts to be rare --- the
+\(550\) of the \(1237\) scored pairs show the pattern M4 predicts to be rare --- the
 arbitrary block out-agreeing the functional one --- and every one of the top \(15\) pairs by
 excess agreement above chance is flagged dependent: \texttt{mahabharata\_v3} against
 \texttt{mahabharata\_v4}, \texttt{cherokee\_myths} against \texttt{chinese\_folklore},
@@ -1410,10 +1532,46 @@ excess agreement above chance is flagged dependent: \texttt{mahabharata\_v3} aga
 per pair and never filtered away, because filtering would delete the very structure the
 ranking is confusing for signal.
 
-What this section is not: the null preserves each work's own number of values and each
-dimension's prevalence, and it does not preserve correlations \emph{between} values inside a
-work, so every excess here is an upper bound on what structure could be attributed to that
-dimension; the classification is detector output over English translations, awaiting the
+\textbf{(7) The chance band is not a test level, and measured against its own null it is the
+wrong size for most of this panel.} The \(0.05\) that separates ``indistinguishable from
+chance'' from ``anomalous'' was set by the analyst and never calibrated, so the scan now
+redraws the null \(200\) times per measurement and reports how far a pure-noise corpus
+travels from its own chance line (leave-one-out, so no draw is compared to a line it helped
+draw). On the scored graph the band's own false-positive rate ranges from \(0.000\) ---
+\(10\) of the \(18\) measurements never leave it --- to \(0.555\) on
+\dimkey{D2c\_worship\_exclusivity}: for that one dimension, a corpus with no structure in it
+crosses the band more often than not, because its null scatter has a standard deviation of
+\(0.0845\) against a band half that wide, while \dimkey{D4\_cosmic\_function} wanders by
+\(0.0045\). Taken as a family, a noise-only corpus of this size puts at
+least one measurement outside the band in \(0.760\) of draws, a mean of \(1.01\) measurements.
+The same graph flags \(5\) of its \(9\) live dimensions on the declared statistic against a
+noise-only expectation of \(0.80\), so the count is not nothing; what it cannot do is certify
+any single one of the five, because the band that produced it fires on
+\dimkey{D2c\_worship\_exclusivity} more often than a coin.
+The per-dimension Monte Carlo reading is the sharper one, and it disagrees with the band on
+three dimensions, all in the same direction: \dimkey{D2a\_acknowledged\_population}
+(\(+0.021\)) and \dimkey{D2b\_reality\_of\_others} (\(+0.030\)) sit \emph{inside} the band yet
+clear their own null at \(p \le 0.05\), because those two dimensions wander by only \(0.0065\)
+and \(0.0135\), and \dimkey{D6\_temporal\_nature} (\(+0.048\)) joins them inside the band by two
+thousandths while sitting at the floor of its own null. The dimension the band used to over-call
+is the one that moved: \dimkey{D2c\_worship\_exclusivity}, which the band calls anomalous at
+\(+0.148\), now clears it (\(p = 0.025\)) --- but on a measurement whose null scatter is
+\(0.0845\), whose band false-positive rate is \(0.555\) and whose \(p\) is \(5\) draws in \(201\),
+that is the least trustworthy reading in the panel, not the strongest. Six dimensions --- \dimkey{D1\_ontological\_category},
+\dimkey{D2a\_acknowledged\_population}, \dimkey{D3\_agency}, \dimkey{D4\_cosmic\_function},
+\dimkey{D5\_universe\_relationship}, \dimkey{D6\_temporal\_nature} --- survive a Bonferroni cut
+at \(0.05/9 = 0.005556\) on the declared-rule reading, and every one of them sits at the floor
+this many draws can report (\(p = 1/201 = 0.004975\), the smallest \(p\) \(200\) replicates can
+express). The published
+conclusion is therefore the corrected one: this instrument separates six dimensions from their
+own base rate, the single absolute band is the wrong summary for a panel whose null widths
+span an order of magnitude, and no \(\alpha\) here is family-wise-corrected across the two
+readings, the two graphs and the endorsement-frame sensitivity that are also published.
+
+What this section is not: the null preserves each work's own number of values, each
+dimension's prevalence and the pair set the observed mean was measured on, and it does not
+preserve correlations \emph{between} values inside a work, so every excess here is an upper bound
+on what structure could be attributed to that dimension; the classification is detector output over English translations, awaiting the
 human coding that has not happened; and with zero dated attestations filled, none of these
 numbers can be read as transmission in either direction.
 
@@ -1700,7 +1858,7 @@ holds, a gap of that size backwards reverses, and anything smaller is recorded a
 \(0.0003\) gap as a refutation. A flat or reversed profile disqualifies M4 from being \emph{named} the
 stage-1 leader: the ranking and every likelihood are published
 unchanged and the verdict falls to \texttt{no\_decisive\_winner}. Where the two scales straddle that line ---
-which is what this corpus produces, at \(-0.177\) raw against \(-0.020\) corrected --- the test issues
+which is what this corpus produces, at \(-0.177\) raw against \(-0.017\) corrected --- the test issues
 \texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale} and disqualifies nothing, because a rule
 that strips a model's name on an arithmetic choice the analyst has not yet defended strips it on the
 instrument. A pair set that reaches fewer than two of the
@@ -1767,9 +1925,13 @@ defensible model must specify in advance which observations would favour multipl
 families, transmission or convergence instead. If it can explain every outcome
 equally well, it has no comparative predictive power.
 
-Witzel's globally comparative reconstruction is an important ambitious precedent,
-but its proposed large-scale groupings must be evaluated as contested historical
-hypotheses rather than accepted as a reference phylogeny \citep{witzel2012}.
+Witzel's globally comparative reconstruction is the most developed published attempt at
+the global genealogy this project was commissioned to hope for, and it is cited here for
+that scope \citep{witzel2012}. Its large-scale groupings are historical hypotheses: under
+the rules set out above, no such grouping could enter this paper's adjudication layer
+without dated attestations, a route typed as descent or contact, and reviewed
+counterevidence --- which is a statement about what this instrument may publish, not a
+verdict on the reconstruction.
 
 These limits do not make global comparison useless. They change its function.
 Broad comparison can identify candidates, estimate motif distributions and reveal
@@ -1853,7 +2015,7 @@ annotation packet has never been opened, and its model-comparison layer prints
 \texttt{not\_yet\_testable}. Measured against a chance line drawn from its own
 value frequencies, the same instrument reports that three of its twelve
 dimensions fire on no work at all, that its speaker-attribution axis clears its
-own base rate by \(+0.009\), and that the single prediction separating M4 from a
+own base rate by \(+0.006\), and that the single prediction separating M4 from a
 second null reverses on raw similarity and ties once each dimension's base rate
 is subtracted --- which is why the falsification hook registered against M4 is
 published here as a statement about the scale an analyst chooses to subtract, and
@@ -1921,6 +2083,7 @@ directory; artifacts are grouped by the section that uses them.
 \endhead
 \multicolumn{2}{l}{\emph{Corpus and provenance}}\\
 \texttt{corpus/raw/}, \texttt{corpus/acquisition\_manifest.json}, \texttt{tools/acquire\_corpus.py} & acquired texts, source URLs, licence notices, byte counts, hashes; the fetcher re-downloads and re-hashes every file from the manifest \\
+\texttt{tools/verify\_corpus\_live.py}, \texttt{results/corpus\_live\_verification.json} & the corpus's \emph{external} stability check: all 65 works re-downloaded and re-hashed against the manifest. 63 still match; \texttt{australian\_legendary\_tales} has drifted in place by two byte positions at identical length and \texttt{odyssey} by four line-level edits and two bytes of length. Reported per work, with the offsets, the line-aligned edits and both snippets \\
 \texttt{corpus/derived/passages\_v2.jsonl} & 34{,}281 passages with raw and clean offsets, word counts and cleaning eligibility \\
 \texttt{config/source\_dependence.json} & 15 work-pair dependence rules and 1 work family \\
 \texttt{results/attestation\_scaffold.csv}, \texttt{attestation\_scaffold\_summary.json}, \texttt{tools/build\_attestation\_scaffold.py} & dating scaffold for all 65 works: 22 with an edition or translation date, 43 needing specialist input, 0 usable for a priority claim, with per-work reasons; the summary states why every usable flag is \field{no} and which model score that blocks \\
@@ -1928,19 +2091,21 @@ directory; artifacts are grouped by the section that uses them.
 \multicolumn{2}{l}{\emph{Lexical retrieval (Section 5.7)}}\\
 \texttt{config/motif\_lexicon.json} & 8 exploratory keyword categories (retrieval aid, not annotation) \\
 \texttt{results/v2\_run\_summary.json} & corpus counts, vectorizer configuration, random and length-matched nulls, order diagnostics, positive controls, hashes \\
-\texttt{results/v2\_candidate\_pairs.jsonl}, \texttt{v2\_work\_relevance.csv}, \texttt{v2\_unfiltered\_candidate\_pairs.jsonl} & 9{,}428 passage candidates, 201 aggregated work pairs, and the unfiltered ablation run \\
+\texttt{results/v2\_candidate\_pairs.jsonl}, \texttt{v2\_work\_relevance.csv}, \texttt{v2\_unfiltered\_candidate\_pairs.jsonl}, \texttt{v2\_discovery\_pairs.jsonl}, \texttt{v2\_motif\_candidates.jsonl}, \texttt{v2\_top\_pairs\_for\_review.csv}, \texttt{v2\_priority\_cross\_region\_motifs.csv} & 9{,}428 passage candidates, 201 aggregated work pairs, the unfiltered ablation run, the cross-region discovery slice, the motif hits behind it and the two review rankings \\
 \texttt{results/v2\_cleaning\_ablation.json} & unfiltered-versus-cleaned candidate counts \\
 \texttt{results/model\_comparison.json} & the legacy TF-IDF vectorizer diagnostic --- shuffled and random-null similarity distributions for unigram, unigram-plus-bigram and bigram-only models at a published seed. It keeps this name from the pre-v3 build, where \texttt{tools/compare\_models.py --legacy-lexical} was the only writer; the v3 comparison layer publishes elsewhere, and no claim in Section 7 rests on this file \\
+\texttt{results/run\_summary.json}, \texttt{candidate\_pairs.jsonl}, \texttt{motif\_candidates.jsonl}, \texttt{top\_pairs\_for\_review.csv} & the \textbf{frozen 42-work v1 baseline} this paper measures itself against: 21{,}580 windows, 29{,}048 candidates and the first top-pairs review file, written by \texttt{tools/run\_similarity.py} and never overwritten by the v2 rebuild. The paper's before-and-after table is computed from these four files and from \texttt{model\_comparison.json} above, which is why the reproduction sequence in the repository's \texttt{TEST\_REPORT.md} does not run the v1 commands \\
 \texttt{results/v2\_manual\_review.json} & source-context review of nine leading pairs \\
 \texttt{results/v2\_relevance\_graph.json} & five-layer lexical graph and per-edge \field{edge\_kind} labels \\
 \midrule
 \multicolumn{2}{l}{\emph{Structural comparison (Section 5.8)}}\\
 \texttt{config/annotated\_versions.json} & 14 coded versions, coding manual, comparison-class checklists, 38-motif registry, preregistered weights, protocol revisions \\
-\texttt{results/narrative\_component\_pairs.jsonl}, \texttt{narrative\_validation.json}, \texttt{narrative\_run\_summary.json}, \texttt{narrative\_lexical\_baseline.json} & 91 component vectors, controls, permutation and sensitivity results, engine version and hashes \\
+\texttt{results/narrative\_component\_pairs.jsonl}, \texttt{narrative\_component\_pairs.csv}, \texttt{narrative\_validation.json}, \texttt{narrative\_run\_summary.json}, \texttt{narrative\_lexical\_baseline.json} & 91 component vectors in both shapes, controls, permutation and sensitivity results, engine version and hashes \\
+\texttt{tools/validate\_annotations.py}, \texttt{results/annotation\_validation.json} & the coding's own audit trail: 14 versions, 94 events, 218 participant role assertions, 76 causal links, a 38-motif registry asserted 78 times, 87 symbol assertions, 66 legal predicates, 10 full and 4 partial attestations, all 95 quoted fragments found in the passages that cite them, zero errors and the seven cleaning-exclusion warnings Section~5.7 counts as a cost, published with the SHA-256 of the annotation store it describes so \texttt{tests/test\_narrative\_similarity.py} can tell a stale report from a passing one \\
 \midrule
 \multicolumn{2}{l}{\emph{Divinity census and its audit (Section 6.1--6.3)}}\\
 \texttt{tools/divinity\_terms.py}, \texttt{results/divinity\_terms.json} & the \textbf{superseded} first pass: ten analyst-authored grammars, every match with locator and character span, the published exclusion rules and the excluded matches themselves. Retained as the audit trail for a withdrawn inference; no claim here rests on it. \\
-\texttt{tools/audit\_exclusivist\_matches.py}, \texttt{results/exclusivist\_monotheism\_audit.json}, \texttt{.csv} & match-by-match audit: printed span, part heading and section, composition, covering dependence rule, judged sentence, verdict reason; the mutually exclusive disposition table over all 51 matches and the check that re-derives it; the whitespace recall control and the 16-class missed-formula probe \\
+\texttt{tools/audit\_exclusivist\_matches.py}, \texttt{results/exclusivist\_monotheism\_audit.json}, \texttt{exclusivist\_monotheism\_audit.csv} & match-by-match audit: printed span, part heading and section, composition, covering dependence rule, judged sentence, verdict reason; the mutually exclusive disposition table over all 51 matches and the check that re-derives it; the whitespace recall control and the 16-class missed-formula probe \\
 \midrule
 \multicolumn{2}{l}{\emph{State coder v3 (Section 6.4)}}\\
 \texttt{config/divinity\_ontology.json} & 12 dimensions and their 93 declared values with coverage state, the three assertion fields, the proposition-level record contract, the 13-operator transformation vocabulary and its discipline, the four competing models, the frame's prohibitions and its \texttt{multilingual\_status} \\
@@ -1954,7 +2119,8 @@ directory; artifacts are grouped by the section that uses them.
 \texttt{tools/build\_ontology\_graph.py}, \texttt{results/ontology\_graph.json}, \texttt{ontology\_passage\_index.json.gz}, \texttt{ontology\_passage\_pairs.jsonl.gz} & five-layer state graph. Candidate generation is an exact inverted index over 14{,}036 live-state passages, 44 features and 30{,}070 postings: 22{,}940{,}506 distinct cross-work pairs share at least one live coded state (31{,}851{,}655 counting each shared feature), spanning 2{,}078 of the 2{,}080 work pairs. The index is shipped so that the relation regenerates byte-identically without this machine; the edge file is a labelled display slice of 41{,}238 rows under a published cap of 20 per work pair, never a sample of the relation. The graph also carries the one coverage inventory the paper quotes, and layer 4 is empty by design \\
 \texttt{tools/validate\_graph\_recall.py}, \texttt{results/graph\_recall\_validation.json} & the superseded MinHash banding measured against the exact relation twice over: corpus-wide, 538{,}529 of 22{,}940{,}506 pairs recovered (recall 0.023475; 0.206698 with the bucket cap removed; 4{,}203{,}223 lost to the cap and 18{,}198{,}754 to banding), and on a deterministic 1{,}632-passage stratified subset, 9{,}600 of 413{,}552 (recall 0.023214). Precision is 1.0 in both runs, so banding's only defect was coverage \\
 \texttt{tools/render\_track\_b\_state.py}, \texttt{results/track\_b\_state.html} & self-contained figure set: concept dimensions on candidate counts, D7a--d on their own denominator with their own legend, a separate affirmative-doctrine heat map, coverage panel \\
-\texttt{tools/scan\_dimension\_anomalies.py}, \texttt{results/dimension\_anomalies.json} & the instrument turned on itself: every dimension measured on two pair graphs (all carrier pairs, and only the pairs \texttt{similarity\_between} agrees to score) under two statistics (the one the frame declares, and set overlap), each against a per-dimension configuration-model chance line drawn from this corpus's own marginals on the same graph and statistic --- 200 draws, seed 20261102, sorted so the bytes do not move with \texttt{PYTHONHASHSEED}; the artifact adds the dead dimensions, the dimensions inside the 0.05 chance band under each reading, the cells where a single-valued key carries several values, the block orderings with their adjacency verdicts read through \texttt{compare\_models.adjacency\_verdicts}, the endorsed-frame sensitivity, and a per-pair excess ranking with the dependence flag, and \texttt{compare\_models.py} reads its chance line out of this file and stamps its SHA-256 into the published verdict \\
+\texttt{results/figures/assertion\_states\_by\_dimension.svg}, \texttt{speech\_act\_of\_plurality\_claims.svg}, \texttt{work\_by\_dimension\_states.svg} & the three standalone figures, written by \texttt{tools/build\_ontology\_graph.py} from the same tallies the tables report, so no figure is drawn from a hand-copied number \\
+\texttt{tools/scan\_dimension\_anomalies.py}, \texttt{results/dimension\_anomalies.json} & the instrument turned on itself: every dimension measured on two pair graphs (all carrier pairs, and only the pairs \texttt{similarity\_between} agrees to score) under two statistics (the one the frame declares, and set overlap), each against a per-dimension configuration-model chance line drawn from this corpus's own marginals on the same graph, with the same statistic, over the same pairs --- 200 draws, seed 20261102, sorted so the bytes do not move with \texttt{PYTHONHASHSEED}; the artifact adds the dead dimensions, the dimensions inside the 0.05 chance band under each reading, the cells where a single-valued key carries several values, the block orderings with their adjacency verdicts read through \texttt{compare\_models.adjacency\_verdicts}, the endorsed-frame sensitivity, and a per-pair excess ranking with the dependence flag, and \texttt{compare\_models.py} reads its chance line out of this file and stamps its SHA-256 into the published verdict \\
 \midrule
 \multicolumn{2}{l}{\emph{Annotation (built, unused)}}\\
 \texttt{tools/prepare\_annotation\_packet.py}, \texttt{results/annotation\_packet\_coder\_view.csv}, \texttt{annotation\_packet\_key.jsonl}, \texttt{annotation\_codebook.csv}, \texttt{annotation\_sampling\_plan.json} & 6{,}199 blinded propositions --- 4{,}699 machine-flagged candidates over 48 value strata with 11 censuses, 65 works, 8 speech acts, plus 1{,}500 no-record probe rows in two disjoint strata with their exact \(\pi\) and \(w = 1/\pi\) published per row; seed 20261101, separate answer key, published codebook and sizing rationale \\
@@ -1963,12 +2129,13 @@ directory; artifacts are grouped by the section that uses them.
 \texttt{tools/make\_pilot\_packet.py}, \texttt{results/pilot\_slice.json}, \texttt{results/pilot\_packet\_coder\_view.csv}, \texttt{annotation/PILOT\_CODEBOOK.md}, \texttt{annotation/CODER\_INSTRUCTIONS.md} & the handout two strangers can be asked to fill in: \(300\) of the \(6199\) blinded propositions, allocated across the packet's three roles by largest remainder and drawn inside each stratum by a seeded simple random sample over tokens sorted before the generator sees them (seed 20261102), which is why the design weights are near-uniform by construction rather than by tuning; the \(29\)-column sheet, the codebook's \(93\) dimension values and \(14\) fixed-question answers and every count in the instructions are rendered from the packet, the key and the codebook, \texttt{--check} re-renders all four and fails on drift, and the derivation publishes the three handouts' SHA-256, the four things this slice \textbf{cannot} support, and \texttt{coders\_who\_have\_returned\_sheets} as an empty array \\
 \midrule
 \multicolumn{2}{l}{\emph{Models (Section 7)}}\\
-\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome and a flat or contradicted M4 block profile disqualifying M4 from the name; stage 2 asks the separate licence question, an inheritance-bearing model over \textbf{both} no-edge nulls at the same single declared margin), the M4 attractor block-profile test over the three dimension blocks, read twice --- once on raw mean similarity and once on mean excess over the anomaly scan's same-graph chance line, with a third adjacency class for a gap inside the registered separability and a scale disagreement that issues no disqualification --- and publishing the chance file's SHA-256 beside its verdict, the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{not\_yet\_testable}; the block profile on the corpus's own \(1237\) scored pairs reads \texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale}. \\
+\texttt{config/model\_comparison\_v3.json}, \texttt{tools/compare\_models.py} & edge typing, per-model likelihoods, the Poisson operator-rate transformation model with monotone decay nested inside it, the 13-operator cost matrix with rates, retentions and required evidence, path constraints, date-range handling, the two-stage decision rule (stage 1 scores all four competitors on one pair set and asks for the leader's \(\log_{10}\) Bayes factor over the \textbf{runner-up} at the declared 2.0, with \texttt{no\_decisive\_winner} a reachable published outcome and a flat or contradicted M4 block profile disqualifying M4 from the name; stage 2 asks the separate licence question, an inheritance-bearing model over \textbf{both} no-edge nulls at the same single declared margin), the M4 attractor block-profile test over the three dimension blocks, read twice --- once on raw mean similarity and once on mean excess over the anomaly scan's same-graph chance line, with a third adjacency class for a gap inside the registered separability and a scale disagreement that issues no disqualification --- and publishing the chance file's SHA-256 beside its verdict, the cluster-folded holdout and the Kish effective-sample count, the SHA-256 preregistration check. Current verdict \texttt{results/track\_b\_verdict.json} is \texttt{not\_yet\_testable}: with no derivation record and no dated attestation the layer emits no score and no ranking, and it publishes the list of what is missing rather than a default. The same file carries the one claim this corpus can score, under \texttt{m4\_block\_profile\_gate}, produced by \texttt{tools/compare\_models.py --corpus-pairs}: the block profile on the corpus's own \(1237\) scored pairs reads \texttt{block\_profile\_verdict\_depends\_on\_the\_similarity\_scale}, with the raw block means \(0.635531\), \(0.364694\) and \(0.542152\) and the chance-corrected ones \(0.117963\), \(0.041092\) and \(0.058486\), so the committed falsification hook fires on one scale and not the other. \\
 \texttt{tools/compare\_models.py --power}, \texttt{results/model\_power\_simulation.json} & the floors the layer enforces, simulated rather than asserted: each of the four models run as the truth over the declared grid (20--400 pairs by 20, 200 replications, seed 20261031) at a 0.8 target, the pair floor taken as the maximum over the four so that no truth is left unresolved (220 pairs, M1 binding), the effective-sample floor as the 5th percentile Kish count of that binding cell (29.051621), three sensitivity scenarios and a per-row Monte Carlo standard error, with the declared parameters hashed and any overridden run stamped \texttt{SMOKE RUN}. A run that derives no floor refuses every pair set instead of falling back to the superseded analyst number of 20. \\
 \midrule
 \multicolumn{2}{l}{\emph{Method and tests}}\\
 \texttt{TRACK\_B\_METHOD\_v2.md} & the Track B methodology as rebuilt: unit of analysis, the twelve dimensions and why two were split, the three-question state model, audit findings, the four models with their admissions, the operator discipline, the licence conditions on reporting, the acquisition plan \\
-\texttt{tests/}, \texttt{tools/validate\_*.py} & 372 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 12 pipeline, 37 structural-engine, 19 schema, 8 divinity-census, 27 exclusivist-audit, 31 state-coder, 13 graph-recall, 113 model-comparison, 28 anomaly-scan, 36 annotation-recall, 33 pilot-kit, 9 typesetting, 6 documented-counts; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, \texttt{tests/test\_dimension\_anomalies.py} re-derives Table~\ref{tab:chance} and every prose figure in Section~\ref{sec:anomalies} from the artifact it quotes, \texttt{tests/test\_pilot\_kit.py} re-derives Table~\ref{tab:pilot} and the prose figures of Section~\ref{sec:pilot} from the slice derivation and refuses to let the two handouts and the packet drift apart, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
+\texttt{tools/compare\_published\_fingerprints.py}, \texttt{results/fingerprint\_diff.json} & the answer to ``did re-running the pipeline change a measurement?'' written as an artifact instead of as a claim: every file in \texttt{results/}, \texttt{config/} and the acquisition manifest is digested twice, once by bytes and once with the fields that record \emph{that} a run happened stripped out (any key ending \texttt{\_sha256} or \texttt{\_at\_utc}, plus a published explicit list, with 64-hex runs and ISO-8601 stamps masked in non-JSON text), and each path is classified \texttt{byte\_identical}, \texttt{stamps\_only}, \texttt{measurement\_changed}, \texttt{added\_since\_baseline}, \texttt{removed\_since\_baseline} or \texttt{opaque\_change} against the commit the paper was built on. The stripping policy is inside the artifact, the report excludes itself, and \texttt{tests/test\_pipeline.py} recomputes the tally from the rows rather than trusting the summary \\
+\texttt{tests/}, \texttt{tools/validate\_*.py} & 455 tests plus 7 parameterised subtests, read off the collector by \texttt{tests/test\_documented\_counts.py} rather than carried between drafts: 45 pipeline, 43 structural-engine, 19 schema, 9 divinity-census, 27 exclusivist-audit, 33 state-coder, 13 graph-recall, 116 model-comparison, 51 anomaly-scan, 37 annotation-recall, 33 pilot-kit, 9 typesetting, 8 documented-counts, 12 documented-hashes; the validators re-check every locator, hash, layer boundary and vocabulary label in the artifacts above, \texttt{tools/validate\_tex.py} re-checks this file's own environments, table geometry, escapes and cross-references and \texttt{--self-test} requires all ten injected defect classes to fire, \texttt{tests/test\_dimension\_anomalies.py} re-derives Table~\ref{tab:chance} and every prose figure in Section~\ref{sec:anomalies} from the artifact it quotes, \texttt{tests/test\_pilot\_kit.py} re-derives Table~\ref{tab:pilot} and the prose figures of Section~\ref{sec:pilot} from the slice derivation and refuses to let the two handouts and the packet drift apart, and \texttt{tests/test\_tex\_typesetting.py} compiles this source with a real \LaTeX{} engine and fails if the log reports an overfull box, an undefined reference, a length still moving after four passes, or a page count that contradicts the reproducibility statement \\
 \bottomrule
 \end{longtable}
 
@@ -1985,13 +2152,14 @@ cross-reference and citation key resolves. \texttt{python tools/validate\_tex.py
 --self-test} then injects each defect class into an in-memory copy of this source and
 requires the matching check to fire: all ten do, and the clean copy reports nothing.
 It reports structure, not content. Compilation is a separate check, and here it is a
-measurement rather than a disclaimer: \texttt{tests/test\_tex\_typesetting.py} runs
-\texttt{pdflatex} into a temporary directory, repeating the pass until the reported page
+measurement rather than a disclaimer: \texttt{tests/test\_tex\_typesetting.py} copies
+this source into an empty temporary directory and runs \texttt{pdflatex} there, repeating
+the pass until the reported page
 count repeats and the log stops asking for a rerun, and fails the suite if the engine
 exits non-zero, if its log reports an overfull or underfull box, if a reference or
 citation is still undefined on the final pass, if the length is still moving after four
 passes, or if the page count the prose states is not the page count the engine produced.
-On this machine (MiKTeX 25.12) the paper sets to 39 pages with none of those
+On this machine (MiKTeX 25.12) the paper sets to 43 pages with none of those
 occurring; the earlier edition of this paragraph said no \LaTeX{} engine was installed,
 which was true of that machine and wrong as a reason not to look. Where no engine is
 installed the test skips and says so, instead of leaving the geometry unverified in
@@ -2008,13 +2176,34 @@ seed, band structure, bucket cap and measured recall are published in
 Table~\ref{tab:graph} but which now produces no published edge. The gzipped artifacts
 are written with \field{mtime} pinned to zero and no stored filename, because the
 header's creation timestamp made two runs differ byte for byte while every count in
-them stayed equal.
+them stayed equal. Line endings are pinned by the same argument: every text-mode writer in \texttt{tools/} states the endings it emits, because an unstated policy would let a reviewer's operating system rewrite the artifacts and report every downstream stage as stale.
+
+Internal freshness gates can only check this repository against itself, and the corpus has a
+second reproducibility dependency that is external: its texts came from a publisher that edits
+files in place. \texttt{tools/verify\_corpus\_live.py} re-downloads all 65 works and compares the
+bytes it receives with the hash the manifest recorded, and
+\texttt{results/corpus\_live\_verification.json} publishes the outcome per work. In the run
+recorded here, 63 of 65 still match. Two do not. \texttt{australian\_legendary\_tales}
+(Gutenberg 3833) is served at the same 207{,}276 bytes with two differing byte positions from
+offset 184{,}973, where the acquired gloss ``E\"{a}r moonan'' reads ``Eaer moonan'' in the live
+copy---one entry of a word list whose accented vowel is now transliterated, not a change of
+narrative text. \texttt{odyssey} (Gutenberg 1727) is served two bytes shorter, its first
+difference at offset 664 where the header \emph{Most recently updated: December 2, 2023} now
+reads \emph{November 2, 2026}; its length changed, so the positional comparison reports
+685{,}258 differing offsets, which is the arithmetic of a shift rather than 685{,}258 edits --
+aligned line by line the two copies differ at 4 sites: that header date, a numeral restored
+in the preface, a footnote marker added to a body line, and one separator line holding only a slash removed near the end. The point of publishing
+either is not that a drift is large but that a fresh
+acquisition on this machine no longer reproduces every shipped file. A reviewer who re-runs the
+fetcher should therefore expect these two hashes to differ, and the manifest with the hashes it
+recorded---not whatever the live site serves today---is the authority for every measurement in
+this paper.
 
 \begin{thebibliography}{99}
 \bibitem[D\`{a} Silva and Tehrani(2016)]{dasilva2016}
 D\`{a} Silva, Sara Gra\c{c}a, and Jamshid J. Tehrani. 2016.
 ``Comparative Phylogenetic Analyses Uncover the Ancient Roots of Indo-European Folktales.''
-\emph{Royal Society Open Science} 3: 150645.
+\emph{Royal Society Open Science} 3 (1): 150645. DOI 10.1098/rsos.150645.
 
 \bibitem[Faulkes(1987)]{faulkes1987}
 Faulkes, Anthony, trans. 1987. \emph{Edda}. Everyman.
@@ -2038,7 +2227,7 @@ Larrington, Carolyne, trans. 2014. \emph{The Poetic Edda}. Revised ed. Oxford Un
 
 \bibitem[Tehrani(2013)]{tehrani2013}
 Tehrani, Jamshid J. 2013. ``The Phylogeny of Little Red Riding Hood.''
-\emph{PLOS ONE} 8 (11): e78871.
+\emph{PLOS ONE} 8 (11): e78871. DOI 10.1371/journal.pone.0078871.
 
 \bibitem[Thompson(1955--1958)]{thompson1955}
 Thompson, Stith. 1955--1958. \emph{Motif-Index of Folk-Literature}.

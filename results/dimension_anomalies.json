@@ -12,7 +12,9 @@
     "band": 0.05,
     "preserves": "each work's own number of values on that dimension, and the dimension's per-value prevalence",
     "does_not_preserve": "correlations between values inside a work, so the excess here is an upper bound on any structure attributed to a dimension whose detector fires on co-occurring strings",
-    "why_not_a_permutation": "the mean over a complete graph is invariant to permuting which work owns which set, so a label-shuffled control would return the observed number and call it a null"
+    "pair_set": "each population's chance line is drawn over the same pairs as the observed mean it subtracts: the complete graph over the works that carry a value for the dimension, and for the scored graph the scorable subset the comparison layer actually pools. See `pair_graph.chance_line_conditioning` for how much the conditioning is worth.",
+    "why_not_a_permutation": "the mean over a complete graph is invariant to permuting which work owns which set, so a label-shuffled control would return the observed number and call it a null",
+    "why_not_a_co_occurrence_preserving_permutation": "tested and set aside: resampling whole observed value sets across works leaves the null's expectation equal to the observed complete-graph mean for every live dimension, so the excess it produces is zero by construction rather than a measurement against an independent baseline"
   },
   "works_scanned": 65,
   "pairs_of_works_possible": 2080,
@@ -36,7 +38,11 @@
         "pairs_compared": 2016,
         "observed_mean_similarity": 0.496007,
         "chance_similarity_from_own_marginals": 0.391504,
+        "chance_similarity_over_all_pairs_of_carriers": 0.391504,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.104503,
+        "excess_over_the_complete_graph_chance": 0.104503,
         "excess_within_declared_chance_band": false
       },
       "value_sets": {
@@ -44,7 +50,11 @@
         "pairs_compared": 2016,
         "observed_mean_similarity": 0.496007,
         "chance_similarity_from_own_marginals": 0.392988,
+        "chance_similarity_over_all_pairs_of_carriers": 0.392988,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.103019,
+        "excess_over_the_complete_graph_chance": 0.103019,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -68,7 +78,11 @@
         "pairs_compared": 1176,
         "observed_mean_similarity": 0.069728,
         "chance_similarity_from_own_marginals": 0.033299,
+        "chance_similarity_over_all_pairs_of_carriers": 0.033299,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.036429,
+        "excess_over_the_complete_graph_chance": 0.036429,
         "excess_within_declared_chance_band": true
       },
       "value_sets": {
@@ -76,7 +90,11 @@
         "pairs_compared": 1176,
         "observed_mean_similarity": 0.34409,
         "chance_similarity_from_own_marginals": 0.282015,
+        "chance_similarity_over_all_pairs_of_carriers": 0.282015,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.062075,
+        "excess_over_the_complete_graph_chance": 0.062075,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -100,7 +118,11 @@
         "pairs_compared": 703,
         "observed_mean_similarity": 0.196302,
         "chance_similarity_from_own_marginals": 0.167482,
+        "chance_similarity_over_all_pairs_of_carriers": 0.167482,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.028819,
+        "excess_over_the_complete_graph_chance": 0.028819,
         "excess_within_declared_chance_band": true
       },
       "value_sets": {
@@ -108,7 +130,11 @@
         "pairs_compared": 703,
         "observed_mean_similarity": 0.520152,
         "chance_similarity_from_own_marginals": 0.481053,
+        "chance_similarity_over_all_pairs_of_carriers": 0.481053,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.039099,
+        "excess_over_the_complete_graph_chance": 0.039099,
         "excess_within_declared_chance_band": true
       },
       "readings_disagree": false,
@@ -132,7 +158,11 @@
         "pairs_compared": 300,
         "observed_mean_similarity": 0.78,
         "chance_similarity_from_own_marginals": 0.632883,
+        "chance_similarity_over_all_pairs_of_carriers": 0.632883,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.147117,
+        "excess_over_the_complete_graph_chance": 0.147117,
         "excess_within_declared_chance_band": false
       },
       "value_sets": {
@@ -140,7 +170,11 @@
         "pairs_compared": 300,
         "observed_mean_similarity": 0.89,
         "chance_similarity_from_own_marginals": 0.74395,
+        "chance_similarity_over_all_pairs_of_carriers": 0.74395,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.14605,
+        "excess_over_the_complete_graph_chance": 0.14605,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -164,7 +198,11 @@
         "pairs_compared": 1953,
         "observed_mean_similarity": 0.526557,
         "chance_similarity_from_own_marginals": 0.368697,
+        "chance_similarity_over_all_pairs_of_carriers": 0.368697,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.15786,
+        "excess_over_the_complete_graph_chance": 0.15786,
         "excess_within_declared_chance_band": false
       },
       "value_sets": {
@@ -172,7 +210,11 @@
         "pairs_compared": 1953,
         "observed_mean_similarity": 0.526557,
         "chance_similarity_from_own_marginals": 0.366005,
+        "chance_similarity_over_all_pairs_of_carriers": 0.366005,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.160552,
+        "excess_over_the_complete_graph_chance": 0.160552,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -196,7 +238,11 @@
         "pairs_compared": 2080,
         "observed_mean_similarity": 0.596132,
         "chance_similarity_from_own_marginals": 0.524972,
+        "chance_similarity_over_all_pairs_of_carriers": 0.524972,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.07116,
+        "excess_over_the_complete_graph_chance": 0.07116,
         "excess_within_declared_chance_band": false
       },
       "value_sets": {
@@ -204,7 +250,11 @@
         "pairs_compared": 2080,
         "observed_mean_similarity": 0.596132,
         "chance_similarity_from_own_marginals": 0.524499,
+        "chance_similarity_over_all_pairs_of_carriers": 0.524499,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.071633,
+        "excess_over_the_complete_graph_chance": 0.071633,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -228,7 +278,11 @@
         "pairs_compared": 1540,
         "observed_mean_similarity": 0.536472,
         "chance_similarity_from_own_marginals": 0.465222,
+        "chance_similarity_over_all_pairs_of_carriers": 0.465222,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.07125,
+        "excess_over_the_complete_graph_chance": 0.07125,
         "excess_within_declared_chance_band": false
       },
       "value_sets": {
@@ -236,7 +290,11 @@
         "pairs_compared": 1540,
         "observed_mean_similarity": 0.536472,
         "chance_similarity_from_own_marginals": 0.464336,
+        "chance_similarity_over_all_pairs_of_carriers": 0.464336,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.072136,
+        "excess_over_the_complete_graph_chance": 0.072136,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -260,7 +318,11 @@
         "pairs_compared": 1596,
         "observed_mean_similarity": 0.477558,
         "chance_similarity_from_own_marginals": 0.422058,
+        "chance_similarity_over_all_pairs_of_carriers": 0.422058,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.055501,
+        "excess_over_the_complete_graph_chance": 0.055501,
         "excess_within_declared_chance_band": false
       },
       "value_sets": {
@@ -268,7 +330,11 @@
         "pairs_compared": 1596,
         "observed_mean_similarity": 0.477558,
         "chance_similarity_from_own_marginals": 0.421274,
+        "chance_similarity_over_all_pairs_of_carriers": 0.421274,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.056284,
+        "excess_over_the_complete_graph_chance": 0.056284,
         "excess_within_declared_chance_band": false
       },
       "readings_disagree": false,
@@ -292,7 +358,11 @@
         "pairs_compared": 990,
         "observed_mean_similarity": 0.50101,
         "chance_similarity_from_own_marginals": 0.493414,
+        "chance_similarity_over_all_pairs_of_carriers": 0.493414,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.007596,
+        "excess_over_the_complete_graph_chance": 0.007596,
         "excess_within_declared_chance_band": true
       },
       "value_sets": {
@@ -300,7 +370,11 @@
         "pairs_compared": 990,
         "observed_mean_similarity": 0.728283,
         "chance_similarity_from_own_marginals": 0.719828,
+        "chance_similarity_over_all_pairs_of_carriers": 0.719828,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": 0.0,
         "excess_over_chance": 0.008455,
+        "excess_over_the_complete_graph_chance": 0.008455,
         "excess_within_declared_chance_band": true
       },
       "readings_disagree": false,
@@ -324,7 +398,11 @@
         "pairs_compared": 0,
         "observed_mean_similarity": null,
         "chance_similarity_from_own_marginals": null,
+        "chance_similarity_over_all_pairs_of_carriers": null,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": null,
         "excess_over_chance": null,
+        "excess_over_the_complete_graph_chance": null,
         "excess_within_declared_chance_band": null
       },
       "value_sets": {
@@ -332,7 +410,11 @@
         "pairs_compared": 0,
         "observed_mean_similarity": null,
         "chance_similarity_from_own_marginals": null,
+        "chance_similarity_over_all_pairs_of_carriers": null,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": null,
         "excess_over_chance": null,
+        "excess_over_the_complete_graph_chance": null,
         "excess_within_declared_chance_band": null
       },
       "readings_disagree": false,
@@ -356,7 +438,11 @@
         "pairs_compared": 0,
         "observed_mean_similarity": null,
         "chance_similarity_from_own_marginals": null,
+        "chance_similarity_over_all_pairs_of_carriers": null,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": null,
         "excess_over_chance": null,
+        "excess_over_the_complete_graph_chance": null,
         "excess_within_declared_chance_band": null
       },
       "value_sets": {
@@ -364,7 +450,11 @@
         "pairs_compared": 0,
         "observed_mean_similarity": null,
         "chance_similarity_from_own_marginals": null,
+        "chance_similarity_over_all_pairs_of_carriers": null,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": null,
         "excess_over_chance": null,
+        "excess_over_the_complete_graph_chance": null,
         "excess_within_declared_chance_band": null
       },
       "readings_disagree": false,
@@ -388,7 +478,11 @@
         "pairs_compared": 0,
         "observed_mean_similarity": null,
         "chance_similarity_from_own_marginals": null,
+        "chance_similarity_over_all_pairs_of_carriers": null,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": null,
         "excess_over_chance": null,
+        "excess_over_the_complete_graph_chance": null,
         "excess_within_declared_chance_band": null
       },
       "value_sets": {
@@ -396,7 +490,11 @@
         "pairs_compared": 0,
         "observed_mean_similarity": null,
         "chance_similarity_from_own_marginals": null,
+        "chance_similarity_over_all_pairs_of_carriers": null,
+        "chance_line_conditions_on_the_scored_pairs": false,
+        "conditioning_gap": null,
         "excess_over_chance": null,
+        "excess_over_the_complete_graph_chance": null,
         "excess_within_declared_chance_band": null
       },
       "readings_disagree": false,
@@ -418,6 +516,552 @@
       "D2b_reality_of_others",
       "D7a_speaker_attribution"
     ]
+  },
+  "chance_band_diagnostics": {
+    "carrier_graph": {
+      "band": 0.05,
+      "replicates": 200,
+      "measurements_tested": 18,
+      "dimensions_tested": 9,
+      "per_measurement": [
+        {
+          "dimension": "D1_ontological_category",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 2016,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.391504,
+          "null_excess_sd": 0.014221,
+          "null_excess_p95_abs": 0.027895,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.104503,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D1_ontological_category",
+          "reading": "value_sets",
+          "pairs_in_this_population": 2016,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.392988,
+          "null_excess_sd": 0.013902,
+          "null_excess_p95_abs": 0.029015,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.103019,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D2a_acknowledged_population",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1176,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.033299,
+          "null_excess_sd": 0.006071,
+          "null_excess_p95_abs": 0.011247,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.036429,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2a_acknowledged_population",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1176,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.282015,
+          "null_excess_sd": 0.014222,
+          "null_excess_p95_abs": 0.025239,
+          "false_positive_rate_at_band": 0.005,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.062075,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D2b_reality_of_others",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 703,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.167482,
+          "null_excess_sd": 0.01299,
+          "null_excess_p95_abs": 0.024675,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.039801,
+          "observed_excess": 0.028819,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2b_reality_of_others",
+          "reading": "value_sets",
+          "pairs_in_this_population": 703,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.481053,
+          "null_excess_sd": 0.014944,
+          "null_excess_p95_abs": 0.031194,
+          "false_positive_rate_at_band": 0.01,
+          "monte_carlo_p_two_sided": 0.0199,
+          "observed_excess": 0.039099,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2c_worship_exclusivity",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 300,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.632883,
+          "null_excess_sd": 0.077674,
+          "null_excess_p95_abs": 0.147856,
+          "false_positive_rate_at_band": 0.47,
+          "monte_carlo_p_two_sided": 0.099502,
+          "observed_excess": 0.147117,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D2c_worship_exclusivity",
+          "reading": "value_sets",
+          "pairs_in_this_population": 300,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.74395,
+          "null_excess_sd": 0.078595,
+          "null_excess_p95_abs": 0.146784,
+          "false_positive_rate_at_band": 0.51,
+          "monte_carlo_p_two_sided": 0.094527,
+          "observed_excess": 0.14605,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D3_agency",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1953,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.368697,
+          "null_excess_sd": 0.021247,
+          "null_excess_p95_abs": 0.045783,
+          "false_positive_rate_at_band": 0.02,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.15786,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D3_agency",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1953,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.366005,
+          "null_excess_sd": 0.021806,
+          "null_excess_p95_abs": 0.041936,
+          "false_positive_rate_at_band": 0.025,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.160552,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D4_cosmic_function",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 2080,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.524972,
+          "null_excess_sd": 0.005183,
+          "null_excess_p95_abs": 0.010235,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.07116,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D4_cosmic_function",
+          "reading": "value_sets",
+          "pairs_in_this_population": 2080,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.524499,
+          "null_excess_sd": 0.005256,
+          "null_excess_p95_abs": 0.010052,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.071633,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D5_universe_relationship",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1540,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.465222,
+          "null_excess_sd": 0.013903,
+          "null_excess_p95_abs": 0.025414,
+          "false_positive_rate_at_band": 0.01,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.07125,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D5_universe_relationship",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1540,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.464336,
+          "null_excess_sd": 0.013122,
+          "null_excess_p95_abs": 0.025829,
+          "false_positive_rate_at_band": 0.005,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.072136,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1596,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.422058,
+          "null_excess_sd": 0.014476,
+          "null_excess_p95_abs": 0.029274,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.055501,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1596,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.421274,
+          "null_excess_sd": 0.012162,
+          "null_excess_p95_abs": 0.023396,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.056284,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D7a_speaker_attribution",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 990,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.493414,
+          "null_excess_sd": 0.005983,
+          "null_excess_p95_abs": 0.015756,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.20398,
+          "observed_excess": 0.007596,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D7a_speaker_attribution",
+          "reading": "value_sets",
+          "pairs_in_this_population": 990,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "null_mean_agreement": 0.719828,
+          "null_excess_sd": 0.005141,
+          "null_excess_p95_abs": 0.016618,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.134328,
+          "observed_excess": 0.008455,
+          "observed_outside_band": false
+        }
+      ],
+      "family": {
+        "any_measurement_exceeds_rate": 0.785,
+        "mean_measurements_exceeding": 1.055,
+        "any_dimension_exceeds_rate": 0.785,
+        "mean_dimensions_exceeding": 0.85,
+        "distribution_of_dimensions_exceeding": {
+          "0": 43,
+          "1": 145,
+          "2": 11,
+          "3": 1
+        },
+        "smallest_resolvable_monte_carlo_p": 0.00497512,
+        "declared_rule_panel_size": 9,
+        "bonferroni_alpha_for_the_declared_rule_panel": 0.00555556,
+        "dimensions_surviving_bonferroni": [
+          "D1_ontological_category",
+          "D2a_acknowledged_population",
+          "D3_agency",
+          "D4_cosmic_function",
+          "D5_universe_relationship",
+          "D6_temporal_nature"
+        ]
+      },
+      "observed_measurements_outside_band": {
+        "declared_rule": 6,
+        "value_sets": 7
+      },
+      "observed_dimensions_outside_band": 7,
+      "how_to_read_it": "the corpus flags this many dimensions; a corpus drawn from the same marginals with no structure in it flags this many on average, and flags at least one this often. A count of flagged dimensions is evidence against that second number, not against zero. The Monte Carlo column is the tighter reading: it asks how many of the null's own draws sit at or beyond the observed excess, so a dimension whose excess is larger than the band but smaller than the null's usual scatter is reported as flagged by the band and not separated from chance by the draws.",
+      "what_this_does_not_do": "it is not a test at a declared alpha, and it corrects nothing about the dependence between dimensions, which this null assumes away in exactly the same way the chance line does; it sizes the band, it does not replace it"
+    },
+    "scored_graph": {
+      "band": 0.05,
+      "replicates": 200,
+      "measurements_tested": 18,
+      "dimensions_tested": 9,
+      "per_measurement": [
+        {
+          "dimension": "D1_ontological_category",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.454433,
+          "null_excess_sd": 0.017579,
+          "null_excess_p95_abs": 0.036845,
+          "false_positive_rate_at_band": 0.005,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.111277,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D1_ontological_category",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.453891,
+          "null_excess_sd": 0.016092,
+          "null_excess_p95_abs": 0.03259,
+          "false_positive_rate_at_band": 0.005,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.112093,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D2a_acknowledged_population",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1019,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.027924,
+          "null_excess_sd": 0.006473,
+          "null_excess_p95_abs": 0.012373,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.021001,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2a_acknowledged_population",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1019,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.294564,
+          "null_excess_sd": 0.015102,
+          "null_excess_p95_abs": 0.027294,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.00995,
+          "observed_excess": 0.045526,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2b_reality_of_others",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 703,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.168272,
+          "null_excess_sd": 0.013547,
+          "null_excess_p95_abs": 0.026741,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.044776,
+          "observed_excess": 0.029759,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2b_reality_of_others",
+          "reading": "value_sets",
+          "pairs_in_this_population": 703,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.479501,
+          "null_excess_sd": 0.015261,
+          "null_excess_p95_abs": 0.033469,
+          "false_positive_rate_at_band": 0.01,
+          "monte_carlo_p_two_sided": 0.029851,
+          "observed_excess": 0.038961,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D2c_worship_exclusivity",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 300,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.635583,
+          "null_excess_sd": 0.084501,
+          "null_excess_p95_abs": 0.145142,
+          "false_positive_rate_at_band": 0.555,
+          "monte_carlo_p_two_sided": 0.024876,
+          "observed_excess": 0.148467,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D2c_worship_exclusivity",
+          "reading": "value_sets",
+          "pairs_in_this_population": 300,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.743583,
+          "null_excess_sd": 0.076599,
+          "null_excess_p95_abs": 0.147152,
+          "false_positive_rate_at_band": 0.41,
+          "monte_carlo_p_two_sided": 0.024876,
+          "observed_excess": 0.155617,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D3_agency",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.396527,
+          "null_excess_sd": 0.02268,
+          "null_excess_p95_abs": 0.042773,
+          "false_positive_rate_at_band": 0.015,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.14578,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D3_agency",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.397309,
+          "null_excess_sd": 0.023199,
+          "null_excess_p95_abs": 0.044587,
+          "false_positive_rate_at_band": 0.01,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.146375,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D4_cosmic_function",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.634817,
+          "null_excess_sd": 0.004547,
+          "null_excess_p95_abs": 0.008712,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.059643,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D4_cosmic_function",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.634699,
+          "null_excess_sd": 0.004864,
+          "null_excess_p95_abs": 0.009441,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.058972,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D5_universe_relationship",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1164,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.522568,
+          "null_excess_sd": 0.014955,
+          "null_excess_p95_abs": 0.028405,
+          "false_positive_rate_at_band": 0.005,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.065977,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D5_universe_relationship",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1164,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.521187,
+          "null_excess_sd": 0.013335,
+          "null_excess_p95_abs": 0.024676,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.065924,
+          "observed_outside_band": true
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.464286,
+          "null_excess_sd": 0.013113,
+          "null_excess_p95_abs": 0.026239,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.04763,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "value_sets",
+          "pairs_in_this_population": 1237,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.464089,
+          "null_excess_sd": 0.014224,
+          "null_excess_p95_abs": 0.030431,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.004975,
+          "observed_excess": 0.047582,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D7a_speaker_attribution",
+          "reading": "declared_rule",
+          "pairs_in_this_population": 893,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.503555,
+          "null_excess_sd": 0.00511,
+          "null_excess_p95_abs": 0.01162,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.174129,
+          "observed_excess": 0.005694,
+          "observed_outside_band": false
+        },
+        {
+          "dimension": "D7a_speaker_attribution",
+          "reading": "value_sets",
+          "pairs_in_this_population": 893,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "null_mean_agreement": 0.727626,
+          "null_excess_sd": 0.005788,
+          "null_excess_p95_abs": 0.013764,
+          "false_positive_rate_at_band": 0.0,
+          "monte_carlo_p_two_sided": 0.218905,
+          "observed_excess": 0.005342,
+          "observed_outside_band": false
+        }
+      ],
+      "family": {
+        "any_measurement_exceeds_rate": 0.76,
+        "mean_measurements_exceeding": 1.015,
+        "any_dimension_exceeds_rate": 0.76,
+        "mean_dimensions_exceeding": 0.795,
+        "distribution_of_dimensions_exceeding": {
+          "0": 48,
+          "1": 145,
+          "2": 7
+        },
+        "smallest_resolvable_monte_carlo_p": 0.00497512,
+        "declared_rule_panel_size": 9,
+        "bonferroni_alpha_for_the_declared_rule_panel": 0.00555556,
+        "dimensions_surviving_bonferroni": [
+          "D1_ontological_category",
+          "D2a_acknowledged_population",
+          "D3_agency",
+          "D4_cosmic_function",
+          "D5_universe_relationship",
+          "D6_temporal_nature"
+        ]
+      },
+      "observed_measurements_outside_band": {
+        "declared_rule": 5,
+        "value_sets": 5
+      },
+      "observed_dimensions_outside_band": 5,
+      "how_to_read_it": "the corpus flags this many dimensions; a corpus drawn from the same marginals with no structure in it flags this many on average, and flags at least one this often. A count of flagged dimensions is evidence against that second number, not against zero. The Monte Carlo column is the tighter reading: it asks how many of the null's own draws sit at or beyond the observed excess, so a dimension whose excess is larger than the band but smaller than the null's usual scatter is reported as flagged by the band and not separated from chance by the draws.",
+      "what_this_does_not_do": "it is not a test at a declared alpha, and it corrects nothing about the dependence between dimensions, which this null assumes away in exactly the same way the chance line does; it sizes the band, it does not replace it"
+    },
+    "why_this_is_here": "the band is an analyst-set distance, not a test level, and until its own false-positive rate is measured a count of dimensions outside it cannot be read as a count of discoveries"
   },
   "blocks": {
     "blocks": {
@@ -747,16 +1391,24 @@
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.56571,
-          "chance_similarity_from_own_marginals": 0.446923,
-          "excess_over_chance": 0.118787,
+          "chance_similarity_from_own_marginals": 0.454433,
+          "chance_similarity_over_all_pairs_of_carriers": 0.446603,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.00783,
+          "excess_over_chance": 0.111277,
+          "excess_over_the_complete_graph_chance": 0.119107,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.56571,
-          "chance_similarity_from_own_marginals": 0.446603,
-          "excess_over_chance": 0.119107,
+          "chance_similarity_from_own_marginals": 0.453617,
+          "chance_similarity_over_all_pairs_of_carriers": 0.448581,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.005036,
+          "excess_over_chance": 0.112093,
+          "excess_over_the_complete_graph_chance": 0.117129,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -779,16 +1431,24 @@
           "statistic": "exact_match",
           "pairs_compared": 1019,
           "observed_mean_similarity": 0.048086,
-          "chance_similarity_from_own_marginals": 0.029324,
-          "excess_over_chance": 0.018762,
+          "chance_similarity_from_own_marginals": 0.027085,
+          "chance_similarity_over_all_pairs_of_carriers": 0.029715,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": -0.00263,
+          "excess_over_chance": 0.021001,
+          "excess_over_the_complete_graph_chance": 0.018371,
           "excess_within_declared_chance_band": true
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 1019,
           "observed_mean_similarity": 0.339957,
-          "chance_similarity_from_own_marginals": 0.293141,
-          "excess_over_chance": 0.046816,
+          "chance_similarity_from_own_marginals": 0.294431,
+          "chance_similarity_over_all_pairs_of_carriers": 0.293171,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.00126,
+          "excess_over_chance": 0.045526,
+          "excess_over_the_complete_graph_chance": 0.046786,
           "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
@@ -811,16 +1471,24 @@
           "statistic": "exact_match",
           "pairs_compared": 703,
           "observed_mean_similarity": 0.196302,
-          "chance_similarity_from_own_marginals": 0.168272,
-          "excess_over_chance": 0.02803,
+          "chance_similarity_from_own_marginals": 0.166543,
+          "chance_similarity_over_all_pairs_of_carriers": 0.167617,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": -0.001074,
+          "excess_over_chance": 0.029759,
+          "excess_over_the_complete_graph_chance": 0.028685,
           "excess_within_declared_chance_band": true
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 703,
           "observed_mean_similarity": 0.520152,
-          "chance_similarity_from_own_marginals": 0.479501,
-          "excess_over_chance": 0.040651,
+          "chance_similarity_from_own_marginals": 0.481191,
+          "chance_similarity_over_all_pairs_of_carriers": 0.479974,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.001217,
+          "excess_over_chance": 0.038961,
+          "excess_over_the_complete_graph_chance": 0.040178,
           "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
@@ -843,16 +1511,24 @@
           "statistic": "exact_match",
           "pairs_compared": 300,
           "observed_mean_similarity": 0.78,
-          "chance_similarity_from_own_marginals": 0.635583,
-          "excess_over_chance": 0.144417,
+          "chance_similarity_from_own_marginals": 0.631533,
+          "chance_similarity_over_all_pairs_of_carriers": 0.631717,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": -0.000183,
+          "excess_over_chance": 0.148467,
+          "excess_over_the_complete_graph_chance": 0.148283,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 300,
           "observed_mean_similarity": 0.89,
-          "chance_similarity_from_own_marginals": 0.743583,
-          "excess_over_chance": 0.146417,
+          "chance_similarity_from_own_marginals": 0.734383,
+          "chance_similarity_over_all_pairs_of_carriers": 0.743283,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": -0.0089,
+          "excess_over_chance": 0.155617,
+          "excess_over_the_complete_graph_chance": 0.146717,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -875,16 +1551,24 @@
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.541108,
-          "chance_similarity_from_own_marginals": 0.38902,
-          "excess_over_chance": 0.152088,
+          "chance_similarity_from_own_marginals": 0.395328,
+          "chance_similarity_over_all_pairs_of_carriers": 0.388249,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.007079,
+          "excess_over_chance": 0.14578,
+          "excess_over_the_complete_graph_chance": 0.152859,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.541108,
-          "chance_similarity_from_own_marginals": 0.389998,
-          "excess_over_chance": 0.15111,
+          "chance_similarity_from_own_marginals": 0.394733,
+          "chance_similarity_over_all_pairs_of_carriers": 0.388826,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.005907,
+          "excess_over_chance": 0.146375,
+          "excess_over_the_complete_graph_chance": 0.152282,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -907,16 +1591,24 @@
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.694919,
-          "chance_similarity_from_own_marginals": 0.626493,
-          "excess_over_chance": 0.068426,
+          "chance_similarity_from_own_marginals": 0.635276,
+          "chance_similarity_over_all_pairs_of_carriers": 0.626528,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.008747,
+          "excess_over_chance": 0.059643,
+          "excess_over_the_complete_graph_chance": 0.068391,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.694919,
-          "chance_similarity_from_own_marginals": 0.626394,
-          "excess_over_chance": 0.068525,
+          "chance_similarity_from_own_marginals": 0.635947,
+          "chance_similarity_over_all_pairs_of_carriers": 0.626269,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.009678,
+          "excess_over_chance": 0.058972,
+          "excess_over_the_complete_graph_chance": 0.06865,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -939,16 +1631,24 @@
           "statistic": "jaccard",
           "pairs_compared": 1164,
           "observed_mean_similarity": 0.587128,
-          "chance_similarity_from_own_marginals": 0.515756,
-          "excess_over_chance": 0.071372,
+          "chance_similarity_from_own_marginals": 0.521151,
+          "chance_similarity_over_all_pairs_of_carriers": 0.515614,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.005537,
+          "excess_over_chance": 0.065977,
+          "excess_over_the_complete_graph_chance": 0.071514,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 1164,
           "observed_mean_similarity": 0.587128,
-          "chance_similarity_from_own_marginals": 0.514165,
-          "excess_over_chance": 0.072963,
+          "chance_similarity_from_own_marginals": 0.521204,
+          "chance_similarity_over_all_pairs_of_carriers": 0.515199,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.006006,
+          "excess_over_chance": 0.065924,
+          "excess_over_the_complete_graph_chance": 0.071929,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -971,17 +1671,25 @@
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.511897,
-          "chance_similarity_from_own_marginals": 0.45553,
-          "excess_over_chance": 0.056367,
-          "excess_within_declared_chance_band": false
+          "chance_similarity_from_own_marginals": 0.464267,
+          "chance_similarity_over_all_pairs_of_carriers": 0.454818,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.009449,
+          "excess_over_chance": 0.04763,
+          "excess_over_the_complete_graph_chance": 0.057079,
+          "excess_within_declared_chance_band": true
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 1237,
           "observed_mean_similarity": 0.511897,
-          "chance_similarity_from_own_marginals": 0.455434,
-          "excess_over_chance": 0.056463,
-          "excess_within_declared_chance_band": false
+          "chance_similarity_from_own_marginals": 0.464315,
+          "chance_similarity_over_all_pairs_of_carriers": 0.454495,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.00982,
+          "excess_over_chance": 0.047582,
+          "excess_over_the_complete_graph_chance": 0.057402,
+          "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
         "status": "live"
@@ -1003,16 +1711,24 @@
           "statistic": "exact_match",
           "pairs_compared": 893,
           "observed_mean_similarity": 0.509518,
-          "chance_similarity_from_own_marginals": 0.500249,
-          "excess_over_chance": 0.009269,
+          "chance_similarity_from_own_marginals": 0.503824,
+          "chance_similarity_over_all_pairs_of_carriers": 0.500078,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.003747,
+          "excess_over_chance": 0.005694,
+          "excess_over_the_complete_graph_chance": 0.00944,
           "excess_within_declared_chance_band": true
         },
         "value_sets": {
           "statistic": "jaccard",
           "pairs_compared": 893,
           "observed_mean_similarity": 0.733483,
-          "chance_similarity_from_own_marginals": 0.725094,
-          "excess_over_chance": 0.008389,
+          "chance_similarity_from_own_marginals": 0.728141,
+          "chance_similarity_over_all_pairs_of_carriers": 0.72495,
+          "chance_line_conditions_on_the_scored_pairs": true,
+          "conditioning_gap": 0.003191,
+          "excess_over_chance": 0.005342,
+          "excess_over_the_complete_graph_chance": 0.008533,
           "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
@@ -1036,7 +1752,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "value_sets": {
@@ -1044,7 +1764,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "readings_disagree": false,
@@ -1068,7 +1792,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "value_sets": {
@@ -1076,7 +1804,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "readings_disagree": false,
@@ -1100,7 +1832,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "value_sets": {
@@ -1108,7 +1844,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "readings_disagree": false,
@@ -1116,15 +1856,192 @@
       }
     ],
     "chance_similarity_per_dimension": {
-      "D1_ontological_category": 0.446923,
-      "D2a_acknowledged_population": 0.029324,
-      "D2b_reality_of_others": 0.168272,
-      "D2c_worship_exclusivity": 0.635583,
-      "D3_agency": 0.38902,
-      "D4_cosmic_function": 0.626493,
-      "D5_universe_relationship": 0.515756,
-      "D6_temporal_nature": 0.45553,
-      "D7a_speaker_attribution": 0.500249
+      "D1_ontological_category": 0.454433,
+      "D2a_acknowledged_population": 0.027085,
+      "D2b_reality_of_others": 0.166543,
+      "D2c_worship_exclusivity": 0.631533,
+      "D3_agency": 0.395328,
+      "D4_cosmic_function": 0.635276,
+      "D5_universe_relationship": 0.521151,
+      "D6_temporal_nature": 0.464267,
+      "D7a_speaker_attribution": 0.503824
+    },
+    "chance_line_conditioning": {
+      "primary_line": "drawn over the pairs the observed mean was measured on, which for this graph is the scorable subset and not the complete graph",
+      "largest_gap": {
+        "dimension": "D6_temporal_nature",
+        "reading": "value_sets",
+        "conditioning_gap": 0.00982,
+        "excess_on_the_scored_pairs": 0.047582,
+        "excess_on_all_pairs_of_carriers": 0.057402,
+        "band_verdict_changes": true
+      },
+      "gaps_beyond_half_the_band": 0,
+      "band_verdicts_that_change_with_the_chance_line": [
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.009449,
+          "excess_on_the_scored_pairs": 0.04763,
+          "excess_on_all_pairs_of_carriers": 0.057079,
+          "band_verdict_changes": true
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "value_sets",
+          "conditioning_gap": 0.00982,
+          "excess_on_the_scored_pairs": 0.047582,
+          "excess_on_all_pairs_of_carriers": 0.057402,
+          "band_verdict_changes": true
+        }
+      ],
+      "per_measurement": [
+        {
+          "dimension": "D1_ontological_category",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.00783,
+          "excess_on_the_scored_pairs": 0.111277,
+          "excess_on_all_pairs_of_carriers": 0.119107,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D1_ontological_category",
+          "reading": "value_sets",
+          "conditioning_gap": 0.005036,
+          "excess_on_the_scored_pairs": 0.112093,
+          "excess_on_all_pairs_of_carriers": 0.117129,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D2a_acknowledged_population",
+          "reading": "declared_rule",
+          "conditioning_gap": -0.00263,
+          "excess_on_the_scored_pairs": 0.021001,
+          "excess_on_all_pairs_of_carriers": 0.018371,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D2a_acknowledged_population",
+          "reading": "value_sets",
+          "conditioning_gap": 0.00126,
+          "excess_on_the_scored_pairs": 0.045526,
+          "excess_on_all_pairs_of_carriers": 0.046786,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D2b_reality_of_others",
+          "reading": "declared_rule",
+          "conditioning_gap": -0.001074,
+          "excess_on_the_scored_pairs": 0.029759,
+          "excess_on_all_pairs_of_carriers": 0.028685,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D2b_reality_of_others",
+          "reading": "value_sets",
+          "conditioning_gap": 0.001217,
+          "excess_on_the_scored_pairs": 0.038961,
+          "excess_on_all_pairs_of_carriers": 0.040178,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D2c_worship_exclusivity",
+          "reading": "declared_rule",
+          "conditioning_gap": -0.000183,
+          "excess_on_the_scored_pairs": 0.148467,
+          "excess_on_all_pairs_of_carriers": 0.148283,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D2c_worship_exclusivity",
+          "reading": "value_sets",
+          "conditioning_gap": -0.0089,
+          "excess_on_the_scored_pairs": 0.155617,
+          "excess_on_all_pairs_of_carriers": 0.146717,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D3_agency",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.007079,
+          "excess_on_the_scored_pairs": 0.14578,
+          "excess_on_all_pairs_of_carriers": 0.152859,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D3_agency",
+          "reading": "value_sets",
+          "conditioning_gap": 0.005907,
+          "excess_on_the_scored_pairs": 0.146375,
+          "excess_on_all_pairs_of_carriers": 0.152282,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D4_cosmic_function",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.008747,
+          "excess_on_the_scored_pairs": 0.059643,
+          "excess_on_all_pairs_of_carriers": 0.068391,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D4_cosmic_function",
+          "reading": "value_sets",
+          "conditioning_gap": 0.009678,
+          "excess_on_the_scored_pairs": 0.058972,
+          "excess_on_all_pairs_of_carriers": 0.06865,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D5_universe_relationship",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.005537,
+          "excess_on_the_scored_pairs": 0.065977,
+          "excess_on_all_pairs_of_carriers": 0.071514,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D5_universe_relationship",
+          "reading": "value_sets",
+          "conditioning_gap": 0.006006,
+          "excess_on_the_scored_pairs": 0.065924,
+          "excess_on_all_pairs_of_carriers": 0.071929,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.009449,
+          "excess_on_the_scored_pairs": 0.04763,
+          "excess_on_all_pairs_of_carriers": 0.057079,
+          "band_verdict_changes": true
+        },
+        {
+          "dimension": "D6_temporal_nature",
+          "reading": "value_sets",
+          "conditioning_gap": 0.00982,
+          "excess_on_the_scored_pairs": 0.047582,
+          "excess_on_all_pairs_of_carriers": 0.057402,
+          "band_verdict_changes": true
+        },
+        {
+          "dimension": "D7a_speaker_attribution",
+          "reading": "declared_rule",
+          "conditioning_gap": 0.003747,
+          "excess_on_the_scored_pairs": 0.005694,
+          "excess_on_all_pairs_of_carriers": 0.00944,
+          "band_verdict_changes": false
+        },
+        {
+          "dimension": "D7a_speaker_attribution",
+          "reading": "value_sets",
+          "conditioning_gap": 0.003191,
+          "excess_on_the_scored_pairs": 0.005342,
+          "excess_on_all_pairs_of_carriers": 0.008533,
+          "band_verdict_changes": false
+        }
+      ],
+      "reading": "conditioning the line on the scored pairs moves every chance line by at most 0.00982 against a band of 0.05, and it moves 2 of 18 band verdicts. The excesses are not an artefact of which pair set the baseline was drawn on, but a band-edge dimension is a band-edge dimension under either construction and should not be reported as a discovery on the strength of one"
     },
     "blocks": {
       "blocks": {
@@ -1145,14 +2062,14 @@
             "declared_rule": {
               "keys_indistinguishable_from_chance": [],
               "raw_mean_similarity": 0.672009,
-              "excess_mean_over_chance": 0.121644,
-              "excess_mean_over_chance_dropping_the_band_keys": 0.121644
+              "excess_mean_over_chance": 0.117963,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.117963
             },
             "value_sets": {
               "keys_indistinguishable_from_chance": [],
               "raw_mean_similarity": 0.708676,
-              "excess_mean_over_chance": 0.122017,
-              "excess_mean_over_chance_dropping_the_band_keys": 0.122017
+              "excess_mean_over_chance": 0.120321,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.120321
             }
           }
         },
@@ -1178,20 +2095,22 @@
             "declared_rule": {
               "keys_indistinguishable_from_chance": [
                 "D2a_acknowledged_population",
-                "D2b_reality_of_others"
+                "D2b_reality_of_others",
+                "D6_temporal_nature"
               ],
               "raw_mean_similarity": 0.335853,
-              "excess_mean_over_chance": 0.043633,
-              "excess_mean_over_chance_dropping_the_band_keys": 0.063869
+              "excess_mean_over_chance": 0.041092,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.065977
             },
             "value_sets": {
               "keys_indistinguishable_from_chance": [
                 "D2a_acknowledged_population",
-                "D2b_reality_of_others"
+                "D2b_reality_of_others",
+                "D6_temporal_nature"
               ],
               "raw_mean_similarity": 0.489783,
-              "excess_mean_over_chance": 0.054223,
-              "excess_mean_over_chance_dropping_the_band_keys": 0.064713
+              "excess_mean_over_chance": 0.049498,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.065924
             }
           }
         },
@@ -1217,16 +2136,16 @@
                 "D7a_speaker_attribution"
               ],
               "raw_mean_similarity": 0.537614,
-              "excess_mean_over_chance": 0.064028,
-              "excess_mean_over_chance_dropping_the_band_keys": 0.118787
+              "excess_mean_over_chance": 0.058486,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.111277
             },
             "value_sets": {
               "keys_indistinguishable_from_chance": [
                 "D7a_speaker_attribution"
               ],
               "raw_mean_similarity": 0.649597,
-              "excess_mean_over_chance": 0.063748,
-              "excess_mean_over_chance_dropping_the_band_keys": 0.119107
+              "excess_mean_over_chance": 0.058717,
+              "excess_mean_over_chance_dropping_the_band_keys": 0.112093
             }
           }
         }
@@ -1270,27 +2189,27 @@
           "quantity": "chance_corrected",
           "statistic": "jaccard",
           "block_means": {
-            "functional_or_pressure_prone": 0.121644,
-            "structural": 0.043633,
-            "arbitrary_or_expressive": 0.064028
+            "functional_or_pressure_prone": 0.117963,
+            "structural": 0.041092,
+            "arbitrary_or_expressive": 0.058486
           },
           "ordering_observed": [
             "functional_or_pressure_prone",
             "arbitrary_or_expressive",
             "structural"
           ],
-          "spread_across_blocks": 0.078011,
+          "spread_across_blocks": 0.076871,
           "adjacent_predictions": [
             {
               "stronger": "functional_or_pressure_prone",
               "weaker": "structural",
-              "observed_difference": 0.078011,
+              "observed_difference": 0.076871,
               "verdict": "holds"
             },
             {
               "stronger": "structural",
               "weaker": "arbitrary_or_expressive",
-              "observed_difference": -0.020395,
+              "observed_difference": -0.017394,
               "verdict": "tie_within_the_declared_separability"
             }
           ],
@@ -1303,28 +2222,28 @@
           "quantity": "chance_corrected_dropping_the_band_keys",
           "statistic": "jaccard",
           "block_means": {
-            "functional_or_pressure_prone": 0.121644,
-            "structural": 0.063869,
-            "arbitrary_or_expressive": 0.118787
+            "functional_or_pressure_prone": 0.117963,
+            "structural": 0.065977,
+            "arbitrary_or_expressive": 0.111277
           },
           "ordering_observed": [
             "functional_or_pressure_prone",
             "arbitrary_or_expressive",
             "structural"
           ],
-          "spread_across_blocks": 0.057775,
+          "spread_across_blocks": 0.051986,
           "adjacent_predictions": [
             {
               "stronger": "functional_or_pressure_prone",
               "weaker": "structural",
-              "observed_difference": 0.057775,
+              "observed_difference": 0.051986,
               "verdict": "holds"
             },
             {
               "stronger": "structural",
               "weaker": "arbitrary_or_expressive",
-              "observed_difference": -0.054918,
-              "verdict": "reversed"
+              "observed_difference": -0.0453,
+              "verdict": "tie_within_the_declared_separability"
             }
           ],
           "keys_carried_by_a_single_live_dimension": [],
@@ -1369,27 +2288,27 @@
           "quantity": "chance_corrected",
           "statistic": "jaccard",
           "block_means": {
-            "functional_or_pressure_prone": 0.122017,
-            "structural": 0.054223,
-            "arbitrary_or_expressive": 0.063748
+            "functional_or_pressure_prone": 0.120321,
+            "structural": 0.049498,
+            "arbitrary_or_expressive": 0.058717
           },
           "ordering_observed": [
             "functional_or_pressure_prone",
             "arbitrary_or_expressive",
             "structural"
           ],
-          "spread_across_blocks": 0.067794,
+          "spread_across_blocks": 0.070823,
           "adjacent_predictions": [
             {
               "stronger": "functional_or_pressure_prone",
               "weaker": "structural",
-              "observed_difference": 0.067794,
+              "observed_difference": 0.070823,
               "verdict": "holds"
             },
             {
               "stronger": "structural",
               "weaker": "arbitrary_or_expressive",
-              "observed_difference": -0.009525,
+              "observed_difference": -0.009219,
               "verdict": "tie_within_the_declared_separability"
             }
           ],
@@ -1402,28 +2321,28 @@
           "quantity": "chance_corrected_dropping_the_band_keys",
           "statistic": "jaccard",
           "block_means": {
-            "functional_or_pressure_prone": 0.122017,
-            "structural": 0.064713,
-            "arbitrary_or_expressive": 0.119107
+            "functional_or_pressure_prone": 0.120321,
+            "structural": 0.065924,
+            "arbitrary_or_expressive": 0.112093
           },
           "ordering_observed": [
             "functional_or_pressure_prone",
             "arbitrary_or_expressive",
             "structural"
           ],
-          "spread_across_blocks": 0.057304,
+          "spread_across_blocks": 0.054397,
           "adjacent_predictions": [
             {
               "stronger": "functional_or_pressure_prone",
               "weaker": "structural",
-              "observed_difference": 0.057304,
+              "observed_difference": 0.054397,
               "verdict": "holds"
             },
             {
               "stronger": "structural",
               "weaker": "arbitrary_or_expressive",
-              "observed_difference": -0.054394,
-              "verdict": "reversed"
+              "observed_difference": -0.046169,
+              "verdict": "tie_within_the_declared_separability"
             }
           ],
           "keys_carried_by_a_single_live_dimension": [],
@@ -1442,7 +2361,7 @@
         "carrier_graph_mean": 0.496007,
         "scored_graph_mean": 0.56571,
         "carrier_chance": 0.391504,
-        "scored_chance": 0.446923,
+        "scored_chance": 0.454433,
         "shift": 0.069703
       },
       {
@@ -1452,7 +2371,7 @@
         "carrier_graph_mean": 0.496007,
         "scored_graph_mean": 0.56571,
         "carrier_chance": 0.392988,
-        "scored_chance": 0.446603,
+        "scored_chance": 0.453617,
         "shift": 0.069703
       },
       {
@@ -1462,7 +2381,7 @@
         "carrier_graph_mean": 0.069728,
         "scored_graph_mean": 0.048086,
         "carrier_chance": 0.033299,
-        "scored_chance": 0.029324,
+        "scored_chance": 0.027085,
         "shift": -0.021642
       },
       {
@@ -1472,7 +2391,7 @@
         "carrier_graph_mean": 0.34409,
         "scored_graph_mean": 0.339957,
         "carrier_chance": 0.282015,
-        "scored_chance": 0.293141,
+        "scored_chance": 0.294431,
         "shift": -0.004133
       },
       {
@@ -1482,7 +2401,7 @@
         "carrier_graph_mean": 0.196302,
         "scored_graph_mean": 0.196302,
         "carrier_chance": 0.167482,
-        "scored_chance": 0.168272,
+        "scored_chance": 0.166543,
         "shift": 0.0
       },
       {
@@ -1492,7 +2411,7 @@
         "carrier_graph_mean": 0.520152,
         "scored_graph_mean": 0.520152,
         "carrier_chance": 0.481053,
-        "scored_chance": 0.479501,
+        "scored_chance": 0.481191,
         "shift": 0.0
       },
       {
@@ -1502,7 +2421,7 @@
         "carrier_graph_mean": 0.78,
         "scored_graph_mean": 0.78,
         "carrier_chance": 0.632883,
-        "scored_chance": 0.635583,
+        "scored_chance": 0.631533,
         "shift": 0.0
       },
       {
@@ -1512,7 +2431,7 @@
         "carrier_graph_mean": 0.89,
         "scored_graph_mean": 0.89,
         "carrier_chance": 0.74395,
-        "scored_chance": 0.743583,
+        "scored_chance": 0.734383,
         "shift": 0.0
       },
       {
@@ -1522,7 +2441,7 @@
         "carrier_graph_mean": 0.526557,
         "scored_graph_mean": 0.541108,
         "carrier_chance": 0.368697,
-        "scored_chance": 0.38902,
+        "scored_chance": 0.395328,
         "shift": 0.014551
       },
       {
@@ -1532,7 +2451,7 @@
         "carrier_graph_mean": 0.526557,
         "scored_graph_mean": 0.541108,
         "carrier_chance": 0.366005,
-        "scored_chance": 0.389998,
+        "scored_chance": 0.394733,
         "shift": 0.014551
       },
       {
@@ -1542,7 +2461,7 @@
         "carrier_graph_mean": 0.596132,
         "scored_graph_mean": 0.694919,
         "carrier_chance": 0.524972,
-        "scored_chance": 0.626493,
+        "scored_chance": 0.635276,
         "shift": 0.098787
       },
       {
@@ -1552,7 +2471,7 @@
         "carrier_graph_mean": 0.596132,
         "scored_graph_mean": 0.694919,
         "carrier_chance": 0.524499,
-        "scored_chance": 0.626394,
+        "scored_chance": 0.635947,
         "shift": 0.098787
       },
       {
@@ -1562,7 +2481,7 @@
         "carrier_graph_mean": 0.536472,
         "scored_graph_mean": 0.587128,
         "carrier_chance": 0.465222,
-        "scored_chance": 0.515756,
+        "scored_chance": 0.521151,
         "shift": 0.050656
       },
       {
@@ -1572,7 +2491,7 @@
         "carrier_graph_mean": 0.536472,
         "scored_graph_mean": 0.587128,
         "carrier_chance": 0.464336,
-        "scored_chance": 0.514165,
+        "scored_chance": 0.521204,
         "shift": 0.050656
       },
       {
@@ -1582,7 +2501,7 @@
         "carrier_graph_mean": 0.477558,
         "scored_graph_mean": 0.511897,
         "carrier_chance": 0.422058,
-        "scored_chance": 0.45553,
+        "scored_chance": 0.464267,
         "shift": 0.034339
       },
       {
@@ -1592,7 +2511,7 @@
         "carrier_graph_mean": 0.477558,
         "scored_graph_mean": 0.511897,
         "carrier_chance": 0.421274,
-        "scored_chance": 0.455434,
+        "scored_chance": 0.464315,
         "shift": 0.034339
       },
       {
@@ -1602,7 +2521,7 @@
         "carrier_graph_mean": 0.50101,
         "scored_graph_mean": 0.509518,
         "carrier_chance": 0.493414,
-        "scored_chance": 0.500249,
+        "scored_chance": 0.503824,
         "shift": 0.008508
       },
       {
@@ -1612,7 +2531,7 @@
         "carrier_graph_mean": 0.728283,
         "scored_graph_mean": 0.733483,
         "carrier_chance": 0.719828,
-        "scored_chance": 0.725094,
+        "scored_chance": 0.728141,
         "shift": 0.0052
       },
       {
@@ -1676,77 +2595,18 @@
         "shift": null
       }
     ],
-    "adjacency_verdicts_that_change_with_the_graph": {
-      "declared_rule_chance_corrected_dropping_the_band_keys": {
-        "carrier_graph": [
-          {
-            "stronger": "functional_or_pressure_prone",
-            "weaker": "structural",
-            "observed_difference": 0.062003,
-            "verdict": "holds"
-          },
-          {
-            "stronger": "structural",
-            "weaker": "arbitrary_or_expressive",
-            "observed_difference": -0.041127,
-            "verdict": "tie_within_the_declared_separability"
-          }
-        ],
-        "scored_graph": [
-          {
-            "stronger": "functional_or_pressure_prone",
-            "weaker": "structural",
-            "observed_difference": 0.057775,
-            "verdict": "holds"
-          },
-          {
-            "stronger": "structural",
-            "weaker": "arbitrary_or_expressive",
-            "observed_difference": -0.054918,
-            "verdict": "reversed"
-          }
-        ]
-      },
-      "value_sets_chance_corrected_dropping_the_band_keys": {
-        "carrier_graph": [
-          {
-            "stronger": "functional_or_pressure_prone",
-            "weaker": "structural",
-            "observed_difference": 0.06258,
-            "verdict": "holds"
-          },
-          {
-            "stronger": "structural",
-            "weaker": "arbitrary_or_expressive",
-            "observed_difference": -0.039521,
-            "verdict": "tie_within_the_declared_separability"
-          }
-        ],
-        "scored_graph": [
-          {
-            "stronger": "functional_or_pressure_prone",
-            "weaker": "structural",
-            "observed_difference": 0.057304,
-            "verdict": "holds"
-          },
-          {
-            "stronger": "structural",
-            "weaker": "arbitrary_or_expressive",
-            "observed_difference": -0.054394,
-            "verdict": "reversed"
-          }
-        ]
-      }
-    },
+    "adjacency_verdicts_that_change_with_the_graph": {},
     "indistinguishable_from_chance": {
       "declared_rule": [
         "D2a_acknowledged_population",
         "D2b_reality_of_others",
+        "D6_temporal_nature",
         "D7a_speaker_attribution"
       ],
       "value_sets": [
         "D2a_acknowledged_population",
         "D2b_reality_of_others",
+        "D6_temporal_nature",
         "D7a_speaker_attribution"
       ]
     }
@@ -1772,7 +2632,11 @@
           "pairs_compared": 1953,
           "observed_mean_similarity": 0.463722,
           "chance_similarity_from_own_marginals": 0.370978,
+          "chance_similarity_over_all_pairs_of_carriers": 0.370978,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.092744,
+          "excess_over_the_complete_graph_chance": 0.092744,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
@@ -1780,7 +2644,11 @@
           "pairs_compared": 1953,
           "observed_mean_similarity": 0.463722,
           "chance_similarity_from_own_marginals": 0.370811,
+          "chance_similarity_over_all_pairs_of_carriers": 0.370811,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.092911,
+          "excess_over_the_complete_graph_chance": 0.092911,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -1804,7 +2672,11 @@
           "pairs_compared": 990,
           "observed_mean_similarity": 0.064646,
           "chance_similarity_from_own_marginals": 0.041157,
+          "chance_similarity_over_all_pairs_of_carriers": 0.041157,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.02349,
+          "excess_over_the_complete_graph_chance": 0.02349,
           "excess_within_declared_chance_band": true
         },
         "value_sets": {
@@ -1812,7 +2684,11 @@
           "pairs_compared": 990,
           "observed_mean_similarity": 0.31596,
           "chance_similarity_from_own_marginals": 0.279739,
+          "chance_similarity_over_all_pairs_of_carriers": 0.279739,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.03622,
+          "excess_over_the_complete_graph_chance": 0.03622,
           "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
@@ -1836,7 +2712,11 @@
           "pairs_compared": 666,
           "observed_mean_similarity": 0.186186,
           "chance_similarity_from_own_marginals": 0.159947,
+          "chance_similarity_over_all_pairs_of_carriers": 0.159947,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.026239,
+          "excess_over_the_complete_graph_chance": 0.026239,
           "excess_within_declared_chance_band": true
         },
         "value_sets": {
@@ -1844,7 +2724,11 @@
           "pairs_compared": 666,
           "observed_mean_similarity": 0.495996,
           "chance_similarity_from_own_marginals": 0.45374,
+          "chance_similarity_over_all_pairs_of_carriers": 0.45374,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.042256,
+          "excess_over_the_complete_graph_chance": 0.042256,
           "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
@@ -1868,7 +2752,11 @@
           "pairs_compared": 276,
           "observed_mean_similarity": 0.84058,
           "chance_similarity_from_own_marginals": 0.722536,
+          "chance_similarity_over_all_pairs_of_carriers": 0.722536,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.118043,
+          "excess_over_the_complete_graph_chance": 0.118043,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
@@ -1876,7 +2764,11 @@
           "pairs_compared": 276,
           "observed_mean_similarity": 0.92029,
           "chance_similarity_from_own_marginals": 0.800435,
+          "chance_similarity_over_all_pairs_of_carriers": 0.800435,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.119855,
+          "excess_over_the_complete_graph_chance": 0.119855,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -1900,7 +2792,11 @@
           "pairs_compared": 1830,
           "observed_mean_similarity": 0.543962,
           "chance_similarity_from_own_marginals": 0.386863,
+          "chance_similarity_over_all_pairs_of_carriers": 0.386863,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.157099,
+          "excess_over_the_complete_graph_chance": 0.157099,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
@@ -1908,7 +2804,11 @@
           "pairs_compared": 1830,
           "observed_mean_similarity": 0.543962,
           "chance_similarity_from_own_marginals": 0.383568,
+          "chance_similarity_over_all_pairs_of_carriers": 0.383568,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.160394,
+          "excess_over_the_complete_graph_chance": 0.160394,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -1932,7 +2832,11 @@
           "pairs_compared": 2016,
           "observed_mean_similarity": 0.587623,
           "chance_similarity_from_own_marginals": 0.498912,
+          "chance_similarity_over_all_pairs_of_carriers": 0.498912,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.088711,
+          "excess_over_the_complete_graph_chance": 0.088711,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
@@ -1940,7 +2844,11 @@
           "pairs_compared": 2016,
           "observed_mean_similarity": 0.587623,
           "chance_similarity_from_own_marginals": 0.498642,
+          "chance_similarity_over_all_pairs_of_carriers": 0.498642,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.08898,
+          "excess_over_the_complete_graph_chance": 0.08898,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -1964,7 +2872,11 @@
           "pairs_compared": 1540,
           "observed_mean_similarity": 0.508983,
           "chance_similarity_from_own_marginals": 0.440527,
+          "chance_similarity_over_all_pairs_of_carriers": 0.440527,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.068456,
+          "excess_over_the_complete_graph_chance": 0.068456,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
@@ -1972,7 +2884,11 @@
           "pairs_compared": 1540,
           "observed_mean_similarity": 0.508983,
           "chance_similarity_from_own_marginals": 0.440272,
+          "chance_similarity_over_all_pairs_of_carriers": 0.440272,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.068711,
+          "excess_over_the_complete_graph_chance": 0.068711,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -1996,7 +2912,11 @@
           "pairs_compared": 1540,
           "observed_mean_similarity": 0.467229,
           "chance_similarity_from_own_marginals": 0.413904,
+          "chance_similarity_over_all_pairs_of_carriers": 0.413904,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.053326,
+          "excess_over_the_complete_graph_chance": 0.053326,
           "excess_within_declared_chance_band": false
         },
         "value_sets": {
@@ -2004,7 +2924,11 @@
           "pairs_compared": 1540,
           "observed_mean_similarity": 0.467229,
           "chance_similarity_from_own_marginals": 0.412004,
+          "chance_similarity_over_all_pairs_of_carriers": 0.412004,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": 0.055226,
+          "excess_over_the_complete_graph_chance": 0.055226,
           "excess_within_declared_chance_band": false
         },
         "readings_disagree": false,
@@ -2028,7 +2952,11 @@
           "pairs_compared": 496,
           "observed_mean_similarity": 0.395161,
           "chance_similarity_from_own_marginals": 0.400786,
+          "chance_similarity_over_all_pairs_of_carriers": 0.400786,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": -0.005625,
+          "excess_over_the_complete_graph_chance": -0.005625,
           "excess_within_declared_chance_band": true
         },
         "value_sets": {
@@ -2036,7 +2964,11 @@
           "pairs_compared": 496,
           "observed_mean_similarity": 0.649194,
           "chance_similarity_from_own_marginals": 0.654093,
+          "chance_similarity_over_all_pairs_of_carriers": 0.654093,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": 0.0,
           "excess_over_chance": -0.004899,
+          "excess_over_the_complete_graph_chance": -0.004899,
           "excess_within_declared_chance_band": true
         },
         "readings_disagree": false,
@@ -2060,7 +2992,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "value_sets": {
@@ -2068,7 +3004,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "readings_disagree": false,
@@ -2092,7 +3032,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "value_sets": {
@@ -2100,7 +3044,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "readings_disagree": false,
@@ -2124,7 +3072,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "value_sets": {
@@ -2132,7 +3084,11 @@
           "pairs_compared": 0,
           "observed_mean_similarity": null,
           "chance_similarity_from_own_marginals": null,
+          "chance_similarity_over_all_pairs_of_carriers": null,
+          "chance_line_conditions_on_the_scored_pairs": false,
+          "conditioning_gap": null,
           "excess_over_chance": null,
+          "excess_over_the_complete_graph_chance": null,
           "excess_within_declared_chance_band": null
         },
         "readings_disagree": false,
@@ -2457,11 +3413,11 @@
         "observed_similarity_under_the_declared_rule": 0.904762,
         "observed_similarity_as_value_sets": 0.904762,
         "similarity_class": "near",
-        "excess_over_chance": 0.528859,
+        "excess_over_chance": 0.524179,
         "block_excess": {
-          "arbitrary_or_expressive": 0.38641,
-          "functional_or_pressure_prone": 0.242244,
-          "structural": 0.70778
+          "arbitrary_or_expressive": 0.3789,
+          "functional_or_pressure_prone": 0.234698,
+          "structural": 0.705238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2473,11 +3429,11 @@
         "observed_similarity_under_the_declared_rule": 0.875,
         "observed_similarity_as_value_sets": 0.875,
         "similarity_class": "near",
-        "excess_over_chance": 0.483554,
+        "excess_over_chance": 0.479012,
         "block_excess": {
-          "arbitrary_or_expressive": 0.401414,
-          "functional_or_pressure_prone": 0.367244,
-          "structural": 0.58278
+          "arbitrary_or_expressive": 0.395871,
+          "functional_or_pressure_prone": 0.359698,
+          "structural": 0.580238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2489,11 +3445,11 @@
         "observed_similarity_under_the_declared_rule": 0.888889,
         "observed_similarity_as_value_sets": 0.888889,
         "similarity_class": "near",
-        "excess_over_chance": 0.470317,
+        "excess_over_chance": 0.466729,
         "block_excess": {
-          "arbitrary_or_expressive": 0.426414,
-          "functional_or_pressure_prone": 0.249635,
-          "structural": 0.657779
+          "arbitrary_or_expressive": 0.420872,
+          "functional_or_pressure_prone": 0.245954,
+          "structural": 0.655239
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2505,11 +3461,11 @@
         "observed_similarity_under_the_declared_rule": 0.877778,
         "observed_similarity_as_value_sets": 0.877778,
         "similarity_class": "near",
-        "excess_over_chance": 0.459206,
+        "excess_over_chance": 0.455618,
         "block_excess": {
-          "arbitrary_or_expressive": 0.401414,
-          "functional_or_pressure_prone": 0.316301,
-          "structural": 0.595279
+          "arbitrary_or_expressive": 0.395871,
+          "functional_or_pressure_prone": 0.312621,
+          "structural": 0.592739
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2521,11 +3477,11 @@
         "observed_similarity_under_the_declared_rule": 0.855556,
         "observed_similarity_as_value_sets": 0.855556,
         "similarity_class": "near",
-        "excess_over_chance": 0.447193,
+        "excess_over_chance": 0.443604,
         "block_excess": {
-          "arbitrary_or_expressive": -0.046923,
-          "functional_or_pressure_prone": 0.375561,
-          "structural": 0.624446
+          "arbitrary_or_expressive": -0.054433,
+          "functional_or_pressure_prone": 0.37188,
+          "structural": 0.621905
         },
         "arbitrary_block_outagrees_functional_block": false,
         "either_work_has_dependent_reprints": true
@@ -2537,11 +3493,11 @@
         "observed_similarity_under_the_declared_rule": 0.853472,
         "observed_similarity_as_value_sets": 0.853472,
         "similarity_class": "near",
-        "excess_over_chance": 0.44511,
+        "excess_over_chance": 0.44152,
         "block_excess": {
-          "arbitrary_or_expressive": 0.353077,
-          "functional_or_pressure_prone": 0.375561,
-          "structural": 0.52028
+          "arbitrary_or_expressive": 0.345567,
+          "functional_or_pressure_prone": 0.37188,
+          "structural": 0.517738
         },
         "arbitrary_block_outagrees_functional_block": false,
         "either_work_has_dependent_reprints": true
@@ -2553,11 +3509,11 @@
         "observed_similarity_under_the_declared_rule": 0.844444,
         "observed_similarity_as_value_sets": 0.918519,
         "similarity_class": "near",
-        "excess_over_chance": 0.425872,
+        "excess_over_chance": 0.422284,
         "block_excess": {
-          "arbitrary_or_expressive": 0.426414,
-          "functional_or_pressure_prone": 0.382968,
-          "structural": 0.45778
+          "arbitrary_or_expressive": 0.420872,
+          "functional_or_pressure_prone": 0.379288,
+          "structural": 0.455238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2569,11 +3525,11 @@
         "observed_similarity_under_the_declared_rule": 0.8125,
         "observed_similarity_as_value_sets": 0.8625,
         "similarity_class": "near",
-        "excess_over_chance": 0.421054,
+        "excess_over_chance": 0.416512,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": 0.242244,
-          "structural": 0.45778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": 0.234698,
+          "structural": 0.455238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2585,11 +3541,11 @@
         "observed_similarity_under_the_declared_rule": 0.833333,
         "observed_similarity_as_value_sets": 0.888889,
         "similarity_class": "near",
-        "excess_over_chance": 0.414761,
+        "excess_over_chance": 0.411173,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": 0.282968,
-          "structural": 0.45778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": 0.279288,
+          "structural": 0.455238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2601,27 +3557,11 @@
         "observed_similarity_under_the_declared_rule": 0.833333,
         "observed_similarity_as_value_sets": 0.922222,
         "similarity_class": "near",
-        "excess_over_chance": 0.414761,
+        "excess_over_chance": 0.411173,
         "block_excess": {
-          "arbitrary_or_expressive": 0.426414,
-          "functional_or_pressure_prone": 0.349635,
-          "structural": 0.45778
-        },
-        "arbitrary_block_outagrees_functional_block": true,
-        "either_work_has_dependent_reprints": true
-      },
-      {
-        "work_a": "mahabharata_7864",
-        "work_b": "mahabharata_v1",
-        "comparable_keys": 8,
-        "observed_similarity_under_the_declared_rule": 0.8,
-        "observed_similarity_as_value_sets": 0.875,
-        "similarity_class": "near",
-        "excess_over_chance": 0.408554,
-        "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": 0.192244,
-          "structural": 0.45778
+          "arbitrary_or_expressive": 0.420872,
+          "functional_or_pressure_prone": 0.345954,
+          "structural": 0.455238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2633,11 +3573,27 @@
         "observed_similarity_under_the_declared_rule": 0.826543,
         "observed_similarity_as_value_sets": 0.915432,
         "similarity_class": "near",
-        "excess_over_chance": 0.407971,
+        "excess_over_chance": 0.404383,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": 0.329264,
-          "structural": 0.40778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": 0.325584,
+          "structural": 0.405239
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_7864",
+        "work_b": "mahabharata_v1",
+        "comparable_keys": 8,
+        "observed_similarity_under_the_declared_rule": 0.8,
+        "observed_similarity_as_value_sets": 0.875,
+        "similarity_class": "near",
+        "excess_over_chance": 0.404012,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": 0.184698,
+          "structural": 0.455238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2649,11 +3605,11 @@
         "observed_similarity_under_the_declared_rule": 0.782143,
         "observed_similarity_as_value_sets": 0.782143,
         "similarity_class": "near",
-        "excess_over_chance": 0.40624,
+        "excess_over_chance": 0.40156,
         "block_excess": {
-          "arbitrary_or_expressive": 0.153077,
-          "functional_or_pressure_prone": 0.263077,
-          "structural": 0.541113
+          "arbitrary_or_expressive": 0.145567,
+          "functional_or_pressure_prone": 0.255531,
+          "structural": 0.538572
         },
         "arbitrary_block_outagrees_functional_block": false,
         "either_work_has_dependent_reprints": true
@@ -2665,11 +3621,11 @@
         "observed_similarity_under_the_declared_rule": 0.794444,
         "observed_similarity_as_value_sets": 0.869444,
         "similarity_class": "near",
-        "excess_over_chance": 0.402999,
+        "excess_over_chance": 0.398456,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": 0.270021,
-          "structural": 0.40778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": 0.262476,
+          "structural": 0.405239
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2681,11 +3637,11 @@
         "observed_similarity_under_the_declared_rule": 0.794444,
         "observed_similarity_as_value_sets": 0.844444,
         "similarity_class": "near",
-        "excess_over_chance": 0.402999,
+        "excess_over_chance": 0.398456,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": 0.270021,
-          "structural": 0.40778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": 0.262476,
+          "structural": 0.405239
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2700,11 +3656,11 @@
         "observed_similarity_under_the_declared_rule": 0.483333,
         "observed_similarity_as_value_sets": 0.668519,
         "similarity_class": "far",
-        "excess_over_chance": 0.064761,
+        "excess_over_chance": 0.061173,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.217032,
-          "structural": 0.04528
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.220712,
+          "structural": 0.042738
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2716,11 +3672,11 @@
         "observed_similarity_under_the_declared_rule": 0.65,
         "observed_similarity_as_value_sets": 0.721429,
         "similarity_class": "partial",
-        "excess_over_chance": 0.140064,
+        "excess_over_chance": 0.134884,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.200365,
-          "structural": 0.264357
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.204046,
+          "structural": 0.257291
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2732,11 +3688,11 @@
         "observed_similarity_under_the_declared_rule": 0.429167,
         "observed_similarity_as_value_sets": 0.595833,
         "similarity_class": "far",
-        "excess_over_chance": 0.020804,
+        "excess_over_chance": 0.017215,
         "block_excess": {
-          "arbitrary_or_expressive": 0.553077,
-          "functional_or_pressure_prone": -0.105921,
-          "structural": -0.017221
+          "arbitrary_or_expressive": 0.545567,
+          "functional_or_pressure_prone": -0.109601,
+          "structural": -0.019762
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2748,11 +3704,11 @@
         "observed_similarity_under_the_declared_rule": 0.633333,
         "observed_similarity_as_value_sets": 0.704762,
         "similarity_class": "partial",
-        "excess_over_chance": 0.123397,
+        "excess_over_chance": 0.118217,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.105921,
-          "structural": 0.064357
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.109601,
+          "structural": 0.057291
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2764,11 +3720,11 @@
         "observed_similarity_under_the_declared_rule": 0.440476,
         "observed_similarity_as_value_sets": 0.440476,
         "similarity_class": "far",
-        "excess_over_chance": 0.064574,
+        "excess_over_chance": 0.059893,
         "block_excess": {
-          "arbitrary_or_expressive": 0.553077,
-          "functional_or_pressure_prone": -0.049423,
-          "structural": -0.000554
+          "arbitrary_or_expressive": 0.545567,
+          "functional_or_pressure_prone": -0.056969,
+          "structural": -0.003095
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": false
@@ -2780,11 +3736,11 @@
         "observed_similarity_under_the_declared_rule": 0.475926,
         "observed_similarity_as_value_sets": 0.688889,
         "similarity_class": "far",
-        "excess_over_chance": 0.057354,
+        "excess_over_chance": 0.053766,
         "block_excess": {
-          "arbitrary_or_expressive": 0.426414,
-          "functional_or_pressure_prone": -0.172588,
-          "structural": 0.04528
+          "arbitrary_or_expressive": 0.420872,
+          "functional_or_pressure_prone": -0.176268,
+          "structural": 0.042738
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2796,11 +3752,11 @@
         "observed_similarity_under_the_declared_rule": 0.611111,
         "observed_similarity_as_value_sets": 0.673611,
         "similarity_class": "partial",
-        "excess_over_chance": 0.219665,
+        "excess_over_chance": 0.215123,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.063312,
-          "structural": 0.20778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.070858,
+          "structural": 0.205238
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": false
@@ -2812,11 +3768,11 @@
         "observed_similarity_under_the_declared_rule": 0.391667,
         "observed_similarity_as_value_sets": 0.545833,
         "similarity_class": "far",
-        "excess_over_chance": -0.016696,
+        "excess_over_chance": -0.020285,
         "block_excess": {
-          "arbitrary_or_expressive": 0.553077,
-          "functional_or_pressure_prone": -0.033699,
-          "structural": -0.146387
+          "arbitrary_or_expressive": 0.545567,
+          "functional_or_pressure_prone": -0.037379,
+          "structural": -0.148928
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2828,59 +3784,11 @@
         "observed_similarity_under_the_declared_rule": 0.697222,
         "observed_similarity_as_value_sets": 0.697222,
         "similarity_class": "partial",
-        "excess_over_chance": 0.208227,
+        "excess_over_chance": 0.201509,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.04109,
-          "structural": 0.139357
-        },
-        "arbitrary_block_outagrees_functional_block": true,
-        "either_work_has_dependent_reprints": true
-      },
-      {
-        "work_a": "arabian_nights",
-        "work_b": "cunnie_rabbit",
-        "comparable_keys": 6,
-        "observed_similarity_under_the_declared_rule": 0.666667,
-        "observed_similarity_as_value_sets": 0.666667,
-        "similarity_class": "partial",
-        "excess_over_chance": 0.256159,
-        "block_excess": {
-          "arbitrary_or_expressive": 0.553077,
-          "functional_or_pressure_prone": -0.007756,
-          "structural": 0.33313
-        },
-        "arbitrary_block_outagrees_functional_block": true,
-        "either_work_has_dependent_reprints": false
-      },
-      {
-        "work_a": "odyssey",
-        "work_b": "younger_edda",
-        "comparable_keys": 6,
-        "observed_similarity_under_the_declared_rule": 0.488889,
-        "observed_similarity_as_value_sets": 0.488889,
-        "similarity_class": "far",
-        "excess_over_chance": 0.078381,
-        "block_excess": {
-          "arbitrary_or_expressive": 0.553077,
-          "functional_or_pressure_prone": -0.007756,
-          "structural": -0.022426
-        },
-        "arbitrary_block_outagrees_functional_block": true,
-        "either_work_has_dependent_reprints": true
-      },
-      {
-        "work_a": "mahabharata_v1",
-        "work_b": "sacred_books_east",
-        "comparable_keys": 9,
-        "observed_similarity_under_the_declared_rule": 0.705556,
-        "observed_similarity_as_value_sets": 0.816667,
-        "similarity_class": "partial",
-        "excess_over_chance": 0.286983,
-        "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.033699,
-          "structural": 0.40778
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.048635,
+          "structural": 0.132291
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2892,11 +3800,59 @@
         "observed_similarity_under_the_declared_rule": 0.55625,
         "observed_similarity_as_value_sets": 0.68125,
         "similarity_class": "partial",
-        "excess_over_chance": 0.164804,
+        "excess_over_chance": 0.160262,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.032756,
-          "structural": 0.08278
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.040302,
+          "structural": 0.080238
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "arabian_nights",
+        "work_b": "cunnie_rabbit",
+        "comparable_keys": 6,
+        "observed_similarity_under_the_declared_rule": 0.666667,
+        "observed_similarity_as_value_sets": 0.666667,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.25041,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.545567,
+          "functional_or_pressure_prone": -0.015302,
+          "structural": 0.329166
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": false
+      },
+      {
+        "work_a": "odyssey",
+        "work_b": "younger_edda",
+        "comparable_keys": 6,
+        "observed_similarity_under_the_declared_rule": 0.488889,
+        "observed_similarity_as_value_sets": 0.488889,
+        "similarity_class": "far",
+        "excess_over_chance": 0.072632,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.545567,
+          "functional_or_pressure_prone": -0.015302,
+          "structural": -0.02639
+        },
+        "arbitrary_block_outagrees_functional_block": true,
+        "either_work_has_dependent_reprints": true
+      },
+      {
+        "work_a": "mahabharata_v1",
+        "work_b": "sacred_books_east",
+        "comparable_keys": 9,
+        "observed_similarity_under_the_declared_rule": 0.705556,
+        "observed_similarity_as_value_sets": 0.816667,
+        "similarity_class": "partial",
+        "excess_over_chance": 0.283396,
+        "block_excess": {
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.037379,
+          "structural": 0.405239
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2908,11 +3864,11 @@
         "observed_similarity_under_the_declared_rule": 0.482292,
         "observed_similarity_as_value_sets": 0.586458,
         "similarity_class": "far",
-        "excess_over_chance": 0.090846,
+        "excess_over_chance": 0.086303,
         "block_excess": {
-          "arbitrary_or_expressive": 0.526414,
-          "functional_or_pressure_prone": -0.02859,
-          "structural": -0.06722
+          "arbitrary_or_expressive": 0.520871,
+          "functional_or_pressure_prone": -0.036135,
+          "structural": -0.069762
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
@@ -2924,18 +3880,18 @@
         "observed_similarity_under_the_declared_rule": 0.477778,
         "observed_similarity_as_value_sets": 0.651852,
         "similarity_class": "far",
-        "excess_over_chance": 0.059206,
+        "excess_over_chance": 0.055618,
         "block_excess": {
-          "arbitrary_or_expressive": 0.401414,
-          "functional_or_pressure_prone": -0.150365,
-          "structural": 0.04528
+          "arbitrary_or_expressive": 0.395871,
+          "functional_or_pressure_prone": -0.154046,
+          "structural": 0.042738
         },
         "arbitrary_block_outagrees_functional_block": true,
         "either_work_has_dependent_reprints": true
       }
     ],
-    "count_of_such_pairs": 547,
+    "count_of_such_pairs": 550,
     "reading": "a high pair is a candidate for a shared transmission route, not evidence of one; and the inverted list is the shape M4 says should be rare, so it is the list a reviewer should read first"
   },
-  "what_this_is_not": "no dates, so no transmission claim; detector output over English translations, not human coding; works are not independent, so dependence is flagged per pair rather than filtered away; the chance line comes from the corpus's own marginals"
+  "what_this_is_not": "no dates, so no transmission claim; detector output over English translations, not human coding; works are not independent, so dependence is flagged per pair rather than filtered away; the chance line comes from the corpus's own marginals, drawn over the pair set of the population it is subtracted from, and it preserves nothing but the per-value prevalence and each work's set size"
 }

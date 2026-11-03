@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "run_at_utc": "2026-11-01T10:06:04.876168+00:00",
-  "elapsed_seconds": 162.044,
+  "run_at_utc": "2026-11-03T12:24:25.570525+00:00",
+  "elapsed_seconds": 318.579,
   "interpretation": "Cleaned English-translation lexical candidate retrieval only; not ancestry probability or historical relationship confidence",
   "corpus": {
     "works": 65,
@@ -170,11 +170,11 @@
     }
   },
   "reproducibility": {
-    "acquisition_manifest_sha256": "e102e7fe34df1a01b938bc8307396c725d31acbfb4e10ff7418e328342df08af",
+    "acquisition_manifest_sha256": "2bdfa81f12b0e5d955e995bc01deda9a821da55a8e61e3a97527c846f26465be",
     "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4",
     "motif_lexicon_sha256": "8107160f826e711dd43cd4da8f606390bbeca54e8e1404a7f9e9f3957737c638",
     "source_dependence_sha256": "dc1cd84bd41bc8406f4cc7d27aabc80bf065879f01e06a66fa1c2e7047af174b",
-    "analysis_code_sha256": "c6fb56c4f421d40ee8c96f369d30e2803cca087232b695519e89b14e4ecaed0b",
+    "analysis_code_sha256": "5201547e43cc79530ede0e7fb8a7dd72dc70869641b292dc3b5c1185754c4dd4",
     "python": "3.13.6",
     "numpy": "2.3.5",
     "scikit_learn": "1.9.0"

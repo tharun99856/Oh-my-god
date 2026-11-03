@@ -1,0 +1,286 @@
+{
+  "status": "not_yet_testable",
+  "model_scores": null,
+  "model_ranking": null,
+  "parsimony": null,
+  "missing_inputs": [
+    "derivation: no candidate derivation record supplied (config > derivation_record_schema)",
+    "dated attestation: 65 works in the scaffold, 0 with a filled composition range and 0 usable for a priority claim; date_earliest, date_latest and dating_basis are unset at record level"
+  ],
+  "missing_input_count": 2,
+  "preregistration": {
+    "ok": true,
+    "expected": "f972152e42a3dd060b5096d2ed9533fa295c821cf40012cf17d851eca64c64ea",
+    "computed": "f972152e42a3dd060b5096d2ed9533fa295c821cf40012cf17d851eca64c64ea",
+    "registered_at": "2026-11-01",
+    "problems": []
+  },
+  "dated_attestation_diagnostic": {
+    "available": true,
+    "works": 65,
+    "rows": 65,
+    "works_with_numeric_composition_date": 0,
+    "works_usable_for_priority_claims": 0,
+    "reading": "an earlier surviving witness is not evidence of an earlier composition, and a recording or printing date is not a composition date"
+  },
+  "decision_gates_in_force": {
+    "minimum_pairs": 220,
+    "minimum_effective_samples": 29.051621,
+    "source": "results/model_power_simulation.json (status derived)",
+    "historical_floor_in_config": 20,
+    "derived_minimum_pairs": 220,
+    "derived_minimum_effective_samples": 29.051621,
+    "target_correct_model_probability": 0.8,
+    "note": "derived_minimum_pairs = max over the four generating models of the smallest grid pair count whose power reaches the declared target, and it is null unless every one of the four reaches it somewhere on the grid: a floor licensed where three of four truths resolve is a rule that goes silent on the fourth. derived_minimum_effective_samples = the 5th percentile (sorted, index ceil(0.05 * replications) - 1) of the Kish effective pair count over the replications of that binding cell | when this artifact exists the config's historical minimum_pairs is not a gate: a null derived floor refuses every pair set rather than quietly falling back to 20"
+  },
+  "reason": "the models are compared against evidence; with the dated, route-typed inputs absent there is no evidence to compare, so no score and no ranking are emitted",
+  "what_would_close_the_gap": [
+    "TRACK_B_METHOD_v2.md > 9.3 gate 'Dated composition and earliest-witness fields populated'",
+    "second independent coder and published kappa",
+    "dependence closure to chain level"
+  ],
+  "historical_conclusion": "none asserted; this layer compares models against licence conditions, it does not settle a historical question",
+  "interpretation": "not_yet_testable is a published result, not a failed run. It is the recorded state of this layer today.",
+  "m4_block_profile_gate": {
+    "what_this_is": "the only M4 claim this corpus can currently score: the attractor ordering of the three dimension blocks, read on raw similarity and on excess over the anomaly scan's chance line. It is not a ranking and licenses no historical conclusion.",
+    "pair_set": "the corpus's own scored pair set, rebuilt by scan_dimension_anomalies.corpus_observations() from results/ontology_work_states.csv",
+    "reading": {
+      "declared_propensity": {
+        "arbitrary_or_expressive": 0.285714,
+        "functional_or_pressure_prone": 0.714286,
+        "structural": 0.5
+      },
+      "declared_ordering": [
+        "functional_or_pressure_prone",
+        "structural",
+        "arbitrary_or_expressive"
+      ],
+      "observed_block_means": {
+        "arbitrary_or_expressive": 0.542152,
+        "functional_or_pressure_prone": 0.635531,
+        "structural": 0.364694
+      },
+      "keys_compared_per_block": {
+        "arbitrary_or_expressive": 2130,
+        "functional_or_pressure_prone": 2774,
+        "structural": 4123
+      },
+      "pairs": 1237,
+      "pairs_carrying_a_block_profile": 1237,
+      "minimum_block_spread_declared": 0.05,
+      "chance_similarity_table": {
+        "used": true,
+        "dimensions_supplied": 9,
+        "path": "results/dimension_anomalies.json",
+        "sha256": "5a54f92f5c51bad0fa14a3f5c7d9d74d8e344d9c7ec2736fc616535a5eb48ec4",
+        "conditioning": "the pairs compare_models.similarity_between scores, at least 6 comparable keys",
+        "null_model": {
+          "name": "per-dimension configuration model",
+          "draws": 200,
+          "seed": 20261102,
+          "band": 0.05,
+          "preserves": "each work's own number of values on that dimension, and the dimension's per-value prevalence",
+          "does_not_preserve": "correlations between values inside a work, so the excess here is an upper bound on any structure attributed to a dimension whose detector fires on co-occurring strings",
+          "pair_set": "each population's chance line is drawn over the same pairs as the observed mean it subtracts: the complete graph over the works that carry a value for the dimension, and for the scored graph the scorable subset the comparison layer actually pools. See `pair_graph.chance_line_conditioning` for how much the conditioning is worth.",
+          "why_not_a_permutation": "the mean over a complete graph is invariant to permuting which work owns which set, so a label-shuffled control would return the observed number and call it a null",
+          "why_not_a_co_occurrence_preserving_permutation": "tested and set aside: resampling whole observed value sets across works leaves the null's expectation equal to the observed complete-graph mean for every live dimension, so the excess it produces is zero by construction rather than a measurement against an independent baseline"
+        },
+        "blocks_corrected": [
+          "arbitrary_or_expressive",
+          "functional_or_pressure_prone",
+          "structural"
+        ]
+      },
+      "disqualifies_m4_from_being_named_leader": false,
+      "spread_across_blocks": 0.270837,
+      "adjacent_predictions": [
+        {
+          "stronger": "functional_or_pressure_prone",
+          "weaker": "structural",
+          "observed_difference": 0.270837,
+          "verdict": "holds"
+        },
+        {
+          "stronger": "structural",
+          "weaker": "arbitrary_or_expressive",
+          "observed_difference": -0.177458,
+          "verdict": "reversed"
+        }
+      ],
+      "observed_ordering": [
+        "functional_or_pressure_prone",
+        "arbitrary_or_expressive",
+        "structural"
+      ],
+      "observed_block_profile": {
+        "arbitrary_or_expressive": {
+          "mean_similarity": 0.542152,
+          "keys_compared": 2130,
+          "pairs_contributing": 1237,
+          "dimensions_measured": [
+            "D1_ontological_category",
+            "D7a_speaker_attribution"
+          ],
+          "per_dimension": {
+            "D1_ontological_category": {
+              "mean_similarity": 0.56571,
+              "pairs_comparing_this_dimension": 1237,
+              "chance_similarity": 0.454433,
+              "excess_over_chance": 0.111277
+            },
+            "D7a_speaker_attribution": {
+              "mean_similarity": 0.509518,
+              "pairs_comparing_this_dimension": 893,
+              "chance_similarity": 0.503824,
+              "excess_over_chance": 0.005694
+            }
+          },
+          "mean_excess_over_chance": 0.058486,
+          "dimensions_with_a_chance_line": 2,
+          "dimensions_without_a_chance_line": []
+        },
+        "functional_or_pressure_prone": {
+          "mean_similarity": 0.635531,
+          "keys_compared": 2774,
+          "pairs_contributing": 1237,
+          "dimensions_measured": [
+            "D2c_worship_exclusivity",
+            "D3_agency",
+            "D4_cosmic_function"
+          ],
+          "per_dimension": {
+            "D2c_worship_exclusivity": {
+              "mean_similarity": 0.78,
+              "pairs_comparing_this_dimension": 300,
+              "chance_similarity": 0.631533,
+              "excess_over_chance": 0.148467
+            },
+            "D3_agency": {
+              "mean_similarity": 0.541108,
+              "pairs_comparing_this_dimension": 1237,
+              "chance_similarity": 0.395328,
+              "excess_over_chance": 0.14578
+            },
+            "D4_cosmic_function": {
+              "mean_similarity": 0.694919,
+              "pairs_comparing_this_dimension": 1237,
+              "chance_similarity": 0.635276,
+              "excess_over_chance": 0.059643
+            }
+          },
+          "mean_excess_over_chance": 0.117963,
+          "dimensions_with_a_chance_line": 3,
+          "dimensions_without_a_chance_line": []
+        },
+        "structural": {
+          "mean_similarity": 0.364694,
+          "keys_compared": 4123,
+          "pairs_contributing": 1237,
+          "dimensions_measured": [
+            "D2a_acknowledged_population",
+            "D2b_reality_of_others",
+            "D5_universe_relationship",
+            "D6_temporal_nature"
+          ],
+          "per_dimension": {
+            "D2a_acknowledged_population": {
+              "mean_similarity": 0.048086,
+              "pairs_comparing_this_dimension": 1019,
+              "chance_similarity": 0.027085,
+              "excess_over_chance": 0.021001
+            },
+            "D2b_reality_of_others": {
+              "mean_similarity": 0.196302,
+              "pairs_comparing_this_dimension": 703,
+              "chance_similarity": 0.166543,
+              "excess_over_chance": 0.029759
+            },
+            "D5_universe_relationship": {
+              "mean_similarity": 0.587128,
+              "pairs_comparing_this_dimension": 1164,
+              "chance_similarity": 0.521151,
+              "excess_over_chance": 0.065977
+            },
+            "D6_temporal_nature": {
+              "mean_similarity": 0.511897,
+              "pairs_comparing_this_dimension": 1237,
+              "chance_similarity": 0.464267,
+              "excess_over_chance": 0.04763
+            }
+          },
+          "mean_excess_over_chance": 0.041092,
+          "dimensions_with_a_chance_line": 4,
+          "dimensions_without_a_chance_line": []
+        }
+      },
+      "readings": {
+        "raw_similarity": {
+          "block_means": {
+            "arbitrary_or_expressive": 0.542152,
+            "functional_or_pressure_prone": 0.635531,
+            "structural": 0.364694
+          },
+          "spread_across_blocks": 0.270837,
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.270837,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.177458,
+              "verdict": "reversed"
+            }
+          ],
+          "status": "block_ordering_contradicts_declared_propensity"
+        },
+        "excess_over_chance": {
+          "block_means": {
+            "arbitrary_or_expressive": 0.058486,
+            "functional_or_pressure_prone": 0.117963,
+            "structural": 0.041092
+          },
+          "spread_across_blocks": 0.076871,
+          "ordering_observed": [
+            "functional_or_pressure_prone",
+            "arbitrary_or_expressive",
+            "structural"
+          ],
+          "adjacent_predictions": [
+            {
+              "stronger": "functional_or_pressure_prone",
+              "weaker": "structural",
+              "observed_difference": 0.076871,
+              "verdict": "holds"
+            },
+            {
+              "stronger": "structural",
+              "weaker": "arbitrary_or_expressive",
+              "observed_difference": -0.017394,
+              "verdict": "tie_within_the_declared_separability"
+            }
+          ],
+          "status": "block_profile_did_not_resolve_the_declared_separability"
+        }
+      },
+      "blocks_without_a_measurement": [],
+      "readings_that_disconfirm": [
+        "raw_similarity"
+      ],
+      "status": "block_profile_verdict_depends_on_the_similarity_scale",
+      "statuses_by_reading": {
+        "excess_over_chance": "block_profile_did_not_resolve_the_declared_separability",
+        "raw_similarity": "block_ordering_contradicts_declared_propensity"
+      },
+      "reason": "the raw and chance-corrected readings of this pair set fall on different sides of the disqualification line, so the line is not being crossed by a fact about the traditions but by a choice of scale. Nothing is disqualified and nothing is confirmed: excess_over_chance -> block_profile_did_not_resolve_the_declared_separability / raw_similarity -> block_ordering_contradicts_declared_propensity. Whichever reading a reader prefers, the preference has to be stated before the verdict is, which is why both are published here."
+    }
+  }
+}

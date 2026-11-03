@@ -76,7 +76,15 @@ class TexTypesettingTests(unittest.TestCase):
                 "typesetting geometry is untested on this machine"
             )
         cls.engine = engine
-        cls.workdir = tempfile.mkdtemp(prefix="qoder-tex-")
+        cls.workdir = Path(tempfile.mkdtemp(prefix="qoder-tex-"))
+        # LaTeX reads \jobname.aux from the input search path but writes it to -output-directory, so a
+        # compilation that points its output at a temp dir while its source sits in paper/ picks up whatever
+        # stale aux an earlier in-tree build left behind. That produced a "Reference undefined on the second
+        # pass" failure on a paper with no broken reference: pass 2 was answering a question about a file
+        # from a previous edition, not about this source. Compiling a copy in an empty directory makes the
+        # aux pass 2 reads the one pass 1 wrote, which is the only two-pass property worth testing.
+        source = cls.workdir / "main.tex"
+        shutil.copyfile(PAPER, source)
         cls.logs = []
         # Cross-references need a second pass, and a prose edit that changes the length needs a third: LaTeX
         # itself says "Label(s) may have changed. Rerun". Two blind passes would fail on the edit that is most
@@ -84,8 +92,8 @@ class TexTypesettingTests(unittest.TestCase):
         # a rerun, capped so a genuinely unstable document is reported rather than compiled forever.
         for pass_number in range(1, MAX_PASSES + 1):
             result = subprocess.run(
-                [engine, "-interaction=nonstopmode", "-output-directory", cls.workdir, str(PAPER)],
-                cwd=str(PAPER.parent), capture_output=True, text=True, encoding="utf-8",
+                [engine, "-interaction=nonstopmode", "-output-directory", str(cls.workdir), str(source)],
+                cwd=str(cls.workdir), capture_output=True, text=True, encoding="utf-8",
                 errors="replace", timeout=900,
             )
             text = cls._log()

@@ -1,12 +1,12 @@
 {
   "engine": "narrative_similarity",
   "engine_version": "1.1",
-  "generated_at_utc": "2026-11-01T11:04:32.566149+00:00",
+  "generated_at_utc": "2026-11-03T12:28:44.665240+00:00",
   "annotation_set_version": "pilot-1",
   "reproducibility": {
     "annotations_sha256": "472f908795433c49384e9d9282f2e06d8b37d3f64dc307e4d121d276a69186aa",
     "source_dependence_sha256": "dc1cd84bd41bc8406f4cc7d27aabc80bf065879f01e06a66fa1c2e7047af174b",
-    "code_sha256": "27f7a9200414450062c095babee30fc1c068fb2b6a466b2ec04596f0354849de",
+    "code_sha256": "a52a867338463014bab78520aa45cc56c1e2222fe6f5be797318561108b42a87",
     "seed": 20261031,
     "permutations": 200,
     "numpy": "2.3.5"

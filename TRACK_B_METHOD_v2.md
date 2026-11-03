@@ -538,12 +538,18 @@ nothing — the straddle is a fact about this instrument, not about M4 — and c
 the corpus pair set does today, 1237 pairs over 52 works: raw similarity gives
 `functional_or_pressure_prone` **0.635531**, `structural` **0.364694** and `arbitrary_or_expressive`
 **0.542152**, so the structural-over-arbitrary adjacency is reversed by **-0.177458** and that scale's status is
-`block_ordering_contradicts_declared_propensity`; chance-corrected, the same three blocks are **0.121644**,
-**0.043633** and **0.064028**, the same adjacency is a tie at **-0.020395**, and the status is the unresolved
+`block_ordering_contradicts_declared_propensity`; chance-corrected, the same three blocks are **0.117963**,
+**0.041092** and **0.058486**, the same adjacency is a tie at **-0.017394**, and the status is the unresolved
 one. The committed falsification hook fires on the raw scale and does not fire on the corrected one, so whether
 M4's ordering claim is refuted depends on which mean a reader is told to look at — which is why the chance
-table's SHA-256 (`244a7fa87f8b9679d01220772df742e0d78134804f53dc6c7dec84ba2611c82c`) is printed inside the
-verdict rather than beside it in prose. A pair set that measures fewer than two of the three ranked blocks, or
+table's SHA-256 (`5a54f92f5c51bad0fa14a3f5c7d9d74d8e344d9c7ec2736fc616535a5eb48ec4`) is printed inside the
+verdict rather than beside it in prose. That verdict is a published file, not a terminal: `python tools/compare_models.py --corpus-pairs` writes
+[results/track_b_verdict.json](results/track_b_verdict.json), which still reports `not_yet_testable` for the
+ranking — the derivation record and dated attestations are missing, so no model is scored or ranked — and carries
+this gate under `m4_block_profile_gate` with the pair set it ran on named in the same object.
+`tests/test_documented_hashes.py` reads that file and fails if the digest embedded in it is not the digest of the
+chance table shipped beside it, which is the only way a reader can tell that the numbers above were computed
+against the artifact this document cites rather than against an earlier one. A pair set that measures fewer than two of the three ranked blocks, or
 never measures two of them *together*, reports `m4_block_profile_not_testable` — which is a missing input and a
 refusal, not a pass, because a test that reports nothing when the data are thin is a test that never runs. The
 confirm outcome is deliberately called the weakest of the confirmable ones: three blocks admit six orderings, so
@@ -553,6 +559,43 @@ gate — the simulator scores from likelihood totals and its synthetic pairs car
 change reproduced [results/model_power_simulation.json](results/model_power_simulation.json) byte for byte
 (`d25c07062928edcdc2bb630b3341ba02f3004191833e69b978bb4df6b2a0f6c0`), and a calibration that silently described a
 different rule would be worthless.
+
+**The chance line the gate subtracts is published with its own scatter.**
+[results/dimension_anomalies.json](results/dimension_anomalies.json) now carries
+`chance_band_diagnostics`: each measurement's 200 null replicates are kept, and each replicate's leave-one-out
+excess — the published deviation from the chance line, scaled by `200/199`, so no draw is judged against a
+line it helped draw — is compared against the same `0.05` the scan uses to call an excess indistinguishable
+from chance. The band is not a test level and is not treated as one. On the scored graph its false-positive
+rate is `0.000` for 10 of the 18 measurements and `0.555` for `D2c_worship_exclusivity`, whose null scatter
+(`sd 0.0845`) is wider than the band judging it; for 8 of the 9 declared-rule measurements the band is wider
+than the 95th percentile of its own noise. A noise-only corpus of this panel puts at least one measurement
+outside the band in `0.760` of draws (mean `1.01` measurements, `0.80` dimensions), so the 5 dimensions this
+corpus flags are read against that figure and not against zero. Six of the nine clear a Bonferroni cut at
+`0.05/9 = 0.005556` on the declared-rule reading, all six at the `1/201 = 0.004975` floor, which is a bound
+rather than a measurement of how far below `0.05` they sit. Two consequences bind this document. First,
+`m4_block_profile_test.minimum_block_spread = 0.05` is an analyst-set distance of exactly the same kind, and
+the calibration above says what its false-positive rate is *not*: the gate pools three blocks rather than
+nine independent dimensions, so those rates bound the intuition and do not transfer to it, and the gate
+therefore reports a tie rather than a refutation when the corrected gap is `-0.017394`. Second, nothing here
+re-tunes a threshold to rescue a verdict. The `0.05` in both places is the number registered before this
+measurement existed, published now beside the noise it produces, so a reader can tell which of the two
+readings is a claim about the corpus and which is a claim about the instrument.
+
+**Each chance line is drawn over the pairs the mean it subtracts was measured on.** The scored graph's baseline
+used to come from the complete graph of its 52 covered works while its observed mean came from the 1237 pairs
+`similarity_between` agrees to score, so the two halves of one subtraction came from two designs.
+[tools/scan_dimension_anomalies.py](tools/scan_dimension_anomalies.py) now conditions the draw on that edge list
+-- the edge set per dimension is asserted to be the same set the mean was pooled over -- and publishes both lines
+beside the gap between them. Conditioning moves no chance line by more than `0.00982` (`D6_temporal_nature`,
+`value_sets`), a fifth of the `0.05` band, and it crosses `2` of the 18 band verdicts, both of them that same
+dimension: `+0.047630` on the scored pairs against `+0.057079` on every pair of its carriers. One consequence is
+above: the gate's corrected adjacency is now a tie on *both* pair graphs, so the earlier claim that the pair
+population you choose changes a verdict no longer holds, and what survives is the claim about the means --
+`D4_cosmic_function` still moves `0.098787` between the graphs. A second tightening was measured rather than
+adopted: resampling whole observed value sets across works, which is the null that would preserve which values
+co-occur inside a work, has an expectation equal to the observed complete-graph mean for every live dimension, so
+it reproduces the data instead of bounding it; `null_model.why_not_a_co_occurrence_preserving_permutation` records
+it as a rejected option rather than as a promise.
 
 **The evidence floor is simulated, not asserted.** A winner is emitted only when the pair set clears two
 floors published by `python tools/compare_models.py --power` into

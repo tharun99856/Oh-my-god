@@ -26,6 +26,8 @@ No stage here estimates the probability of common descent, borrowing, or a globa
 
 Composition of the retrieval set by region (eligible words): South Asia 3,820,431 (43.8%, 16 works), West Asia and Europe 1,098,929 (12.6%), Europe 966,171 (11.1%), North America 939,428 (10.8%), East Asia 689,283 (7.9%), Southeast Asia 262,291 (3.0%), West Asia 250,110 (2.9%), Sub-Saharan Africa 207,079 (2.4%), South Asia and West Asia 167,258 (1.9%), Oceania 127,301 (1.5%), West Asia and South Asia 95,049 (1.1%), Central and South America 84,624 (1.0%), East Africa and West Asia 20,086 (0.2%), Central America 3,061 (0.0%).
 
+External stability of those 65 files is a separate question from internal freshness, and it is now measured rather than assumed: `python tools/verify_corpus_live.py --write-to results/corpus_live_verification.json` re-downloads every work and compares the bytes with the manifest (the published run is recorded 2026-11-03T12:30Z). 63 of 65 still match; two have drifted. `australian_legendary_tales` (Gutenberg 3833) drifted in place: the live copy is served at the identical 207,276 bytes and differs at two byte positions starting at offset 184,973, where the acquired word-list entry `Eär moonan` now reads `Eaer moonan`. `odyssey` (Gutenberg 1727) is served two bytes shorter, its first difference at offset 664, where the header line `Most recently updated: December 2, 2023` now reads `November 2, 2026`. Because that copy's length changed, the positional comparison reports 685,258 differing offsets for it, which counts the shift rather than the edits — so the tool now aligns the two copies line by line as well and publishes the separate edits it finds, four for `odyssey`: that header date, a numeral restored in the preface (`of 894` becomes `of 1894`), a footnote marker added to a body line (`tune.38` becomes `tune.]38`), and one separator line holding only `/` deleted near the end. Neither drift moves a number in this repository — every artifact is pinned to the hash the manifest recorded, and the suite re-hashes those bytes — but a fresh acquisition no longer reproduces the shipped corpus for those two works, so the manifest, not the live site, is the authority for this study. The drift count is a snapshot rather than a constant: runs on consecutive days returned 1 and 2 drifted works, and a run earlier on the same morning as the published one could not reach a third work at all and reported 62 matches, 2 drifts and 1 fetch failure — which is why the status column keeps `fetch_failed` apart from `drifted`, rather than letting an unreachable server read as a changed text. `tests/test_pipeline.py` refuses a verification artifact whose `manifest_sha256` is not the current manifest's, one whose `tally` is not the status column beneath it recomputed, and prose in `paper/main.tex`, this report or `README.md` that quotes a match count the artifact does not record.
+
 The snapshot is English-translation heavy and still dominated by South Asian print sources. It is a retrieval testbed, not a balanced global sample, and public-domain status in the United States settles neither copyright elsewhere nor Indigenous cultural permissions. Historical ethnographies and secondary retellings are labelled separately from primary translations; 19 works carry the role `historical_ethnography` and 7 `secondary_retelling`.
 
 ## 3. Methods
@@ -273,7 +275,7 @@ no miss returns a one-sided exact binomial bound on its miss share, not a recall
 1.0, and a value the probe never produced returns no estimate. A blank draw counts as uncovered, not as coded
 and empty, so a half-coded stratum widens the miss estimate instead of shrinking it. The scorer refuses a key
 with no probe rows, a probe row with no weight, and a stratum whose rows report two different populations.
-`tests/test_annotation_recall.py` (36 tests) pins the arithmetic, the refusals, the
+`tests/test_annotation_recall.py` (37 tests) pins the arithmetic, the refusals, the
 two-estimand separation, the detection frame, and the accumulation bug that made `undecidable_selection_rate` report only the last
 row it read. **No human has coded the packet, so no recall figure exists yet either** — the instrument to measure
 it does, which is the whole of the change.
@@ -288,27 +290,36 @@ pair populations: the carrier graph (every pair of works that both carry the key
 52 of the 65 works). Each measurement is then compared to a chance line produced by a per-dimension
 configuration model: 200 seeded draws (seed 20261102) in which each synthetic work takes exactly as many values
 as the real work it replaces, weighted by that dimension's observed prevalence, and the synthetic pairs are
-scored with the same statistic on the same graph. A permutation control is not used and cannot be: the mean over
-a complete graph is invariant to permuting which work owns which set, so a label-shuffled control returns the
-observed number and calls it a null.
+scored with the same statistic over the same pairs. On the carrier graph that is every pair of the works carrying
+the key; on the scored graph it is exactly the edge set the observed mean was measured over, per dimension, which
+is the difference between a conservative baseline and a baseline from a different population -- the artifact
+publishes both lines and the gap (`pair_graph.chance_line_conditioning`). A permutation control is not used and
+cannot be: the mean over a complete graph is invariant to permuting which work owns which set, so a label-shuffled
+control returns the observed number and calls it a null. That is also why the co-occurrence-preserving control
+asked for in two earlier review rounds is published as an impossibility rather than run as an experiment.
 
 What the corpus reports about the instrument:
 
 | Finding | Number |
 | --- | --- |
 | Declared dimensions that fire on no work | 3 of 12 — `D7b_speech_act`, `D7c_discourse_genre`, `D7d_epistemic_commitment` (0 of 65 works) |
-| Dimensions inside the 0.05 chance band on the scored graph | `D2a` (+0.019), `D2b` (+0.028), `D7a` (+0.009) under both statistics |
-| `D7a` observed vs its own base rate | 0.510 vs 0.500; under the endorsement frame the excess is −0.006, i.e. no direction |
+| Dimensions inside the 0.05 chance band on the scored graph | `D2a` (+0.021), `D2b` (+0.030), `D6` (+0.048), `D7a` (+0.006) under both statistics |
+| `D7a` observed vs its own base rate | 0.510 vs 0.504; under the endorsement frame the excess is −0.006, i.e. no direction |
 | Live single-valued cells where exact match has no defined answer | 89 of 157 works (0.567) carry >1 value on a key declared single-valued |
 | Largest movement of a dimension's mean between the two graphs | `D4_cosmic_function` +0.0988 — larger than the chance band itself |
+| Largest movement of a *chance line* from conditioning it on the pairs | `0.00982` (`D6_temporal_nature`, set-overlap reading) against a band of `0.05`; `2` of the `18` band verdicts cross and `0` adjacency verdicts do |
 | Block ordering the corpus gives, raw | functional 0.636 > arbitrary 0.542 > structural 0.365, so the declared `structural > arbitrary` adjacency is reversed by −0.177 |
-| Same blocks, chance-corrected | functional +0.122, arbitrary +0.064, structural +0.044 — a −0.020 gap, inside the registered 0.05 separability, hence a tie |
-| Pairs where the arbitrary block out-agrees the functional block | 547 of 1,237 |
-| Dependence among the top 15 pairs by excess agreement | 15 of 15 flagged (`mahabharata_v3`/`mahabharata_v4`, `cherokee_myths`/`chinese_folklore`, …) |
+| Same blocks, chance-corrected | functional +0.118, arbitrary +0.058, structural +0.041 — a −0.017 gap, inside the registered 0.05 separability, hence a tie |
+| Pairs where the arbitrary block out-agrees the functional block | 550 of 1,237 |
+| Dependence among the top 15 pairs by excess agreement | 15 of 15 flagged (`mahabharata_v3`/`mahabharata_v4`, `cherokee_myths`/`chinese_folklore`, ...) |
+| The band's own false-positive rate, scored graph | `0.000` on 10 of the 18 measurements, up to `0.555` on `D2c_worship_exclusivity`, whose null scatter (sd `0.0845`) is wider than the band judging it; `D4_cosmic_function` wanders by `0.0045` |
+| A noise-only corpus of this size, as a family | at least one measurement outside the band in `0.760` of draws; mean `1.015` measurements and `0.795` dimensions |
+| Where the band and its own scatter disagree | `D2a` (+0.021), `D2b` (+0.030) and `D6` (+0.048) sit inside the band yet clear chance (`p = 0.004975`, `p = 0.044776`, `p = 0.004975`); `D2c` (+0.148) is flagged and clears too (`p = 0.024876`), so the single measurement where the band and its own null contradicted each other has stopped contradicting |
+| Declared-rule dimensions surviving `0.05/9 = 0.005556` | 6 of 9 (`D1`, `D2a`, `D3`, `D4`, `D5`, `D6`), every one at the `1/201 = 0.004975` floor, and the same six on both graphs |
 
 The gate consequence is the reason this section exists. `attractor_block_profile_test` — the test of M4's one
 non-null prediction — ran on raw similarity and returned the registered falsification hook
-`block_ordering_contradicts_declared_propensity` on a corpus whose block means move from −0.177 to −0.020
+`block_ordering_contradicts_declared_propensity` on a corpus whose block means move from −0.177 to −0.017
 depending on whether base rates are subtracted. The gate now runs both scales: raw says CONTRADICTS, the
 matched chance-corrected reading says `block_profile_did_not_resolve_the_declared_separability`, and because the
 two straddle the disqualification line the published status is
@@ -317,13 +328,41 @@ travels into the verdict, so a gate that depends on which artifact is on disk na
 `results/model_power_simulation.json` is byte-identical after the change (SHA-256 `d25c0706…`), because the
 power generator's synthetic pairs carry no per-key block profile and reach stage 1 by the totals path.
 
-`tests/test_dimension_anomalies.py` (28 tests) runs the chance draw in subprocesses under four
+The band itself is now measured, because a count of dimensions outside an uncalibrated distance is not a
+count of discoveries. `chance_band_diagnostics` in the same artifact re-draws each of the 18 scored
+measurements 200 times, records each draw's leave-one-out excess — that replicate subtracted from the mean
+of the other 199, so no draw is judged against a line it helped draw, which is the published deviation from
+the chance line scaled by `200/199` — and reports the fraction of noise draws landing outside ±0.05. That
+fraction is not a constant. It is `0.000` for 10 of the 18 measurements and `0.555` for
+`D2c_worship_exclusivity`, whose own null is wider than the band; for 8 of the 9 declared-rule measurements
+the band is wider than the 95th percentile of its own noise, so it under-flags them, and for `D2c` it is far
+too narrow, so it over-flags that one. Reading the same draws as a two-sided Monte Carlo `p` disagrees with
+the band on three dimensions — `D2a`, `D2b` and `D6` inside the band yet resolved — while `D2c`, which the band
+flags, is resolved by its own null at `p = 0.024876` (`5` draws in `201`), and six of nine survive a Bonferroni
+cut at `0.05/9 = 0.005556`. All six sit at `1/201 = 0.004975`, the
+floor this many draws can express: that is a bound, not a measurement of how far below 0.05 they are. The
+family figure is the one a reader should compare a flagged count against, because noise alone puts at least
+one measurement outside in `0.760` of draws while the corpus flags 5 declared-rule dimensions (10 of its 18
+measurements). What this does not do: it is not a test
+at a declared α, it corrects nothing about the dependence between dimensions — the null draws each dimension
+independently, exactly the assumption the chance line already makes — and it does not re-tune the 0.05. The
+band is kept as the descriptive statistic it was declared to be, now with its own error rate published
+beside it, and the paper's anomaly section reports the count of flagged dimensions against that noise line
+rather than against zero.
+
+`tests/test_dimension_anomalies.py` (51 tests) runs the chance draw in subprocesses under four
 `PYTHONHASHSEED` values and requires identical bytes — an earlier version of this scan drifted in the fourth
 decimal because it iterated a set-derived sequence; re-runs `scan()` and requires the committed artifact; checks
 that every published mean is labelled with the statistic and population that produced it; requires the scan and
 the M4 gate to agree on the chance-corrected block means; pins the corpus facts above; and re-derives the paper's
 `tab:chance` rows and every prose figure in its anomaly section from the artifact, so a number copied out of a
-scan into prose is checked the same way a test count is.
+scan into prose is checked the same way a test count is. The band tests re-derive the calibration rather than
+trusting it: the per-measurement rates must sum to the family mean they are meant to explain (the identity
+that caught the first version, which tallied booleans as a set and reported 1.0 for every dimension), the
+leave-one-out excess must be centred on zero by construction, no published `p` may sit below the `1/(reps+1)`
+floor or off the lattice of counts over 201, the six Bonferroni survivors are recomputed from the published
+`p` values instead of copied, and the diagnostics' own flags must agree with the `excess_within_declared_chance_band`
+column of the dimension table they describe.
 
 ### 7.3 The two-coder pilot kit: a handout that exists, and a measurement that still does not
 
@@ -482,15 +521,15 @@ The sharpest number in the table was the one that cut against the motive: the do
 
 **Limits binding on every downstream use**, recorded in the artefact's `cannot_support` block: absence of an English term is not absence of a concept (one translation per work, monolingual corpus); the probe cannot address belief, ritual or doctrine-holding; attestation counts are undated so grammars cannot be ordered historically; the lexicon is one analyst's authorship with no second coder; and no vocabulary census bears on the existence or non-existence of supernatural beings.
 
-`tests/test_divinity_terms.py` (8 tests) enforces the locators rather than the counts: every published match must land on the term it reports at the cited character span inside an eligible passage, region and tradition must come from the manifest, the monotheism/non-theism split must stay separate, exclusions must be published rather than dropped, the verdict must not claim universality, and a rebuild must reproduce the published bytes.
+`tests/test_divinity_terms.py` (9 tests) enforces the locators rather than the counts: every published match must land on the term it reports at the cited character span inside an eligible passage, region and tradition must come from the manifest, the monotheism/non-theism split must stay separate, exclusions must be published rather than dropped, the verdict must not claim universality, and a rebuild must reproduce the published bytes.
 
 ## 9. Validation and reproducibility
 
-- `python -m pytest tests -q` → **372 passed, plus 7 subtests** (12 pipeline tests, 37 structural-engine tests,
-  19 schema tests, 8 divinity-probe tests, 27 exclusivist-audit tests, 31 Track B state-coder tests,
-  13 graph-recall tests, 113 model-comparison tests, 28 anomaly-scan tests, 36 annotation-recall tests,
+- `python -m pytest tests -q` → **455 passed, plus 7 subtests** (45 pipeline tests, 43 structural-engine tests,
+  19 schema tests, 9 divinity-probe tests, 27 exclusivist-audit tests, 33 state-coder tests,
+  13 graph-recall tests, 116 model-comparison tests, 51 anomaly-scan tests, 37 annotation-recall tests,
   33 pilot-kit tests, 9
-  typesetting tests, 6 documented-count tests). The figure is no longer re-measured by hand at all: `tests/test_documented_counts.py`
+  typesetting tests, 8 documented-count tests, 12 documented-hashes tests). The figure is no longer re-measured by hand at all: `tests/test_documented_counts.py`
   runs the collector and the two subtest-bearing tests in subprocesses and fails if the number in this document,
   the number in `paper/main.tex`, the number in `ARCHITECTURE.md` or the per-suite breakdown disagrees with what
   the collector says. That gate exists because the previous draft of this file said 239 tests while its own
@@ -498,16 +537,19 @@ The sharpest number in the table was the one that cut against the motive: the do
   Between that draft and this one the model-comparison layer gained its two-stage rule, cluster holdout,
   effective-sample gate and power simulation (+28), the typesetting suite grew from 5 to 9 once a real LaTeX
   engine was installed and then to its current size when the stated page count became a checked claim, and the
-  documented-count suite was added, and grew to its present six checks when the line count this file quotes from
+  documented-count suite was added, and grew to its present seven checks when the line count this file quotes from
   the TeX validator became a claim of the same kind as the test counts. Most recently the instrument acquired its
-  own anomaly scan (§7.2) as a 28-test suite, and the model-comparison suite reached 113 when the M4 block-profile
-  gate gained a tie class and a second, chance-corrected reading of the same pairs. It grew by 33 more with the
+  own anomaly scan (§7.2) as a 28-test suite, which is 40 now that the chance band is measured against its own
+  null, and the model-comparison suite reached 113 when the M4 block-profile
+  gate gained a tie class and a second, chance-corrected reading of the same pairs; it is 116 now because the
+  refusal itself was put on trial, and must publish that gate when a pair set is supplied instead of printing a
+  missing-input list and saying nothing about the one claim the corpus can score. It grew by 33 more with the
   two-coder pilot kit (§7.3), whose tests own the slice's reproducibility, the handouts' generation and the pilot
   scorer's refusals. The schema suite validates `schema.sql` structurally without a server: primary keys, FK arity and ordering, deferred `ALTER TABLE` targets, enum vocabularies, layered-graph semantics, the score whitelist confined to descriptive `[0,1]` measures, and graded rather than numeric evidence.
-- `python tools/validate_annotations.py` → status `passed`: 14 versions, 94 events, 76 causal links, 78 motif assertions, 95 quote fragments verified against cited corpus text, 0 errors. Seven warnings report evidence passages excluded by cleaning rules (Popol Vuh wooden-people events, Ymir body events) — a cleaning-recall observation, not an annotation defect.
+- `python tools/validate_annotations.py --write-to results/annotation_validation.json` → status `passed`: 14 versions, 94 events, 218 participant role assertions, 76 causal links, a 38-motif registry asserted 78 times, 87 symbol assertions, 66 legal predicates, 10 full and 4 partial attestations, 95 quote fragments verified against cited corpus text, 0 errors. Without `--write-to` the validator prints and publishes nothing, so the artifact carries the SHA-256 of the annotation store and the passage file it read and `tests/test_narrative_similarity.py` can tell a stale report from a passing one. Seven warnings report evidence passages excluded by cleaning rules (Popol Vuh wooden-people events, Ymir body events) — a cleaning-recall observation, not an annotation defect.
 - `python tools/validate_results_v2.py` → status `passed`: 65 raw hashes, byte-exact clean slices, all 34,281 passage offsets and word counts, all dependence labels, all graph endpoints, orientations and `edge_kind` stamps, plus layer-by-layer verification including `narrative_pairs_sha256` and `candidate_pairs_sha256` freshness. It also enforces the vocabulary boundaries an audit flagged: every structural edge must be `COMPARED_WITH` with `RESEMBLES` in its own `explicitly_not` list and an un-promoted `resemblance_admission`, the layer must publish that promotion criterion, no layer may contain a `RESEMBLES` edge, and the builder is forbidden to fill in the reviewer-decision fields. It refuses to certify a graph built from stale inputs, and now refuses one whose semantics were edited after the fact.
-- Determinism was re-tested in this session rather than asserted: re-running `tools/run_similarity_v2.py` reproduced `results/v2_candidate_pairs.jsonl` byte-for-byte (SHA-256 `a690dcf9…`), with `corpus/derived/passages_v2.jsonl` unchanged at `9398b166…`. Only the timestamp field in `v2_run_summary.json` differs between runs, so the graph is rebuilt and its recorded input hashes re-checked after any rerun; the validators refuse a stale graph. Environment: Python 3.13.6, numpy 2.3.5, scipy 1.17.1, scikit-learn 1.9.0. All corpus files are read and written with `newline=""` so Windows line endings cannot perturb hashes.
-- Published hashes: v2 run — passages `9398b166…`, acquisition manifest `e102e7fe…`, source dependence `dc1cd84b…`, motif lexicon `8107160f…`, retrieval code `c6fb56c4…`. Structural run — annotations `472f9087…`, engine code `27f7a920…`, seed 20261031, 200 permutation draws. Published graph — narrative pair set `645d8d30…`, candidate set `a690dcf9…`. Each of these is recomputed by `tools/validate_results_v2.py` and by the freshness test in `tests/test_narrative_similarity.py`, so a document quoting a stale hash is contradicted by the suite rather than by a reader.
+- Determinism was re-tested in this session rather than asserted: re-running `tools/run_similarity_v2.py` reproduced `results/v2_candidate_pairs.jsonl` byte-for-byte (SHA-256 `a690dcf9…`), with `corpus/derived/passages_v2.jsonl` unchanged at `9398b166…`. Only the timestamp field in `v2_run_summary.json` differs between runs, so the graph is rebuilt and its recorded input hashes re-checked after any rerun; the validators refuse a stale graph. Environment: Python 3.13.6, numpy 2.3.5, scipy 1.17.1, scikit-learn 1.9.0. Line endings are now pinned rather than inherited: 24 text-mode writes across 11 tools used `open(..., "w")` or `write_text(...)` with no `newline` argument, which on Windows translated every emitted `\n` into `\r\n`. The published artifacts are the bytes that translation produced and `.gitattributes` stores them without conversion, so the recorded SHA-256 values describe CRLF files; on Linux the same commands would have written LF, changing the bytes of roughly two dozen artifacts and making every downstream freshness assertion report a stale input --- a reproducibility failure caused by the operating system rather than the data. Each writer now names the endings its published artifact already carries (CRLF where the published file is CRLF, `newline=""` where it is LF), corpus readers keep `newline=""` so the raw and clean offsets stay byte-exact, and `tests/test_pipeline.py::ToolWritePolicyTests` fails on any future text-mode write that leaves the choice to the platform. The pin records the status quo rather than moving a hash: after the change, re-running `tools/validate_annotations.py --write-to` reproduced the published `results/annotation_validation.json` byte-for-byte.
+- Published hashes: v2 run — passages `9398b166…`, acquisition manifest `2bdfa81f…`, source dependence `dc1cd84b…`, motif lexicon `8107160f…`, retrieval code `5201547e…`. Structural run — annotations `472f9087…`, engine code `a52a8673…`, seed 20261031, 200 permutation draws. Published graph — narrative pair set `645d8d30…`, candidate set `a690dcf9…`. Each of these is recomputed by `tools/validate_results_v2.py`, by the freshness test in `tests/test_narrative_similarity.py`, and by `tests/test_documented_hashes.py`, which reads every abbreviated digest printed in the six project documents and fails if one no longer matches the artifact it abbreviates, so a document quoting a stale hash is contradicted by the suite rather than by a reader. The two code digests moved because those tools' own sources changed when their output streams were pinned to a declared line ending, and the manifest digest moved because the rebuild stamped a new `generated_at_utc` and wrote the `partial_run` field the v2 retriever now emits -- which is why this one is re-pinned on every rebuild rather than settled once: an acquisition manifest is a receipt, and a receipt of a run on a later date has different bytes; a digest of a *tool* is a digest of its bytes, so this line is the record of a rebuild, not of a measurement.
 
 Two defects found by this suite are recorded in `config/annotated_versions.json` under `protocol_revisions`. A traceback direction error in the alignment code emitted invalid match lists and mislabelled which events were paired while leaving every published score correct, so it was invisible in the numbers until tested against a brute-force monotone enumeration. Separately, identical events were capped at 0.8 whenever an outcome yielded no lexical terms, conflating coding completeness with narrative difference; measurable parts are now renormalised. Neither correction changed a published pilot value (all 94 events carry coded outcomes and participants), and the run summary records that explicitly.
 
@@ -528,7 +570,7 @@ A third defect, in the divinity probe rather than the engine, was found by readi
 5. A calibrated inference layer only after 1–4; nothing in the present pipeline is authorised to produce one.
 6. Re-run the version-label permutation test with enough draws to resolve the correlation it currently cannot. p is computed as (1 + extremes)/(1 + draws), so 200 draws report a tail proportion of 12/200 = 0.060 whose own 95% Monte-Carlo interval is roughly 0.027–0.093; the test cannot distinguish "just below 0.05" from "comfortably above it", which is why the result is labelled exploratory rather than non-significant. More draws narrow the estimate without changing its interpretation, and until they do, no `RESEMBLES` promotion is admissible for any pair.
 7. A recall measurement for cleaning, i.e. a labelled set of narrative passages known to be legitimate, so that "the rules removed 67.5% of candidates" can be reported alongside what they removed in error.
-8. Track B (concept of divinity) was revised on 1 November 2026: the ten conflated grammars are superseded first by a seven-dimension frame and now, in v3, by the **twelve analytically distinct dimensions** of `config/divinity_ontology.json` — D1, the three-way split of plurality into D2a–c, D3–D6, and the four-way split of interpretation into D7a–d — coded one **proposition** at a time instead of one window. The probe's negative verdict about common ancestry is **withdrawn** — non-detection of an English pattern in a one-translation corpus is predicted by every competing model and therefore ranks none of them. What Track B still needs before any historical sentence is authorised: dated original-language attestations filled by specialists (`results/attestation_scaffold.csv` creates the fields and records that they are empty; `date_earliest`, `date_latest` and `dating_basis` are null in every record of the current run), a blinded second coding of the 6,199-proposition `results/annotation_packet_coder_view.csv` (4,699 flagged candidates plus 1,500 weighted no-record probes), which exists and has never been coded, scored by `tools/score_annotation.py`, and since 2 November 2026 also as a 300-proposition pilot slice whose sheet, codebook and instructions are generated files with published hashes (`tools/make_pilot_packet.py`, §7.3) that no reader has returned yet — and dependence closure to chain and editor level. The four competing models now have a likelihood layer (`tools/compare_models.py` with `config/model_comparison_v3.json`, 113 tests) whose decision rule is two published stages — a symmetric four-way competition judged by the leader over the runner-up, with `no_decisive_winner` reachable, and the separate inheritance-licence question — with a cluster holdout and pair/effective-sample floors derived by `--power` rather than asserted, and it prints `not_yet_testable` with the inputs it is missing; no model has been ranked. See `TRACK_B_METHOD_v2.md` and `RESEARCH_PROTOCOL.md` §12.4.
+8. Track B (concept of divinity) was revised on 1 November 2026: the ten conflated grammars are superseded first by a seven-dimension frame and now, in v3, by the **twelve analytically distinct dimensions** of `config/divinity_ontology.json` — D1, the three-way split of plurality into D2a–c, D3–D6, and the four-way split of interpretation into D7a–d — coded one **proposition** at a time instead of one window. The probe's negative verdict about common ancestry is **withdrawn** — non-detection of an English pattern in a one-translation corpus is predicted by every competing model and therefore ranks none of them. What Track B still needs before any historical sentence is authorised: dated original-language attestations filled by specialists (`results/attestation_scaffold.csv` creates the fields and records that they are empty; `date_earliest`, `date_latest` and `dating_basis` are null in every record of the current run), a blinded second coding of the 6,199-proposition `results/annotation_packet_coder_view.csv` (4,699 flagged candidates plus 1,500 weighted no-record probes), which exists and has never been coded, scored by `tools/score_annotation.py`, and since 2 November 2026 also as a 300-proposition pilot slice whose sheet, codebook and instructions are generated files with published hashes (`tools/make_pilot_packet.py`, §7.3) that no reader has returned yet — and dependence closure to chain and editor level. The four competing models now have a likelihood layer (`tools/compare_models.py` with `config/model_comparison_v3.json`, 116 tests) whose decision rule is two published stages — a symmetric four-way competition judged by the leader over the runner-up, with `no_decisive_winner` reachable, and the separate inheritance-licence question — with a cluster holdout and pair/effective-sample floors derived by `--power` rather than asserted, and it publishes `not_yet_testable` with the inputs it is missing in `results/track_b_verdict.json`, alongside the one M4 claim this corpus can score — the block-profile gate over its 1237 scored pairs, whose chance table's digest travels inside the same file; no model has been ranked. See `TRACK_B_METHOD_v2.md` and `RESEARCH_PROTOCOL.md` §12.4.
 
 9. A decision the anomaly scan forces but cannot make: either write detectors for `D7b`/`D7c`/`D7d` or retire them from the declared frame, and re-register which scale `attractor_block_profile_test` is authorised to read. Today the test reports `block_profile_verdict_depends_on_the_similarity_scale` and disqualifies nothing, which is honest but not a rule — the registered `minimum_block_spread` of 0.05 was written against raw similarity, while the corpus's own base rates are large enough that the same adjacency is a reversal on one scale and a tie on the other. Whichever scale is chosen has to be chosen before the next coding round, not after it.
 
@@ -550,7 +592,7 @@ The frozen 42-work baseline (`results/run_summary.json`, `results/model_comparis
 | Order claim | word-shuffle 0.6740 shown as a caveat | event alignment + preregistered permutation floor | order sensitivity measured and **fails** (0.0186 < 0.02); cause identified |
 | Schema | `expression.based_on_expression_id` self-reference, percent-scale `score` | `expression_dependency`, `work_family`, `comparison_class`, `evidence_assessment`; score whitelisted to the five descriptive `S_*` measures in `[0,1]`; separate `retrieval_score`, `retrieval_aggregate` and `statistical_test` tables; `event.passage_id` `NOT NULL` with a composite FK through `narrative_attestation` | a retrieval score or a permutation p-value can no longer be stored where a similarity would be read, and an event citation cannot point at a passage outside its own version |
 | Motive claim | assumed that "god" names one concept worldwide, so its recurrence would indicate one invention | v1 census of ten concept grammars, every match located; then an audit of every exclusivist-monotheism match and a twelve-dimension, proposition-level replacement of the frame | the assumption is under-specified, and v1's negative verdict about common ancestry is **withdrawn**: the audit showed the anthology volume's 9 hits were Qur'an reprints already counted under `quran_sale` and 2 more were substring collisions, while whitespace normalisation recovered 5 missed formulas including Isaiah 44:6 |
-| Verification | 6 unit tests, hash and offset checks | 372 tests + annotation validator + result/layer validator + freshness assertions + a real LaTeX compile | found two code defects, one measurement defect, one documentation defect and two locator defects (§7.1) |
+| Verification | 6 unit tests, hash and offset checks | 455 tests + annotation validator + result/layer validator + freshness assertions + every documented artifact digest recomputed + a real LaTeX compile | found two code defects, one measurement defect, one documentation defect and two locator defects (§7.1) |
 
 The revision's net research conclusion is narrower than the baseline's, which is the point: the baseline ranked "strongest parallels" that turned out to be editorial commentary quoting 1 Samuel, index pages, and shared editions. The revised pipeline reports those as dependence, refuses to score what it cannot measure, and publishes a failed preregistered gate instead of adjusting the gate.
 
@@ -559,10 +601,11 @@ The revision's net research conclusion is narrower than the baseline's, which is
 ```bash
 python -m pytest tests -q
 python tools/acquire_corpus.py
+python tools/verify_corpus_live.py --write-to results/corpus_live_verification.json
 python tools/build_passages_v2.py
 python tools/run_similarity_v2.py
 python tools/cleaning_ablation.py
-python tools/validate_annotations.py
+python tools/validate_annotations.py --write-to results/annotation_validation.json
 python tools/narrative_similarity.py --lexical
 python tools/build_relevance_graph.py
 python tools/validate_results_v2.py
@@ -574,11 +617,99 @@ python tools/validate_graph_recall.py
 python tools/build_attestation_scaffold.py
 python tools/check_recall_cues.py
 python tools/prepare_annotation_packet.py
+python tools/make_pilot_packet.py
 python tools/render_track_b_state.py
-python tools/compare_models.py
+python tools/scan_dimension_anomalies.py --write
+python tools/compare_models.py --corpus-pairs --write-to results/track_b_verdict.json
 python tools/compare_models.py --power
 python tools/validate_tex.py
 python tools/validate_tex.py --self-test
+python tools/compare_published_fingerprints.py --write-to results/fingerprint_diff.json
 ```
 
-Key outputs: `corpus/acquisition_manifest.json`, `corpus/derived/passages_v2.jsonl`, `results/v2_run_summary.json`, `results/v2_cleaning_ablation.json`, `results/v2_candidate_pairs.jsonl`, `results/v2_manual_review.json`, `results/narrative_component_pairs.jsonl`, `results/narrative_validation.json`, `results/narrative_run_summary.json`, `results/v2_relevance_graph.json`, `results/divinity_terms.json`, `results/exclusivist_monotheism_audit.json`, `results/ontology_attestations.jsonl.gz`, `results/ontology_passage_matrix.csv.gz`, `results/ontology_work_states.csv`, `results/ontology_run_summary.json`, `results/ontology_graph.json`, `results/ontology_passage_pairs.jsonl.gz`, `results/ontology_workpair_dimensions.csv`, `results/graph_recall_validation.json`, `results/attestation_scaffold.csv`, `config/recall_probe_cues.json`, `results/annotation_packet_coder_view.csv`, `results/annotation_packet_key.jsonl`, `results/annotation_sampling_plan.json`, `results/annotation_codebook.csv`, `results/track_b_state.html`, `results/model_power_simulation.json`, `results/dimension_anomalies.json`, `results/figures/*.svg`. `tools/compare_models.py` prints its `not_yet_testable` result to stdout and writes an artifact only with `--write-to`; `tools/compare_models.py --power` runs the declared grid and writes `results/model_power_simulation.json`, which is the file the pair and effective-sample gates are read from, and a run with any override stamps itself `SMOKE RUN` instead of overwriting the published artifact cleanly. `tools/score_annotation.py` is deliberately absent from this list, because it needs two coded sheets that do not exist yet and refuses to run without them, without a packet that carries no-record probe rows, and without a weight on every probe row. `tools/validate_tex.py` writes nothing at all: it prints a line-numbered structural report on `paper/main.tex` (environment nesting, per-row cell counts against the column spec, escapes, label and citation cross-checks, and whether every `\texttt{\_}` artifact name carries a breakpoint) and exits non-zero on any problem. Its `--self-test` mode exists because an unverified verifier is decoration: it injects ten defect classes — a short table row, an unclosed environment, a mismatched `\end`, a dropped brace, a dangling `\ref`, an orphaned `\bibitem`, an unbreakable typewriter underscore, and unescaped `_`, `#` and `$` — one at a time into an in-memory copy of the source and requires the matching check to fire, then re-runs the clean copy and requires zero problems. Current status: all ten fire, clean copy passes with 0 problems over 2064 lines. The earlier claim in this document that no LaTeX engine is installed was true when it was written and is not true now: MiKTeX 25.12 is installed in this environment (off `PATH`, at `C:/Users/tharu/AppData/Local/Programs/MiKTeX/miktex/bin/x64`), `paper/main.pdf` is compiled here, and `tests/test_tex_typesetting.py` runs that compiler as part of the suite, failing on any overfull box, undefined reference or length change between passes. The page count is therefore a measured property of this file rather than an expectation about it.
+Two tracked artifacts are deliberately outside that list. The commands above rebuild the
+v2 pipeline and everything the paper quotes; the frozen 42-work v1 baseline is rebuilt only
+by `python tools/run_similarity.py` (writing `results/run_summary.json`,
+`results/candidate_pairs.jsonl`, `results/motif_candidates.jsonl`,
+`results/top_pairs_for_review.csv`) and `python tools/compare_models.py --legacy-lexical`
+(writing `results/model_comparison.json`), and neither is run by the reproduction sequence
+because §12 exists to show the before-and-after difference against an unchanged baseline.
+`results/v2_manual_review.json` is in neither group: it records a human reading of nine
+discovery pairs, no tool writes it, and running the list above cannot regenerate it.
+
+Outputs, command by command. `tools/acquire_corpus.py` writes `corpus/acquisition_manifest.json` and the
+gitignored `corpus/raw/` text; `tools/verify_corpus_live.py --write-to` writes
+`results/corpus_live_verification.json`, the one step that reads the network instead of the local corpus: it
+re-downloads all 65 works and records per work whether the bytes still match the manifest, so external
+stability is published rather than assumed; `tools/build_passages_v2.py` writes the gitignored
+`corpus/derived/passages_v2.jsonl` and `corpus/derived/passages_v2_summary.json`;
+`tools/run_similarity_v2.py` writes `results/v2_run_summary.json`, `results/v2_candidate_pairs.jsonl`,
+`results/v2_discovery_pairs.jsonl`, `results/v2_motif_candidates.jsonl`, `results/v2_top_pairs_for_review.csv`;
+`tools/cleaning_ablation.py` writes `results/v2_cleaning_ablation.json` and
+`results/v2_unfiltered_candidate_pairs.jsonl`; `tools/validate_annotations.py --write-to` writes
+`results/annotation_validation.json`; `tools/narrative_similarity.py --lexical` writes
+`results/narrative_component_pairs.jsonl`, `results/narrative_component_pairs.csv`,
+`results/narrative_validation.json`, `results/narrative_run_summary.json` and the token cache
+`results/narrative_lexical_baseline.json`; `tools/build_relevance_graph.py` writes
+`results/v2_relevance_graph.json`, `results/v2_work_relevance.csv` and
+`results/v2_priority_cross_region_motifs.csv`; `tools/divinity_terms.py` writes `results/divinity_terms.json`;
+`tools/audit_exclusivist_matches.py` writes `results/exclusivist_monotheism_audit.json` and
+`results/exclusivist_monotheism_audit.csv`; `tools/divinity_ontology.py` writes
+`results/ontology_attestations.jsonl.gz`, `results/ontology_passage_matrix.csv.gz`,
+`results/ontology_work_states.csv` and `results/ontology_run_summary.json`; `tools/build_ontology_graph.py`
+writes `results/ontology_graph.json`, `results/ontology_passage_index.json.gz`,
+`results/ontology_passage_pairs.jsonl.gz`, `results/ontology_workpair_dimensions.csv`,
+`results/figures/assertion_states_by_dimension.svg`, `results/figures/speech_act_of_plurality_claims.svg` and
+`results/figures/work_by_dimension_states.svg`; `tools/validate_graph_recall.py` writes
+`results/graph_recall_validation.json`; `tools/build_attestation_scaffold.py` writes
+`results/attestation_scaffold.csv` and `results/attestation_scaffold_summary.json`;
+`tools/check_recall_cues.py` writes `config/recall_probe_cues.json`; `tools/prepare_annotation_packet.py`
+writes `results/annotation_packet_coder_view.csv`, `results/annotation_packet_key.jsonl`,
+`results/annotation_sampling_plan.json` and `results/annotation_codebook.csv`; `tools/make_pilot_packet.py`
+writes `results/pilot_slice.json` and `results/pilot_packet_coder_view.csv`; `tools/render_track_b_state.py`
+writes `results/track_b_state.html`; `tools/scan_dimension_anomalies.py --write` writes
+`results/dimension_anomalies.json`; `tools/compare_models.py --corpus-pairs --write-to` writes
+`results/track_b_verdict.json`, the verdict the methodology quotes -- a refusal to rank, and the M4
+block-profile gate over the corpus's own 1237 scored pairs, with the SHA-256 of the chance table it read
+embedded beside it; and
+`tools/compare_models.py --power` writes `results/model_power_simulation.json`; `tools/compare_published_fingerprints.py --write-to` writes `results/fingerprint_diff.json`, the report that says which bytes moved when the whole list was re-run. `tests/test_pipeline.py` reads this paragraph back and fails if a file
+appears in `results/` without being named here, or is named here without appearing in the source of a command
+printed above; it checks that the command knows the name, not the direction of the write, which is what the
+prose claims.
+ `tools/compare_models.py` prints to stdout unless `--write-to` names a file, except that `--corpus-pairs` writes `results/track_b_verdict.json` by default, because the reading that flag computes is a published measurement and a measurement that exists only on a terminal is not published; the sequence also names the path, so the flag's default and the document agree. That verdict is where the digest of the chance table it read is kept, which is the second reason the sequence has to run the scan with `--write` first: a gate that reads a chance table no command wrote is a gate whose number cannot be traced to an artifact. `tools/compare_models.py --power` runs the declared grid and writes `results/model_power_simulation.json`, which is the file the pair and effective-sample gates are read from, and a run with any override stamps itself `SMOKE RUN` instead of overwriting the published artifact cleanly. `tools/score_annotation.py` is deliberately absent from this list, because it needs two coded sheets that do not exist yet and refuses to run without them, without a packet that carries no-record probe rows, and without a weight on every probe row. `tools/validate_tex.py` writes nothing at all: it prints a line-numbered structural report on `paper/main.tex` (environment nesting, per-row cell counts against the column spec, escapes, label and citation cross-checks, and whether every `\texttt{\_}` artifact name carries a breakpoint) and exits non-zero on any problem. Its `--self-test` mode exists because an unverified verifier is decoration: it injects ten defect classes — a short table row, an unclosed environment, a mismatched `\end`, a dropped brace, a dangling `\ref`, an orphaned `\bibitem`, an unbreakable typewriter underscore, and unescaped `_`, `#` and `$` — one at a time into an in-memory copy of the source and requires the matching check to fire, then re-runs the clean copy and requires zero problems. Current status: all ten fire, clean copy passes with 0 problems over 2253 lines. The earlier claim in this document that no LaTeX engine is installed was true when it was written and is not true now: MiKTeX 25.12 is installed in this environment (off `PATH`, at `C:/Users/tharu/AppData/Local/Programs/MiKTeX/miktex/bin/x64`), `paper/main.pdf` is compiled here, and `tests/test_tex_typesetting.py` runs that compiler as part of the suite, failing on any overfull box, undefined reference or length change between passes. The page count is therefore a measured property of this file rather than an expectation about it.
+
+Re-running the list end to end was measured rather than asserted. On 3 November 2026 the 26 commands above ran
+from the pytest step to this report's own. The 25 pipeline steps all exited zero in 2,873.3 s, the heaviest
+being segmentation at 800.3 s, the live re-download at 679.6 s, the state coder at 381.8 s, the similarity
+engine at 322.9 s and the cleaning ablation at 220.6 s; the whole list, suite included, took 3,203.2 s. The
+suite step exited 1, and it is worth saying what for, because it is the failure this section exists to catch:
+seven assertions in `tests/test_documented_counts.py` and `tests/test_tex_typesetting.py` refused figures the
+documents were still carrying from before this round: the collector counts 455 where the prose said 441,
+`tests/test_dimension_anomalies.py` collects 51 where §7.2 said 40, `tests/test_pipeline.py` collects 45 where
+the breakdown said 43, `tests/test_documented_hashes.py` collects 12 where it said 11, `tools/validate_tex.py`
+prints 2,253 lines where this report quoted 2,228, and the paper that claimed 42 pages now sets to 43.
+No artifact was involved and no measurement moved: the suite had grown, and the prose had not followed. Each
+figure was re-pinned from the collector or the compiler rather than retyped, and the step now exits 0 with
+**455 passed, plus 7 subtests**. After the run `tools/compare_published_fingerprints.py --write-to` classified
+the result against the commit the paper was built on: 63 files compared -- 50 artifacts byte-identical, 7 changed in stamps only, 0 removed,
+0 unclassifiable, 3 added and 3 whose measured content moved. The three added are new
+artifact sets from this round, not moved measurements: `results/annotation_validation.json`,
+`results/corpus_live_verification.json` and `results/track_b_verdict.json`. Those three measured changes are
+named because a claim that nothing moved would be false, and each has a different reason.
+`results/dimension_anomalies.json` grew from 118,588 to 163,915 bytes for two reasons at once: it gained the
+`chance_band_diagnostics` section §7.2 describes, which is new measured content by design, and its scored-graph
+chance lines moved because they are now drawn over the 1,237 pairs the observed mean was measured on instead
+of over every pair of the works carrying the dimension. The second is a correction, not a drift, so its size
+is published rather than described: no chance line moves by more than `0.00982` against a band of `0.05`, and
+2 of the 18 scored band verdicts change, both `D6_temporal_nature`. `tools/scan_dimension_anomalies.py` also
+keeps the per-replicate means it used to average away, and `tests/test_dimension_anomalies.py` requires the
+retained means to average back to the published line.
+`results/track_b_state.html` now prints the corrected no-record universe and probe weights of §8 (992,144
+propositions, `π=0.000952549286` and `π=0.012682040118`): the committed page was stale against the committed
+`results/annotation_sampling_plan.json`, which already said 992,144 while the page still rendered 991,703, so
+this is a documentation defect the rebuild corrected rather than a measurement that moved, and the
+byte-for-byte re-render assertion in `tests/test_divinity_ontology.py` is what keeps the two from parting
+again. `results/ontology_run_summary.json` separates the propositions the over-length rule ran on (59) from
+the records it flagged on them (97), which is the double-count §8 records as fixed. Moving no other
+measurement is what determinism means here; it is not evidence that the instruments measure what they claim,
+and `results/fingerprint_diff.json` says so in its own `what_this_does_not_establish` field.

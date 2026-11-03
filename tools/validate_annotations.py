@@ -2,7 +2,11 @@
 
 This is the audit's requirement that an annotation store the exact passage supporting it,
 not merely a label. Run: python tools/validate_annotations.py
+Add --write-to PATH to publish the report as an artifact: the paper quotes the fragment count,
+and a count that only ever reaches a terminal cannot be re-verified by anyone who clones the tree.
 """
+import argparse
+import hashlib
 import json
 import re
 import sys
@@ -39,7 +43,11 @@ def load_passages():
     return passages
 
 
-def main():
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--write-to", help="publish the report as a JSON artifact at this path")
+    args = parser.parse_args(argv)
+
     annotation = json.loads(ANNOTATIONS.read_text(encoding="utf-8"))
     passages = load_passages()
     manual = annotation["coding_manual"]
@@ -139,18 +147,44 @@ def main():
         errors.append("unexpected expectation group")
 
     report = {
+        "produced_by": "python tools/validate_annotations.py --write-to results/annotation_validation.json",
         "annotation_set_version": annotation["annotation_set_version"],
+        "inputs": {
+            "annotations": "config/annotated_versions.json",
+            "annotations_sha256": hashlib.sha256(ANNOTATIONS.read_bytes()).hexdigest(),
+            "passages": "corpus/derived/passages_v2.jsonl",
+            "passages_sha256": hashlib.sha256(PASSAGES.read_bytes()).hexdigest() if PASSAGES.exists() else None,
+        },
         "versions": len(versions),
         "events": sum(len(version["events"]) for version in versions),
+        "participant_role_assertions": sum(len(event["participants"]) for version in versions
+                                           for event in version["events"]),
         "causal_links": sum(len(version.get("causal_links", [])) for version in versions),
         "motif_assertions": sum(len(version["motifs"]) for version in versions),
+        "motif_registry_size": len(motifs),
+        "symbol_assertions": sum(len(version.get("symbols", [])) for version in versions),
         "vocabulary_predicates": len(family_members),
+        "attestation_completeness": {
+            "full": sum(1 for version in versions if version["attestation_completeness"] == "full"),
+            "partial": sum(1 for version in versions if version["attestation_completeness"] == "partial"),
+        },
         "quote_fragments_checked": quote_checks,
         "errors": errors,
         "warnings": warnings,
         "status": "passed" if not errors else "failed",
+        "interpretation": ("Vocabulary legality and quote verifiability only. A passed status means every quoted "
+                           "fragment appears in the passage it cites; it does not mean the coding is right, and "
+                           "no version here is independently annotated."),
     }
-    print(json.dumps(report, indent=2))
+    text = json.dumps(report, indent=2, ensure_ascii=False)
+    if args.write_to:
+        target = Path(args.write_to)
+        if not target.is_absolute():
+            target = ROOT / target
+        target.write_text(text + "\n", encoding="utf-8", newline="\r\n")
+        print(f"wrote {target.relative_to(ROOT)}")
+    else:
+        print(text)
     return 0 if not errors else 1
 
 

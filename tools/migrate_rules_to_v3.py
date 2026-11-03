@@ -534,8 +534,8 @@ def main():
     old_ontology = json.loads(ONTOLOGY.read_text(encoding="utf-8"))
     new_rules = migrate_rules(old_rules)
     new_ontology = migrate_ontology(old_ontology, old_rules, new_rules)
-    RULES.write_text(json.dumps(new_rules, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    ONTOLOGY.write_text(json.dumps(new_ontology, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    RULES.write_text(json.dumps(new_rules, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\r\n")
+    ONTOLOGY.write_text(json.dumps(new_ontology, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\r\n")
     print("migrated both configs to the twelve-dimension frame")
     detector_total = 0
     for key, spec in new_rules["dimensions"].items():

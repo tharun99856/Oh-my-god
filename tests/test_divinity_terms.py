@@ -27,9 +27,17 @@ class DivinityTermsProbeTests(unittest.TestCase):
         if not (ROOT / "results/divinity_terms.json").exists():
             raise unittest.SkipTest("the probe has not been run yet")
         cls.result = published()
-        cls.passages = {json.loads(line)["passage_id"]: json.loads(line)
-                        for line in (ROOT / "corpus/derived/passages_v2.jsonl")
-                        .read_text(encoding="utf-8").splitlines()}
+        cls.passages = {}
+        passage_path = ROOT / "corpus/derived/passages_v2.jsonl"
+        if passage_path.exists():
+            for line in passage_path.read_text(encoding="utf-8").splitlines():
+                record = json.loads(line)
+                cls.passages[record["passage_id"]] = record
+
+    def require_corpus(self):
+        if not self.passages:
+            self.skipTest("corpus/derived/passages_v2.jsonl is gitignored and absent here; run "
+                          "python tools/build_passages_v2.py before checking that a match lands on real text")
 
     def all_records(self):
         for family in self.result["families"].values():
@@ -42,6 +50,7 @@ class DivinityTermsProbeTests(unittest.TestCase):
                 yield record
 
     def test_every_record_points_at_the_term_it_reports(self):
+        self.require_corpus()
         for record in self.all_records():
             passage = self.passages[record["passage_id"]]
             self.assertTrue(passage["eligible_for_similarity"],
@@ -65,6 +74,21 @@ class DivinityTermsProbeTests(unittest.TestCase):
         joined = " ".join(self.result["cannot_support"])
         for boundary in ("monolingual", "existence or non-existence", "dated"):
             self.assertIn(boundary, joined)
+
+    def test_the_work_census_the_paper_quotes_is_the_distribution_it_published(self):
+        """Section 6.2 says sixty-one of the 65 works carry at least one grammar, four carry none, and the count
+        per work runs from one to eight. Each of those is a read of the published distribution, so none of them
+        can be quietly invalidated by a lexicon edit."""
+        test = self.result["one_concept_test"]
+        distribution = {int(k): v for k, v in test["works_by_number_of_families_present"].items()}
+        works_in_index = self.result["corpus"]["works_in_passage_index"]
+        carrying = sum(distribution.values())
+        self.assertEqual(carrying, 61)
+        self.assertEqual(works_in_index, 65)
+        self.assertEqual(works_in_index - carrying, 4)
+        self.assertEqual(min(distribution), 1)
+        self.assertEqual(max(distribution), test["max_families_in_a_single_work"])
+        self.assertEqual(test["families_attested_in_every_work"], [])
 
     def test_no_family_is_allowed_to_look_like_a_universality_proof(self):
         """The verdict must follow from attestation, and an empty universal set must say so plainly."""
@@ -91,12 +115,14 @@ class DivinityTermsProbeTests(unittest.TestCase):
         self.assertLess(oneness["term_hits"], families["plural_or_council_deities"]["term_hits"])
 
     def test_published_output_is_fresh_relative_to_the_corpus_and_the_probe_code(self):
-        self.assertEqual(self.result["reproducibility"]["passages_sha256"],
-                         hashlib.sha256((ROOT / "corpus/derived/passages_v2.jsonl").read_bytes()).hexdigest())
         self.assertEqual(self.result["reproducibility"]["code_sha256"],
                          hashlib.sha256(Path(divinity_terms.__file__).read_bytes()).hexdigest())
+        self.require_corpus()
+        self.assertEqual(self.result["reproducibility"]["passages_sha256"],
+                         hashlib.sha256((ROOT / "corpus/derived/passages_v2.jsonl").read_bytes()).hexdigest())
 
     def test_rerunning_the_probe_reproduces_the_published_bytes(self):
+        self.require_corpus()
         self.assertEqual(json.dumps(divinity_terms.build(), indent=2, ensure_ascii=False) + "\n",
                          (ROOT / "results/divinity_terms.json").read_text(encoding="utf-8", newline=""))
 

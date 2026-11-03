@@ -11,7 +11,7 @@
   ],
   "consequence_for_track_b": "TRACK_B_METHOD_v2.md section 6 score (v) dated-first-attestation ordering cannot be computed until this file's composition and witness columns are filled by specialists; the scaffold exists so that 'not yet filled' is a recorded state rather than an invisible assumption",
   "reproducibility": {
-    "manifest_sha256": "e102e7fe34df1a01b938bc8307396c725d31acbfb4e10ff7418e328342df08af",
+    "manifest_sha256": "2bdfa81f12b0e5d955e995bc01deda9a821da55a8e61e3a97527c846f26465be",
     "code_sha256": "d766141cfe4885e960eca1dbc0996c4c532ddda27a95b4735b87f1da587bab6d"
   }
 }

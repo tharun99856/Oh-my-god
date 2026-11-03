@@ -35,7 +35,8 @@
     "D2a_acknowledged_population": 2,
     "D7a_speaker_attribution": 3
   },
-  "propositions_flagged_run_on": 97,
+  "propositions_flagged_run_on": 59,
+  "records_on_flagged_propositions": 97,
   "matched_propositions_per_passage": {
     "0": 9202,
     "1": 5703,
@@ -122,7 +123,7 @@
     "rules_sha256": "7ea77765175ca85cfba7e7672748ff7c9836eba552343b4fac07230459445a10",
     "ontology_sha256": "a828d8759e90cc0db5cdc661d216d07c63a52695c981a374909a0e919732c841",
     "lexicon_sha256": "9ae41082a7cbd27f533f979040da7276abbb816c610ea5dc2568522c43ce9464",
-    "code_sha256": "ebffe02235a8a28df22ee0ab4b484071894bb2fe4be47fd685923802fd13bf2d",
+    "code_sha256": "b88b4d98f1dc95cb3fe69fee6efcb9fdeee434fe83120041ba250693f1d64b49",
     "randomness": "none: sorted iteration, no sampling, no fitted parameters",
     "python": "3.13.6"
   }

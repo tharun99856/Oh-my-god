@@ -609,7 +609,13 @@ def write_outputs(result):
                    "inferred.",
         },
         "single_value_conflicts": dict(sorted(result["conflicts"].items())),
-        "propositions_flagged_run_on": sum(1 for r in records if r["proposition_overlong"]),
+        # The overlong flag is a property of a proposition, but a proposition writes one record per asserted
+        # value, so counting flagged records counts the same proposition several times. The unit key is the one
+        # the annotation packet uses -- (work, passage, proposition start) -- so the two instruments cannot
+        # drift into meaning "proposition" differently.
+        "propositions_flagged_run_on": len({(r["work_id"], r["passage_id"], r["proposition_char_start"])
+                                            for r in records if r["proposition_overlong"]}),
+        "records_on_flagged_propositions": sum(1 for r in records if r["proposition_overlong"]),
         "matched_propositions_per_passage": {str(k): v for k, v in sorted(result["proposition_counts"].items())},
         "dimension_coverage": result["coverage"],
         "dimension_cardinality": result["cardinality"],

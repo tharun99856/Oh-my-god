@@ -910,7 +910,7 @@ def main():
     if arguments.lexical:
         lexical = lexical_baseline(context)
         RESULTS.mkdir(exist_ok=True)
-        LEXICAL_CACHE.write_text(json.dumps(lexical, indent=2), encoding="utf-8")
+        LEXICAL_CACHE.write_text(json.dumps(lexical, indent=2), encoding="utf-8", newline="\r\n")
     elif LEXICAL_CACHE.exists():
         lexical = json.loads(LEXICAL_CACHE.read_text(encoding="utf-8"))
     if lexical:
@@ -947,7 +947,7 @@ def main():
             writer.writerow(flat)
 
     validation = build_validation(rows, context, lexical)
-    (RESULTS / "narrative_validation.json").write_text(json.dumps(validation, indent=2), encoding="utf-8")
+    (RESULTS / "narrative_validation.json").write_text(json.dumps(validation, indent=2), encoding="utf-8", newline="\r\n")
 
     summary = {
         "engine": "narrative_similarity",
@@ -970,7 +970,7 @@ def main():
         "headline": validation["headline"],
         "interpretation": "Component vectors only. No composite percentage is produced, and no edge here asserts common descent, borrowing or influence.",
     }
-    (RESULTS / "narrative_run_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (RESULTS / "narrative_run_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8", newline="\r\n")
     print(json.dumps(summary, indent=2))
 
 

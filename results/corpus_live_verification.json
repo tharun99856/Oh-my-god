@@ -1,0 +1,733 @@
+{
+  "produced_by": "python tools/verify_corpus_live.py --write-to results/corpus_live_verification.json",
+  "verified_at_utc": "2026-11-03T12:30:37.481187+00:00",
+  "manifest_sha256": "2bdfa81f12b0e5d955e995bc01deda9a821da55a8e61e3a97527c846f26465be",
+  "works_checked": 65,
+  "tally": {
+    "drifted": 2,
+    "match": 63
+  },
+  "drifted": [
+    "odyssey",
+    "australian_legendary_tales"
+  ],
+  "works": [
+    {
+      "work_id": "kjv_bible",
+      "gutenberg_id": "10",
+      "source_url": "https://www.gutenberg.org/cache/epub/10/pg10.txt",
+      "acquired_sha256": "0204adaed1f25700aa854218cae63c7172228c41088f335e99167a071eed83c0",
+      "acquired_bytes": 4455950,
+      "live_sha256": "0204adaed1f25700aa854218cae63c7172228c41088f335e99167a071eed83c0",
+      "live_bytes": 4455950,
+      "status": "match"
+    },
+    {
+      "work_id": "quran_sale",
+      "gutenberg_id": "2800",
+      "source_url": "https://www.gutenberg.org/cache/epub/2800/pg2800.txt",
+      "acquired_sha256": "c4136a760d8350ba5f7911ba3e8cfe0a04b8d4933cd7402c7b7ef84884111f4d",
+      "acquired_bytes": 1145272,
+      "live_sha256": "c4136a760d8350ba5f7911ba3e8cfe0a04b8d4933cd7402c7b7ef84884111f4d",
+      "live_bytes": 1145272,
+      "status": "match"
+    },
+    {
+      "work_id": "book_of_mormon",
+      "gutenberg_id": "17",
+      "source_url": "https://www.gutenberg.org/cache/epub/17/pg17.txt",
+      "acquired_sha256": "ac4bbea7d6f19905cf10d21465e0f491a41e2dd3cc2a64e9ee622b1f4a7a6882",
+      "acquired_bytes": 1518918,
+      "live_sha256": "ac4bbea7d6f19905cf10d21465e0f491a41e2dd3cc2a64e9ee622b1f4a7a6882",
+      "live_bytes": 1518918,
+      "status": "match"
+    },
+    {
+      "work_id": "book_of_enoch",
+      "gutenberg_id": "77815",
+      "source_url": "https://www.gutenberg.org/cache/epub/77815/pg77815.txt",
+      "acquired_sha256": "74f3fe02076640b8f2c7bf993601324e77da097b464700b2c520844a476a71a3",
+      "acquired_bytes": 313080,
+      "live_sha256": "74f3fe02076640b8f2c7bf993601324e77da097b464700b2c520844a476a71a3",
+      "live_bytes": 313080,
+      "status": "match"
+    },
+    {
+      "work_id": "legends_of_the_jews_v1",
+      "gutenberg_id": "1493",
+      "source_url": "https://www.gutenberg.org/cache/epub/1493/pg1493.txt",
+      "acquired_sha256": "ad08579548a3800fed01f6fb4b526a476c840a790afa71a37a23bbec4d773c41",
+      "acquired_bytes": 726918,
+      "live_sha256": "ad08579548a3800fed01f6fb4b526a476c840a790afa71a37a23bbec4d773c41",
+      "live_bytes": 726918,
+      "status": "match"
+    },
+    {
+      "work_id": "bhagavad_gita_arnold",
+      "gutenberg_id": "2388",
+      "source_url": "https://www.gutenberg.org/cache/epub/2388/pg2388.txt",
+      "acquired_sha256": "85b22401a9d256179f9a2e407215eb516da9b8213f23c32e03d66709d839a9e0",
+      "acquired_bytes": 147501,
+      "live_sha256": "85b22401a9d256179f9a2e407215eb516da9b8213f23c32e03d66709d839a9e0",
+      "live_bytes": 147501,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_v1",
+      "gutenberg_id": "15474",
+      "source_url": "https://www.gutenberg.org/cache/epub/15474/pg15474.txt",
+      "acquired_sha256": "6936769ca526bc5486335940958f43d036414d2fd29dcc17259610fa95b66b75",
+      "acquired_bytes": 3779923,
+      "live_sha256": "6936769ca526bc5486335940958f43d036414d2fd29dcc17259610fa95b66b75",
+      "live_bytes": 3779923,
+      "status": "match"
+    },
+    {
+      "work_id": "ramayana_griffith",
+      "gutenberg_id": "24869",
+      "source_url": "https://www.gutenberg.org/cache/epub/24869/pg24869.txt",
+      "acquired_sha256": "4310b710a9c6942490bf8270a8a6620f314dcc2adf7b413833596ca9aaebca6f",
+      "acquired_bytes": 2395956,
+      "live_sha256": "4310b710a9c6942490bf8270a8a6620f314dcc2adf7b413833596ca9aaebca6f",
+      "live_bytes": 2395956,
+      "status": "match"
+    },
+    {
+      "work_id": "upanishads_mead",
+      "gutenberg_id": "3283",
+      "source_url": "https://www.gutenberg.org/cache/epub/3283/pg3283.txt",
+      "acquired_sha256": "2ffc941173d8fd10c16eea7bfb4ab2ace13cf9e734228c71f367402f9236aa46",
+      "acquired_bytes": 125461,
+      "live_sha256": "2ffc941173d8fd10c16eea7bfb4ab2ace13cf9e734228c71f367402f9236aa46",
+      "live_bytes": 125461,
+      "status": "match"
+    },
+    {
+      "work_id": "dhammapada_muller",
+      "gutenberg_id": "2017",
+      "source_url": "https://www.gutenberg.org/cache/epub/2017/pg2017.txt",
+      "acquired_sha256": "f2d09ebf28af0bf87ae7be7635d485b142e6526cb2cc164ba01c74586ff547bb",
+      "acquired_bytes": 88619,
+      "live_sha256": "f2d09ebf28af0bf87ae7be7635d485b142e6526cb2cc164ba01c74586ff547bb",
+      "live_bytes": 88619,
+      "status": "match"
+    },
+    {
+      "work_id": "jataka_v1",
+      "gutenberg_id": "51880",
+      "source_url": "https://www.gutenberg.org/cache/epub/51880/pg51880.txt",
+      "acquired_sha256": "3b4a869f6c29d097f3a4d02afd54ae871e352866ccc6a865f6bb5ca954f4b4fd",
+      "acquired_bytes": 812766,
+      "live_sha256": "3b4a869f6c29d097f3a4d02afd54ae871e352866ccc6a865f6bb5ca954f4b4fd",
+      "live_bytes": 812766,
+      "status": "match"
+    },
+    {
+      "work_id": "sacred_books_east",
+      "gutenberg_id": "12894",
+      "source_url": "https://www.gutenberg.org/cache/epub/12894/pg12894.txt",
+      "acquired_sha256": "7e2a7bb1a9d1d1047c8a96904d2929369cfb249da9f89042cd458899f4b5a64b",
+      "acquired_bytes": 1048522,
+      "live_sha256": "7e2a7bb1a9d1d1047c8a96904d2929369cfb249da9f89042cd458899f4b5a64b",
+      "live_bytes": 1048522,
+      "status": "match"
+    },
+    {
+      "work_id": "younger_edda",
+      "gutenberg_id": "18947",
+      "source_url": "https://www.gutenberg.org/cache/epub/18947/pg18947.txt",
+      "acquired_sha256": "2a0cec457e5dc1fe669f76fbf278e1921b8d7dedc8cb92bfd2bca8b5b57f108f",
+      "acquired_bytes": 407617,
+      "live_sha256": "2a0cec457e5dc1fe669f76fbf278e1921b8d7dedc8cb92bfd2bca8b5b57f108f",
+      "live_bytes": 407617,
+      "status": "match"
+    },
+    {
+      "work_id": "poetic_edda_bellows",
+      "gutenberg_id": "73533",
+      "source_url": "https://www.gutenberg.org/cache/epub/73533/pg73533.txt",
+      "acquired_sha256": "be983f2e4f2f97a57bb72095354eb9574bb656d185f16ce460efc7da2574438b",
+      "acquired_bytes": 977828,
+      "live_sha256": "be983f2e4f2f97a57bb72095354eb9574bb656d185f16ce460efc7da2574438b",
+      "live_bytes": 977828,
+      "status": "match"
+    },
+    {
+      "work_id": "volsunga_saga",
+      "gutenberg_id": "1152",
+      "source_url": "https://www.gutenberg.org/cache/epub/1152/pg1152.txt",
+      "acquired_sha256": "5835bf98c61099120ec4d064a0f8fb96367959dc5700938424721a18c5d13fa9",
+      "acquired_bytes": 350775,
+      "live_sha256": "5835bf98c61099120ec4d064a0f8fb96367959dc5700938424721a18c5d13fa9",
+      "live_bytes": 350775,
+      "status": "match"
+    },
+    {
+      "work_id": "beowulf",
+      "gutenberg_id": "16328",
+      "source_url": "https://www.gutenberg.org/cache/epub/16328/pg16328.txt",
+      "acquired_sha256": "8909085dc48daf123d29c40ecbb3837b16ba7f96bf0cbb9fe72de133a2d35348",
+      "acquired_bytes": 300462,
+      "live_sha256": "8909085dc48daf123d29c40ecbb3837b16ba7f96bf0cbb9fe72de133a2d35348",
+      "live_bytes": 300462,
+      "status": "match"
+    },
+    {
+      "work_id": "kalevala",
+      "gutenberg_id": "5186",
+      "source_url": "https://www.gutenberg.org/cache/epub/5186/pg5186.txt",
+      "acquired_sha256": "e98322160b0161120f0d0ceda251ca7f12a38915d33db6d9517734f4489d6017",
+      "acquired_bytes": 870311,
+      "live_sha256": "e98322160b0161120f0d0ceda251ca7f12a38915d33db6d9517734f4489d6017",
+      "live_bytes": 870311,
+      "status": "match"
+    },
+    {
+      "work_id": "mabinogion",
+      "gutenberg_id": "5160",
+      "source_url": "https://www.gutenberg.org/cache/epub/5160/pg5160.txt",
+      "acquired_sha256": "e177d7c2ff357bc5e3f506c7131d158d8b8f5e05883110bdf495f0d9d7f49886",
+      "acquired_bytes": 617553,
+      "live_sha256": "e177d7c2ff357bc5e3f506c7131d158d8b8f5e05883110bdf495f0d9d7f49886",
+      "live_bytes": 617553,
+      "status": "match"
+    },
+    {
+      "work_id": "hesiod_homerica",
+      "gutenberg_id": "348",
+      "source_url": "https://www.gutenberg.org/cache/epub/348/pg348.txt",
+      "acquired_sha256": "ba394b58b5c57fd137af888a20abf3d1c3515c273b0f29da4778484bb15349f2",
+      "acquired_bytes": 547932,
+      "live_sha256": "ba394b58b5c57fd137af888a20abf3d1c3515c273b0f29da4778484bb15349f2",
+      "live_bytes": 547932,
+      "status": "match"
+    },
+    {
+      "work_id": "iliad",
+      "gutenberg_id": "6130",
+      "source_url": "https://www.gutenberg.org/cache/epub/6130/pg6130.txt",
+      "acquired_sha256": "ca4f23115b384b0219427ef208e875f0351820b8f80f28259272997ea581c36b",
+      "acquired_bytes": 1161373,
+      "live_sha256": "ca4f23115b384b0219427ef208e875f0351820b8f80f28259272997ea581c36b",
+      "live_bytes": 1161373,
+      "status": "match"
+    },
+    {
+      "work_id": "odyssey",
+      "gutenberg_id": "1727",
+      "source_url": "https://www.gutenberg.org/cache/epub/1727/pg1727.txt",
+      "acquired_sha256": "ffbdb29c3dda284b65c11243db1a98167826a70c81bca2ed4b6232f86c905fb9",
+      "acquired_bytes": 717784,
+      "live_sha256": "b167ce5e348bf805dfe4355dff2eae5c2e522b11cce003a6f98bb65a753bbc69",
+      "live_bytes": 717782,
+      "status": "drifted",
+      "difference": {
+        "differing_bytes_in_common_prefix": 685258,
+        "first_differing_offset": 664,
+        "last_differing_offset": 717777,
+        "length_change": -2,
+        "acquired_snippet": "Release date: April 1, 1999 [eBook #1727]\r\n                Most recently updated: December 2, 2023\r\n\r\nLanguage: English\r\n\r\nOther information and formats: www.gutenberg.org/",
+        "live_snippet": "Release date: April 1, 1999 [eBook #1727]\r\n                Most recently updated: November 2, 2026\r\n\r\nLanguage: English\r\n\r\nOther information and formats: www.gutenberg.org/",
+        "differing_line_blocks": 4,
+        "acquired_lines": 12246,
+        "live_lines": 12244,
+        "line_differences": [
+          {
+            "edit": "replace",
+            "acquired_line": 20,
+            "acquired_text": "                Most recently updated: December 2, 2023",
+            "live_line": 20,
+            "live_text": "                Most recently updated: November 2, 2026"
+          },
+          {
+            "edit": "replace",
+            "acquired_line": 280,
+            "acquired_text": "Leipsic Teubner edition of 894 makes Books ii. and iii. end with a",
+            "live_line": 280,
+            "live_text": "Leipsic Teubner edition of 1894 makes Books ii. and iii. end with a"
+          },
+          {
+            "edit": "replace",
+            "acquired_line": 1567,
+            "acquired_text": "when the man struck up with his tune.38",
+            "live_line": 1567,
+            "live_text": "when the man struck up with his tune.]38"
+          },
+          {
+            "edit": "delete",
+            "acquired_line": 11894,
+            "acquired_text": " / ",
+            "live_line": 11894,
+            "live_text": ""
+          }
+        ],
+        "line_characterisation": "the two copies align to 4 separate edit(s) once compared line by line instead of byte by byte",
+        "explanation": "the two copies differ at 685258 byte positions, which is the arithmetic of a shift rather than 685258 edits: realigned line by line they differ at 4 block(s), and the file's length changed by 2 byte(s)"
+      }
+    },
+    {
+      "work_id": "babylonian_creation",
+      "gutenberg_id": "9914",
+      "source_url": "https://www.gutenberg.org/cache/epub/9914/pg9914.txt",
+      "acquired_sha256": "59e0178388b929a7f0c3fd6cb291e32c39b6e957c5c3a12f6c10c2db4303bc5b",
+      "acquired_bytes": 129487,
+      "live_sha256": "59e0178388b929a7f0c3fd6cb291e32c39b6e957c5c3a12f6c10c2db4303bc5b",
+      "live_bytes": 129487,
+      "status": "match"
+    },
+    {
+      "work_id": "chaldean_genesis",
+      "gutenberg_id": "60559",
+      "source_url": "https://www.gutenberg.org/cache/epub/60559/pg60559.txt",
+      "acquired_sha256": "695bfc5e21106d4f15fb4fde43a04f756cd9dc7968db10792b04c5fc0b5674b5",
+      "acquired_bytes": 484780,
+      "live_sha256": "695bfc5e21106d4f15fb4fde43a04f756cd9dc7968db10792b04c5fc0b5674b5",
+      "live_bytes": 484780,
+      "status": "match"
+    },
+    {
+      "work_id": "popol_vuh",
+      "gutenberg_id": "56550",
+      "source_url": "https://www.gutenberg.org/cache/epub/56550/pg56550.txt",
+      "acquired_sha256": "df3b950183c3d1370dd4f055cfb60184f46977801b52765e6ad0b4cd2964694e",
+      "acquired_bytes": 96786,
+      "live_sha256": "df3b950183c3d1370dd4f055cfb60184f46977801b52765e6ad0b4cd2964694e",
+      "live_bytes": 96786,
+      "status": "match"
+    },
+    {
+      "work_id": "myths_mexico_peru",
+      "gutenberg_id": "53080",
+      "source_url": "https://www.gutenberg.org/cache/epub/53080/pg53080.txt",
+      "acquired_sha256": "57b2122eb27a656e5982e54ae8883b8a0a0d9edc5fc022a64df2b3a6beb273e8",
+      "acquired_bytes": 680550,
+      "live_sha256": "57b2122eb27a656e5982e54ae8883b8a0a0d9edc5fc022a64df2b3a6beb273e8",
+      "live_bytes": 680550,
+      "status": "match"
+    },
+    {
+      "work_id": "north_american_oral_legends",
+      "gutenberg_id": "21620",
+      "source_url": "https://www.gutenberg.org/cache/epub/21620/pg21620.txt",
+      "acquired_sha256": "c091495556e761aa758e271a54fb221aff7ad68cebd05ad163370ce6723954e3",
+      "acquired_bytes": 549775,
+      "live_sha256": "c091495556e761aa758e271a54fb221aff7ad68cebd05ad163370ce6723954e3",
+      "live_bytes": 549775,
+      "status": "match"
+    },
+    {
+      "work_id": "myths_north_american",
+      "gutenberg_id": "42390",
+      "source_url": "https://www.gutenberg.org/cache/epub/42390/pg42390.txt",
+      "acquired_sha256": "66d85d8410bc67f3db4fd3cb5da39cd70224ed1ab2d407090d1a9f8aabe31353",
+      "acquired_bytes": 726828,
+      "live_sha256": "66d85d8410bc67f3db4fd3cb5da39cd70224ed1ab2d407090d1a9f8aabe31353",
+      "live_bytes": 726828,
+      "status": "match"
+    },
+    {
+      "work_id": "maui_legends",
+      "gutenberg_id": "32601",
+      "source_url": "https://www.gutenberg.org/cache/epub/32601/pg32601.txt",
+      "acquired_sha256": "532e44499cb2b4db7a97e4063de8368971924a583804b840c893274fbf806e28",
+      "acquired_bytes": 254870,
+      "live_sha256": "532e44499cb2b4db7a97e4063de8368971924a583804b840c893274fbf806e28",
+      "live_bytes": 254870,
+      "status": "match"
+    },
+    {
+      "work_id": "euahlayi_tribe",
+      "gutenberg_id": "3819",
+      "source_url": "https://www.gutenberg.org/cache/epub/3819/pg3819.txt",
+      "acquired_sha256": "d1d669c5b4170c74744e08566ebd9266687c08bf0db278043146cd09d8f429cf",
+      "acquired_bytes": 322219,
+      "live_sha256": "d1d669c5b4170c74744e08566ebd9266687c08bf0db278043146cd09d8f429cf",
+      "live_bytes": 322219,
+      "status": "match"
+    },
+    {
+      "work_id": "bantu_folklore",
+      "gutenberg_id": "67597",
+      "source_url": "https://www.gutenberg.org/cache/epub/67597/pg67597.txt",
+      "acquired_sha256": "448994b140e56e28c472c48cd92cc5417bad347d08abd0cd2ee364c85c742ea1",
+      "acquired_bytes": 144044,
+      "live_sha256": "448994b140e56e28c472c48cd92cc5417bad347d08abd0cd2ee364c85c742ea1",
+      "live_bytes": 144044,
+      "status": "match"
+    },
+    {
+      "work_id": "celtic_myths",
+      "gutenberg_id": "34081",
+      "source_url": "https://www.gutenberg.org/cache/epub/34081/pg34081.txt",
+      "acquired_sha256": "80f9c071acdf4afa11af0437e6099b2de242d847cd86d3bf94f9d3fb3c1827e3",
+      "acquired_bytes": 854502,
+      "live_sha256": "80f9c071acdf4afa11af0437e6099b2de242d847cd86d3bf94f9d3fb3c1827e3",
+      "live_bytes": 854502,
+      "status": "match"
+    },
+    {
+      "work_id": "chinese_folklore",
+      "gutenberg_id": "76198",
+      "source_url": "https://www.gutenberg.org/cache/epub/76198/pg76198.txt",
+      "acquired_sha256": "85e4f0f08e140f0da480a84c1f6335b3d70a6bd496fb9379189a80a2a987fb88",
+      "acquired_bytes": 564570,
+      "live_sha256": "85e4f0f08e140f0da480a84c1f6335b3d70a6bd496fb9379189a80a2a987fb88",
+      "live_bytes": 564570,
+      "status": "match"
+    },
+    {
+      "work_id": "arabian_nights",
+      "gutenberg_id": "128",
+      "source_url": "https://www.gutenberg.org/cache/epub/128/pg128.txt",
+      "acquired_sha256": "9b3f88ffdb36b112f8b3f23899efd71dbb7572cc765f33e9ad5a1a0f44f57eea",
+      "acquired_bytes": 629143,
+      "live_sha256": "9b3f88ffdb36b112f8b3f23899efd71dbb7572cc765f33e9ad5a1a0f44f57eea",
+      "live_bytes": 629143,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_v2",
+      "gutenberg_id": "15475",
+      "source_url": "https://www.gutenberg.org/cache/epub/15475/pg15475.txt",
+      "acquired_sha256": "135076505fc86930e9817858def7f1448d73d5dbf6000c841eafcc2e73f59eb3",
+      "acquired_bytes": 4050730,
+      "live_sha256": "135076505fc86930e9817858def7f1448d73d5dbf6000c841eafcc2e73f59eb3",
+      "live_bytes": 4050730,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_v3",
+      "gutenberg_id": "15476",
+      "source_url": "https://www.gutenberg.org/cache/epub/15476/pg15476.txt",
+      "acquired_sha256": "2d4d53b9c4892ebdc5a4bfa59458d0e0acf9742d3ce0f3b7b1b428ab838f402d",
+      "acquired_bytes": 4864546,
+      "live_sha256": "2d4d53b9c4892ebdc5a4bfa59458d0e0acf9742d3ce0f3b7b1b428ab838f402d",
+      "live_bytes": 4864546,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_v4",
+      "gutenberg_id": "15477",
+      "source_url": "https://www.gutenberg.org/cache/epub/15477/pg15477.txt",
+      "acquired_sha256": "60de2a2f82f22247fdb72096c7ebbb01b63ad42770506c10f6d7c7a82868e437",
+      "acquired_bytes": 2621948,
+      "live_sha256": "60de2a2f82f22247fdb72096c7ebbb01b63ad42770506c10f6d7c7a82868e437",
+      "live_bytes": 2621948,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_7864",
+      "gutenberg_id": "7864",
+      "source_url": "https://www.gutenberg.org/cache/epub/7864/pg7864.txt",
+      "acquired_sha256": "469fee809c0379c5e710491d82d1d6f2cdb43e74f93a2e97cfcae341302bf807",
+      "acquired_bytes": 1388274,
+      "live_sha256": "469fee809c0379c5e710491d82d1d6f2cdb43e74f93a2e97cfcae341302bf807",
+      "live_bytes": 1388274,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_11894",
+      "gutenberg_id": "11894",
+      "source_url": "https://www.gutenberg.org/cache/epub/11894/pg11894.txt",
+      "acquired_sha256": "0aa85bbd698d92612332c254fc8c2a8595fbf3a47242def28c21236559dc9ca7",
+      "acquired_bytes": 912904,
+      "live_sha256": "0aa85bbd698d92612332c254fc8c2a8595fbf3a47242def28c21236559dc9ca7",
+      "live_bytes": 912904,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_12058",
+      "gutenberg_id": "12058",
+      "source_url": "https://www.gutenberg.org/cache/epub/12058/pg12058.txt",
+      "acquired_sha256": "45e47b823e39968bd68e2197ca71ddde3d4cb0f45b1e4031ceb2632c961ec5d7",
+      "acquired_bytes": 395023,
+      "live_sha256": "45e47b823e39968bd68e2197ca71ddde3d4cb0f45b1e4031ceb2632c961ec5d7",
+      "live_bytes": 395023,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_12333",
+      "gutenberg_id": "12333",
+      "source_url": "https://www.gutenberg.org/cache/epub/12333/pg12333.txt",
+      "acquired_sha256": "56a364f7f07507745ff522a040c122fffe1f50d4a1bd379a0c988ef848552e90",
+      "acquired_bytes": 1051418,
+      "live_sha256": "56a364f7f07507745ff522a040c122fffe1f50d4a1bd379a0c988ef848552e90",
+      "live_bytes": 1051418,
+      "status": "match"
+    },
+    {
+      "work_id": "mahabharata_7965",
+      "gutenberg_id": "7965",
+      "source_url": "https://www.gutenberg.org/cache/epub/7965/pg7965.txt",
+      "acquired_sha256": "ea9c37891a1478ab17581c429496c39794fa2b57e0a36de88fd7648ab238a888",
+      "acquired_bytes": 470365,
+      "live_sha256": "ea9c37891a1478ab17581c429496c39794fa2b57e0a36de88fd7648ab238a888",
+      "live_bytes": 470365,
+      "status": "match"
+    },
+    {
+      "work_id": "vishnu_purana",
+      "gutenberg_id": "66208",
+      "source_url": "https://www.gutenberg.org/cache/epub/66208/pg66208.txt",
+      "acquired_sha256": "924d8c109ddf87a26fab4025556be7b74dbf0c21534e253bfb4561f711956bb5",
+      "acquired_bytes": 917577,
+      "live_sha256": "924d8c109ddf87a26fab4025556be7b74dbf0c21534e253bfb4561f711956bb5",
+      "live_bytes": 917577,
+      "status": "match"
+    },
+    {
+      "work_id": "south_african_folk_tales",
+      "gutenberg_id": "38339",
+      "source_url": "https://www.gutenberg.org/cache/epub/38339/pg38339.txt",
+      "acquired_sha256": "8764fb80d05fd2ae87355a1855ec4058d6351683fd4ea44006d60999fe057075",
+      "acquired_bytes": 147052,
+      "live_sha256": "8764fb80d05fd2ae87355a1855ec4058d6351683fd4ea44006d60999fe057075",
+      "live_bytes": 147052,
+      "status": "match"
+    },
+    {
+      "work_id": "zulu_customs_folklore",
+      "gutenberg_id": "46501",
+      "source_url": "https://www.gutenberg.org/cache/epub/46501/pg46501.txt",
+      "acquired_sha256": "12a2736e1f89e763c94f4dc3c779ed63aef84d3f2aec4ac50f3c9e02fb6c88ef",
+      "acquired_bytes": 132420,
+      "live_sha256": "12a2736e1f89e763c94f4dc3c779ed63aef84d3f2aec4ac50f3c9e02fb6c88ef",
+      "live_bytes": 132420,
+      "status": "match"
+    },
+    {
+      "work_id": "west_african_folk_tales",
+      "gutenberg_id": "66923",
+      "source_url": "https://www.gutenberg.org/cache/epub/66923/pg66923.txt",
+      "acquired_sha256": "e61a4b8d99932801bd66bf489daca192d30399eed52a06bf103755740929d3e2",
+      "acquired_bytes": 177617,
+      "live_sha256": "e61a4b8d99932801bd66bf489daca192d30399eed52a06bf103755740929d3e2",
+      "live_bytes": 177617,
+      "status": "match"
+    },
+    {
+      "work_id": "where_animals_talk",
+      "gutenberg_id": "58900",
+      "source_url": "https://www.gutenberg.org/cache/epub/58900/pg58900.txt",
+      "acquired_sha256": "fad74b8b18b3f5f1398c84dfcfca3982d98c383bf4d7339817ff2ac9660905f9",
+      "acquired_bytes": 497246,
+      "live_sha256": "fad74b8b18b3f5f1398c84dfcfca3982d98c383bf4d7339817ff2ac9660905f9",
+      "live_bytes": 497246,
+      "status": "match"
+    },
+    {
+      "work_id": "cunnie_rabbit",
+      "gutenberg_id": "48828",
+      "source_url": "https://www.gutenberg.org/cache/epub/48828/pg48828.txt",
+      "acquired_sha256": "9c59262ca81b19a504957757c81b6a41d1c37d1f48afce4908953bd0ea2c9c1f",
+      "acquired_bytes": 328756,
+      "live_sha256": "9c59262ca81b19a504957757c81b6a41d1c37d1f48afce4908953bd0ea2c9c1f",
+      "live_bytes": 328756,
+      "status": "match"
+    },
+    {
+      "work_id": "maori_port_hills",
+      "gutenberg_id": "73766",
+      "source_url": "https://www.gutenberg.org/cache/epub/73766/pg73766.txt",
+      "acquired_sha256": "048aabc6f8d142d3fb57f902b96e0af9de2c407177be62edf0f68f37ce019f4f",
+      "acquired_bytes": 122220,
+      "live_sha256": "048aabc6f8d142d3fb57f902b96e0af9de2c407177be62edf0f68f37ce019f4f",
+      "live_bytes": 122220,
+      "status": "match"
+    },
+    {
+      "work_id": "australian_legendary_tales",
+      "gutenberg_id": "3833",
+      "source_url": "https://www.gutenberg.org/cache/epub/3833/pg3833.txt",
+      "acquired_sha256": "73f45d99eb3838971459639bdd5ad469f2c2dc03328438758e1e30801ef18590",
+      "acquired_bytes": 207276,
+      "live_sha256": "b53f68075b7a169ce8fa03f6594bd91fa68278d4a465f100435241a39d01233b",
+      "live_bytes": 207276,
+      "status": "drifted",
+      "difference": {
+        "differing_bytes_in_common_prefix": 2,
+        "first_differing_offset": 184973,
+        "last_differing_offset": 184974,
+        "length_change": 0,
+        "acquired_snippet": "ons.\r\n  Dungle, water hole.\r\n  Dunnia, wattle.\r\n  Durrie, bread made from grass seed.\r\n  E?r moonan, long sharp teeth.\r\n  Euloo marah, large tree grubs. Edible.\r\n  Euloo wirree, r",
+        "live_snippet": "ons.\r\n  Dungle, water hole.\r\n  Dunnia, wattle.\r\n  Durrie, bread made from grass seed.\r\n  Eaer moonan, long sharp teeth.\r\n  Euloo marah, large tree grubs. Edible.\r\n  Euloo wirree, r",
+        "differing_line_blocks": 1,
+        "acquired_lines": 3939,
+        "live_lines": 3939,
+        "line_differences": [
+          {
+            "edit": "replace",
+            "acquired_line": 3486,
+            "acquired_text": "  E?r moonan, long sharp teeth.",
+            "live_line": 3486,
+            "live_text": "  Eaer moonan, long sharp teeth."
+          }
+        ],
+        "line_characterisation": "the two copies align to 1 separate edit(s) once compared line by line instead of byte by byte",
+        "explanation": "the publisher edited the file in place; the two copies differ at 2 byte position(s)"
+      }
+    },
+    {
+      "work_id": "myths_legends_china",
+      "gutenberg_id": "15250",
+      "source_url": "https://www.gutenberg.org/cache/epub/15250/pg15250.txt",
+      "acquired_sha256": "bc5014c93f05c2a25cc75772c7402b2493bf19018c10eb6d3a272e3f4c2b496c",
+      "acquired_bytes": 713690,
+      "live_sha256": "bc5014c93f05c2a25cc75772c7402b2493bf19018c10eb6d3a272e3f4c2b496c",
+      "live_bytes": 713690,
+      "status": "match"
+    },
+    {
+      "work_id": "strange_stories_chinese",
+      "gutenberg_id": "43629",
+      "source_url": "https://www.gutenberg.org/cache/epub/43629/pg43629.txt",
+      "acquired_sha256": "1c0d8192d8aa73c8714be4f09cc187c8389524f4b646c18d6c83ce8fff43b049",
+      "acquired_bytes": 1280965,
+      "live_sha256": "1c0d8192d8aa73c8714be4f09cc187c8389524f4b646c18d6c83ce8fff43b049",
+      "live_bytes": 1280965,
+      "status": "match"
+    },
+    {
+      "work_id": "chinese_fairy_book",
+      "gutenberg_id": "29939",
+      "source_url": "https://www.gutenberg.org/cache/epub/29939/pg29939.txt",
+      "acquired_sha256": "c824b6508c48278b8f332ca2bef7bf69f1c00f7269c67ac3ab9f94c702d1a962",
+      "acquired_bytes": 560603,
+      "live_sha256": "c824b6508c48278b8f332ca2bef7bf69f1c00f7269c67ac3ab9f94c702d1a962",
+      "live_bytes": 560603,
+      "status": "match"
+    },
+    {
+      "work_id": "chinese_wonder_book",
+      "gutenberg_id": "18674",
+      "source_url": "https://www.gutenberg.org/cache/epub/18674/pg18674.txt",
+      "acquired_sha256": "6c468b23f7f5c7975c0fe67a82f8e1df416142ef0663341381b50146ae21a47e",
+      "acquired_bytes": 285231,
+      "live_sha256": "6c468b23f7f5c7975c0fe67a82f8e1df416142ef0663341381b50146ae21a47e",
+      "live_bytes": 285231,
+      "status": "match"
+    },
+    {
+      "work_id": "japanese_fairy_tales",
+      "gutenberg_id": "4018",
+      "source_url": "https://www.gutenberg.org/cache/epub/4018/pg4018.txt",
+      "acquired_sha256": "a17eec00fcaaba3d8e3496945486a3be8a984cbb694d4f6db0f4616e782af115",
+      "acquired_bytes": 403288,
+      "live_sha256": "a17eec00fcaaba3d8e3496945486a3be8a984cbb694d4f6db0f4616e782af115",
+      "live_bytes": 403288,
+      "status": "match"
+    },
+    {
+      "work_id": "myths_legends_japan",
+      "gutenberg_id": "45723",
+      "source_url": "https://www.gutenberg.org/cache/epub/45723/pg45723.txt",
+      "acquired_sha256": "d43fb5b84fc65e07a0c6aad2a7c323804c17de88dcf6de566b3728e2d79ce6bf",
+      "acquired_bytes": 761605,
+      "live_sha256": "d43fb5b84fc65e07a0c6aad2a7c323804c17de88dcf6de566b3728e2d79ce6bf",
+      "live_bytes": 761605,
+      "status": "match"
+    },
+    {
+      "work_id": "filipino_popular_tales",
+      "gutenberg_id": "8299",
+      "source_url": "https://www.gutenberg.org/cache/epub/8299/pg8299.txt",
+      "acquired_sha256": "f9fffcaa7d70ec00d8c1abd79bd957b08dd122322b757ee37d9f84b4a02cb93b",
+      "acquired_bytes": 1183744,
+      "live_sha256": "f9fffcaa7d70ec00d8c1abd79bd957b08dd122322b757ee37d9f84b4a02cb93b",
+      "live_bytes": 1183744,
+      "status": "match"
+    },
+    {
+      "work_id": "philippine_folk_tales",
+      "gutenberg_id": "12814",
+      "source_url": "https://www.gutenberg.org/cache/epub/12814/pg12814.txt",
+      "acquired_sha256": "2f48abb9b330808fffc111dd90c07d09565bd46a6df77599771cdf22f761ad1e",
+      "acquired_bytes": 287124,
+      "live_sha256": "2f48abb9b330808fffc111dd90c07d09565bd46a6df77599771cdf22f761ad1e",
+      "live_bytes": 287124,
+      "status": "match"
+    },
+    {
+      "work_id": "tinguian_traditions",
+      "gutenberg_id": "12545",
+      "source_url": "https://www.gutenberg.org/cache/epub/12545/pg12545.txt",
+      "acquired_sha256": "303452926b23718bd8a893816ef0ccda5dba9f3f096c92054b367df832e28c9c",
+      "acquired_bytes": 610134,
+      "live_sha256": "303452926b23718bd8a893816ef0ccda5dba9f3f096c92054b367df832e28c9c",
+      "live_bytes": 610134,
+      "status": "match"
+    },
+    {
+      "work_id": "cherokee_myths",
+      "gutenberg_id": "45634",
+      "source_url": "https://www.gutenberg.org/cache/epub/45634/pg45634.txt",
+      "acquired_sha256": "c6b85afa38c7ab8a99ba6981ad571f2c71a129ab9f905a7970bf0507773cda4e",
+      "acquired_bytes": 1801691,
+      "live_sha256": "c6b85afa38c7ab8a99ba6981ad571f2c71a129ab9f905a7970bf0507773cda4e",
+      "live_bytes": 1801691,
+      "status": "match"
+    },
+    {
+      "work_id": "iroquois_stories",
+      "gutenberg_id": "22096",
+      "source_url": "https://www.gutenberg.org/cache/epub/22096/pg22096.txt",
+      "acquired_sha256": "6e3ab3e9d1ffe70a35a37c0f6a2575087908de6c0096381b03ed3607cf1dd463",
+      "acquired_bytes": 164669,
+      "live_sha256": "6e3ab3e9d1ffe70a35a37c0f6a2575087908de6c0096381b03ed3607cf1dd463",
+      "live_bytes": 164669,
+      "status": "match"
+    },
+    {
+      "work_id": "iroquois_myths",
+      "gutenberg_id": "46140",
+      "source_url": "https://www.gutenberg.org/cache/epub/46140/pg46140.txt",
+      "acquired_sha256": "58ff0d4aa119c9a8e8d129d020d64dead8717aa17d473149f78f51542d8fe434",
+      "acquired_bytes": 210752,
+      "live_sha256": "58ff0d4aa119c9a8e8d129d020d64dead8717aa17d473149f78f51542d8fe434",
+      "live_bytes": 210752,
+      "status": "match"
+    },
+    {
+      "work_id": "navaho_legends",
+      "gutenberg_id": "60165",
+      "source_url": "https://www.gutenberg.org/cache/epub/60165/pg60165.txt",
+      "acquired_sha256": "45c332f0e8d69b5cdd26ad79cc7c871efd5ca24676502b2ba3deea01f2b95672",
+      "acquired_bytes": 771018,
+      "live_sha256": "45c332f0e8d69b5cdd26ad79cc7c871efd5ca24676502b2ba3deea01f2b95672",
+      "live_bytes": 771018,
+      "status": "match"
+    },
+    {
+      "work_id": "creek_migration",
+      "gutenberg_id": "49031",
+      "source_url": "https://www.gutenberg.org/cache/epub/49031/pg49031.txt",
+      "acquired_sha256": "2826aa4b0709d09ba77459b46d0cc3c0fed04fc0a126ca0dfe1fc8d72bc6d4f5",
+      "acquired_bytes": 511150,
+      "live_sha256": "2826aa4b0709d09ba77459b46d0cc3c0fed04fc0a126ca0dfe1fc8d72bc6d4f5",
+      "live_bytes": 511150,
+      "status": "match"
+    },
+    {
+      "work_id": "jain_sect",
+      "gutenberg_id": "11897",
+      "source_url": "https://www.gutenberg.org/cache/epub/11897/pg11897.txt",
+      "acquired_sha256": "5760100492dc233f80a276d39196ddff17711d8e653399bbe50b62773e45482d",
+      "acquired_bytes": 145304,
+      "live_sha256": "5760100492dc233f80a276d39196ddff17711d8e653399bbe50b62773e45482d",
+      "live_bytes": 145304,
+      "status": "match"
+    },
+    {
+      "work_id": "pistis_sophia",
+      "gutenberg_id": "76266",
+      "source_url": "https://www.gutenberg.org/cache/epub/76266/pg76266.txt",
+      "acquired_sha256": "9c0b7cda25cce5f1cdd6c35147809440308a2faa2523471b4198879411f334e9",
+      "acquired_bytes": 694996,
+      "live_sha256": "9c0b7cda25cce5f1cdd6c35147809440308a2faa2523471b4198879411f334e9",
+      "live_bytes": 694996,
+      "status": "match"
+    }
+  ],
+  "interpretation": "External stability, not internal freshness. A match means the publisher still serves the bytes the manifest recorded; a drift means a fresh run of tools/acquire_corpus.py on this machine would produce a different corpus from the one every published artifact was computed from. Neither result changes any number in this repository: the artifacts are pinned to the recorded hashes, and the tests re-hash those bytes. What a drift changes is what a third party can re-acquire, so the manifest, not the live site, is the authority for this study's measurements.",
+  "what_it_does_not_establish": "It does not show the acquired texts are correct, complete or rights-clean; it does not date the edit; and one run is a snapshot, not a monitoring record. Works whose acquired copy is absent because corpus/raw/ is gitignored are reported separately rather than counted as drift."
+}

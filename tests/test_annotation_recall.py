@@ -18,6 +18,7 @@ import gzip
 import importlib
 import io
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -533,6 +534,51 @@ class PublishedArtifactTests(unittest.TestCase):
         for role, rows in register.items():
             self.assertEqual(rows["rows_drawn"], rows_added[role])
             self.assertAlmostEqual(rows["sampling_weight"] * rows["rows_drawn"], rows["stratum_population"], 0)
+
+    def test_the_plan_counts_a_nesting_and_the_published_table_shows_it_that_way(self):
+        """The 441 propositions that carry a record the detector declined to call a detection are inside the
+        992,144 probeable ones, not a third slice beside them. The artifact arithmetic says so, and the paper's
+        table has to render them the same way: an earlier draft listed all three at one level, which made the
+        rows add up to 1,028,919 against a universe of 1,028,478."""
+        universe = self.plan["recall_probe"]["universe"]
+        self.assertEqual(universe["hit_by_the_machine"] + universe["no_record_in_universe"],
+                         universe["propositions_in_universe"])
+        self.assertEqual(universe["hit_by_the_machine"] + universe["of_which_the_machine_asserted_nothing"],
+                         universe["propositions_with_any_machine_record"])
+        self.assertEqual(universe["of_which_cue_positive"] + universe["of_which_cue_negative"],
+                         universe["no_record_in_universe"])
+        self.assertEqual(universe["of_which_not_yet_instrumented"] + universe["of_which_requires_human_disambiguation"],
+                         universe["records_excluded_as_non_detections"])
+        self.assertLess(universe["of_which_the_machine_asserted_nothing"], universe["no_record_in_universe"])
+
+        paper = (ROOT / "paper/main.tex").read_text(encoding="utf-8")
+        block = paper[paper.index(r"\label{tab:packet}"):paper.index(r"\end{tabular}", paper.index(r"\label{tab:packet}"))]
+        rows = []
+        for line in block.splitlines():
+            cells = line.strip().rstrip("\\").split("&")
+            if len(cells) < 2:
+                continue
+            depth = cells[0].strip().count(r"\quad")
+            value = cells[1].strip().replace("{,}", "")
+            digits = re.match(r"(\d+)", value)
+            rows.append((depth, cells[0].strip().replace(r"\quad", "").strip(),
+                         int(digits.group(1)) if digits else None))
+        parents = [index for index, (depth, _, _) in enumerate(rows) if depth == 0 and rows[index][2] is not None]
+        checked = 0
+        for parent in parents:
+            children = []
+            for index in range(parent + 1, len(rows)):
+                if rows[index][0] == 0:
+                    break
+                if rows[index][0] == 1 and rows[index][2] is not None:
+                    children.append(rows[index][2])
+            if children:
+                total = rows[parent][2]
+                self.assertEqual(sum(children), total,
+                                 f"the table row {rows[parent][1]!r} lists {children} beneath it, which sums to "
+                                 f"{sum(children)} against a stated {total}; a nested slice has been promoted")
+                checked += 1
+        self.assertGreaterEqual(checked, 2, "no indented rows were found, so the nesting check is vacuous")
 
     def test_detection_rows_still_carry_their_candidate_weights(self):
         for record in self.key.values():

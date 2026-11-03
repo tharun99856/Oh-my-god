@@ -440,5 +440,125 @@ class PublishedVocabularyTests(unittest.TestCase):
                         "the published configuration must reproduce its own ordering")
 
 
+class PublishedAnnotationInventoryTests(unittest.TestCase):
+    """The structural section opens by describing the coding: fourteen versions, 94 events carrying 218 role
+    assertions, 76 causal links, a 38-motif registry asserted 78 times, 87 symbol assertions, four versions
+    partial, and 95 quoted fragments each verified against the passage it cites. Those figures used to live in
+    prose and in a terminal only, so a re-coded event could leave the paragraph describing an older set. Every
+    one is recomputed here from the shipped annotation store and compared with the published report.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        import hashlib
+        import json
+
+        report_path = ROOT / "results/annotation_validation.json"
+        if not report_path.exists():
+            raise unittest.SkipTest("python tools/validate_annotations.py --write-to "
+                                    "results/annotation_validation.json has not been run")
+        cls.report = json.loads(report_path.read_text(encoding="utf-8"))
+        annotation_path = ROOT / "config/annotated_versions.json"
+        cls.annotation = json.loads(annotation_path.read_text(encoding="utf-8"))
+        cls.annotations_sha256 = hashlib.sha256(annotation_path.read_bytes()).hexdigest()
+        cls.versions = cls.annotation["versions"]
+
+    def recomputed(self):
+        from validate_annotations import GAP, normalize
+
+        return {
+            "versions": len(self.versions),
+            "events": sum(len(version["events"]) for version in self.versions),
+            "participant_role_assertions": sum(len(event["participants"]) for version in self.versions
+                                               for event in version["events"]),
+            "causal_links": sum(len(version.get("causal_links", [])) for version in self.versions),
+            "motif_assertions": sum(len(version["motifs"]) for version in self.versions),
+            "motif_registry_size": len(self.annotation["motif_registry"]),
+            "symbol_assertions": sum(len(version.get("symbols", [])) for version in self.versions),
+            "vocabulary_predicates": len({predicate
+                                          for family in self.annotation["coding_manual"]["predicate_families"].values()
+                                          for predicate in family}),
+            "quote_fragments_checked": sum(1 for version in self.versions for event in version["events"]
+                                           for fragment in GAP.split(event["quote"].strip())
+                                           if normalize(fragment)),
+            "attestation_completeness": {
+                "full": sum(1 for version in self.versions if version["attestation_completeness"] == "full"),
+                "partial": sum(1 for version in self.versions if version["attestation_completeness"] == "partial"),
+            },
+        }
+
+    def test_the_published_report_describes_the_store_in_this_tree(self):
+        self.assertEqual(self.report["inputs"]["annotations_sha256"], self.annotations_sha256,
+                         "the published validation report is stale relative to config/annotated_versions.json")
+        self.assertEqual(self.report["annotation_set_version"], self.annotation["annotation_set_version"])
+        self.assertEqual(self.report["errors"], [], "the published coding does not validate")
+        self.assertEqual(self.report["status"], "passed")
+
+    def test_every_inventory_figure_is_recomputable_from_the_annotation_store(self):
+        recomputed = self.recomputed()
+        for name, value in recomputed.items():
+            self.assertEqual(self.report[name], value,
+                             f"the published report says {name} is {self.report[name]}; the store holds {value}")
+
+    def test_no_version_claims_a_coding_that_has_not_happened(self):
+        states = {version["review_state"] for version in self.versions}
+        self.assertEqual(states, {"source_verified", "transcribed"})
+        self.assertNotIn("independently_annotated", states)
+        self.assertIn("NOT YET DONE", self.annotation["review_state_definitions"]["independently_annotated"])
+
+
+class CodedVersionProvenanceTests(unittest.TestCase):
+    """Table~tab:editions is the paper's disclosure that the coded texts are the e-texts in this corpus rather
+    than the scholarly editions its descriptive anchors cite. The table is the kind of thing a re-coding pass
+    edits without noticing, so its two machine-checkable columns are parsed back out of the source and compared
+    with the annotation store and the acquisition manifest."""
+
+    @classmethod
+    def setUpClass(cls):
+        import json
+
+        paper_path = ROOT / "paper/main.tex"
+        if not paper_path.exists():
+            raise unittest.SkipTest("paper/main.tex is not in this tree")
+        paper = paper_path.read_text(encoding="utf-8")
+        start = paper.index(r"\label{tab:editions}")
+        block = paper[start:paper.index(r"\bottomrule", start)]
+        rows = []
+        for line in block.splitlines():
+            line = line.strip()
+            if not line.startswith(r"\texttt{"):
+                continue
+            cells = [cell.strip() for cell in line.rstrip("\\").split("&")]
+            rows.append((cells[0][len(r"\texttt{"):-1].replace(r"\_", "_"),
+                         cells[1][len(r"\texttt{"):cells[1].index("}")].replace(r"\_", "_"),
+                         cells[1][cells[1].index("(") + 1:cells[1].index(")")],
+                         cells[2]))
+        cls.rows = rows
+        cls.versions = json.loads((ROOT / "config/annotated_versions.json").read_text(encoding="utf-8"))["versions"]
+        cls.manifest = {work["work_id"]: work
+                        for work in json.loads((ROOT / "corpus/acquisition_manifest.json").read_text(encoding="utf-8"))["works"]}
+
+    def test_the_table_lists_exactly_the_coded_versions(self):
+        self.assertEqual([row[0] for row in self.rows], [version["version_id"] for version in self.versions])
+
+    def test_each_row_names_the_work_the_coding_is_bound_to(self):
+        coded = {version["version_id"]: version["work_id"] for version in self.versions}
+        for version_id, work_id, gutenberg_id, rendering in self.rows:
+            self.assertEqual(coded[version_id], work_id, f"{version_id} is coded to another work")
+            self.assertIn(work_id, self.manifest, f"{version_id} cites a work this corpus does not hold")
+            self.assertEqual(self.manifest[work_id]["gutenberg_id"], gutenberg_id,
+                             f"{work_id} is not e-text {gutenberg_id}")
+            self.assertTrue(rendering, f"{version_id} discloses no rendering")
+
+    def test_the_material_the_paper_says_has_no_text_here_really_has_none(self):
+        """The paper claims the two Illuyanka versions and Rigveda 1.32 contribute no score because no rendering
+        of them is in the corpus. If an acquisition pass ever added one, that sentence would need rewriting, so
+        the absence is checked instead of assumed."""
+        absent = [work_id for work_id in self.manifest
+                  if any(marker in work_id for marker in ("rig_veda", "rigveda", "hittite", "illuyanka"))]
+        self.assertEqual(absent, [])
+        self.assertFalse([row for row in self.rows if "illuyanka" in row[0] or "indra_vritra_hymn" in row[0]])
+
+
 if __name__ == "__main__":
     unittest.main()

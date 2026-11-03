@@ -292,7 +292,7 @@ def main():
             "narrative_pairs_sha256": sha256(NARRATIVE_PAIRS_PATH) if narrative_pairs else None,
         },
     }
-    (ROOT / "results/v2_relevance_graph.json").write_text(json.dumps(graph, ensure_ascii=False, indent=2), encoding="utf-8")
+    (ROOT / "results/v2_relevance_graph.json").write_text(json.dumps(graph, ensure_ascii=False, indent=2), encoding="utf-8", newline="\r\n")
 
     discovery_edges = [edge for edge in edges if edge["discovery_eligible"]]
     with (ROOT / "results/v2_work_relevance.csv").open("w", encoding="utf-8", newline="") as handle:
@@ -438,7 +438,7 @@ export default function NarrativeRelevance() {
 '''
     canvas = template.replace("__NODES__", json.dumps(canvas_nodes, ensure_ascii=False)).replace("__EDGES__", json.dumps(canvas_edges, ensure_ascii=False)).replace("__METRICS__", json.dumps(data))
     CANVAS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CANVAS_PATH.write_text(canvas, encoding="utf-8")
+    CANVAS_PATH.write_text(canvas, encoding="utf-8", newline="")
     print(json.dumps({
         "work_nodes": len(nodes),
         "work_edges": len(selected_edges),

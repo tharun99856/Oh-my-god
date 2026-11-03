@@ -35,6 +35,7 @@ import csv
 import hashlib
 import json
 import random
+import statistics
 import sys
 from collections import Counter, defaultdict
 from itertools import combinations
@@ -119,21 +120,24 @@ def statistic_for_key(cardinality, key):
     return "exact_match" if cardinality[key] == "single" else "jaccard"
 
 
-def chance_agreement(probabilities, sizes, rng, statistic, reps=CHANCE_REPETITIONS):
-    """Mean pairwise agreement between synthetic works drawn from this dimension's own value frequencies.
+def chance_replicate_means(probabilities, sizes, rng, statistic, reps=CHANCE_REPETITIONS, edges=None):
+    """The per-replicate means behind `chance_agreement`, kept rather than averaged away.
 
-    Each synthetic work draws exactly as many values as the real work it replaces, sampling without replacement
-    with the observed per-value prevalence as the weights, and the pairs are then scored with the same statistic
-    the real measurement used. Two things this null deliberately does not do: it does not preserve correlations
-    *between* values inside a work, which is why a dimension whose detector always fires on two values together
-    reports more excess than a fully independent coding would, and it does not survive label permutation as a
-    test at all -- the mean over a complete graph is permutation-invariant, so shuffling which work owns which
-    set changes nothing and a permutation "control" here would be theatre.
+    The chance line published beside every dimension is the mean of these; the band that calls a dimension
+    "indistinguishable from chance" is a fixed 0.05 around it. A reader cannot tell from the mean alone whether
+    0.05 is wide compared with how far one of these draws wanders, and a band that is narrow relative to the
+    null's own scatter flags dimensions for noise. This returns the scatter so it can be measured.
+
+    `edges` is the pair set the observed mean was measured over, as index pairs into the carrier order `sizes`
+    follows. Left None the replicate is scored on the complete graph of the carriers, which is the right thing on
+    the carrier graph and the wrong thing on the scored graph, where a pair enters only if the two works share
+    enough comparable keys. The two are different populations, and the same argument that made the chance line
+    per-dimension -- that a baseline drawn on another population measures something else -- applies to the pairs.
     """
     values = sorted(probabilities)
     if not values or not any(probabilities.values()):
-        return None
-    total = 0.0
+        return []
+    means = []
     for _ in range(reps):
         rows = []
         for size in sizes:
@@ -147,11 +151,29 @@ def chance_agreement(probabilities, sizes, rng, statistic, reps=CHANCE_REPETITIO
                 if not pool:
                     break
             rows.append(frozenset(chosen))
-        scores = [value for value in (score(left, right, statistic) for left, right in combinations(rows, 2))
+        pairs = combinations(rows, 2) if edges is None else ((rows[i], rows[j]) for i, j in edges)
+        scores = [value for value in (score(left, right, statistic) for left, right in pairs)
                   if value is not None]
         if scores:
-            total += sum(scores) / len(scores)
-    return total / reps
+            means.append(sum(scores) / len(scores))
+    return means
+
+
+def chance_agreement(probabilities, sizes, rng, statistic, reps=CHANCE_REPETITIONS, edges=None):
+    """Mean pairwise agreement between synthetic works drawn from this dimension's own value frequencies.
+
+    Each synthetic work draws exactly as many values as the real work it replaces, sampling without replacement
+    with the observed per-value prevalence as the weights, and the pairs are then scored with the same statistic
+    the real measurement used, over the same pair set when `edges` is given. Two things this null deliberately
+    does not do: it does not preserve correlations *between* values inside a work, which is why a dimension whose
+    detector always fires on two values together reports more excess than a fully independent coding would, and
+    it cannot be replaced by permuting the works, because the mean over a complete graph is invariant to which
+    work owns which set -- a permutation "control" would return the observed number and call it a null.
+    """
+    means = chance_replicate_means(probabilities, sizes, rng, statistic, reps, edges)
+    if not probabilities or not any(probabilities.values()):
+        return None
+    return sum(means) / reps
 
 
 def observed_agreement(per_work, key, statistic):
@@ -174,20 +196,22 @@ def carrier_observations(per_work, keys, cardinality):
     return out
 
 
-def dimension_rows(per_work, keys, cardinality, rng, observations, population_label):
+def dimension_rows(per_work, keys, cardinality, rng, observations, population_label, edges_by_key=None):
     """One row per declared dimension, for whichever pair population `observations` was measured over.
 
     `observations` maps a dimension to (mean, pairs) under each of the two readings. Each reading's chance line
-    is drawn from the same works that supplied its observations and scored with the same statistic, because a
-    mean measured over one pair population and a baseline measured over another, or over a different statistic,
-    differ by the conditioning and by nothing about the traditions. `declared_rule` is the statistic the model
-    comparison actually scores; `value_sets` is the one that stays defined when a key the frame calls
-    single-valued arrives carrying several values.
+    is drawn from the same works that supplied its observations, scored with the same statistic, and -- when
+    `edges_by_key` names the pairs -- scored on the same pairs. The third condition is what the scan had been
+    asserting about works and statistics while quietly breaking it about pairs: on the scored graph the observed
+    mean runs over the scorable subset and the line ran over the complete graph of the covered works, so the two
+    halves of one subtraction came from two designs. `chance_similarity_over_all_pairs_of_carriers` keeps the
+    older line in the artifact, because the gap between the two is itself a measurement a reader can use.
     """
     rows = []
     for key in keys:
         probabilities, sizes = value_marginals(per_work, key)
         statistic = statistic_for_key(cardinality, key)
+        edges = (edges_by_key or {}).get(key)
         single = cardinality[key] == "single"
         offending = sum(1 for size in sizes if size > 1) if single else 0
         dominant_value, dominant_share = (max(probabilities.items(), key=lambda item: item[1])
@@ -195,16 +219,26 @@ def dimension_rows(per_work, keys, cardinality, rng, observations, population_la
         measured = {}
         for reading in READINGS:
             observed, pairs = observations.get(key, {}).get(reading, (None, 0))
-            expected = (chance_agreement(probabilities, sizes, rng,
-                                         statistic if reading == "declared_rule" else "jaccard",
-                                         CHANCE_REPETITIONS) if sizes else None)
+            draw = statistic if reading == "declared_rule" else "jaccard"
+            expected = (chance_agreement(probabilities, sizes, rng, draw, CHANCE_REPETITIONS, edges)
+                        if sizes else None)
+            complete = (chance_agreement(probabilities, sizes, rng, draw, CHANCE_REPETITIONS)
+                        if (sizes and edges is not None) else expected)
             measured[reading] = {
-                "statistic": statistic if reading == "declared_rule" else "jaccard",
+                "statistic": draw,
                 "pairs_compared": pairs,
                 "observed_mean_similarity": round(observed, 6) if observed is not None else None,
                 "chance_similarity_from_own_marginals": round(expected, 6) if expected is not None else None,
+                "chance_similarity_over_all_pairs_of_carriers": (round(complete, 6)
+                                                                 if complete is not None else None),
+                "chance_line_conditions_on_the_scored_pairs": edges is not None,
+                "conditioning_gap": (round(expected - complete, 6)
+                                     if expected is not None and complete is not None else None),
                 "excess_over_chance": (round(observed - expected, 6)
                                        if observed is not None and expected is not None else None),
+                "excess_over_the_complete_graph_chance": (round(observed - complete, 6)
+                                                          if observed is not None and complete is not None
+                                                          else None),
                 "excess_within_declared_chance_band": (abs(observed - expected) < CHANCE_BAND
                                                        if observed is not None and expected is not None else None),
             }
@@ -244,9 +278,12 @@ def scorable_graph(per_work, config, cardinality):
     `similarity_between` refuses a pair below `minimum_comparable_keys`, so the graph the model comparison runs
     on is a subset of the carrier graph, and it is a biased subset: a work rich enough to be comparable is not a
     random work. This is the population the gate's means come from, so it is the population the gate's chance
-    line has to come from too, and it is scored with the statistic the gate uses.
+    line has to come from too, and it is scored with the statistic the gate uses and on the pairs the gate reads.
+    The third of those is what `edges_by_key` carries: each dimension's scored pairs as index pairs into the
+    carrier order `value_marginals` follows, which is the order the null builds its synthetic rows in.
     """
     totals = {reading: {} for reading in READINGS}
+    pairs_by_key = {}
     covered = set()
     pairs = 0
     for left, right, state_a, state_b, scored in scored_pairs(per_work, config):
@@ -259,6 +296,8 @@ def scorable_graph(per_work, config, cardinality):
                               statistic_for_key(cardinality, key) if reading == "declared_rule" else "jaccard")
                 if value is None:
                     continue
+                if reading == "declared_rule":
+                    pairs_by_key.setdefault(key, []).append((left, right))
                 cell = totals[reading].setdefault(key, [0.0, 0])
                 cell[0] += value
                 cell[1] += 1
@@ -271,7 +310,12 @@ def scorable_graph(per_work, config, cardinality):
                 entries[reading] = (round(cell[0] / cell[1], 6), cell[1])
         observations[key] = entries
     population = {work: per_work[work] for work in sorted(covered)}
-    return observations, population, pairs
+    edges_by_key = {}
+    for key, pairs_of_works in pairs_by_key.items():
+        order = {work: position for position, work in
+                 enumerate([work for work in sorted(population) if key in population[work]])}
+        edges_by_key[key] = [(order[left], order[right]) for left, right in pairs_of_works]
+    return observations, population, pairs, edges_by_key
 
 
 READING_NOTE = {
@@ -458,6 +502,169 @@ def pair_anomalies(per_work, rows, config, cardinality, dependent, top=15):
                         "read first")}
 
 
+def leave_one_out_excesses(means):
+    """Each draw's distance from the chance line that *the other draws* would have published.
+
+    Subtracting the mean of all replicates, including the one being scored, would shrink every excess by 1/reps
+    and make the band look tighter than it is. Leave-one-out is the distance a real corpus would have to clear
+    against a chance line it did not contribute to.
+    """
+    total = sum(means)
+    count = len(means)
+    return [value - (total - value) / (count - 1) for value in means]
+
+
+def chance_band_diagnostics(rows, per_work, rng, reps=CHANCE_REPETITIONS, band=CHANCE_BAND,
+                            edges_by_key=None):
+    """How often the declared band calls a pure-noise corpus anomalous, measurement by measurement and as a family.
+
+    `CHANCE_BAND` is a descriptive threshold, not an alpha: a dimension is reported as "indistinguishable from
+    chance" when its excess sits inside plus-or-minus 0.05. That is only a mild claim if 0.05 is small compared
+    with the scatter of the null itself, and the mean chance line alone cannot show which it is. Each measurement
+    here is re-drawn `reps` times from its own marginals, its leave-one-out excess is recorded, and the fraction
+    of draws that land outside the band is that measurement's false-positive rate -- the probability this scan
+    would call a dimension anomalous on a corpus that carries no structure at all. The family figures add across
+    the panel, which is the number a reader should compare a count of flagged dimensions against: with enough
+    dimensions, at least one crosses a fixed band almost by definition.
+
+    The null draws every dimension independently of the others, which is the same assumption the chance line
+    itself is built on, so the family rate is the rate for a panel that shares nothing but its corpus size. A
+    tighter null that also preserved which values co-occur inside a work was tried and rejected as unusable:
+    resampling whole observed value sets makes the null's expectation equal the observed complete-graph mean
+    exactly, dimension by dimension, so it reproduces the data instead of providing something to subtract from
+    it. The two non-degenerate tightenings available are the pair conditioning applied to the chance line (see
+    `chance_line_conditioning`) and a maximum-entropy model over value pairs, which this scan does not fit.
+    """
+    columns = []
+    flags = []
+    for row in rows:
+        key = row["dimension"]
+        probabilities, sizes = value_marginals(per_work, key)
+        if not sizes or not probabilities or not any(probabilities.values()):
+            continue
+        for reading in READINGS:
+            means = chance_replicate_means(probabilities, sizes, rng, row[reading]["statistic"], reps,
+                                           (edges_by_key or {}).get(key))
+            if len(means) != reps:
+                continue
+            excesses = leave_one_out_excesses(means)
+            observed = row[reading]["excess_over_chance"]
+            exceedances = [abs(value) > band for value in excesses]
+            columns.append({
+                "dimension": key,
+                "reading": reading,
+                "pairs_in_this_population": row[reading]["pairs_compared"],
+                "chance_line_conditions_on_the_scored_pairs": (edges_by_key or {}).get(key) is not None,
+                "null_mean_agreement": round(sum(means) / len(means), 6),
+                "null_excess_sd": round(statistics.pstdev(excesses), 6),
+                "null_excess_p95_abs": round(sorted(abs(value) for value in excesses)[int(0.95 * reps)], 6),
+                "false_positive_rate_at_band": round(sum(1 for value in exceedances if value) / reps, 6),
+                "monte_carlo_p_two_sided": (None if observed is None else
+                                            round((1 + sum(1 for value in excesses
+                                                           if abs(value) >= abs(observed))) / (reps + 1), 6)),
+                "observed_excess": observed,
+                "observed_outside_band": (abs(observed) > band if observed is not None else None),
+            })
+            flags.append(exceedances)
+    if not columns:
+        return None
+    per_dimension = {}
+    for position, column in enumerate(columns):
+        per_dimension.setdefault(column["dimension"], []).append(position)
+    measurement_counts = [sum(1 for position in range(len(columns)) if flags[position][replicate])
+                          for replicate in range(reps)]
+    dimension_counts = [sum(1 for positions in per_dimension.values()
+                            if any(flags[position][replicate] for position in positions))
+                        for replicate in range(reps)]
+    declared = [column for column in columns if column["reading"] == "declared_rule"]
+    alpha = round(0.05 / len(declared), 8) if declared else None
+    surviving = sorted(column["dimension"] for column in declared
+                       if column["monte_carlo_p_two_sided"] is not None and alpha is not None
+                       and column["monte_carlo_p_two_sided"] <= alpha)
+    return {
+        "band": band,
+        "replicates": reps,
+        "measurements_tested": len(columns),
+        "dimensions_tested": len(per_dimension),
+        "per_measurement": columns,
+        "family": {
+            "any_measurement_exceeds_rate": round(sum(1 for value in measurement_counts if value) / reps, 6),
+            "mean_measurements_exceeding": round(sum(measurement_counts) / reps, 6),
+            "any_dimension_exceeds_rate": round(sum(1 for value in dimension_counts if value) / reps, 6),
+            "mean_dimensions_exceeding": round(sum(dimension_counts) / reps, 6),
+            "distribution_of_dimensions_exceeding": {str(value): dimension_counts.count(value)
+                                                     for value in sorted(set(dimension_counts))},
+            "smallest_resolvable_monte_carlo_p": round(1 / (reps + 1), 8),
+            "declared_rule_panel_size": len(declared),
+            "bonferroni_alpha_for_the_declared_rule_panel": alpha,
+            "dimensions_surviving_bonferroni": surviving,
+        },
+        "observed_measurements_outside_band": {reading: sum(1 for column in columns
+                                                            if column["reading"] == reading
+                                                            and column["observed_outside_band"])
+                                               for reading in READINGS},
+        "observed_dimensions_outside_band": sum(1 for positions in per_dimension.values()
+                                                if any(columns[position]["observed_outside_band"]
+                                                       for position in positions)),
+        "how_to_read_it": "the corpus flags this many dimensions; a corpus drawn from the same marginals with no "
+                          "structure in it flags this many on average, and flags at least one this often. A count "
+                          "of flagged dimensions is evidence against that second number, not against zero. The "
+                          "Monte Carlo column is the tighter reading: it asks how many of the null's own draws sit "
+                          "at or beyond the observed excess, so a dimension whose excess is larger than the band "
+                          "but smaller than the null's usual scatter is reported as flagged by the band and not "
+                          "separated from chance by the draws.",
+        "what_this_does_not_do": "it is not a test at a declared alpha, and it corrects nothing about the "
+                                 "dependence between dimensions, which this null assumes away in exactly the same "
+                                 "way the chance line does; it sizes the band, it does not replace it",
+    }
+
+
+def chance_line_conditioning(rows):
+    """What the pair conditioning of the chance line is worth, measured instead of assumed.
+
+    The scored graph's means are measured over the scorable pairs, so its chance line has to be drawn over those
+    same pairs; drawing it over the complete graph of the covered works subtracts a baseline from a different
+    design. The gap between the two lines is small here, but "small" is a claim a reader cannot check without the
+    number, and one dimension's band verdict moves with it, so both are published. The complete-graph line is
+    kept in the artifact rather than deleted so that a reader who prefers it can see what every excess would have
+    been.
+    """
+    per_measurement = []
+    for row in rows:
+        for reading in READINGS:
+            measured = row[reading]
+            if measured["excess_over_chance"] is None or measured["conditioning_gap"] is None:
+                continue
+            per_measurement.append({
+                "dimension": row["dimension"],
+                "reading": reading,
+                "conditioning_gap": measured["conditioning_gap"],
+                "excess_on_the_scored_pairs": measured["excess_over_chance"],
+                "excess_on_all_pairs_of_carriers": measured["excess_over_the_complete_graph_chance"],
+                "band_verdict_changes": (measured["excess_within_declared_chance_band"]
+                                         != (abs(measured["excess_over_the_complete_graph_chance"])
+                                             < CHANCE_BAND)),
+            })
+    if not per_measurement:
+        return None
+    furthest = max(per_measurement, key=lambda item: abs(item["conditioning_gap"]))
+    changed = [item for item in per_measurement if item["band_verdict_changes"]]
+    return {
+        "primary_line": ("drawn over the pairs the observed mean was measured on, which for this graph is the "
+                         "scorable subset and not the complete graph"),
+        "largest_gap": furthest,
+        "gaps_beyond_half_the_band": sum(1 for item in per_measurement
+                                         if abs(item["conditioning_gap"]) > CHANCE_BAND / 2),
+        "band_verdicts_that_change_with_the_chance_line": changed,
+        "per_measurement": per_measurement,
+        "reading": (f"conditioning the line on the scored pairs moves every chance line by at most "
+                    f"{abs(furthest['conditioning_gap'])} against a band of {CHANCE_BAND}, and it moves "
+                    f"{len(changed)} of {len(per_measurement)} band verdicts. The excesses are not an artefact of "
+                    "which pair set the baseline was drawn on, but a band-edge dimension is a band-edge dimension "
+                    "under either construction and should not be reported as a discovery on the strength of one"),
+    }
+
+
 def scan(config=None):
     config = config or json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     rng = random.Random(CHANCE_SEED)
@@ -467,10 +674,15 @@ def scan(config=None):
     rows = dimension_table(per_work, keys, cardinality, rng)
     strict, _, _ = load_work_states(frame="affirmative_doctrine_count")
     strict_rows = dimension_table(strict, keys, cardinality, random.Random(CHANCE_SEED))
-    graph_observations, graph_population, scorable_pairs = scorable_graph(per_work, config, cardinality)
+    graph_observations, graph_population, scorable_pairs, graph_edges = scorable_graph(per_work, config,
+                                                                                        cardinality)
     graph_rows = dimension_rows(graph_population, keys, cardinality, random.Random(CHANCE_SEED),
                                 graph_observations,
-                                "the pairs the comparison layer is willing to score, and the works they cover")
+                                "the pairs the comparison layer is willing to score, and the works they cover",
+                                graph_edges)
+    carrier_band = chance_band_diagnostics(rows, per_work, random.Random(CHANCE_SEED))
+    scored_band = chance_band_diagnostics(graph_rows, graph_population, random.Random(CHANCE_SEED),
+                                          edges_by_key=graph_edges)
     movement = [{"dimension": graph["dimension"],
                  "reading": reading,
                  "statistic": carrier[reading]["statistic"],
@@ -498,9 +710,19 @@ def scan(config=None):
                        "does_not_preserve": "correlations between values inside a work, so the excess here is an "
                                             "upper bound on any structure attributed to a dimension whose "
                                             "detector fires on co-occurring strings",
+                       "pair_set": "each population's chance line is drawn over the same pairs as the observed "
+                                   "mean it subtracts: the complete graph over the works that carry a value for "
+                                   "the dimension, and for the scored graph the scorable subset the comparison "
+                                   "layer actually pools. See `pair_graph.chance_line_conditioning` for how much "
+                                   "the conditioning is worth.",
                        "why_not_a_permutation": "the mean over a complete graph is invariant to permuting which "
                                                 "work owns which set, so a label-shuffled control would return "
-                                                "the observed number and call it a null"},
+                                                "the observed number and call it a null",
+                       "why_not_a_co_occurrence_preserving_permutation": (
+                           "tested and set aside: resampling whole observed value sets across works leaves the "
+                           "null's expectation equal to the observed complete-graph mean for every live "
+                           "dimension, so the excess it produces is zero by construction rather than a "
+                           "measurement against an independent baseline")},
         "works_scanned": len(per_work),
         "pairs_of_works_possible": len(per_work) * (len(per_work) - 1) // 2,
         "frame": "candidate_count > 0",
@@ -509,6 +731,13 @@ def scan(config=None):
         "indistinguishable_from_chance": {reading: [row["dimension"] for row in rows
                                                     if row[reading]["excess_within_declared_chance_band"]]
                                           for reading in READINGS},
+        "chance_band_diagnostics": {
+            "carrier_graph": carrier_band,
+            "scored_graph": scored_band,
+            "why_this_is_here": "the band is an analyst-set distance, not a test level, and until its own "
+                                "false-positive rate is measured a count of dimensions outside it cannot be "
+                                "read as a count of discoveries",
+        },
         "blocks": carrier_order,
         "pair_graph": {
             "conditioning": ("the pairs compare_models.similarity_between scores, at least "
@@ -519,6 +748,7 @@ def scan(config=None):
             "chance_similarity_per_dimension": {row["dimension"]: row["declared_rule"][
                 "chance_similarity_from_own_marginals"] for row in graph_rows
                 if row["declared_rule"]["chance_similarity_from_own_marginals"] is not None},
+            "chance_line_conditioning": chance_line_conditioning(graph_rows),
             "blocks": scored_order,
             "why_a_second_population": (
                 "the model comparison refuses a pair below the declared minimum comparable keys, so the means it "
@@ -552,7 +782,9 @@ def scan(config=None):
         "pairs": pair_anomalies(per_work, graph_rows, config, cardinality, dependent),
         "what_this_is_not": "no dates, so no transmission claim; detector output over English translations, not "
                             "human coding; works are not independent, so dependence is flagged per pair rather "
-                            "than filtered away; the chance line comes from the corpus's own marginals",
+                            "than filtered away; the chance line comes from the corpus's own marginals, drawn "
+                            "over the pair set of the population it is subtracted from, and it preserves nothing "
+                            "but the per-value prevalence and each work's set size",
     }
 
 
@@ -604,7 +836,7 @@ def main(argv=None):
         print(f"   {row['work_a']:34s} {row['work_b']:34s} excess={row['excess_over_chance']:+.4f} "
               f"keys={row['comparable_keys']:2d} dependent={row['either_work_has_dependent_reprints']}")
     if arguments.write:
-        OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        OUT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\r\n")
         print(f"wrote {OUT.relative_to(ROOT)}")
     return 0
 

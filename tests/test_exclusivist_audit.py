@@ -45,8 +45,13 @@ class ExclusivistAuditTests(unittest.TestCase):
         cls.raws = {}
 
     def raw(self, work_id):
+        path = ROOT / f"corpus/raw/{work_id}.txt"
+        if not path.exists():
+            raise unittest.SkipTest(
+                f"corpus/raw/{work_id}.txt is gitignored and absent here; the audit's offsets can only be "
+                "re-read against the text they were taken from, so run tools/acquire_corpus.py first")
         if work_id not in self.raws:
-            self.raws[work_id] = (ROOT / f"corpus/raw/{work_id}.txt").read_text(encoding="utf-8", newline="")
+            self.raws[work_id] = path.read_text(encoding="utf-8", newline="")
         return self.raws[work_id]
 
     def matches_in(self, work_id):
@@ -412,18 +417,21 @@ class ExclusivistAuditTests(unittest.TestCase):
 
     def test_the_published_file_is_fresh_relative_to_every_input_it_names(self):
         reproducibility = self.result["reproducibility"]
-        self.assertEqual(reproducibility["passages_sha256"],
-                         hashlib.sha256((ROOT / "corpus/derived/passages_v2.jsonl").read_bytes()).hexdigest())
-        self.assertEqual(reproducibility["audit_script_sha256"],
-                         hashlib.sha256(Path(audit.__file__).read_bytes()).hexdigest())
-        self.assertEqual(reproducibility["divinity_terms_sha256"],
-                         hashlib.sha256(Path(divinity_terms.__file__).read_bytes()).hexdigest())
-        self.assertEqual(reproducibility["source_dependence_sha256"],
-                         hashlib.sha256((ROOT / "config/source_dependence.json").read_bytes()).hexdigest())
-        self.assertEqual(reproducibility["acquisition_manifest_sha256"],
-                         hashlib.sha256((ROOT / "corpus/acquisition_manifest.json").read_bytes()).hexdigest())
+        for field, path in (("audit_script_sha256", Path(audit.__file__)),
+                            ("divinity_terms_sha256", Path(divinity_terms.__file__)),
+                            ("source_dependence_sha256", ROOT / "config/source_dependence.json"),
+                            ("acquisition_manifest_sha256", ROOT / "corpus/acquisition_manifest.json")):
+            self.assertEqual(reproducibility[field], hashlib.sha256(path.read_bytes()).hexdigest(),
+                             f"{field} is stale: {path} changed after the audit ran")
         self.assertEqual(reproducibility["randomness"],
                          "none: sorted iteration, no sampling, no fitted parameters")
+        # The two remaining inputs are the gitignored corpus. A clean clone checks everything the
+        # repository ships and skips, by name, the part it cannot.
+        if not (ROOT / "corpus/derived/passages_v2.jsonl").exists():
+            self.skipTest("corpus/derived/passages_v2.jsonl is gitignored and absent here; run "
+                          "python tools/build_passages_v2.py before checking passages_sha256")
+        self.assertEqual(reproducibility["passages_sha256"],
+                         hashlib.sha256((ROOT / "corpus/derived/passages_v2.jsonl").read_bytes()).hexdigest())
         for work_id, digest in reproducibility["raw_text_sha256"].items():
             self.assertEqual(digest, hashlib.sha256((ROOT / f"corpus/raw/{work_id}.txt").read_bytes()).hexdigest())
 
@@ -438,7 +446,14 @@ class ExclusivistAuditTests(unittest.TestCase):
         self.assertEqual(printed, "no\ngod   but God")
         self.assertEqual(re.sub(r"\s+", " ", printed), collapsed[start:end])
 
+    def require_corpus(self):
+        if not (ROOT / "corpus/derived/passages_v2.jsonl").exists():
+            raise unittest.SkipTest(
+                "corpus/derived/ is gitignored and absent here; re-running the audit means reading the same "
+                "text it read, so run python tools/build_passages_v2.py first")
+
     def test_rerunning_the_audit_reproduces_the_published_bytes(self):
+        self.require_corpus()
         self.assertEqual(json.dumps(audit.build(), indent=2, ensure_ascii=False) + "\n",
                          AUDIT_JSON.read_text(encoding="utf-8", newline=""))
 

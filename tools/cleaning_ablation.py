@@ -50,7 +50,7 @@ def main():
         "pairs_between_eligible_passages": 0,
         "known_dependent_pairs": 0,
     }
-    with (ROOT / "results/v2_unfiltered_candidate_pairs.jsonl").open("w", encoding="utf-8") as handle:
+    with (ROOT / "results/v2_unfiltered_candidate_pairs.jsonl").open("w", encoding="utf-8", newline="\r\n") as handle:
         for (left, right), score in sorted(top_pairs.items(), key=lambda item: item[1], reverse=True):
             left_passage = passages[left]
             right_passage = passages[right]
@@ -103,7 +103,7 @@ def main():
             "analysis_code_sha256": sha256(Path(__file__)),
         },
     }
-    (ROOT / "results/v2_cleaning_ablation.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (ROOT / "results/v2_cleaning_ablation.json").write_text(json.dumps(summary, indent=2), encoding="utf-8", newline="\r\n")
     print(json.dumps(summary, indent=2))
 
 

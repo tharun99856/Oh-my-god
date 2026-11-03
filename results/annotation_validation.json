@@ -1,0 +1,35 @@
+{
+  "produced_by": "python tools/validate_annotations.py --write-to results/annotation_validation.json",
+  "annotation_set_version": "pilot-1",
+  "inputs": {
+    "annotations": "config/annotated_versions.json",
+    "annotations_sha256": "472f908795433c49384e9d9282f2e06d8b37d3f64dc307e4d121d276a69186aa",
+    "passages": "corpus/derived/passages_v2.jsonl",
+    "passages_sha256": "9398b166ba795fe524121cd69b9717278359354c6c5c9db58a0e4256e9e216b4"
+  },
+  "versions": 14,
+  "events": 94,
+  "participant_role_assertions": 218,
+  "causal_links": 76,
+  "motif_assertions": 78,
+  "motif_registry_size": 38,
+  "symbol_assertions": 87,
+  "vocabulary_predicates": 66,
+  "attestation_completeness": {
+    "full": 10,
+    "partial": 4
+  },
+  "quote_fragments_checked": 95,
+  "errors": [],
+  "warnings": [
+    "popol_vuh_wooden_people/pop_e1: evidence passage excluded by cleaning rules",
+    "popol_vuh_wooden_people/pop_e2: evidence passage excluded by cleaning rules",
+    "popol_vuh_wooden_people/pop_e3: evidence passage excluded by cleaning rules",
+    "popol_vuh_wooden_people/pop_e4: evidence passage excluded by cleaning rules",
+    "popol_vuh_wooden_people/pop_e5: evidence passage excluded by cleaning rules",
+    "ymir_body/ymir_e1: evidence passage excluded by cleaning rules",
+    "ymir_body/ymir_e5: evidence passage excluded by cleaning rules"
+  ],
+  "status": "passed",
+  "interpretation": "Vocabulary legality and quote verifiability only. A passed status means every quoted fragment appears in the passage it cites; it does not mean the coding is right, and no version here is independently annotated."
+}

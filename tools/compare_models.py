@@ -52,6 +52,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = ROOT / "config" / "model_comparison_v3.json"
 SCAFFOLD_PATH = ROOT / "results" / "attestation_scaffold.csv"
 POWER_ARTIFACT_PATH = ROOT / "results" / "model_power_simulation.json"
+VERDICT_ARTIFACT_PATH = ROOT / "results" / "track_b_verdict.json"
 SEED = 20261031
 _UNSET = object()
 NO_HISTORICAL_CONCLUSION = "none asserted; this layer compares models against licence conditions, it does not settle a historical question"
@@ -1949,7 +1950,7 @@ def power_simulation(config=None, write=False, path=None, replications=None, cel
     }
     if write:
         target_path = Path(path) if path else POWER_ARTIFACT_PATH
-        target_path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        target_path.write_text(json.dumps(artifact, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\r\n")
     return artifact
 
 
@@ -2052,7 +2053,15 @@ def missing_required_inputs(config, derivation=None, observations=None, scaffold
     return ordered
 
 
-def refusal(config, missing, derivation=None, scaffold=None):
+def refusal(config, missing, derivation=None, scaffold=None, observations=None, pair_set=None):
+    """Publish the layer's refusal to rank, and run whatever does not need the missing input to be scored.
+
+    The block-profile gate is that "whatever". M4's distinguishing claim is about which dimensions agree, not
+    about which edges a derivation drew, so it is measurable on the corpus's own pair set while the likelihood
+    layer still has nothing to compare. Leaving it out of the refusal would have made the published document a
+    refusal in name only: the numbers the methodology quotes would exist on stdout and in prose and in no
+    artifact, which is the defect this file's own checks are here to catch.
+    """
     result = {
         "status": STATUS_NOT_YET_TESTABLE,
         "model_scores": None,
@@ -2072,6 +2081,14 @@ def refusal(config, missing, derivation=None, scaffold=None):
         "historical_conclusion": NO_HISTORICAL_CONCLUSION,
         "interpretation": "not_yet_testable is a published result, not a failed run. It is the recorded state of this layer today.",
     }
+    if observations and any(item.get("block_profile") for item in observations):
+        result["m4_block_profile_gate"] = {
+            "what_this_is": "the only M4 claim this corpus can currently score: the attractor ordering of the "
+                            "three dimension blocks, read on raw similarity and on excess over the anomaly "
+                            "scan's chance line. It is not a ranking and licenses no historical conclusion.",
+            "pair_set": pair_set or "supplied with --observations",
+            "reading": attractor_block_profile_test(observations, config, corpus_chance_similarity()),
+        }
     return result
 
 
@@ -2164,26 +2181,40 @@ def evaluate_derivation(derivation, config, observations=None, scaffold=None):
     }
 
 
-def run(config_path=None, derivation_path=None, observations_path=None, scaffold_path=None):
+def run(config_path=None, derivation_path=None, observations_path=None, scaffold_path=None, corpus_pairs=False):
     config = load_config(config_path)
     derivation = None
     observations = None
+    pair_set = None
     if derivation_path:
         derivation = json.loads(Path(derivation_path).read_text(encoding="utf-8"))
     if observations_path:
         observations = json.loads(Path(observations_path).read_text(encoding="utf-8"))
         if isinstance(observations, dict):
             observations = observations.get("observations", [])
+        pair_set = Path(observations_path).name if observations else None
+    if corpus_pairs:
+        # A deferred import: the scan reads this module for its scoring functions, so a top-level
+        # import here would be a cycle.
+        import scan_dimension_anomalies as scan
+        observations = scan.corpus_observations()
+        pair_set = ("the corpus's own scored pair set, rebuilt by scan_dimension_anomalies.corpus_observations() "
+                    "from results/ontology_work_states.csv")
     scaffold = scaffold_diagnostic(scaffold_path)
     if derivation is not None:
         return evaluate_derivation(derivation, config, observations=observations, scaffold=scaffold)
-    missing = missing_required_inputs(config, derivation=None, observations=observations, scaffold=scaffold)
+    # The corpus pair set is a similarity graph, not dated evidence: listing the six date fields each of its
+    # 1,237 pairs is missing would publish 900KB of the same sentence and still not say anything the
+    # derivation complaint does not already say.
+    missing = missing_required_inputs(config, derivation=None,
+                                      observations=None if corpus_pairs else observations, scaffold=scaffold)
     if observations and not missing:
         comparison = compare_observations(observations, config)
         if not comparison.get("ok"):
-            return refusal(config, missing + comparison.get("missing", []), scaffold=scaffold)
+            return refusal(config, missing + comparison.get("missing", []), scaffold=scaffold,
+                           observations=observations, pair_set=pair_set)
         return {"status": comparison["stage_2_inheritance_licence"]["status"], "status_is_stage_2": True, **comparison, "historical_conclusion": NO_HISTORICAL_CONCLUSION}
-    return refusal(config, missing, scaffold=scaffold)
+    return refusal(config, missing, scaffold=scaffold, observations=observations, pair_set=pair_set)
 
 
 # --------------------------------------------------------------------------- legacy lexical diagnostic
@@ -2253,7 +2284,7 @@ def run_lexical_diagnostics(write=True):
         "models": results,
     }
     if write:
-        (ROOT / "results/model_comparison.json").write_text(json.dumps(output, indent=2), encoding="utf-8")
+        (ROOT / "results/model_comparison.json").write_text(json.dumps(output, indent=2), encoding="utf-8", newline="\r\n")
     return output
 
 
@@ -2267,6 +2298,11 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Track B model-comparison layer (refuses to rank without dated inputs)")
     parser.add_argument("--derivation", help="path to a candidate derivation record (config > derivation_record_schema)")
     parser.add_argument("--observations", help="path to a dated, route-typed pair set")
+    parser.add_argument("--corpus-pairs", action="store_true",
+                        help="score the M4 block-profile gate on the corpus's own pair set (the same pairs the "
+                             "anomaly scan measures) and publish the verdict to results/track_b_verdict.json. "
+                             "The ranking layer still refuses without a derivation record, so this publishes a "
+                             "refusal that carries the one reading this corpus can support.")
     parser.add_argument("--config", help="path to a model comparison config")
     parser.add_argument("--scaffold", help="path to the attestation scaffold csv")
     parser.add_argument("--write-to", help="publish the JSON result to this path instead of stdout")
@@ -2296,11 +2332,18 @@ def main(argv=None):
             f"derived_minimum_effective_samples={artifact['derived_minimum_effective_samples']}"
         )
         return 0
-    result = run(config_path=args.config, derivation_path=args.derivation, observations_path=args.observations, scaffold_path=args.scaffold)
+    result = run(config_path=args.config, derivation_path=args.derivation, observations_path=args.observations,
+                 scaffold_path=args.scaffold, corpus_pairs=args.corpus_pairs)
     text = json.dumps(result, indent=2, ensure_ascii=False)
-    if args.write_to:
-        Path(args.write_to).write_text(text, encoding="utf-8")
-        print(f"wrote {args.write_to} status={result['status']}")
+    # Running the corpus gate is the act of publishing it: the reading the methodology quotes exists in prose
+    # only if it also exists in an artifact, so the flag that computes it writes it by default. An ad-hoc
+    # refusal, with no gate, stays on stdout -- a reader asking "why does this layer refuse?" should not
+    # overwrite the published document to find out.
+    target = (Path(args.write_to) if args.write_to
+              else (VERDICT_ARTIFACT_PATH if args.corpus_pairs else None))
+    if target is not None:
+        target.write_text(text, encoding="utf-8", newline="\r\n")
+        print(f"wrote {args.write_to or target.relative_to(ROOT).as_posix()} status={result['status']}")
     else:
         print(text)
     return 0

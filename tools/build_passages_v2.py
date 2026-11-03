@@ -33,7 +33,7 @@ def main():
             counts[passage["exclusion_reason"] or "unclassified_source_text"] += 1
         all_passages.extend(passages)
         print(f"{work['work_id']}: {len(passages)} passages")
-    with output_path.open("w", encoding="utf-8") as handle:
+    with output_path.open("w", encoding="utf-8", newline="\r\n") as handle:
         for passage in all_passages:
             handle.write(json.dumps(passage, ensure_ascii=False) + "\n")
     summary = {
@@ -47,7 +47,7 @@ def main():
         "counts": dict(counts),
         "segmentation": "source-heading-aware sections with 450-word maximum; no claim that every passage is a complete narrative",
     }
-    (ROOT / "corpus/derived/passages_v2_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    (ROOT / "corpus/derived/passages_v2_summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8", newline="\r\n")
     print(json.dumps({"passages": len(all_passages), "counts": dict(counts)}, indent=2))
 
 
