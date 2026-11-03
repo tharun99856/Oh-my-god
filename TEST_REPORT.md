@@ -713,3 +713,16 @@ again. `results/ontology_run_summary.json` separates the propositions the over-l
 the records it flagged on them (97), which is the double-count §8 records as fixed. Moving no other
 measurement is what determinism means here; it is not evidence that the instruments measure what they claim,
 and `results/fingerprint_diff.json` says so in its own `what_this_does_not_establish` field.
+
+Reproducing in a clean clone is measured, not asserted. `git clone` of this repository at the audited
+commit into an empty directory -- where `corpus/raw/` and `corpus/derived/` hold nothing, because only
+`corpus/acquisition_manifest.json` is versioned -- and `python -m pytest tests -q -rs` there gives
+**443 passed, 12 skipped, 7 subtests passed, exit 0** in 89.60 s. The two counts are the whole argument:
+443 plus the 12 is the 455 a populated tree reports, so the skips are exactly the checks that re-read or
+re-hash source text -- 5 in `tests/test_divinity_ontology.py`, 3 in `tests/test_divinity_terms.py`, 3 in
+`tests/test_exclusivist_audit.py`, 1 in `tests/test_pipeline.py` -- each one naming the missing file and
+the command above that would produce it. Nothing else skipped: the documented-count and documented-hash
+checks, the re-derivation of the fingerprint tally above, and the LaTeX-compile class all ran, so the
+paper's stated page count was checked against a real compile from a tree that has never seen this
+machine's corpus. A reviewer who follows the list from a clone therefore gets the same
+measurements, and gets a reason for the twelve they cannot.

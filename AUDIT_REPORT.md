@@ -119,8 +119,9 @@ Every item below was run in this session and its output inspected; the first fou
   reference, page count stable between passes; `tools/validate_tex.py` reports 0 problems over 2253 lines and
   `--self-test` requires all ten injected defect classes to fire (they do).
   The page count and that line count are claims the suite re-measures, not assertions in prose.
-- **Clean clone.** `git clone` of the repository into a separate directory and `python -m pytest tests -q`
-  there: reported in §5 below, because the honest sentence is that a clean clone is not this working tree.
+- **Clean clone.** `git clone` of the repository into a separate directory and `python -m pytest tests -q -rs`
+  there: **443 passed, 12 skipped, 7 subtests passed, exit 0** in 89.60 s. The 12 skips are the corpus-dependent
+  locator and byte-reproduction checks, and §5 gives their distribution and their reasons.
 - **Scan cost.** Keeping the per-replicate means rather than averaging them away, and then drawing each
   scored-graph line over its own edge set instead of once over the carriers, moved the scan from 8 s to 21.2 s
   (measured on a stdout-only run of `tools/scan_dimension_anomalies.py` in this session). That is the price of
@@ -186,9 +187,19 @@ data-availability table omits a shipped artifact.
 
 ## 5. Environmental limits on the verification
 
-- A clean clone lacks `corpus/raw/` and `corpus/derived/`, so the locator and byte-reproduction checks skip
-  with an explicit reason rather than passing vacuously. Everything re-derivable from the shipped artifacts
-  runs there. (Count reported in the commit message and in `README.md`, which names the same limitation.)
+- A clean clone ships no `corpus/raw/` and no `corpus/derived/` content — only
+  `corpus/acquisition_manifest.json` is versioned — so the locator and byte-reproduction checks skip with an
+  explicit reason rather than passing vacuously. Measured, not asserted: `git clone` of this repository at
+  `63d41cb` into a separate directory and `python -m pytest tests -q -rs` there gives **443 passed, 12 skipped,
+  7 subtests passed in 89.60 s, exit 0**.
+  The arithmetic is the point: 443 + 12 is the 455 this working tree reports, so the skips are exactly the
+  corpus-dependent checks, and they split 5 in `tests/test_divinity_ontology.py`, 3 in
+  `tests/test_divinity_terms.py`, 3 in `tests/test_exclusivist_audit.py` and 1 in `tests/test_pipeline.py`,
+  each naming the missing file and the command that would produce it. Everything else runs and passes there,
+  including the documented-count and documented-hash checks, `FingerprintComparisonTests`, which re-derives the
+  published 50/7/3/3 tally from `results/fingerprint_diff.json`, and all 9 typesetting tests — none of the 12
+  skips is the no-engine skip, so the clone really did compile the paper and check its own page count against
+  the prose rather than leaving the geometry unverified. `README.md` states the same twelve.
 - Network access is required for `tools/acquire_corpus.py` and `tools/verify_corpus_live.py`; both were run
   here. Offline, the suite still passes because the artifacts are the inputs.
 - A LaTeX engine is optional; without one `tests/test_tex_typesetting.py` reports a skip and the page-count

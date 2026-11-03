@@ -59,9 +59,10 @@ loudly instead of quietly agreeing with an old draft.
 **A clean clone is not the same as this working tree.** `corpus/raw/` and
 `corpus/derived/` are gitignored: only `corpus/acquisition_manifest.json` is versioned.
 Twelve tests therefore report explicit skips (`corpus/derived/passages_v2.jsonl is
-gitignored ...`) because they re-read source text or re-hash it. Everything that can be
-verified from the shipped artifacts does run; the skipped checks are the locator and
-byte-reproduction ones that need the corpus itself.
+gitignored ...`) because they re-read source text or re-hash it; measured in a clone of the
+shipped commit, that is 443 passed, 12 skipped and 7 subtests, where this tree passes all
+455. Everything that can be verified from the shipped artifacts does run; the skipped checks
+are the locator and byte-reproduction ones that need the corpus itself.
 
 The corpus has a second reproducibility problem that no local hash can see: the publisher
 edits its files in place. `python tools/verify_corpus_live.py` re-downloads all 65 works and
